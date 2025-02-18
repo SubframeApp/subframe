@@ -1,0 +1,113 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "palm",
+  "name": "Subframe Docs",
+  "colors": {
+    "primary": "#000000",
+    "light": "#dddddd",
+    "dark": "#333333"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Community",
+          "href": "https://join.slack.com/t/subframecommunity/shared_invite/zt-2gcv0nlow-qO_3pM3ZfNVGXZTWHVfwVw",
+          "icon": "slack"
+        },
+        {
+          "anchor": "Blog",
+          "href": "https://www.subframe.com/blog",
+          "icon": "newspaper"
+        },
+        {
+          "anchor": "Guides",
+          "href": "https://www.subframe.com/guides",
+          "icon": "book-open-cover"
+        }
+      ]
+    },
+    "tabs": [
+      {
+        "tab": "For Developers",
+        "dropdowns": [
+          {
+            "dropdown": "Getting Started",
+            "icon": "rocket",
+            "pages": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  "for-developers/getting-started/introduction",
+                  "for-developers/getting-started/quickstart"
+                ]
+              },
+              {
+                "group": "Manual Installation",
+                "pages": [
+                  "for-developers/getting-started/manual-installation/nextjs",
+                  "for-developers/getting-started/manual-installation/vite",
+                  "for-developers/getting-started/manual-installation/astro",
+                  "for-developers/getting-started/manual-installation/monorepo",
+                  "for-developers/getting-started/manual-installation/manual"
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "Developing with Subframe",
+            "icon": "circle-play",
+            "pages": [
+              {
+                "group": "Basics",
+                "pages": [
+                  "for-developers/developing-with-subframe/basics/syncing-components",
+                  "for-developers/developing-with-subframe/basics/using-components"
+                ]
+              },
+              {
+                "group": "Best practices",
+                "pages": [
+                  "for-developers/developing-with-subframe/best-practices/when-to-copy"
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "FAQs",
+            "icon": "circle-question",
+            "pages": ["for-developers/faqs/importing-existing-components"]
+          },
+          {
+            "dropdown": "Troubleshooting",
+            "icon": "circle-exclamation",
+            "pages": ["for-developers/troubleshooting/missing-styling"]
+          }
+        ]
+      },
+      {
+        "tab": "For Designers",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": ["for-designers/getting-started/introduction"]
+          }
+        ]
+      }
+    ]
+  },
+  "logo": {
+    "light": "/logo/light.png",
+    "dark": "/logo/dark.png"
+  },
+  "navbar": {
+    "links": []
+  },
+  "footer": {
+    "socials": {
+      "slack": "https://join.slack.com/t/subframecommunity/shared_invite/zt-2gcv0nlow-qO_3pM3ZfNVGXZTWHVfwVw",
+      "github": "https://github.com/SubframeApp"
+    }
+  }
+}
