@@ -1,6 +1,7 @@
 import commonjs from "@rollup/plugin-commonjs"
 import json from "@rollup/plugin-json"
 import resolve from "@rollup/plugin-node-resolve"
+import replace from "@rollup/plugin-replace"
 import terser from "@rollup/plugin-terser"
 import typescript from "rollup-plugin-typescript2"
 
@@ -31,6 +32,9 @@ const rollupOptions = [
       }),
       commonjs(),
       terser(),
+      replace({
+        "process.env.SEGMENT_WRITE_KEY": JSON.stringify(process.env.SEGMENT_WRITE_KEY),
+      }),
     ],
   },
 ]

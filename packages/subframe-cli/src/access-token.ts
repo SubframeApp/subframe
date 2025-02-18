@@ -1,10 +1,10 @@
-import { CLI_AUTH_ROUTE } from "shared/routes"
 import { oraPromise } from "ora"
 import prompt from "prompts"
+import { CLI_AUTH_ROUTE } from "shared/routes"
 import { apiVerifyToken } from "./api-endpoints"
 import { isDev } from "./common"
 import { readAuthConfig, writeAuthConfig } from "./config"
-import { link } from "./output/link"
+import { link } from "./output/format"
 import { abortOnState } from "./sync-helpers"
 
 const BASE_URL = isDev ? "http://localhost:6501" : "https://app.subframe.com"
