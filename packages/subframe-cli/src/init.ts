@@ -4,11 +4,11 @@ import { oraPromise } from "ora"
 import path from "path"
 import { getAccessToken } from "./access-token"
 import { apiInitProject, apiUpdateImportAlias } from "./api-endpoints"
-import { cwd } from "./common"
 import { localSyncSettings } from "./common"
 import { SUBFRAME_INIT_MESSAGE } from "./constants"
 import { installDependencies } from "./install-dependencies"
 import { makeCLILogger } from "./logger/logger-cli"
+import { prepareProject } from "./setup/prepare-project"
 import { setupTailwindConfig } from "./setup-tailwind-config"
 import { setupSyncSettings } from "./sync-settings"
 
@@ -21,6 +21,8 @@ export const initCommand = new Command()
     const cliLogger = makeCLILogger()
 
     try {
+      const { projectPath } = await prepareProject(cliLogger)
+
       const truncatedProjectId = opts.projectId
       const accessToken = await getAccessToken()
 
@@ -37,9 +39,7 @@ export const initCommand = new Command()
         },
       )
 
-      console.clear()
-
-      const { importAlias: rawImportAlias, directory } = await setupSyncSettings(cwd, {
+      const { importAlias: rawImportAlias, directory } = await setupSyncSettings(projectPath, {
         directory: opts.dir ?? localSyncSettings?.directory,
         importAlias: localSyncSettings?.importAlias,
         projectId: opts.projectId ?? localSyncSettings?.projectId,
@@ -48,10 +48,10 @@ export const initCommand = new Command()
       // strip /* which is used for tsconfig.json
       const importAlias = rawImportAlias.endsWith("/*") ? rawImportAlias.slice(0, -2) : rawImportAlias
 
-      await installDependencies(cwd)
+      await installDependencies(projectPath)
 
       // Ensure the root folder exists.
-      const rootPath = path.join(cwd, directory)
+      const rootPath = path.join(projectPath, directory)
       await fs.promises.mkdir(rootPath, { recursive: true })
 
       const absPath = path.join(rootPath, styleFile.fileName)
@@ -83,11 +83,12 @@ export const initCommand = new Command()
       }
 
       if (cssType === "tailwind") {
-        await setupTailwindConfig(cwd, rootPath)
+        await setupTailwindConfig(projectPath, rootPath)
       }
 
       console.timeEnd(SUBFRAME_INIT_MESSAGE)
     } catch (err: any) {
+      console.error(err)
       await cliLogger.trackWarningAndFlush("CLI init: uncaught error", { error: err.toString() })
       await cliLogger.logExceptionAndFlush(err)
     }

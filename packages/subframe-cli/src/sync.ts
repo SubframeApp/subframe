@@ -122,6 +122,7 @@ export const syncCommand = new Command()
 
       console.timeEnd(SUBFRAME_SYNC_MESSAGE)
     } catch (err: any) {
+      console.error(err)
       await cliLogger.trackWarningAndFlush("[CLI]: sync uncaught error", { error: err.toString() })
       await cliLogger.logExceptionAndFlush(err)
     }
