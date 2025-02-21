@@ -2,6 +2,9 @@ import { Analytics } from "@segment/analytics-node"
 import { WithRequired } from "../type-helpers"
 import { BaseEvent, EXCEPTION_EVENT_NAME, TypedLogger } from "./types"
 
+// Note(chris): The command will fail to run if no SEGMENT_WRITE_KEY is specified. For development, we'll provide a string so that it's happy. In production, it should fail as it's a required environment variable.
+const SEGMENT_WRITE_KEY = process.env.NODE_ENV === "development" ? "EMPTY_STRING" : process.env.SEGMENT_WRITE_KEY
+
 function shouldEnableLogger() {
   // disable in dev
   return process.env.NODE_ENV === "production"
@@ -22,7 +25,7 @@ export function makeNodeLogger<T extends BaseEvent = BaseEvent>(userId: string):
 
   if (shouldEnableLogger()) {
     segmentAnalytics = new Analytics({
-      writeKey: process.env.SEGMENT_WRITE_KEY ?? "",
+      writeKey: SEGMENT_WRITE_KEY ?? "",
       flushAt: 1,
     }).on("error", console.error)
     identifyUser(userId)
