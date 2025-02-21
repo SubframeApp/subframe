@@ -4,6 +4,7 @@ import resolve from "@rollup/plugin-node-resolve"
 import replace from "@rollup/plugin-replace"
 import terser from "@rollup/plugin-terser"
 import typescript from "rollup-plugin-typescript2"
+import "dotenv/config"
 
 const packageJson = require("./package.json")
 
@@ -24,7 +25,9 @@ const rollupOptions = [
       },
     ],
     plugins: [
-      typescript({ tsconfig: "./tsconfig.json" }),
+      typescript({
+        tsconfig: "./tsconfig.json",
+      }),
       json(),
       resolve({
         preferBuiltins: true,
@@ -34,6 +37,7 @@ const rollupOptions = [
       terser(),
       replace({
         "process.env.SEGMENT_WRITE_KEY": JSON.stringify(process.env.SEGMENT_WRITE_KEY),
+        preventAssignment: true,
       }),
     ],
   },
