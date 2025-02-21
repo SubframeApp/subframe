@@ -1,6 +1,5 @@
-import { makeNodeLogger } from "shared/logger/logger-node"
-import { TypedLogger } from "shared/logger/types"
-import { WithRequired } from "shared/type-helpers"
+import { makeNodeLogger, TypedLogger, WithRequired } from "@subframe/shared"
+import "dotenv/config"
 
 const ANONYMOUS_CLI_USER_ID = "ANONYMOUS_CLI_USER-db6a3ec1-756a-4931-acdd-ec29f531603c"
 

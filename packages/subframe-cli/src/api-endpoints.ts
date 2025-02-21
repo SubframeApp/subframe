@@ -1,5 +1,5 @@
-import { http } from "shared/http"
 import {
+  http,
   InitProjectRequest,
   InitProjectResponse,
   SyncProjectRequest,
@@ -7,7 +7,7 @@ import {
   UpdateImportAliasRequest,
   UpdateImportAliasResponse,
   VerifyTokenResponse,
-} from "shared/types"
+} from "@subframe/shared"
 import { isDev } from "./common"
 
 const BASE_URL = isDev ? "http://localhost:6501" : "https://app.subframe.com"

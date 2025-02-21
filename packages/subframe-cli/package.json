@@ -26,6 +26,7 @@
   "dependencies": {
     "@antfu/ni": "0.21.8",
     "@segment/analytics-node": "2.1.2",
+    "@subframe/shared": "*",
     "chalk": "4.1.2",
     "commander": "11.1.0",
     "comment-json": "4.2.3",
@@ -36,7 +37,6 @@
     "ora": "8.2.0",
     "prompts": "2.4.2",
     "semver": "7.6.3",
-    "shared": "*",
     "ts-morph": "19.0.0",
     "xdg-app-paths": "8.3.0"
   },
