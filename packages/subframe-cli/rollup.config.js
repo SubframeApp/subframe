@@ -24,6 +24,7 @@ const rollupOptions = [
         format: "esm",
       },
     ],
+    external: [/node_modules/],
     plugins: [
       typescript({
         tsconfig: "./tsconfig.json",
