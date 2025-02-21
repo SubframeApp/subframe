@@ -1,6 +1,6 @@
 import { detect } from "@antfu/ni"
 import { execa } from "execa"
-import { readFile } from "fs/promises"
+import { readFile } from "node:fs/promises"
 
 type PackageManager = "yarn" | "pnpm" | "npm" | "bun"
 
