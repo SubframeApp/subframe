@@ -2,7 +2,7 @@ import { detect } from "@antfu/ni"
 import { execa } from "execa"
 import { readFile } from "fs/promises"
 
-type PackageManager = "yarn" | "pnpm" | "npm"
+type PackageManager = "yarn" | "pnpm" | "npm" | "bun"
 
 export async function getInstalledPackageVersion(packageName: string, cwd: string): Promise<string | null> {
   try {
@@ -27,11 +27,19 @@ export async function getInstalledPackageVersion(packageName: string, cwd: strin
 export async function getPackageManager(cwd: string): Promise<PackageManager> {
   const packageManager = await detect({ programmatic: true, cwd: cwd })
 
-  if (packageManager === "yarn@berry") return "yarn"
-  if (packageManager === "pnpm@6") return "pnpm"
-  if (packageManager === "bun") return "npm"
-
-  return packageManager ?? "npm"
+  switch (packageManager) {
+    case "yarn":
+    case "yarn@berry":
+      return "yarn"
+    case "pnpm":
+    case "pnpm@6":
+      return "pnpm"
+    case "bun":
+      return "bun"
+    case "npm":
+    default:
+      return "npm"
+  }
 }
 
 export async function getLatestPackageVersion(packageName: string) {
