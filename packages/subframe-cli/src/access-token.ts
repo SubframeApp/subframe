@@ -18,7 +18,7 @@ async function verifyToken(token: string): Promise<boolean> {
   }
 }
 
-async function verifyTokenWithOra(token: string): Promise<boolean> {
+export async function verifyTokenWithOra(token: string): Promise<boolean> {
   try {
     await oraPromise(verifyToken(token), {
       prefixText: "",

@@ -1,12 +1,13 @@
 import { existsSync, readFileSync } from "node:fs"
 import { rm, mkdir, writeFile } from "node:fs/promises"
 import { join } from "node:path"
-import prompt from "prompts"
+import prompts from "prompts"
 import { DEFAULT_SUBFRAME_TS_ALIAS, ROOT_FOLDER_NAME } from "@subframe/shared"
 import { addAliasesToTSConfig, hasAliasSetup } from "./add-tsconfig-alias"
 import { ACCESS_TOKEN_FILENAME, SUBFRAME_DIR, SYNC_SETTINGS_FILENAME } from "./constants"
 import { abortOnState } from "./sync-helpers"
 import { exists, isDirectory } from "./utils/fs"
+import { InitCommandOptions } from "./init"
 
 export interface SyncSettingsConfig {
   directory: string
@@ -38,6 +39,7 @@ export function getLocalSyncSettings(cwd: string): SyncSettingsConfig | null {
 export async function setupSyncSettings(
   cwd: string,
   options: Partial<SyncSettingsConfig>,
+  initOptions: InitCommandOptions,
 ): Promise<SyncSettingsConfig> {
   const subframeDirPath = join(cwd, SUBFRAME_DIR)
   const syncSettingsPath = join(subframeDirPath, SYNC_SETTINGS_FILENAME)
@@ -56,17 +58,20 @@ export async function setupSyncSettings(
   const subframeDirExists = await isDirectory(subframeDirPath)
 
   if (!subframeDirExists) {
-    const response = await prompt({
-      type: "confirm",
-      name: "createSubframeDir",
-      initial: true,
-      message: "Subframe will create a .subframe folder to manage your project settings. Continue?",
-      onState: abortOnState,
-    })
+    await mkdir(subframeDirPath)
 
-    if (response.createSubframeDir) {
-      await mkdir(subframeDirPath)
-    }
+    // Note(Chris): Removed the logic below for now, we should just create the directory and not ask the user.
+    // const response = await prompts({
+    //   type: "confirm",
+    //   name: "createSubframeDir",
+    //   initial: true,
+    //   message: "Subframe will create a .subframe folder to manage your project settings. Continue?",
+    //   onState: abortOnState,
+    // })
+
+    // if (response.createSubframeDir) {
+    //   await mkdir(subframeDirPath)
+    // }
   }
 
   const config: Partial<SyncSettingsConfig> = {
@@ -76,7 +81,10 @@ export async function setupSyncSettings(
   }
 
   if (!options.directory) {
-    const response = await prompt({
+    prompts.override({
+      directory: initOptions.dir,
+    })
+    const response = await prompts({
       type: "text",
       name: "directory",
       initial: "./src",
@@ -92,7 +100,10 @@ export async function setupSyncSettings(
   }
 
   if (!options.importAlias) {
-    const response = await prompt({
+    prompts.override({
+      componentsDirAlias: initOptions.alias,
+    })
+    const response = await prompts({
       type: "text",
       name: "componentsDirAlias",
       initial: `${DEFAULT_SUBFRAME_TS_ALIAS}/*`,
@@ -117,18 +128,21 @@ export async function setupSyncSettings(
         /** if we detect the aliases are not setup, ask to set them up */
         const isSetup = await hasAliasSetup(tsConfigPath, aliases)
         if (!isSetup) {
-          const { updateTSConfig } = await prompt({
-            type: "confirm",
-            name: "updateTSConfig",
-            initial: true,
-            message:
-              "Would you like to add the alias to tsconfig.json? You can usually skip this step if you are using a vanilla NextJS setup.",
-            onState: abortOnState,
-          })
+          await addAliasesToTSConfig(tsConfigPath, aliases)
 
-          if (updateTSConfig) {
-            await addAliasesToTSConfig(tsConfigPath, aliases)
-          }
+          // Note(chris): Removed the logic below for now, we should just add the alias to the tsconfig.json file.
+          // const { updateTSConfig } = await prompts({
+          //   type: "confirm",
+          //   name: "updateTSConfig",
+          //   initial: true,
+          //   message:
+          //     "Would you like to add the alias to tsconfig.json? You can usually skip this step if you are using a vanilla NextJS setup.",
+          //   onState: abortOnState,
+          // })
+
+          // if (updateTSConfig) {
+          //   await addAliasesToTSConfig(tsConfigPath, aliases)
+          // }
         }
       }
     }

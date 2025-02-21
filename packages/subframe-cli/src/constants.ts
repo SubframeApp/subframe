@@ -5,6 +5,11 @@
 export const AUTOINSTALLED_DEPENDENCIES: Record<string, string> = { "@subframe/core": "latest", classnames: "2.3.2" }
 
 /**
+ * Possible suffixes that a tailwind config file could have.
+ */
+export const TAILWIND_CONFIG_SUFFIXES = ["js", "mjs", "cjs", "mts", "cts", "ts"] as const
+
+/**
  * The name of the directory that will be created in the root of the project
  * to store the sync settings and other subframe-related files that should
  * not be committed to git

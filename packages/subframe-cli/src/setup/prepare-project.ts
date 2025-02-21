@@ -8,11 +8,16 @@ import { CLILogger } from "../logger/logger-cli"
 import { highlight } from "../output/format"
 import { tryGitInit } from "../utils/git"
 import { exists } from "../utils/fs"
+import { InitCommandOptions } from "../init"
 
-async function cloneStarterKit({ name, type }: { name: string; type: string }) {
+// TODO(Chris): Remove this once we push to main
+const CLONE_BRANCH = "feature/subframe-cli-features" as const
+
+async function cloneStarterKit({ name, type }: { name: string; type: "astro" | "vite" | "nextjs" }) {
   const spinner = ora(`Cloning starter kit...`).start()
-  const emitter = degit(`SubframeApp/subframe/starter-kits/${type}`)
-  await emitter.clone(name)
+
+  const emitter = degit(`SubframeApp/subframe/starter-kits/${type}#${CLONE_BRANCH}`)
+  await emitter.clone(`${name}`)
 
   const projectPath = join(cwd, name)
   spinner.text = `Initializing git repository...`
@@ -28,9 +33,16 @@ async function cloneStarterKit({ name, type }: { name: string; type: string }) {
   return projectPath
 }
 
-export async function prepareProject(cliLogger: CLILogger): Promise<{ projectPath: string }> {
+export async function prepareProject(
+  cliLogger: CLILogger,
+  options: InitCommandOptions,
+): Promise<{ projectPath: string }> {
   // No package.json in current directory - assume they need to set up a new project.
-  if (!(await exists(resolve(cwd, "package.json")))) {
+  if (!(await exists(resolve(cwd, "package.json"))) || options.create !== undefined) {
+    prompts.override({
+      type: options.create,
+      name: options.name,
+    })
     const { type, name } = await prompts([
       {
         type: "select",
@@ -41,6 +53,7 @@ export async function prepareProject(cliLogger: CLILogger): Promise<{ projectPat
         choices: [
           { title: "Next.js", value: "nextjs" },
           { title: "Vite", value: "vite" },
+          { title: "Astro", value: "astro" },
         ],
         initial: 0,
       },

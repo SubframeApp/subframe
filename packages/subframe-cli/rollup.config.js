@@ -1,10 +1,9 @@
-import json from "@rollup/plugin-json"
+
 import resolve from "@rollup/plugin-node-resolve"
 import replace from "@rollup/plugin-replace"
-import terser from "@rollup/plugin-terser"
-import typescript from "rollup-plugin-typescript2"
+import esbuild from "rollup-plugin-esbuild"
 
-const packageJson = require("./package.json")
+import packageJson from './package.json' with {type: "json"}
 
 /**@type {import("rollup").RollupOptions[]} */
 const rollupOptions = [
@@ -12,25 +11,26 @@ const rollupOptions = [
     input: "src/index.ts",
     output: [
       {
-        file: packageJson.bin.main,
+        file: packageJson.bin["init-main"],
         inlineDynamicImports: true,
         format: "esm",
       },
     ],
-    external: [/node_modules/],
+    external: [/node_modules/, "!node_modules/@subframe/shared"],
     plugins: [
-      typescript({
-        tsconfig: "./tsconfig.json",
-      }),
-      json(),
       resolve({
         preferBuiltins: true,
-        exportConditions: ["node", "default"],
       }),
-      terser(),
       replace({
         "process.env.SEGMENT_WRITE_KEY": JSON.stringify(process.env.SEGMENT_WRITE_KEY),
         preventAssignment: true,
+      }),
+      esbuild({
+        tsconfig: "./tsconfig.json",
+        loaders: {
+          ".json": "json",
+        },
+        minify: process.env.NODE_ENV === "production",
       }),
     ],
   },

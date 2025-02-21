@@ -1,4 +1,4 @@
-import { Command } from "commander"
+import { Command } from "@commander-js/extra-typings"
 import { mkdir, readFile, writeFile, rm } from "node:fs/promises"
 import { oraPromise } from "ora"
 import { join, dirname } from "node:path"
@@ -15,7 +15,9 @@ export const syncCommand = new Command()
   .name("sync")
   .description("syncs Subframe components to your local project")
   .argument("[components...]", "the components to sync")
+  .option("--auth-token <auth-token>", "auth token to use")
   .option("-a, --all", "sync all components")
+  .option("-t, --theme", "sync theme only")
   .option("-p, --projectId <projectId>", "project id to run sync with")
   .action(async (components, opts) => {
     const cliLogger = makeCLILogger()
