@@ -1,4 +1,7 @@
-import { Command } from "commander"
+// Polyfill fetch and webcrypto
+import "isomorphic-fetch"
+import "isomorphic-webcrypto"
+
 import { isDev } from "./common"
 import { initCommand } from "./init"
 import { syncCommand } from "./sync"

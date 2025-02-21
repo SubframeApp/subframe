@@ -1,4 +1,3 @@
-import commonjs from "@rollup/plugin-commonjs"
 import json from "@rollup/plugin-json"
 import resolve from "@rollup/plugin-node-resolve"
 import replace from "@rollup/plugin-replace"
@@ -14,12 +13,7 @@ const rollupOptions = [
     input: "src/index.ts",
     output: [
       {
-        file: packageJson.main,
-        inlineDynamicImports: true,
-        format: "cjs",
-      },
-      {
-        file: packageJson.module,
+        file: packageJson.bin.main,
         inlineDynamicImports: true,
         format: "esm",
       },
@@ -34,7 +28,6 @@ const rollupOptions = [
         preferBuiltins: true,
         exportConditions: ["node", "default"],
       }),
-      commonjs(),
       terser(),
       replace({
         "process.env.SEGMENT_WRITE_KEY": JSON.stringify(process.env.SEGMENT_WRITE_KEY),
