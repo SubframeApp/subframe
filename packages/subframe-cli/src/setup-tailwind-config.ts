@@ -11,6 +11,7 @@ import {
   makeSubframeContentGlob,
   makeSubframeRequire,
 } from "./transforms/tailwind"
+import { getUsedTailwindConfigType } from "./utils/tailwindConfig"
 
 function printManualTailwindSteps(cwd: string, subframeDirPath: string, prependText: string) {
   const subframePresetRequire = printNode(makeSubframeRequire(cwd, subframeDirPath))
@@ -40,11 +41,13 @@ export async function setupTailwindConfig(cwd: string, subframeDirPath: string) 
   const subframePresetRequireAST = makeSubframeRequire(cwd, subframeDirPath)
   const subframeContentGlob = makeSubframeContentGlob(cwd, subframeDirPath)
 
+  const usedSuffix = await getUsedTailwindConfigType(cwd)
+
   const project = new Project({ compilerOptions: { allowJs: true } })
 
-  project.addSourceFileAtPathIfExists(join(cwd, "tailwind.config.js"))
+  project.addSourceFileAtPathIfExists(join(cwd, `tailwind.config.${usedSuffix}`))
 
-  const tailwindConfig = project.getSourceFile(join(cwd, "tailwind.config.js"))
+  const tailwindConfig = project.getSourceFile(join(cwd, `tailwind.config.${usedSuffix}`))
 
   /** no Tailwind config, let's skip this step then */
   if (!tailwindConfig) {
