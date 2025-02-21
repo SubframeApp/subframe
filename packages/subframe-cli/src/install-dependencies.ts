@@ -65,7 +65,7 @@ export async function installDependencies(cwd: string) {
     return
   }
 
-  await execa(packageManager, [packageManager === "yarn" ? "add" : "install", ...packageSpecifiers], { cwd })
+  await execa(packageManager, [packageManager !== "npm" ? "add" : "install", ...packageSpecifiers], { cwd })
     .pipeStdout?.(process.stdout)
     .pipeStderr?.(process.stderr)
 }
