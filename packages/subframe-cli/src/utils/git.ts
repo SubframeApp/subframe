@@ -1,6 +1,6 @@
 import { execa } from "execa"
-import fs from "fs"
-import path from "path"
+import { rm } from "node:fs/promises"
+import { join } from "node:path"
 
 async function isInGitRepository(cwd: string): Promise<boolean> {
   try {
@@ -51,7 +51,7 @@ export async function tryGitInit(cwd: string): Promise<boolean> {
   } catch (e) {
     if (didInit) {
       try {
-        fs.rmSync(path.join(cwd, ".git"), { recursive: true, force: true })
+        await rm(join(cwd, ".git"), { recursive: true, force: true })
       } catch (_) {}
     }
     return false
