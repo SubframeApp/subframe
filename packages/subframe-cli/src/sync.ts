@@ -1,8 +1,8 @@
 import { Command } from "commander"
-import fs from "fs"
+import { mkdir, readFile, writeFile, rm } from "node:fs/promises"
 import { oraPromise } from "ora"
-import path from "path"
-import { IGNORE_UPDATE_KEYWORD } from "shared/constants"
+import { join, dirname } from "node:path"
+import { IGNORE_UPDATE_KEYWORD, CodeGenFile } from "@subframe/shared"
 import { CodeGenFile } from "shared/types"
 import { getAccessToken } from "./access-token"
 import { apiSyncProject } from "./api-endpoints"
@@ -67,8 +67,8 @@ export const syncCommand = new Command()
       )
 
       // Ensure the root folder exists in case they deleted it.
-      const rootPath = path.join(cwd, localSyncSettings.directory)
-      await fs.promises.mkdir(rootPath, { recursive: true })
+      const rootPath = join(cwd, localSyncSettings.directory)
+      await mkdir(rootPath, { recursive: true })
 
       /**
        * Removing all existing files and making map of files to ignore
@@ -77,12 +77,12 @@ export const syncCommand = new Command()
       const fileNamesToIgnore = new Set<string>()
       await Promise.all(
         allAbsFilePaths.map(async (fileName) => {
-          const file = await fs.promises.readFile(fileName)
+          const file = await readFile(fileName)
 
           if (isFileContentsWriteable(file)) {
             // when generating all, we clear out the directory
             if (!components.length) {
-              return fs.promises.rm(fileName)
+              return rm(fileName)
             }
           } else {
             fileNamesToIgnore.add(fileName)
@@ -96,27 +96,27 @@ export const syncCommand = new Command()
        */
       await Promise.all(
         definitionFiles.map(async ({ file, folderName }: { file: CodeGenFile; folderName: string }) => {
-          const absPath = path.join(rootPath, folderName, file.fileName)
+          const absPath = join(rootPath, folderName, file.fileName)
           if (fileNamesToIgnore.has(absPath)) {
             return null
           }
 
           // make the directory, if it doesn't exist yet
-          await fs.promises.mkdir(path.dirname(absPath), { recursive: true })
+          await mkdir(dirname(absPath), { recursive: true })
 
-          return fs.promises.writeFile(absPath, file.contents)
+          return writeFile(absPath, file.contents)
         }),
       )
 
       // non-folder files
       await Promise.all(
         otherFiles.map((file: CodeGenFile) => {
-          const absPath = path.join(rootPath, file.fileName)
+          const absPath = join(rootPath, file.fileName)
           if (fileNamesToIgnore.has(absPath)) {
             return null
           }
 
-          return fs.promises.writeFile(absPath, file.contents)
+          return writeFile(absPath, file.contents)
         }),
       )
 

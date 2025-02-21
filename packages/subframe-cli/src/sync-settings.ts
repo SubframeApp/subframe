@@ -1,10 +1,12 @@
-import fs from "fs"
-import path from "path"
+import { existsSync, readFileSync } from "node:fs"
+import { rm, mkdir, writeFile } from "node:fs/promises"
+import { join } from "node:path"
 import prompt from "prompts"
 import { DEFAULT_SUBFRAME_TS_ALIAS, ROOT_FOLDER_NAME } from "shared/constants"
 import { addAliasesToTSConfig, hasAliasSetup } from "./add-tsconfig-alias"
 import { ACCESS_TOKEN_FILENAME, SUBFRAME_DIR, SYNC_SETTINGS_FILENAME } from "./constants"
 import { abortOnState } from "./sync-helpers"
+import { exists, isDirectory } from "./utils/fs"
 
 export interface SyncSettingsConfig {
   directory: string
@@ -14,7 +16,7 @@ export interface SyncSettingsConfig {
 
 export function getLocalSyncSettings(cwd: string): SyncSettingsConfig | null {
   try {
-    const contents = fs.readFileSync(path.join(cwd, SUBFRAME_DIR, SYNC_SETTINGS_FILENAME), "utf-8")
+    const contents = readFileSync(join(cwd, SUBFRAME_DIR, SYNC_SETTINGS_FILENAME), "utf-8")
     const parsed = JSON.parse(contents)
 
     if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
@@ -37,21 +39,21 @@ export async function setupSyncSettings(
   cwd: string,
   options: Partial<SyncSettingsConfig>,
 ): Promise<SyncSettingsConfig> {
-  const subframeDirPath = path.join(cwd, SUBFRAME_DIR)
-  const syncSettingsPath = path.join(subframeDirPath, SYNC_SETTINGS_FILENAME)
+  const subframeDirPath = join(cwd, SUBFRAME_DIR)
+  const syncSettingsPath = join(subframeDirPath, SYNC_SETTINGS_FILENAME)
 
   // Note: remove after 6/1/2025 - the access token is now stored in the data directory.
   // See config.ts for more details.
   //
   // We previously added a diff to .gitignore to avoid committing .subframe/access-token to git.
   // That is no longer needed, but no need to clean that up.
-  const accessTokenPath = path.join(subframeDirPath, ACCESS_TOKEN_FILENAME)
-  if (fs.existsSync(accessTokenPath)) {
-    fs.unlinkSync(accessTokenPath)
+  const accessTokenPath = join(subframeDirPath, ACCESS_TOKEN_FILENAME)
+  if (await exists(accessTokenPath)) {
+    await rm(accessTokenPath)
   }
 
-  const tsConfigPath = path.join(cwd, "tsconfig.json")
-  const subframeDirExists = fs.existsSync(subframeDirPath)
+  const tsConfigPath = join(cwd, "tsconfig.json")
+  const subframeDirExists = await isDirectory(subframeDirPath)
 
   if (!subframeDirExists) {
     const response = await prompt({
@@ -63,7 +65,7 @@ export async function setupSyncSettings(
     })
 
     if (response.createSubframeDir) {
-      await fs.promises.mkdir(subframeDirPath)
+      await mkdir(subframeDirPath)
     }
   }
 
@@ -80,13 +82,13 @@ export async function setupSyncSettings(
       initial: "./src",
       message: "Where should the Subframe components be synced to?",
       validate: (value) => {
-        return fs.existsSync(path.join(cwd, value)) ? true : `Directory ${value} does not exist`
+        return existsSync(join(cwd, value)) ? true : `Directory ${value} does not exist`
       },
       onState: abortOnState,
     })
 
-    // NOTE: path.join will remove the trailing slash
-    config.directory = "./" + path.join(response.directory, ROOT_FOLDER_NAME)
+    // NOTE: join will remove the trailing slash
+    config.directory = "./" + join(response.directory, ROOT_FOLDER_NAME)
   }
 
   if (!options.importAlias) {
@@ -111,7 +113,7 @@ export async function setupSyncSettings(
         [response.componentsDirAlias]: [`${config.directory}/*`],
       }
 
-      if (fs.existsSync(tsConfigPath)) {
+      if (await exists(tsConfigPath)) {
         /** if we detect the aliases are not setup, ask to set them up */
         const isSetup = await hasAliasSetup(tsConfigPath, aliases)
         if (!isSetup) {
@@ -132,7 +134,7 @@ export async function setupSyncSettings(
     }
   }
 
-  await fs.promises.writeFile(syncSettingsPath, JSON.stringify(config, null, 2))
+  await writeFile(syncSettingsPath, JSON.stringify(config, null, 2))
 
   return {
     directory: config.directory!,

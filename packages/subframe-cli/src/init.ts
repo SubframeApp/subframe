@@ -1,7 +1,7 @@
 import { Command } from "commander"
-import fs from "fs"
 import { oraPromise } from "ora"
-import path from "path"
+import { writeFile } from "node:fs/promises"
+import { join } from "node:path"
 import { getAccessToken } from "./access-token"
 import { apiInitProject, apiUpdateImportAlias } from "./api-endpoints"
 import { localSyncSettings } from "./common"
@@ -11,6 +11,7 @@ import { makeCLILogger } from "./logger/logger-cli"
 import { prepareProject } from "./setup/prepare-project"
 import { setupTailwindConfig } from "./setup-tailwind-config"
 import { setupSyncSettings } from "./sync-settings"
+import { mkdirIfNotExist } from "./utils/fs"
 
 export const initCommand = new Command()
   .name("init")
@@ -51,11 +52,11 @@ export const initCommand = new Command()
       await installDependencies(projectPath)
 
       // Ensure the root folder exists.
-      const rootPath = path.join(projectPath, directory)
-      await fs.promises.mkdir(rootPath, { recursive: true })
+      const rootPath = join(projectPath, directory)
+      await mkdirIfNotExist(rootPath)
 
-      const absPath = path.join(rootPath, styleFile.fileName)
-      await fs.promises.writeFile(absPath, styleFile.contents)
+      const absPath = join(rootPath, styleFile.fileName)
+      await writeFile(absPath, styleFile.contents)
 
       if (oldImportAlias !== importAlias) {
         console.log(`Change in import alias detected. Before: "${oldImportAlias}", After: "${importAlias}"`)

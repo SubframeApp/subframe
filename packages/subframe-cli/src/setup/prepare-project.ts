@@ -1,26 +1,27 @@
 import degit from "degit"
-import fs from "fs"
+import { readFile, writeFile } from "node:fs/promises"
 import ora from "ora"
-import path from "path"
+import { join, resolve } from "node:path"
 import prompts from "prompts"
 import { cwd } from "../common"
 import { CLILogger } from "../logger/logger-cli"
 import { highlight } from "../output/format"
 import { tryGitInit } from "../utils/git"
+import { exists } from "../utils/fs"
 
 async function cloneStarterKit({ name, type }: { name: string; type: string }) {
   const spinner = ora(`Cloning starter kit...`).start()
   const emitter = degit(`SubframeApp/subframe/starter-kits/${type}`)
   await emitter.clone(name)
 
-  const projectPath = path.join(cwd, name)
+  const projectPath = join(cwd, name)
   spinner.text = `Initializing git repository...`
   await tryGitInit(projectPath)
 
-  const packageJsonPath = path.join(projectPath, "package.json")
-  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"))
+  const packageJsonPath = join(projectPath, "package.json")
+  const packageJson = JSON.parse(await readFile(packageJsonPath, "utf8"))
   packageJson.name = name
-  fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2))
+  await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2))
 
   spinner.succeed(`Successfully created ${name} at ${projectPath}`)
 
@@ -29,7 +30,7 @@ async function cloneStarterKit({ name, type }: { name: string; type: string }) {
 
 export async function prepareProject(cliLogger: CLILogger): Promise<{ projectPath: string }> {
   // No package.json in current directory - assume they need to set up a new project.
-  if (!fs.existsSync(path.resolve(cwd, "package.json"))) {
+  if (!(await exists(resolve(cwd, "package.json")))) {
     const { type, name } = await prompts([
       {
         type: "select",

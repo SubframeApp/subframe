@@ -33,7 +33,7 @@ async function verifyTokenWithOra(token: string): Promise<boolean> {
 }
 
 export async function getAccessToken(): Promise<string> {
-  const authConfig = readAuthConfig()
+  const authConfig = await readAuthConfig()
   if (authConfig && (await verifyTokenWithOra(authConfig.token))) {
     return authConfig.token
   }
