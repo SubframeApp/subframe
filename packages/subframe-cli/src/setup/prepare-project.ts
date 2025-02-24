@@ -38,9 +38,9 @@ export async function prepareProject(
   options: InitCommandOptions,
 ): Promise<{ projectPath: string }> {
   // No package.json in current directory - assume they need to set up a new project.
-  if (!(await exists(resolve(cwd, "package.json"))) || options.create !== undefined) {
+  if (!(await exists(resolve(cwd, "package.json"))) || options.template !== undefined) {
     prompts.override({
-      type: options.create,
+      type: options.template,
       name: options.name,
     })
     const { type, name } = await prompts([

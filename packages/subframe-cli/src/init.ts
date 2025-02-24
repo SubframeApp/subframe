@@ -20,7 +20,7 @@ export const initCommand = new Command()
   .description("Initializes Subframe in your local project or sets up a new one for you")
   .option("-z, --auth-token <auth-token>", "auth token to use")
   .addOption(
-    new Option("-c, --create <template>", "create a new project with a specific template").choices([
+    new Option("--template <template>", "create a new project with a specific template").choices([
       "vite",
       "nextjs",
       "astro",
@@ -73,8 +73,6 @@ initCommand.action(async (opts) => {
 
     // strip /* which is used for tsconfig.json
     const importAlias = rawImportAlias.endsWith("/*") ? rawImportAlias.slice(0, -2) : rawImportAlias
-
-    // TODO(Chris): Also ask for project ID and add logic for that
 
     await installDependencies(projectPath, opts)
 

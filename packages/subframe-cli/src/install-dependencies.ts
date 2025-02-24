@@ -4,10 +4,10 @@ import { coerce, lt } from "semver"
 import { AUTOINSTALLED_DEPENDENCIES } from "./constants"
 import { abortOnState } from "./sync-helpers"
 import {
+  addPackageToDependencies,
   getInstalledPackageVersion,
   getLatestPackageVersion,
   getPackageManager,
-  makePackageSpecifier,
 } from "./utils/package-managers"
 import type { InitCommandOptions } from "./init"
 
@@ -22,33 +22,23 @@ import type { InitCommandOptions } from "./init"
 export async function installDependencies(cwd: string, opts: InitCommandOptions) {
   const packageManager = await getPackageManager(cwd)
 
-  const toInstall = new Map<string, string>()
-
-  for (const [packageName, packageVersion] of Object.entries(AUTOINSTALLED_DEPENDENCIES)) {
+  for await (const [packageName, packageVersion] of Object.entries(AUTOINSTALLED_DEPENDENCIES)) {
     const installedVersion = await getInstalledPackageVersion(packageName, cwd).then(coerce)
     const targetVersion = packageVersion === "latest" ? await getLatestPackageVersion(packageName) : packageVersion
 
     if (!installedVersion) {
-      toInstall.set(packageName, targetVersion)
+      await addPackageToDependencies(packageName, packageVersion, cwd)
     } else {
       if (installedVersion === null) {
-        toInstall.set(packageName, targetVersion)
+        addPackageToDependencies(packageName, packageVersion, cwd)
         continue
       }
 
       if (lt(installedVersion, targetVersion)) {
-        toInstall.set(packageName, targetVersion)
+        addPackageToDependencies(packageName, packageVersion, cwd)
       }
     }
   }
-
-  if (toInstall.size === 0) {
-    return
-  }
-
-  const packageSpecifiers = Array.from(toInstall.entries()).map(([packageName, packageVersion]) =>
-    makePackageSpecifier(packageName, packageVersion),
-  )
 
   prompts.override({
     install: opts.install,
@@ -57,11 +47,7 @@ export async function installDependencies(cwd: string, opts: InitCommandOptions)
     type: "confirm",
     name: "install",
     initial: true,
-    message: [
-      "Subframe requires the latest version of @subframe/core and the following dependencies:",
-      packageSpecifiers.map((specifier) => `- ${specifier}`).join("\n"),
-      "Do you wish to install them?",
-    ].join("\n"),
+    message: ["Would you like to install dependencies?"].join("\n"),
     onState: abortOnState,
   })
 
@@ -69,7 +55,5 @@ export async function installDependencies(cwd: string, opts: InitCommandOptions)
     return
   }
 
-  await execa(packageManager, [packageManager !== "npm" ? "add" : "install", ...packageSpecifiers], { cwd })
-    .pipeStdout?.(process.stdout)
-    .pipeStderr?.(process.stderr)
+  await execa(packageManager, ["install"], { cwd }).pipeStdout?.(process.stdout).pipeStderr?.(process.stderr)
 }

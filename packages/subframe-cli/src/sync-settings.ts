@@ -58,8 +58,6 @@ export async function setupSyncSettings(
   const subframeDirExists = await isDirectory(subframeDirPath)
 
   if (!subframeDirExists) {
-    await mkdir(subframeDirPath)
-
     // Note(Chris): Removed the logic below for now, we should just create the directory and not ask the user.
     // const response = await prompts({
     //   type: "confirm",
@@ -72,6 +70,7 @@ export async function setupSyncSettings(
     // if (response.createSubframeDir) {
     //   await mkdir(subframeDirPath)
     // }
+    await mkdir(subframeDirPath)
   }
 
   const config: Partial<SyncSettingsConfig> = {

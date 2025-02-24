@@ -1,13 +1,25 @@
 import { detect } from "@antfu/ni"
 import { execa } from "execa"
-import { readFile } from "node:fs/promises"
+import { readFile, writeFile } from "node:fs/promises"
 
 type PackageManager = "yarn" | "pnpm" | "npm" | "bun"
 
+export async function addPackageToDependencies(packageName: string, version: string, cwd: string): Promise<void> {
+  const packageJSON: { dependencies: Record<string, string> } = JSON.parse(
+    await readFile(`${cwd}/package.json`, "utf-8"),
+  )
+  packageJSON.dependencies = packageJSON.dependencies || {}
+  packageJSON.dependencies[packageName] = version
+
+  await writeFile(`${cwd}/package.json`, JSON.stringify(packageJSON, null, 2))
+
+  return
+}
+
 export async function getInstalledPackageVersion(packageName: string, cwd: string): Promise<string | null> {
   try {
-    const packageJSON: { dependencies: Record<string, string> } = await readFile(`${cwd}/package.json`, "utf-8").then(
-      JSON.parse,
+    const packageJSON: { dependencies: Record<string, string> } = JSON.parse(
+      await readFile(`${cwd}/package.json`, "utf-8"),
     )
 
     if (!packageJSON.dependencies) {
