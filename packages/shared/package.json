@@ -1,15 +1,8 @@
 {
   "name": "shared",
   "version": "0.0.0",
-  "exports": {
-    "./http": "./http.ts",
-    "./constants": "./constants.ts",
-    "./routes": "./routes.ts",
-    "./type-helpers": "./type-helpers.ts",
-    "./types": "./types.ts",
-    "./logger/logger-node": "./logger/logger-node.ts",
-    "./logger/logger-browser": "./logger/logger-browser.ts"
-  },
+  "main": "./index.ts",
+  "types": "./index.ts",
   "license": "MIT",
   "scripts": {
     "lint": "eslint \"**/*.{ts,tsx}\"",

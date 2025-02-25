@@ -42,9 +42,9 @@ export async function setupTailwindConfig(cwd: string, subframeDirPath: string) 
 
   const project = new Project({ compilerOptions: { allowJs: true } })
 
-  const tailwindConfigPath = join(cwd, `tailwind.config.{js,mjs,cjs,ts,mts,cts}`)
-  project.addSourceFilesAtPaths(tailwindConfigPath)
-  const tailwindConfig = project.getSourceFile(tailwindConfigPath)
+  project.addSourceFileAtPathIfExists(join(cwd, "tailwind.config.js"))
+
+  const tailwindConfig = project.getSourceFile(join(cwd, "tailwind.config.js"))
 
   /** no Tailwind config, let's skip this step then */
   if (!tailwindConfig) {

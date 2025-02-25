@@ -8,15 +8,11 @@ import { CLILogger } from "../logger/logger-cli"
 import { highlight } from "../output/format"
 import { tryGitInit } from "../utils/git"
 import { exists } from "../utils/fs"
-import { InitCommandOptions } from "../init"
-
-// TODO(Chris): Remove this once we push to main
-const CLONE_BRANCH = "feature/subframe-cli-features" as const
 
 async function cloneStarterKit({ name, type }: { name: string; type: "astro" | "vite" | "nextjs" }) {
   const spinner = ora(`Cloning starter kit...`).start()
 
-  const emitter = degit(`SubframeApp/subframe/starter-kits/${type}#${CLONE_BRANCH}`)
+  const emitter = degit(`SubframeApp/subframe/starter-kits/${type}`)
   await emitter.clone(`${name}`)
 
   const projectPath = join(cwd, name)
@@ -35,7 +31,7 @@ async function cloneStarterKit({ name, type }: { name: string; type: "astro" | "
 
 export async function prepareProject(
   cliLogger: CLILogger,
-  options: InitCommandOptions,
+  options: { template?: "vite" | "nextjs" | "astro"; name?: string },
 ): Promise<{ projectPath: string }> {
   // No package.json in current directory - assume they need to set up a new project.
   if (!(await exists(resolve(cwd, "package.json"))) || options.template !== undefined) {
