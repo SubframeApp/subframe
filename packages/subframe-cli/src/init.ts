@@ -108,9 +108,6 @@ initCommand.action(async (opts) => {
       }
     }
 
-    if (cssType !== "tailwind") {
-      throw new Error("How?")
-    }
     await setupTailwindConfig(projectPath, rootPath)
 
     console.timeEnd(SUBFRAME_INIT_MESSAGE)
