@@ -1,9 +1,10 @@
-
 import resolve from "@rollup/plugin-node-resolve"
 import replace from "@rollup/plugin-replace"
 import esbuild from "rollup-plugin-esbuild"
 
-import packageJson from './package.json' with {type: "json"}
+import { readFileSync } from "node:fs"
+
+const packageJson = JSON.parse(readFileSync("./package.json", "utf-8"))
 
 /**@type {import("rollup").RollupOptions[]} */
 const rollupOptions = [
@@ -16,7 +17,7 @@ const rollupOptions = [
         format: "esm",
       },
     ],
-    external: [/node_modules/, "!node_modules/@subframe/shared"],
+    external: [/node_modules/, "!node_modules/shared"],
     plugins: [
       resolve({
         preferBuiltins: true,

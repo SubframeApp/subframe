@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "build": "NODE_ENV=production rollup -c rollup.config.js && npm run shebang",
+    "build": "NODE_ENV=production tsc --noEmit && rollup -c rollup.config.js && npm run shebang",
     "dev": "NODE_ENV=development rollup -c rollup.config.js --watch",
     "start": "node bin/init-main.js",
     "build-for-publish": "npm run build",
@@ -47,7 +47,7 @@
   "devDependencies": {
     "@rollup/plugin-node-resolve": "15.2.2",
     "@rollup/plugin-replace": "^6.0.2",
-    "@subframe/shared": "*",
+    "shared": "*",
     "@types/degit": "^2.8.6",
     "@types/prompts": "2.4.5",
     "@types/segment-analytics": "0.0.34",

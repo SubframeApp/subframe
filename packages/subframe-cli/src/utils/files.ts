@@ -1,5 +1,5 @@
 import { readdir } from "node:fs/promises"
-import { IGNORE_UPDATE_KEYWORD } from "@subframe/shared"
+import { IGNORE_UPDATE_KEYWORD } from "shared/constants"
 import { join } from "node:path"
 import { isDirectory } from "./fs"
 

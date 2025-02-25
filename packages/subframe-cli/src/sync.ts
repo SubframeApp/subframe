@@ -2,7 +2,8 @@ import { Command } from "@commander-js/extra-typings"
 import { mkdir, readFile, writeFile, rm } from "node:fs/promises"
 import { oraPromise } from "ora"
 import { join, dirname } from "node:path"
-import { IGNORE_UPDATE_KEYWORD, CodeGenFile } from "@subframe/shared"
+import { IGNORE_UPDATE_KEYWORD } from "shared/constants"
+import type { CodeGenFile } from "shared/types"
 import { getAccessToken } from "./access-token"
 import { apiSyncProject } from "./api-endpoints"
 import { cwd, localSyncSettings } from "./common"
@@ -61,7 +62,7 @@ export const syncCommand = new Command()
 
       console.clear()
 
-      await installDependencies(cwd)
+      await installDependencies(cwd, opts)
 
       console.log(
         `Tip: You can ignore any updates for a specific file by adding the following comment anywhere in the file:\n// ${IGNORE_UPDATE_KEYWORD}\n`,
