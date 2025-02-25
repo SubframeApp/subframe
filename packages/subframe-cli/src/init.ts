@@ -13,8 +13,6 @@ import { setupTailwindConfig } from "./setup-tailwind-config"
 import { setupSyncSettings } from "./sync-settings"
 import { mkdirIfNotExist } from "./utils/fs"
 
-export type InitCommandOptions = ReturnType<typeof initCommand.opts>
-
 export const initCommand = new Command()
   .name("init")
   .description("Initializes Subframe in your local project or sets up a new one for you")
@@ -50,7 +48,7 @@ initCommand.action(async (opts) => {
 
     console.time(SUBFRAME_INIT_MESSAGE)
 
-    const { styleFile, cssType, oldImportAlias } = await oraPromise(
+    const { styleFile, oldImportAlias } = await oraPromise(
       apiInitProject({
         token: accessToken,
         truncatedProjectId,

@@ -7,7 +7,6 @@ import { addAliasesToTSConfig, hasAliasSetup } from "./add-tsconfig-alias"
 import { ACCESS_TOKEN_FILENAME, SUBFRAME_DIR, SYNC_SETTINGS_FILENAME } from "./constants"
 import { abortOnState } from "./sync-helpers"
 import { exists, isDirectory } from "./utils/fs"
-import { InitCommandOptions } from "./init"
 
 export interface SyncSettingsConfig {
   directory: string
@@ -39,7 +38,7 @@ export function getLocalSyncSettings(cwd: string): SyncSettingsConfig | null {
 export async function setupSyncSettings(
   cwd: string,
   options: Partial<SyncSettingsConfig>,
-  initOptions: InitCommandOptions,
+  initOptions: { dir?: string; alias?: string },
 ): Promise<SyncSettingsConfig> {
   const subframeDirPath = join(cwd, SUBFRAME_DIR)
   const syncSettingsPath = join(subframeDirPath, SYNC_SETTINGS_FILENAME)

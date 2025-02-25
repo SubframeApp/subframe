@@ -9,7 +9,6 @@ import {
   getLatestPackageVersion,
   getPackageManager,
 } from "./utils/package-managers"
-import type { InitCommandOptions } from "./init"
 
 /**
  * Installs the dependencies that are required for Subframe to work
@@ -19,7 +18,7 @@ import type { InitCommandOptions } from "./init"
  * - if yes, installs/updates them
  * - if no, does nothing
  */
-export async function installDependencies(cwd: string, opts: InitCommandOptions) {
+export async function installDependencies(cwd: string, opts: { install?: boolean }) {
   const packageManager = await getPackageManager(cwd)
 
   for await (const [packageName, packageVersion] of Object.entries(AUTOINSTALLED_DEPENDENCIES)) {
@@ -43,6 +42,7 @@ export async function installDependencies(cwd: string, opts: InitCommandOptions)
   prompts.override({
     install: opts.install,
   })
+  
   const response = await prompts({
     type: "confirm",
     name: "install",

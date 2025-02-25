@@ -1,7 +1,3 @@
-// Polyfill fetch and webcrypto
-import "isomorphic-fetch"
-import "isomorphic-webcrypto"
-
 import { program } from "commander"
 import { isDev } from "./common"
 import { initCommand } from "./init"

@@ -22,7 +22,7 @@ export function makeNodeLogger<T extends BaseEvent = BaseEvent>(userId: string):
 
   if (shouldEnableLogger()) {
     segmentAnalytics = new Analytics({
-      writeKey: process.env.SEGMENT_WRITE_KEY ?? "empty-string",
+      writeKey: process.env.SEGMENT_WRITE_KEY ?? "",
       flushAt: 1,
     }).on("error", console.error)
     identifyUser(userId)
