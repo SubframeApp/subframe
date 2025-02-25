@@ -1,5 +1,5 @@
 {
-  "name": "@subframe/cli-demo",
+  "name": "@subframe/cli",
   "version": "1.167.0",
   "description": "Subframe's CLI tool for syncing your code with Subframe designs.",
   "type": "module",
