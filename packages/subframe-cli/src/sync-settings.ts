@@ -58,18 +58,6 @@ export async function setupSyncSettings(
   const subframeDirExists = await isDirectory(subframeDirPath)
 
   if (!subframeDirExists) {
-    // Note(Chris): Removed the logic below for now, we should just create the directory and not ask the user.
-    // const response = await prompts({
-    //   type: "confirm",
-    //   name: "createSubframeDir",
-    //   initial: true,
-    //   message: "Subframe will create a .subframe folder to manage your project settings. Continue?",
-    //   onState: abortOnState,
-    // })
-
-    // if (response.createSubframeDir) {
-    //   await mkdir(subframeDirPath)
-    // }
     await mkdir(subframeDirPath)
   }
 
@@ -128,20 +116,6 @@ export async function setupSyncSettings(
         const isSetup = await hasAliasSetup(tsConfigPath, aliases)
         if (!isSetup) {
           await addAliasesToTSConfig(tsConfigPath, aliases)
-
-          // Note(chris): Removed the logic below for now, we should just add the alias to the tsconfig.json file.
-          // const { updateTSConfig } = await prompts({
-          //   type: "confirm",
-          //   name: "updateTSConfig",
-          //   initial: true,
-          //   message:
-          //     "Would you like to add the alias to tsconfig.json? You can usually skip this step if you are using a vanilla NextJS setup.",
-          //   onState: abortOnState,
-          // })
-
-          // if (updateTSConfig) {
-          //   await addAliasesToTSConfig(tsConfigPath, aliases)
-          // }
         }
       }
     }
