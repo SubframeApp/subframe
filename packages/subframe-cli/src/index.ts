@@ -1,9 +1,10 @@
-import { Command } from "commander"
+import { program } from "commander"
 import { isDev } from "./common"
 import { initCommand } from "./init"
 import { syncCommand } from "./sync"
+import packageJson from "../package.json"
 
-const program = new Command()
+program.version(packageJson.version).description("Subframe CLI")
 
 if (isDev) {
   program.option("--dev")

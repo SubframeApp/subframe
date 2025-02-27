@@ -1,5 +1,5 @@
 import { http } from "shared/http"
-import {
+import type {
   InitProjectRequest,
   InitProjectResponse,
   SyncProjectRequest,

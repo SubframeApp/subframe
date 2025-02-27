@@ -18,7 +18,7 @@ async function verifyToken(token: string): Promise<boolean> {
   }
 }
 
-async function verifyTokenWithOra(token: string): Promise<boolean> {
+export async function verifyTokenWithOra(token: string): Promise<boolean> {
   try {
     await oraPromise(verifyToken(token), {
       prefixText: "",
@@ -33,7 +33,7 @@ async function verifyTokenWithOra(token: string): Promise<boolean> {
 }
 
 export async function getAccessToken(): Promise<string> {
-  const authConfig = readAuthConfig()
+  const authConfig = await readAuthConfig()
   if (authConfig && (await verifyTokenWithOra(authConfig.token))) {
     return authConfig.token
   }

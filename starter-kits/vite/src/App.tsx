@@ -1,8 +1,8 @@
-import subframeLogo from "/subframe-logo.svg";
+import subframeLogo from "./assets/subframe-logo.svg?url"
 
 export default function App() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-8">
+    <main className="flex h-full min-h-screen flex-col items-center p-8">
       <img src={subframeLogo} width={112} height={20} alt="Subframe logo" />
 
       <div className="flex flex-col gap-1 mt-20">
@@ -13,9 +13,8 @@ export default function App() {
         </div>
         <div className="relative mx-auto max-w-2xl gap-12 px-6 lg:px-8">
           <div className="mt-6 text-lg text-base sm:text-lg text-center max-w-">
-            Use this project to kickstart Subframe. It includes configuration
-            files, dependencies you will need, and a clean slate for getting
-            started.
+            Use this project to kickstart Subframe. It includes configuration files, dependencies you will need, and a
+            clean slate for getting started.
           </div>
         </div>
       </div>
@@ -38,5 +37,5 @@ export default function App() {
         </a>
       </div>
     </main>
-  );
+  )
 }

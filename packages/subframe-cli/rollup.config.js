@@ -24,7 +24,9 @@ const rollupOptions = [
       },
     ],
     plugins: [
-      typescript({ tsconfig: "./tsconfig.json" }),
+      typescript({
+        tsconfig: "./tsconfig.json",
+      }),
       json(),
       resolve({
         preferBuiltins: true,
@@ -34,6 +36,7 @@ const rollupOptions = [
       terser(),
       replace({
         "process.env.SEGMENT_WRITE_KEY": JSON.stringify(process.env.SEGMENT_WRITE_KEY),
+        preventAssignment: true,
       }),
     ],
   },

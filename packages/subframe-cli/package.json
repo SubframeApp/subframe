@@ -7,13 +7,13 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "build-for-publish": "node --max-old-space-size=16384 ../../node_modules/rollup/dist/bin/rollup -c --bundleConfigAsCjs",
-    "dev": "node --max-old-space-size=8192 ../../node_modules/rollup/dist/bin/rollup -c --bundleConfigAsCjs --watch",
+    "build-for-publish": "rollup -c --bundleConfigAsCjs",
+    "dev": "rollup -c --bundleConfigAsCjs --watch",
     "update-version": "npm version minor",
     "minor-publish": "npm run build-for-publish && npm run publish-to-npm",
     "publish-to-npm": "npm publish --access public",
-    "ts": "NODE_OPTIONS=--max-old-space-size=8192 tsc --noEmit",
-    "ts:watch": "NODE_OPTIONS=--max-old-space-size=8192 tsc --watch --incremental --noEmit"
+    "ts": "tsc --noEmit",
+    "ts:watch": "tsc --watch --incremental --noEmit"
   },
   "keywords": [
     "subframe"
@@ -27,7 +27,7 @@
     "@antfu/ni": "0.21.8",
     "@segment/analytics-node": "2.1.2",
     "chalk": "4.1.2",
-    "commander": "11.1.0",
+    "commander": "^13.1.0",
     "comment-json": "4.2.3",
     "degit": "^2.8.4",
     "detect-indent": "7.0.1",
@@ -53,7 +53,7 @@
     "jest": "29.7.0",
     "rollup": "3.29.5",
     "rollup-plugin-typescript2": "0.34.1",
-    "typescript": "5.1.3"
+    "typescript": "^5.1.3"
   },
   "files": [
     "dist/"
