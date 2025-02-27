@@ -4,10 +4,10 @@ import { coerce, lt } from "semver"
 import { AUTOINSTALLED_DEPENDENCIES } from "./constants"
 import { abortOnState } from "./sync-helpers"
 import {
-  addPackageToDependencies,
   getInstalledPackageVersion,
   getLatestPackageVersion,
   getPackageManager,
+  makePackageSpecifier,
 } from "./utils/package-managers"
 
 /**
@@ -21,23 +21,34 @@ import {
 export async function installDependencies(cwd: string, opts: { install?: boolean }) {
   const packageManager = await getPackageManager(cwd)
 
-  for await (const [packageName, packageVersion] of Object.entries(AUTOINSTALLED_DEPENDENCIES)) {
+
+  const toInstall = new Map<string, string>()
+
+  for (const [packageName, packageVersion] of Object.entries(AUTOINSTALLED_DEPENDENCIES)) {
     const installedVersion = await getInstalledPackageVersion(packageName, cwd).then(coerce)
     const targetVersion = packageVersion === "latest" ? await getLatestPackageVersion(packageName) : packageVersion
 
     if (!installedVersion) {
-      await addPackageToDependencies(packageName, packageVersion, cwd)
+      toInstall.set(packageName, targetVersion)
     } else {
       if (installedVersion === null) {
-        addPackageToDependencies(packageName, packageVersion, cwd)
+        toInstall.set(packageName, targetVersion)
         continue
       }
 
       if (lt(installedVersion, targetVersion)) {
-        addPackageToDependencies(packageName, packageVersion, cwd)
+        toInstall.set(packageName, targetVersion)
       }
     }
   }
+
+  if (toInstall.size === 0) {
+    return
+  }
+
+  const packageSpecifiers = Array.from(toInstall.entries()).map(([packageName, packageVersion]) =>
+    makePackageSpecifier(packageName, packageVersion),
+  )
 
   prompts.override({
     install: opts.install,
@@ -55,5 +66,8 @@ export async function installDependencies(cwd: string, opts: { install?: boolean
     return
   }
 
-  await execa(packageManager, ["install"], { cwd }).pipeStdout?.(process.stdout).pipeStderr?.(process.stderr)
+
+  await execa(packageManager, [packageManager === "yarn" ? "add" : "install", ...packageSpecifiers], { cwd })
+    .pipeStdout?.(process.stdout)
+    .pipeStderr?.(process.stderr)
 }
