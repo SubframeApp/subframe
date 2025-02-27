@@ -1,7 +1,7 @@
 import { Command, Option } from "@commander-js/extra-typings"
 import { oraPromise } from "ora"
 import { writeFile } from "node:fs/promises"
-import { join } from "node:path"
+import { join, relative } from "node:path"
 import { getAccessToken, verifyTokenWithOra } from "./access-token"
 import { apiInitProject, apiUpdateImportAlias } from "./api-endpoints"
 import { localSyncSettings } from "./common"
@@ -9,9 +9,9 @@ import { SUBFRAME_INIT_MESSAGE } from "./constants"
 import { installDependencies } from "./install-dependencies"
 import { makeCLILogger } from "./logger/logger-cli"
 import { prepareProject } from "./setup/prepare-project"
-import { setupTailwindConfig } from "./setup-tailwind-config"
 import { setupSyncSettings } from "./sync-settings"
 import { mkdirIfNotExist } from "./utils/fs"
+import { updateTailwindContent } from "./setup-tailwind-config"
 
 export const initCommand = new Command()
   .name("init")
@@ -106,7 +106,13 @@ initCommand.action(async (opts) => {
       }
     }
 
-    await setupTailwindConfig(projectPath, rootPath)
+    const relPath = relative(projectPath, rootPath)
+    await updateTailwindContent(
+      projectPath,
+      relPath,
+      [`./${relPath}/**/*.{tsx,ts,js,jsx}`],
+      [`./${relPath}/tailwind.config`],
+    )
 
     console.timeEnd(SUBFRAME_INIT_MESSAGE)
   } catch (err: any) {

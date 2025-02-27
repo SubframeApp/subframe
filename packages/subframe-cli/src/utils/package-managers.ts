@@ -43,10 +43,9 @@ export async function getPackageManager(cwd: string): Promise<PackageManager> {
 }
 
 export async function getLatestPackageVersion(packageName: string) {
-  return execa("curl", [`https://registry.npmjs.org/${packageName}/latest`])
-    .then((result) => result.stdout)
-    .then((result) => JSON.parse(result))
-    .then((result) => result.version)
+  const { stdout } = await execa("curl", [`https://registry.npmjs.org/${packageName}/latest`])
+  const json = JSON.parse(stdout)
+  return json.version as string
 }
 
 export function makePackageSpecifier(packageName: string, packageVersion: string) {
