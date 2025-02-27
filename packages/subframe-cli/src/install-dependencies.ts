@@ -21,7 +21,6 @@ import {
 export async function installDependencies(cwd: string, opts: { install?: boolean }) {
   const packageManager = await getPackageManager(cwd)
 
-
   const toInstall = new Map<string, string>()
 
   for (const [packageName, packageVersion] of Object.entries(AUTOINSTALLED_DEPENDENCIES)) {
@@ -53,7 +52,7 @@ export async function installDependencies(cwd: string, opts: { install?: boolean
   prompts.override({
     install: opts.install,
   })
-  
+
   const response = await prompts({
     type: "confirm",
     name: "install",
@@ -65,7 +64,6 @@ export async function installDependencies(cwd: string, opts: { install?: boolean
   if (!response.install) {
     return
   }
-
 
   await execa(packageManager, [packageManager === "yarn" ? "add" : "install", ...packageSpecifiers], { cwd })
     .pipeStdout?.(process.stdout)
