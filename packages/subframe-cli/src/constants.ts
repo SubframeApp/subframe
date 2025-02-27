@@ -2,7 +2,7 @@
  * Packages included in this list will be automatically installed
  * when running the CLI (if they are not already installed)
  */
-export const AUTOINSTALLED_DEPENDENCIES: Record<string, string> = { "@subframe/core": "latest", classnames: "2.3.2" }
+export const AUTOINSTALLED_DEPENDENCIES: Record<string, string> = { "@subframe/core": "latest" }
 
 /**
  * The name of the directory that will be created in the root of the project
