@@ -18,7 +18,7 @@ import {
  * - if yes, installs/updates them
  * - if no, does nothing
  */
-export async function installDependencies(cwd: string) {
+export async function installDependencies(cwd: string, opts: { install?: boolean }) {
   const packageManager = await getPackageManager(cwd)
 
   const toInstall = new Map<string, string>()
@@ -49,15 +49,15 @@ export async function installDependencies(cwd: string) {
     makePackageSpecifier(packageName, packageVersion),
   )
 
+  prompts.override({
+    install: opts.install,
+  })
+
   const response = await prompts({
     type: "confirm",
     name: "install",
     initial: true,
-    message: [
-      "Subframe requires the latest version of @subframe/core and the following dependencies:",
-      packageSpecifiers.map((specifier) => `- ${specifier}`).join("\n"),
-      "Do you wish to install them?",
-    ].join("\n"),
+    message: ["Would you like to install dependencies?"].join("\n"),
     onState: abortOnState,
   })
 

@@ -1,4 +1,4 @@
-import path from "path"
+import { join } from "node:path"
 import prompts from "prompts"
 import { printNode, Project, SourceFile, ts } from "ts-morph"
 import { abortOnState } from "./sync-helpers"
@@ -42,9 +42,9 @@ export async function setupTailwindConfig(cwd: string, subframeDirPath: string) 
 
   const project = new Project({ compilerOptions: { allowJs: true } })
 
-  project.addSourceFileAtPathIfExists(path.join(cwd, "tailwind.config.js"))
+  project.addSourceFileAtPathIfExists(join(cwd, "tailwind.config.js"))
 
-  const tailwindConfig = project.getSourceFile(path.join(cwd, "tailwind.config.js"))
+  const tailwindConfig = project.getSourceFile(join(cwd, "tailwind.config.js"))
 
   /** no Tailwind config, let's skip this step then */
   if (!tailwindConfig) {

@@ -1,11 +1,11 @@
 import { assign, parse, stringify } from "comment-json"
 import detectIndent from "detect-indent"
-import fs from "fs/promises"
+import { readFile, writeFile } from "node:fs/promises"
 
 /** Check whether the provided tsconfig.json file has the provided aliases configured */
 export async function hasAliasSetup(tsConfigPath: string, aliases: Record<string, string[]>): Promise<boolean> {
   try {
-    const tsConfig = await fs.readFile(tsConfigPath, "utf-8")
+    const tsConfig = await readFile(tsConfigPath, "utf-8")
 
     const parsed = parse(tsConfig)
 
@@ -40,7 +40,7 @@ export async function hasAliasSetup(tsConfigPath: string, aliases: Record<string
  */
 export async function addAliasesToTSConfig(tsConfigPath: string, aliases: Record<string, string[]>) {
   try {
-    const tsConfig = await fs.readFile(tsConfigPath, "utf-8")
+    const tsConfig = await readFile(tsConfigPath, "utf-8")
     const indent = detectIndent(tsConfig).indent || 2
     const parsed = parse(tsConfig)
 
@@ -59,7 +59,7 @@ export async function addAliasesToTSConfig(tsConfigPath: string, aliases: Record
       }),
     })
 
-    await fs.writeFile(tsConfigPath, stringify(updated, null, indent))
+    await writeFile(tsConfigPath, stringify(updated, null, indent))
   } catch (e) {
     const warningMessage = ["Subframe could not automatically configure your tsconfig.json"].join("\n")
     console.warn(warningMessage)
