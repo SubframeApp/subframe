@@ -1,7 +1,7 @@
 import { Command, Option } from "commander"
-import { oraPromise } from "ora"
 import { writeFile } from "node:fs/promises"
 import { join } from "node:path"
+import { oraPromise } from "ora"
 import { getAccessToken, verifyTokenWithOra } from "./access-token"
 import { apiInitProject, apiUpdateImportAlias } from "./api-endpoints"
 import { localSyncSettings } from "./common"
@@ -40,9 +40,11 @@ initCommand.action(async (opts) => {
     const truncatedProjectId = opts.projectId
     let accessToken = opts.authToken
     if (accessToken) {
-      await verifyTokenWithOra(accessToken)
-      throw new Error("Failed to authenticate with provided token")
-    } else if (!accessToken) {
+      const isValid = await verifyTokenWithOra(accessToken)
+      if (!isValid) {
+        throw new Error("Failed to authenticate with provided token")
+      }
+    } else {
       accessToken = await getAccessToken()
     }
 
@@ -71,8 +73,6 @@ initCommand.action(async (opts) => {
 
     // strip /* which is used for tsconfig.json
     const importAlias = rawImportAlias.endsWith("/*") ? rawImportAlias.slice(0, -2) : rawImportAlias
-
-    await installDependencies(projectPath, opts)
 
     // Ensure the root folder exists.
     const rootPath = join(projectPath, directory)
@@ -106,7 +106,12 @@ initCommand.action(async (opts) => {
       }
     }
 
-    await setupTailwindConfig(projectPath, rootPath)
+    await setupTailwindConfig(projectPath, rootPath, opts)
+
+    // When setting up tailwind config on vite, the changes breaks vite (throws an error about preflight.css)
+    // This is easily remedied by any npm install command. Thus, if we install dependencies after tailwind config is setup,
+    // then we can avoid this issue.
+    await installDependencies(projectPath, opts)
 
     console.timeEnd(SUBFRAME_INIT_MESSAGE)
   } catch (err: any) {

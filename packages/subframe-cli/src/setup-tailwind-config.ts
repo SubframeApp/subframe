@@ -1,4 +1,5 @@
 import { join } from "node:path"
+import ora from "ora"
 import prompts from "prompts"
 import { printNode, Project, SourceFile, ts } from "ts-morph"
 import { abortOnState } from "./sync-helpers"
@@ -36,7 +37,7 @@ module.exports = {
   console.log("\x1b[36m%s\x1b[0m", warningMessage)
 }
 
-export async function setupTailwindConfig(cwd: string, subframeDirPath: string) {
+export async function setupTailwindConfig(cwd: string, subframeDirPath: string, opts: { tailwind?: boolean }) {
   const subframePresetRequireAST = makeSubframeRequire(cwd, subframeDirPath)
   const subframeContentGlob = makeSubframeContentGlob(cwd, subframeDirPath)
 
@@ -75,6 +76,9 @@ export async function setupTailwindConfig(cwd: string, subframeDirPath: string) 
     return
   }
 
+  prompts.override({
+    updateTailwindConfig: opts.tailwind,
+  })
   const response = await prompts({
     type: "confirm",
     name: "updateTailwindConfig",
@@ -86,9 +90,10 @@ export async function setupTailwindConfig(cwd: string, subframeDirPath: string) 
     return
   }
 
+  const spinner = ora("Updating Tailwind config").start()
   transformTailwindConfigFile(tailwindConfig, cwd, subframeDirPath)
-
   await tailwindConfig.save()
+  spinner.succeed("Tailwind config updated")
 }
 
 // helper function that's exported for testing

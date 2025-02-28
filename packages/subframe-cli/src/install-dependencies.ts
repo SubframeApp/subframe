@@ -1,4 +1,5 @@
 import { execa } from "execa"
+import { oraPromise } from "ora"
 import prompts from "prompts"
 import { coerce, lt } from "semver"
 import { AUTOINSTALLED_DEPENDENCIES } from "./constants"
@@ -65,7 +66,15 @@ export async function installDependencies(cwd: string, opts: { install?: boolean
     return
   }
 
-  await execa(packageManager, [packageManager === "yarn" ? "add" : "install", ...packageSpecifiers], { cwd })
-    .pipeStdout?.(process.stdout)
-    .pipeStderr?.(process.stderr)
+  await oraPromise(
+    async () => {
+      await execa(packageManager, [packageManager === "yarn" ? "add" : "install", ...packageSpecifiers], { cwd })
+        .pipeStdout?.(process.stdout)
+        .pipeStderr?.(process.stderr)
+    },
+    {
+      text: "Installing dependencies",
+      failText: "Failed to install dependencies",
+    },
+  )
 }

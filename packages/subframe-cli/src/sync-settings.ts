@@ -1,5 +1,5 @@
 import { existsSync, readFileSync } from "node:fs"
-import { rm, mkdir, writeFile } from "node:fs/promises"
+import { mkdir, rm, writeFile } from "node:fs/promises"
 import { join } from "node:path"
 import prompts from "prompts"
 import { DEFAULT_SUBFRAME_TS_ALIAS, ROOT_FOLDER_NAME } from "shared/constants"

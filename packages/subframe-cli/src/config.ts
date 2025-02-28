@@ -1,5 +1,5 @@
+import { mkdir, readFile, writeFile } from "node:fs/promises"
 import { join } from "node:path"
-import { readFile, mkdir, writeFile } from "node:fs/promises"
 import XDGAppPaths from "xdg-app-paths"
 import { exists } from "./utils/fs"
 
