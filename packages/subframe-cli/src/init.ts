@@ -1,4 +1,4 @@
-import { Command, Option } from "@commander-js/extra-typings"
+import { Command, Option } from "commander"
 import { oraPromise } from "ora"
 import { writeFile } from "node:fs/promises"
 import { join, relative } from "node:path"

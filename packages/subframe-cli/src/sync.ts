@@ -1,4 +1,4 @@
-import { Command } from "@commander-js/extra-typings"
+import { Command } from "commander"
 import { mkdir, readFile, writeFile, rm } from "node:fs/promises"
 import { oraPromise } from "ora"
 import { join, dirname } from "node:path"
@@ -18,7 +18,6 @@ export const syncCommand = new Command()
   .argument("[components...]", "the components to sync")
   .option("-a, --all", "sync all components")
   .option("-p, --projectId <projectId>", "project id to run sync with")
-  .option("-i, --install", "install dependencies after syncing")
   .action(async (components, opts) => {
     const cliLogger = makeCLILogger()
 
@@ -61,7 +60,7 @@ export const syncCommand = new Command()
 
       console.clear()
 
-      await installDependencies(cwd, { install: opts.install })
+      await installDependencies(cwd, opts)
 
       console.log(
         `Tip: You can ignore any updates for a specific file by adding the following comment anywhere in the file:\n// ${IGNORE_UPDATE_KEYWORD}\n`,

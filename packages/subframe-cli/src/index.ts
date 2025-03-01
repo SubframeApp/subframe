@@ -1,8 +1,4 @@
-// Polyfill fetch and webcrypto
-import "isomorphic-fetch"
-import "isomorphic-webcrypto"
-
-import { program } from "@commander-js/extra-typings"
+import { program } from "commander"
 import { isDev } from "./common"
 import { initCommand } from "./init"
 import { syncCommand } from "./sync"
