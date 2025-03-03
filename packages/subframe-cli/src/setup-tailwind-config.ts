@@ -64,7 +64,28 @@ export async function updateTailwindContent(cwd: string, relPath: string) {
   }
 
   const raw = await readFile(configPath, "utf-8")
-  let output = await transformTailwindConfigContent(raw, relPath, configPath)
+  const output = await transformTailwindConfigContent(raw, relPath, configPath)
+
+  const subframePresetRequire = printNode(makeSubframeRequire(cwd, relPath))
+  const subframeContentGlob = makeSubframeContentGlob(cwd, relPath)
+  if (
+    output.indexOf(
+      // example: require("./<path-to-subframe>/tailwind.config.js")
+      subframePresetRequire,
+    ) !== -1 &&
+    output.indexOf(
+      // example: "./<path-to-subframe>/**/*.{tsx,ts,js,jsx}"
+      subframeContentGlob,
+    ) !== -1
+  ) {
+    printManualTailwindSteps(
+      cwd,
+      relPath,
+      "Subframe could not automatically configure your Tailwind config. To setup manually:",
+    )
+    return
+  }
+
   if (output === raw) {
     printManualTailwindSteps(
       cwd,
