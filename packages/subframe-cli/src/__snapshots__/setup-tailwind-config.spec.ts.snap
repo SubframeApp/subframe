@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`#transformTailwindConfig adds content to ESM-style file 1`] = `
-"/** @type {import('tailwindcss').Config} */
+"import subframeTailwindConfig from "./subframe-dir/path/tailwind.config";
+
+/** @type {import('tailwindcss').Config} */
 export default {
   "content": [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -18,12 +20,14 @@ export default {
     }
   },
   "plugins": [],
-    presets: [(await import("./subframe-dir/path/tailwind.config")).default]
+    presets: [subframeTailwindConfig]
 } satisfies Config"
 `;
 
 exports[`#transformTailwindConfig adds content to TypeScript file 1`] = `
 "import type { Config } from 'tailwindcss'
+import subframeTailwindConfig from "./subframe-dir/path/tailwind.config";
+
       export default {
   "content": [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -40,12 +44,14 @@ exports[`#transformTailwindConfig adds content to TypeScript file 1`] = `
     }
   },
   "plugins": [],
-          presets: [(await import("./subframe-dir/path/tailwind.config")).default as unknown as Partial<Config>]
+          presets: [subframeTailwindConfig as unknown as Partial<Config>]
     } satisfies Config"
 `;
 
 exports[`#transformTailwindConfig adds content to default NextJS tailwind config 1`] = `
-"/** @type {import('tailwindcss').Config} */
+"import subframeTailwindConfig from "./subframe-dir/path/tailwind.config";
+
+/** @type {import('tailwindcss').Config} */
   module.exports = {
   "content": [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -62,13 +68,15 @@ exports[`#transformTailwindConfig adds content to default NextJS tailwind config
     }
   },
   "plugins": [],
-      presets: [(await import("./subframe-dir/path/tailwind.config")).default]
+      presets: [subframeTailwindConfig]
 }
   "
 `;
 
 exports[`#transformTailwindConfig adds content to default Vite tailwind config with presets property 1`] = `
-"/** @type {import('tailwindcss').Config} */
+"import subframeTailwindConfig from "./subframe-dir/path/tailwind.config";
+
+/** @type {import('tailwindcss').Config} */
   module.exports = {
   "content": [
     "./index.html",
@@ -79,7 +87,7 @@ exports[`#transformTailwindConfig adds content to default Vite tailwind config w
     "extend": {}
   },
   "plugins": [],
-  "presets": [(await import("./subframe-dir/path/tailwind.config")).default]
+  "presets": [subframeTailwindConfig]
 }
   "
 `;

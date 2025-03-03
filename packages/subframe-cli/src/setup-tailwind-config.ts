@@ -1,4 +1,4 @@
-import { ObjectLiteralExpression, printNode, Project, QuoteKind, ScriptKind, SyntaxKind } from "ts-morph"
+import { ObjectLiteralExpression, printNode, Project, QuoteKind, ScriptKind, SourceFile, SyntaxKind } from "ts-morph"
 import { getTailwindConfigPath } from "./utils/get-tailwind-config"
 import { readFile, writeFile, mkdtemp } from "node:fs/promises"
 import { join, basename, extname } from "node:path"
@@ -98,9 +98,19 @@ export async function updateTailwindContent(cwd: string, relPath: string) {
   await writeFile(configPath, output, "utf-8")
 }
 
+export interface Preset {
+  importName: string
+  path: string
+}
+
 export async function transformTailwindConfigContent(input: string, relPath: string, configPath: string) {
   const content = [`./${relPath}/**/*.{tsx,ts,js,jsx}`]
-  const presets = [`./${relPath}/tailwind.config`]
+  const presets: Preset[] = [
+    {
+      importName: "subframeTailwindConfig",
+      path: `./${relPath}/tailwind.config`,
+    },
+  ]
 
   const { sourceFile, scriptKind } = await _createSourceFile(input, configPath)
   const configObject = sourceFile.getDescendantsOfKind(SyntaxKind.ObjectLiteralExpression).find((node) =>
@@ -116,8 +126,10 @@ export async function transformTailwindConfigContent(input: string, relPath: str
     return input
   }
 
-  addTailwindConfigContent(configObject, content)
-  addTailwindConfigPresets(configObject, presets, scriptKind)
+  await addTailwindConfigContent(configObject, content)
+  await addTailwindConfigPresets(configObject, presets, scriptKind)
+  await addTailwindConfigTypeImport(sourceFile, scriptKind)
+  await addPresetImports(sourceFile, presets)
 
   return sourceFile.getFullText()
 }
@@ -168,13 +180,55 @@ export async function addTailwindConfigContent(configObject: ObjectLiteralExpres
   return configObject
 }
 
-const importTemplateTs = (preset: string, quote: string) =>
-  `(await import(${quote}${preset}${quote})).default as unknown as Partial<Config>`
-const importTemplateJs = (preset: string, quote: string) => `(await import(${quote}${preset}${quote})).default`
+const tailwindTemplateTs = (configName: string) => `${configName} as unknown as Partial<Config>`
+const tailwindTemplateJs = (configName: string) => `${configName}`
+
+export async function addTailwindConfigTypeImport(sourceFile: SourceFile, scriptKind: ScriptKind) {
+  if (scriptKind !== ScriptKind.TS) {
+    return sourceFile
+  }
+  const configImport = sourceFile.getImportDeclaration((importDeclaration) => {
+    return (
+      importDeclaration.getNamedImports().some((namedImport) => namedImport.getName() === "Config") &&
+      importDeclaration.getModuleSpecifierValue() === "tailwindcss"
+    )
+  })
+
+  if (!configImport) {
+    sourceFile.addImportDeclaration({
+      moduleSpecifier: "tailwindcss",
+      namedImports: ["Config"],
+      isTypeOnly: true,
+    })
+  }
+
+  return sourceFile
+}
+
+export async function addPresetImports(sourceFile: SourceFile, presets: Preset[]) {
+  for (const preset of presets) {
+    if (
+      sourceFile.getImportDeclaration((importDeclaration) => {
+        return (
+          importDeclaration.getDefaultImport() !== null && importDeclaration.getModuleSpecifierValue() === preset.path
+        )
+      })
+    ) {
+      return sourceFile
+    }
+
+    sourceFile.addImportDeclaration({
+      moduleSpecifier: preset.path,
+      defaultImport: preset.importName,
+    })
+  }
+
+  return sourceFile
+}
 
 export async function addTailwindConfigPresets(
   configObject: ObjectLiteralExpression,
-  presets: string[],
+  presets: Preset[],
   scriptKind: ScriptKind,
 ) {
   const quoteChar = _getQuoteChar(configObject)
@@ -189,7 +243,7 @@ export async function addTailwindConfigPresets(
       name: "presets",
       initializer: `[${presets
         .map((preset) =>
-          scriptKind === ScriptKind.TS ? importTemplateTs(preset, quoteChar) : importTemplateJs(preset, quoteChar),
+          scriptKind === ScriptKind.TS ? tailwindTemplateTs(preset.importName) : tailwindTemplateJs(preset.importName),
         )
         .join(", ")}]`,
     }
@@ -206,8 +260,8 @@ export async function addTailwindConfigPresets(
       for (const presetsItem of presets) {
         const newValue =
           scriptKind === ScriptKind.TS
-            ? importTemplateTs(presetsItem, quoteChar)
-            : importTemplateJs(presetsItem, quoteChar)
+            ? tailwindTemplateTs(presetsItem.importName)
+            : tailwindTemplateJs(presetsItem.importName)
 
         // Does the presets array already contain the value?
         if (
