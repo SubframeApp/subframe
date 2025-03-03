@@ -102,15 +102,15 @@ export async function transformTailwindConfigContent(input: string, relPath: str
   const content = [`./${relPath}/**/*.{tsx,ts,js,jsx}`]
   const presets = [`./${relPath}/tailwind.config`]
 
-  const output = await _createSourceFile(input, configPath)
-  const { sourceFile, scriptKind } = output
-  const configObject = sourceFile
-    .getDescendantsOfKind(SyntaxKind.ObjectLiteralExpression)
-    .find((node) =>
-      node
-        .getProperties()
-        .some((property) => property.isKind(SyntaxKind.PropertyAssignment) && property.getName() === "content"),
-    )
+  const { sourceFile, scriptKind } = await _createSourceFile(input, configPath)
+  const configObject = sourceFile.getDescendantsOfKind(SyntaxKind.ObjectLiteralExpression).find((node) =>
+    node.getProperties().some((property) => {
+      const isProperty = property.isKind(SyntaxKind.PropertyAssignment)
+      if (!isProperty) return false
+      const isContent = property.getName() === "content" || property.getName() === '"content"'
+      return isProperty && isContent
+    }),
+  )
 
   if (!configObject) {
     return input
@@ -126,7 +126,8 @@ export async function addTailwindConfigContent(configObject: ObjectLiteralExpres
   const quoteChar = _getQuoteChar(configObject)
 
   // Update content property
-  const existingProperty = configObject.getProperty("content")
+  const existingProperty =
+    configObject.getProperty("content") ?? configObject.getProperty(`${quoteChar}content${quoteChar}`)
   if (!existingProperty) {
     // Doesn't exist, so add it
     const newProperty = {
@@ -179,7 +180,9 @@ export async function addTailwindConfigPresets(
   const quoteChar = _getQuoteChar(configObject)
 
   // Update presets property
-  const existingProperty = configObject.getProperty("presets")
+  const existingProperty =
+    configObject.getProperty("presets") ?? configObject.getProperty(`${quoteChar}presets${quoteChar}`)
+
   if (!existingProperty) {
     // Doesn't exist, so add it
     const newProperty = {
