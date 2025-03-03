@@ -1,8 +1,31 @@
-import { ObjectLiteralExpression, ScriptKind, SyntaxKind } from "ts-morph"
-import { _createSourceFile, _getQuoteChar } from "./updaters/update-tailwind-config"
+import { ObjectLiteralExpression, printNode, Project, QuoteKind, ScriptKind, SyntaxKind } from "ts-morph"
 import { getTailwindConfigPath } from "./utils/get-tailwind-config"
-import { readFile, writeFile } from "node:fs/promises"
-import { config } from "node:process"
+import { readFile, writeFile, mkdtemp } from "node:fs/promises"
+import { join, basename, extname } from "node:path"
+import { tmpdir } from "node:os"
+import { makeSubframeContentGlob, makeSubframeRequire } from "./transforms/tailwind"
+
+async function _createSourceFile(input: string, configPath: string) {
+  const dir = await mkdtemp(join(tmpdir(), "subframe-"))
+  const tempFile = join(dir, `subframe-${basename(configPath)}`)
+
+  const project = new Project({
+    compilerOptions: {},
+  })
+  const scriptKind = extname(configPath).endsWith("ts") ? ScriptKind.TS : ScriptKind.JS
+
+  const sourceFile = project.createSourceFile(tempFile, input, {
+    scriptKind,
+  })
+
+  return { sourceFile, scriptKind }
+}
+
+export function _getQuoteChar(configObject: ObjectLiteralExpression) {
+  return configObject.getFirstDescendantByKind(SyntaxKind.StringLiteral)?.getQuoteKind() === QuoteKind.Single
+    ? "'"
+    : '"'
+}
 
 function printManualTailwindSteps(cwd: string, subframeDirPath: string, prependText: string) {
   const subframePresetRequire = printNode(makeSubframeRequire(cwd, subframeDirPath))
@@ -28,7 +51,8 @@ module.exports = {
   console.log("\x1b[36m%s\x1b[0m", warningMessage)
 }
 
-export async function updateTailwindContent(cwd: string, relPath: string, content: string[], presets: string[]) {
+// Note(Chris): yoinked from: https://github.com/shadcn-ui/ui/blob/535a7d9220b5812846636f4ec51a4cfef6dec9cd/packages/shadcn/src/utils/updaters/update-tailwind-content.ts#L12
+export async function updateTailwindContent(cwd: string, relPath: string) {
   const configPath = await getTailwindConfigPath(cwd)
   if (!configPath) {
     printManualTailwindSteps(
@@ -40,7 +64,7 @@ export async function updateTailwindContent(cwd: string, relPath: string, conten
   }
 
   const raw = await readFile(configPath, "utf-8")
-  let output = await transformTailwindConfigContent(raw, content, presets, configPath)
+  let output = await transformTailwindConfigContent(raw, relPath, configPath)
   if (output === raw) {
     printManualTailwindSteps(
       cwd,
@@ -53,13 +77,12 @@ export async function updateTailwindContent(cwd: string, relPath: string, conten
   await writeFile(configPath, output, "utf-8")
 }
 
-export async function transformTailwindConfigContent(
-  input: string,
-  content: string[],
-  presets: string[],
-  configPath: string,
-) {
-  const { sourceFile, scriptKind } = await _createSourceFile(input, configPath)
+export async function transformTailwindConfigContent(input: string, relPath: string, configPath: string) {
+  const content = [`./${relPath}/**/*.{tsx,ts,js,jsx}`]
+  const presets = [`./${relPath}/tailwind.config`]
+
+  const output = await _createSourceFile(input, configPath)
+  const { sourceFile, scriptKind } = output
   const configObject = sourceFile
     .getDescendantsOfKind(SyntaxKind.ObjectLiteralExpression)
     .find((node) =>
