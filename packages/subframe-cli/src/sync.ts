@@ -88,7 +88,6 @@ export const syncCommand = new Command()
       await Promise.all(
         allAbsFilePaths.map(async (fileName) => {
           const file = await readFile(fileName)
-          console.log(`file: ${fileName}`)
 
           if (!isFileContentsWriteable(file)) {
             fileAbsPathsToIgnore.add(fileName)
