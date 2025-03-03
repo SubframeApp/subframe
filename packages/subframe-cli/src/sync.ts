@@ -1,9 +1,8 @@
 import { Command } from "commander"
 import { mkdir, readFile, writeFile, rm } from "node:fs/promises"
+import { dirname, join } from "node:path"
 import { oraPromise } from "ora"
-import { join, dirname } from "node:path"
 import { IGNORE_UPDATE_KEYWORD } from "shared/constants"
-import type { CodeGenFile } from "shared/types"
 import { getAccessToken } from "./access-token"
 import { apiSyncProject } from "./api-endpoints"
 import { cwd, localSyncSettings } from "./common"
@@ -71,52 +70,52 @@ export const syncCommand = new Command()
       await mkdir(rootPath, { recursive: true })
 
       /**
+       * Making map of files to write
+       */
+      const filesToWrite: { [absFilePath: string]: string } = {}
+      definitionFiles.forEach(({ file, folderName }) => {
+        filesToWrite[join(rootPath, folderName, file.fileName)] = file.contents
+      })
+      otherFiles.forEach((file) => {
+        filesToWrite[join(rootPath, file.fileName)] = file.contents
+      })
+
+      /**
        * Removing all existing files and making map of files to ignore
        */
       const allAbsFilePaths = await getAllAbsFilePaths(rootPath)
-      const fileNamesToIgnore = new Set<string>()
+      const fileAbsPathsToIgnore = new Set<string>()
       await Promise.all(
         allAbsFilePaths.map(async (fileName) => {
           const file = await readFile(fileName)
+          console.log(`file: ${fileName}`)
 
-          if (isFileContentsWriteable(file)) {
-            // when generating all, we clear out the directory
-            if (!components.length) {
-              return rm(fileName)
-            }
-          } else {
-            fileNamesToIgnore.add(fileName)
+          if (!isFileContentsWriteable(file)) {
+            fileAbsPathsToIgnore.add(fileName)
             console.log(`Ignoring file: ${fileName}`)
+          } else if (filesToWrite[fileName] && filesToWrite[fileName] === file.toString()) {
+            // No changes, so can ignore
+            fileAbsPathsToIgnore.add(fileName)
+          } else if (!components.length) {
+            // when generating all, we clear out the directory
+            return rm(fileName)
           }
         }),
       )
 
       /**
-       * Writing the new changes
+       * Writing the files with changes
        */
       await Promise.all(
-        definitionFiles.map(async ({ file, folderName }: { file: CodeGenFile; folderName: string }) => {
-          const absPath = join(rootPath, folderName, file.fileName)
-          if (fileNamesToIgnore.has(absPath)) {
+        Object.entries(filesToWrite).map(async ([absFilePath, contents]) => {
+          if (fileAbsPathsToIgnore.has(absFilePath)) {
             return null
           }
 
           // make the directory, if it doesn't exist yet
-          await mkdir(dirname(absPath), { recursive: true })
+          await mkdir(dirname(absFilePath), { recursive: true })
 
-          return writeFile(absPath, file.contents)
-        }),
-      )
-
-      // non-folder files
-      await Promise.all(
-        otherFiles.map((file: CodeGenFile) => {
-          const absPath = join(rootPath, file.fileName)
-          if (fileNamesToIgnore.has(absPath)) {
-            return null
-          }
-
-          return writeFile(absPath, file.contents)
+          return writeFile(absFilePath, contents)
         }),
       )
 
