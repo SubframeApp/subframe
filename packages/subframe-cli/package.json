@@ -41,7 +41,7 @@
     "xdg-app-paths": "8.3.0"
   },
   "devDependencies": {
-    "@babel/preset-typescript": "7.23.0",
+    "@babel/preset-typescript": "^7.23.0",
     "@rollup/plugin-commonjs": "24.1.0",
     "@rollup/plugin-json": "6.0.1",
     "@rollup/plugin-node-resolve": "15.2.2",
