@@ -22,6 +22,7 @@ import {
 import { getAccessToken, verifyTokenWithOra } from "./access-token"
 import { apiInitProject, apiUpdateImportAlias } from "./api-endpoints"
 import { localSyncSettings } from "./common"
+import { writeAuthConfig } from "./config"
 import { SUBFRAME_INIT_MESSAGE } from "./constants"
 import { installDependencies } from "./install-dependencies"
 import { makeCLILogger } from "./logger/logger-cli"
@@ -64,6 +65,8 @@ initCommand.action(async (opts) => {
       if (!isValid) {
         throw new Error("Failed to authenticate with provided token")
       }
+
+      await writeAuthConfig({ token: accessToken })
     } else {
       accessToken = await getAccessToken()
     }
