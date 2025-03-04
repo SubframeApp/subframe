@@ -36,7 +36,7 @@ export function isContentProperty(property: ts.ObjectLiteralElementLike): proper
 }
 
 export function makeSubframeContentGlob(cwd: string, subframeDirPath: string) {
-  return "./" + join(relative(cwd, subframeDirPath), "**", "*.{tsx,ts,js,jsx}")
+  return join(relative(cwd, subframeDirPath), "**", "*.{tsx,ts,js,jsx}")
 }
 
 export function hasSubframeContentGlob(globs: ts.ArrayLiteralExpression, cwd: string, subframeDirPath: string) {
@@ -51,12 +51,12 @@ export function hasSubframeContentGlob(globs: ts.ArrayLiteralExpression, cwd: st
   })
 }
 
-function getSuframeTailwindPresetPath(cwd: string, subframeDirPath: string): string {
-  return "./" + join(relative(cwd, subframeDirPath), "tailwind.config.js")
+function getSubframeTailwindPresetPath(cwd: string, subframeDirPath: string): string {
+  return join(relative(cwd, subframeDirPath), "tailwind.config.js")
 }
 
 export function makeSubframeRequire(cwd: string, subframeDirPath: string) {
-  const relativeImportPath = "./" + join(relative(cwd, subframeDirPath), "tailwind.config.js")
+  const relativeImportPath = getSubframeTailwindPresetPath(cwd, subframeDirPath)
 
   return ts.factory.createCallExpression(
     ts.factory.createIdentifier("require"),
@@ -70,7 +70,7 @@ export function makeSubframeRequire(cwd: string, subframeDirPath: string) {
  * requires the subframe's tailwind.config.js file.
  */
 export function hasSubframeRequire(presets: ts.ArrayLiteralExpression, cwd: string, subframeDirPath: string) {
-  const subframeRequirePath = getSuframeTailwindPresetPath(cwd, subframeDirPath)
+  const subframeRequirePath = getSubframeTailwindPresetPath(cwd, subframeDirPath)
 
   return presets.elements.some((element) => {
     if (
