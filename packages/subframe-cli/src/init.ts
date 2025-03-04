@@ -2,9 +2,6 @@ import { Command, Option } from "commander"
 import { writeFile } from "node:fs/promises"
 import { join } from "node:path"
 import { oraPromise } from "ora"
-import { getAccessToken, verifyTokenWithOra } from "./access-token"
-import { apiInitProject, apiUpdateImportAlias } from "./api-endpoints"
-import { localSyncSettings } from "./common"
 import {
   COMMAND_ALIAS_KEY,
   COMMAND_ALIAS_KEY_SHORT,
@@ -21,8 +18,11 @@ import {
   COMMAND_TAILWIND_KEY,
   COMMAND_TAILWIND_KEY_SHORT,
   COMMAND_TEMPLATE_KEY,
-  SUBFRAME_INIT_MESSAGE,
-} from "./constants"
+} from "shared/constants"
+import { getAccessToken, verifyTokenWithOra } from "./access-token"
+import { apiInitProject, apiUpdateImportAlias } from "./api-endpoints"
+import { localSyncSettings } from "./common"
+import { SUBFRAME_INIT_MESSAGE } from "./constants"
 import { installDependencies } from "./install-dependencies"
 import { makeCLILogger } from "./logger/logger-cli"
 import { prepareProject } from "./setup/prepare-project"
