@@ -2,6 +2,7 @@
   "name": "subframe",
   "private": true,
   "scripts": {
+    "format": "turbo run format",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "ts": "turbo run ts",

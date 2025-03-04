@@ -12,6 +12,9 @@
     "update-version": "npm version minor",
     "minor-publish": "npm run build-for-publish && npm run publish-to-npm",
     "publish-to-npm": "npm publish --access public",
+    "format": "prettier --write \"**/*.{ts,tsx}\"",
+    "lint": "eslint \"**/*.{ts,tsx}\"",
+    "lint:fix": "eslint --fix \"**/*.{ts,tsx}\"",
     "ts": "tsc --noEmit",
     "ts:watch": "tsc --watch --incremental --noEmit"
   },
