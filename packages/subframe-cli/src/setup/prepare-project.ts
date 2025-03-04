@@ -1,13 +1,13 @@
 import degit from "degit"
 import { readFile, writeFile } from "node:fs/promises"
-import ora from "ora"
 import { join, resolve } from "node:path"
+import ora from "ora"
 import prompts from "prompts"
 import { cwd } from "../common"
 import { CLILogger } from "../logger/logger-cli"
 import { highlight } from "../output/format"
-import { tryGitInit } from "../utils/git"
 import { exists } from "../utils/fs"
+import { tryGitInit } from "../utils/git"
 
 async function cloneStarterKit({ name, type }: { name: string; type: "astro" | "vite" | "nextjs" }) {
   const spinner = ora(`Cloning starter kit...`).start()

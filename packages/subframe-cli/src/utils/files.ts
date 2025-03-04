@@ -1,6 +1,6 @@
 import { readdir } from "node:fs/promises"
-import { IGNORE_UPDATE_KEYWORD } from "shared/constants"
 import { join } from "node:path"
+import { IGNORE_UPDATE_KEYWORD } from "shared/constants"
 import { isDirectory } from "./fs"
 
 export function isFileContentsWriteable(contents: string | Buffer): boolean {
