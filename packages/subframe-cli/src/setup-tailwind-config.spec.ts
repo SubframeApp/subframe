@@ -1,6 +1,13 @@
 import { Project, SourceFile } from "ts-morph"
 import { transformTailwindConfigFile } from "./setup-tailwind-config"
 
+// Note(Chris): Required for jest to not crash when running tests:
+jest.mock("ora", () => () => {
+  const start = jest.fn()
+  const result = { start }
+  return result
+})
+
 // Taken from Next13's default tailwind config
 const DEFAULT_TAILWIND_CONFIG = {
   content: [
