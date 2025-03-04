@@ -1,0 +1,39 @@
+name: Publish CLI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest-l
+    permissions:
+      contents: write
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.20.6"
+          cache: "npm"
+          registry-url: "https://registry.npmjs.org"
+      - name: Install dependencies
+        run: npm ci --workspace=@subframe/cli
+      - name: Bump version
+        run: npm run update-version --workspace=@subframe/cli
+      - name: Build
+        run: npm run build-for-publish --workspace=@subframe/cli
+        env:
+          SEGMENT_WRITE_KEY: ${{ secrets.SEGMENT_WRITE_KEY }}
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Publish CLI
+      - name: Publish
+        run: npm run publish-to-npm --workspace=@subframe/cli
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

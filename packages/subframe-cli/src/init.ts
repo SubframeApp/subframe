@@ -1,11 +1,28 @@
-import { Command, Option } from "@commander-js/extra-typings"
-import { oraPromise } from "ora"
+import { Command, Option } from "commander"
 import { writeFile } from "node:fs/promises"
 import { join } from "node:path"
+import { oraPromise } from "ora"
 import { getAccessToken, verifyTokenWithOra } from "./access-token"
 import { apiInitProject, apiUpdateImportAlias } from "./api-endpoints"
 import { localSyncSettings } from "./common"
-import { SUBFRAME_INIT_MESSAGE } from "./constants"
+import {
+  COMMAND_ALIAS_KEY,
+  COMMAND_ALIAS_KEY_SHORT,
+  COMMAND_AUTH_TOKEN_KEY,
+  COMMAND_AUTH_TOKEN_KEY_SHORT,
+  COMMAND_DIR_KEY,
+  COMMAND_DIR_KEY_SHORT,
+  COMMAND_INSTALL_KEY,
+  COMMAND_INSTALL_KEY_SHORT,
+  COMMAND_NAME_KEY,
+  COMMAND_NAME_KEY_SHORT,
+  COMMAND_PROJECT_ID_KEY,
+  COMMAND_PROJECT_ID_KEY_SHORT,
+  COMMAND_TAILWIND_KEY,
+  COMMAND_TAILWIND_KEY_SHORT,
+  COMMAND_TEMPLATE_KEY,
+  SUBFRAME_INIT_MESSAGE,
+} from "./constants"
 import { installDependencies } from "./install-dependencies"
 import { makeCLILogger } from "./logger/logger-cli"
 import { prepareProject } from "./setup/prepare-project"
@@ -16,20 +33,23 @@ import { mkdirIfNotExist } from "./utils/fs"
 export const initCommand = new Command()
   .name("init")
   .description("Initializes Subframe in your local project or sets up a new one for you")
-  .option("-z, --auth-token <auth-token>", "auth token to use")
+  .option(`${COMMAND_AUTH_TOKEN_KEY_SHORT}, ${COMMAND_AUTH_TOKEN_KEY} <auth-token>`, "auth token to use")
   .addOption(
-    new Option("--template <template>", "create a new project with a specific template").choices([
+    new Option(`${COMMAND_TEMPLATE_KEY} <template>`, "create a new project with a specific template").choices([
       "vite",
       "nextjs",
       "astro",
     ]),
   )
-  .option("-n, --name <name>", "name of the project to create")
-  .option("-d, --dir <path>", "directory you want to sync your Subframe components to")
-  .option("-p, --projectId <projectId>", "project id to run sync with")
-  .option("-i, --install", "install dependencies after initializing")
-  .option("-t, --tailwind", "setup tailwind config")
-  .option("-a, --alias <alias>", "import alias to use")
+  .option(`${COMMAND_NAME_KEY_SHORT}, ${COMMAND_NAME_KEY} <name>`, "name of the project to create")
+  .option(
+    `${COMMAND_DIR_KEY_SHORT}, ${COMMAND_DIR_KEY} <path>`,
+    "directory you want to sync your Subframe components to",
+  )
+  .option(`${COMMAND_PROJECT_ID_KEY_SHORT}, ${COMMAND_PROJECT_ID_KEY} <projectId>`, "project id to run sync with")
+  .option(`${COMMAND_INSTALL_KEY_SHORT}, ${COMMAND_INSTALL_KEY}`, "install dependencies after initializing")
+  .option(`${COMMAND_TAILWIND_KEY_SHORT}, ${COMMAND_TAILWIND_KEY}`, "setup tailwind config")
+  .option(`${COMMAND_ALIAS_KEY_SHORT}, ${COMMAND_ALIAS_KEY} <alias>`, "import alias to use")
 
 initCommand.action(async (opts) => {
   const cliLogger = makeCLILogger()
@@ -40,9 +60,11 @@ initCommand.action(async (opts) => {
     const truncatedProjectId = opts.projectId
     let accessToken = opts.authToken
     if (accessToken) {
-      await verifyTokenWithOra(accessToken)
-      throw new Error("Failed to authenticate with provided token")
-    } else if (!accessToken) {
+      const isValid = await verifyTokenWithOra(accessToken)
+      if (!isValid) {
+        throw new Error("Failed to authenticate with provided token")
+      }
+    } else {
       accessToken = await getAccessToken()
     }
 
@@ -71,8 +93,6 @@ initCommand.action(async (opts) => {
 
     // strip /* which is used for tsconfig.json
     const importAlias = rawImportAlias.endsWith("/*") ? rawImportAlias.slice(0, -2) : rawImportAlias
-
-    await installDependencies(projectPath, opts)
 
     // Ensure the root folder exists.
     const rootPath = join(projectPath, directory)
@@ -106,7 +126,12 @@ initCommand.action(async (opts) => {
       }
     }
 
-    await setupTailwindConfig(projectPath, rootPath)
+    await setupTailwindConfig(projectPath, rootPath, opts)
+
+    // When setting up tailwind config on vite, the changes breaks vite (throws an error about preflight.css)
+    // This is easily remedied by any npm install command. Thus, if we install dependencies after tailwind config is setup,
+    // then we can avoid this issue.
+    await installDependencies(projectPath, opts)
 
     console.timeEnd(SUBFRAME_INIT_MESSAGE)
   } catch (err: any) {
