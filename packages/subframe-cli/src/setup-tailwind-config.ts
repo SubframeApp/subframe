@@ -40,8 +40,8 @@ export async function setupTailwindConfig(cwd: string, subframeDirPath: string, 
 
   const project = new Project({ compilerOptions: { allowJs: true } })
 
-  project.addDirectoryAtPathIfExists(join(cwd, "tailwind.config.ts"))
-  project.addDirectoryAtPathIfExists(join(cwd, "tailwind.config.js"))
+  project.addSourceFileAtPathIfExists(join(cwd, "tailwind.config.ts"))
+  project.addSourceFileAtPathIfExists(join(cwd, "tailwind.config.js"))
 
   const tailwindConfig =
     project.getSourceFile(join(cwd, "tailwind.config.ts")) ?? project.getSourceFile(join(cwd, "tailwind.config.js"))
