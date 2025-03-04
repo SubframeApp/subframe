@@ -51,7 +51,7 @@ export async function setupTailwindConfig(cwd: string, subframeDirPath: string, 
     printManualTailwindSteps(
       cwd,
       subframeDirPath,
-      "Subframe could not find a tailwind.config.js file. If you use a .ts file, you'll need to configure it manually:",
+      "Subframe could not find a tailwind.config.js or tailwind.config.ts file:",
     )
     return
   }
