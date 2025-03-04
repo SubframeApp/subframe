@@ -4,69 +4,113 @@ description: "Getting started quickly with Subframe"
 icon: rocket
 ---
 
-<img
-  className="block dark:hidden"
-  src="/images/hero-light.png"
-  alt="Hero Light"
-/>
-<img
-  className="hidden dark:block"
-  src="/images/hero-dark.png"
-  alt="Hero Dark"
-/>
+## Getting Started quickly with `@subframe/cli`
 
-## Setting up
+If you don't yet have a repository set up for your code, you can run the Subframe CLI to initialize a new project with one of our starter kits.
 
-The first step to world-class documentation is setting up your editing environments.
+<CodeGroup>
+  ```bash npm
+  npx @subframe/cli@latest init
+  ```
+  ```bash yarn
+  yarn @subframe/cli@latest init
+  ```
+  ```bash pnpm
+  pnpm @subframe/cli@latest init
+  ```
+  ```bash bun
+  bunx @subframe/cli@latest init
+  ```
+</CodeGroup>
 
-<CardGroup cols={2}>
-  <Card
-    title="Edit Your Docs"
-    icon="pen-to-square"
-    href="https://mintlify.com/docs/quickstart"
-  >
-    Get your docs set up locally for easy development
+## Setting up with a template
+
+We currently offer templates for NextJS, Vite and Astro. 
+
+<Tabs>
+  <Tab title="NextJS">
+    <CodeGroup>
+      ```bash npm
+      npx @subframe/cli@latest init -- --template nextjs
+      ```
+      ```bash yarn
+      yarn @subframe/cli@latest init --template nextjs
+      ```
+      ```bash pnpm
+      pnpm @subframe/cli@latest init --template nextjs
+      ```
+      ```bash bun
+      bunx @subframe/cli@latest init --template nextjs
+      ```
+    </CodeGroup>
+  </Tab>
+
+  <Tab title="Vite">
+    <CodeGroup>
+      ```bash npm
+      npx @subframe/cli@latest init -- --template vite
+      ```
+      ```bash yarn
+      yarn @subframe/cli@latest init --template vite
+      ```
+      ```bash pnpm
+      pnpm @subframe/cli@latest init --template vite
+      ```
+      ```bash bun
+      bunx @subframe/cli@latest init --template vite
+      ```
+    </CodeGroup>
+  </Tab>
+
+  <Tab title="Astro">
+    <CodeGroup>
+      ```bash npm
+      npx @subframe/cli@latest init -- --template astro
+      ```
+      ```bash yarn
+      yarn @subframe/cli@latest init --template astro
+      ```
+      ```bash pnpm
+      pnpm @subframe/cli@latest init --template astro
+      ```
+      ```bash bun
+      bunx @subframe/cli@latest init --template astro
+      ```
+    </CodeGroup>
+  </Tab>
+</Tabs>
+
+If you already have repository set up that you want to set up your Subframe project in, you can just run the following command in your project directory:
+
+<CodeGroup>
+  ```bash npm
+  npx @subframe/cli@latest init -- --template astro
+  ```
+  ```bash yarn
+  yarn @subframe/cli@latest init --template astro
+  ```
+  ```bash pnpm
+  pnpm @subframe/cli@latest init --template astro
+  ```
+  ```bash bun
+  bunx @subframe/cli@latest init --template astro
+  ```
+</CodeGroup>
+
+Should you have any issues with that approach, please have a look at the manual installation guide for your specific Framework.
+
+## Manual installation guides
+<CardGroup>
+  <Card title="Vite" icon="link" href="/for-developers/getting-started/manual-installation/vite">
+    Manual installation guide for Vite
   </Card>
-  <Card
-    title="Preview Changes"
-    icon="image"
-    href="https://mintlify.com/docs/development"
-  >
-    Preview your changes before you push to make sure they're perfect
+  <Card title="NextJS" icon="link" href="/for-developers/getting-started/manual-installation/nextjs">
+    Manual installation guide for NextJS
   </Card>
-</CardGroup>
-
-## Make it yours
-
-Update your docs to your brand and add valuable content for the best user conversion.
-
-<CardGroup cols={2}>
-  <Card
-    title="Customize Style"
-    icon="palette"
-    href="https://mintlify.com/docs/settings/global"
-  >
-    Customize your docs to your company's colors and brands
+  <Card title="Astro" icon="link" href="/for-developers/getting-started/manual-installation/astro">
+    Manual installation guide for Astro
   </Card>
-  <Card
-    title="Reference APIs"
-    icon="code"
-    href="https://mintlify.com/docs/api-playground/openapi"
-  >
-    Automatically generate endpoints from an OpenAPI spec
-  </Card>
-  <Card
-    title="Add Components"
-    icon="screwdriver-wrench"
-    href="https://mintlify.com/docs/content/components/accordions"
-  >
-    Build interactive features and designs to guide your users
-  </Card>
-  <Card
-    title="Get Inspiration"
-    icon="stars"
-    href="https://mintlify.com/customers"
-  >
-    Check out our showcase of our favorite documentation
+  <Card title="Custom" icon="link" href="/for-developers/getting-started/manual-installation/manual">
+    Manual installation guide for different projects
   </Card>
 </CardGroup>

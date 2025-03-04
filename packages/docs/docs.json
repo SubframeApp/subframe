@@ -43,10 +43,10 @@
               {
                 "group": "Manual Installation",
                 "pages": [
+                  "for-developers/getting-started/manual-installation/overview",
                   "for-developers/getting-started/manual-installation/nextjs",
                   "for-developers/getting-started/manual-installation/vite",
                   "for-developers/getting-started/manual-installation/astro",
-                  "for-developers/getting-started/manual-installation/monorepo",
                   "for-developers/getting-started/manual-installation/manual"
                 ]
               }
