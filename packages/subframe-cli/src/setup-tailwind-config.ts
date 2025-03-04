@@ -1,17 +1,9 @@
 import { join } from "node:path"
 import ora from "ora"
 import prompts from "prompts"
-import { printNode, Project, SourceFile, ts } from "ts-morph"
+import { ObjectLiteralExpression, printNode, Project, QuoteKind, SourceFile, SyntaxKind } from "ts-morph"
 import { abortOnState } from "./sync-helpers"
-import { getExpressionForDefaultExport, isDefaultExport } from "./transforms/is-export"
-import {
-  hasSubframeContentGlob,
-  hasSubframeRequire,
-  isContentProperty,
-  isPresetsProperty,
-  makeSubframeContentGlob,
-  makeSubframeRequire,
-} from "./transforms/tailwind"
+import { makeSubframeContentGlob, makeSubframeRequire } from "./transforms/tailwind"
 
 function printManualTailwindSteps(cwd: string, subframeDirPath: string, prependText: string) {
   const subframePresetRequire = printNode(makeSubframeRequire(cwd, subframeDirPath))
@@ -36,6 +28,11 @@ module.exports = {
   // makes the warning message cyan via https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
   console.log("\x1b[36m%s\x1b[0m", warningMessage)
 }
+function _getQuoteChar(configObject: ObjectLiteralExpression) {
+  return configObject.getFirstDescendantByKind(SyntaxKind.StringLiteral)?.getQuoteKind() === QuoteKind.Single
+    ? "'"
+    : '"'
+}
 
 export async function setupTailwindConfig(cwd: string, subframeDirPath: string, opts: { tailwind?: boolean }) {
   const subframePresetRequireAST = makeSubframeRequire(cwd, subframeDirPath)
@@ -43,16 +40,18 @@ export async function setupTailwindConfig(cwd: string, subframeDirPath: string, 
 
   const project = new Project({ compilerOptions: { allowJs: true } })
 
+  project.addSourceFileAtPathIfExists(join(cwd, "tailwind.config.ts"))
   project.addSourceFileAtPathIfExists(join(cwd, "tailwind.config.js"))
 
-  const tailwindConfig = project.getSourceFile(join(cwd, "tailwind.config.js"))
+  const tailwindConfig =
+    project.getSourceFile(join(cwd, "tailwind.config.ts")) ?? project.getSourceFile(join(cwd, "tailwind.config.js"))
 
   /** no Tailwind config, let's skip this step then */
   if (!tailwindConfig) {
     printManualTailwindSteps(
       cwd,
       subframeDirPath,
-      "Subframe could not find a tailwind.config.js file. If you use a .ts file, you'll need to configure it manually:",
+      "Subframe could not find a tailwind.config.js or tailwind.config.ts file. To configure it manually:",
     )
     return
   }
@@ -99,92 +98,25 @@ export async function setupTailwindConfig(cwd: string, subframeDirPath: string, 
 // helper function that's exported for testing
 // NOTE: mutates tailwindConfig file in place
 export function transformTailwindConfigFile(tailwindConfig: SourceFile, cwd: string, subframeDirPath: string) {
+  const initialText = tailwindConfig.print()
+
+  const configObject = tailwindConfig.getDescendantsOfKind(SyntaxKind.ObjectLiteralExpression)[0]
+  if (!configObject) {
+    printManualTailwindSteps(
+      cwd,
+      subframeDirPath,
+      "Subframe could not find a valid Tailwind config object. To setup manually:",
+    )
+    return
+  }
+
   const subframePresetRequireAST = makeSubframeRequire(cwd, subframeDirPath)
   const subframeContentGlob = makeSubframeContentGlob(cwd, subframeDirPath)
 
-  const initialText = tailwindConfig.print()
+  const subframePresetAstText = printNode(subframePresetRequireAST)
 
-  tailwindConfig.transform((traversal) => {
-    const node = traversal.visitChildren()
-
-    if (isDefaultExport(node)) {
-      const exportedExpression = getExpressionForDefaultExport(node)
-
-      if (
-        // assert that the default export is an object literal:
-        !ts.isObjectLiteralExpression(exportedExpression)
-      ) {
-        return node
-      }
-
-      const properties = exportedExpression.properties
-        /** transform the content and presets properties */
-        .map((property) => {
-          if (isContentProperty(property) && !hasSubframeContentGlob(property.initializer, cwd, subframeDirPath)) {
-            return traversal.factory.updatePropertyAssignment(
-              property,
-              property.name,
-              traversal.factory.createArrayLiteralExpression([
-                ...property.initializer.elements,
-                traversal.factory.createStringLiteral(subframeContentGlob),
-              ]),
-            )
-          }
-
-          if (isPresetsProperty(property) && !hasSubframeRequire(property.initializer, cwd, subframeDirPath)) {
-            return traversal.factory.updatePropertyAssignment(
-              property,
-              property.name,
-              traversal.factory.createArrayLiteralExpression([
-                ...property.initializer.elements,
-                subframePresetRequireAST,
-              ]),
-            )
-          }
-
-          return property
-        })
-
-      // if there's no content property, add it
-      if (properties.findIndex(isContentProperty) === -1) {
-        properties.push(
-          traversal.factory.createPropertyAssignment(
-            traversal.factory.createIdentifier("content"),
-            traversal.factory.createArrayLiteralExpression([
-              traversal.factory.createStringLiteral(subframeContentGlob),
-            ]),
-          ),
-        )
-      }
-
-      // if there's no presets property, add it
-      if (properties.findIndex(isPresetsProperty) === -1) {
-        properties.push(
-          traversal.factory.createPropertyAssignment(
-            traversal.factory.createIdentifier("presets"),
-            traversal.factory.createArrayLiteralExpression([subframePresetRequireAST]),
-          ),
-        )
-      }
-
-      if (ts.isExportAssignment(node)) {
-        return traversal.factory.updateExportAssignment(
-          node,
-          node.modifiers,
-          traversal.factory.updateObjectLiteralExpression(exportedExpression, properties),
-        )
-      }
-
-      return traversal.factory.updateBinaryExpression(
-        node,
-        node.left,
-        node.operatorToken,
-        traversal.factory.updateObjectLiteralExpression(exportedExpression, properties),
-      )
-    }
-
-    return node
-  })
+  addTailwindConfigContent(configObject, subframeContentGlob)
+  addTailwindConfigPresets(configObject, subframePresetAstText)
 
   /** config after transformations */
   const finalText = tailwindConfig.print()
@@ -211,4 +143,88 @@ export function transformTailwindConfigFile(tailwindConfig: SourceFile, cwd: str
   tailwindConfig.formatText({
     indentSize: 2,
   })
+}
+
+// Yoinked from: https://github.com/shadcn-ui/ui/blob/main/packages/shadcn/src/utils/updaters/update-tailwind-content.ts#L75
+async function addTailwindConfigContent(configObject: ObjectLiteralExpression, content: string) {
+  const quoteChar = _getQuoteChar(configObject)
+  const existingProperty = configObject
+    .getDescendantsOfKind(SyntaxKind.PropertyAssignment)
+    .find((property) => property.getName().includes("content"))
+
+  if (!existingProperty) {
+    const newProperty = {
+      name: "content",
+      initializer: `[${quoteChar}${content}${quoteChar}]`,
+    }
+    configObject.addPropertyAssignment(newProperty)
+
+    return configObject
+  }
+
+  if (existingProperty.isKind(SyntaxKind.PropertyAssignment)) {
+    const initializer = existingProperty.getInitializer()
+
+    // If property is an array, append.
+    if (initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
+      const newValue = `${quoteChar}${content}${quoteChar}`
+
+      // Check if the array already contains the value.
+      if (
+        initializer
+          .getElements()
+          .map((element) => element.getText())
+          .includes(newValue)
+      ) {
+        return configObject
+      }
+
+      initializer.addElement(newValue)
+    }
+
+    return configObject
+  }
+
+  return configObject
+}
+
+async function addTailwindConfigPresets(configObject: ObjectLiteralExpression, presets: string) {
+  const existingProperty = configObject
+    .getDescendantsOfKind(SyntaxKind.PropertyAssignment)
+    .find((property) => property.getName().includes("presets"))
+
+  if (!existingProperty) {
+    const newProperty = {
+      name: "presets",
+      initializer: `[${presets}]`,
+    }
+    configObject.addPropertyAssignment(newProperty)
+
+    return configObject
+  }
+
+  if (existingProperty.isKind(SyntaxKind.PropertyAssignment)) {
+    const initializer = existingProperty.getInitializer()
+
+    // If property is an array, append.
+    if (initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
+      const newValue = presets
+
+      // Check if the array already contains the value.
+      if (
+        initializer
+          .getElements()
+          .map((element) => element.getText())
+          .includes(newValue)
+      ) {
+        return configObject
+      }
+
+      initializer.addElement(newValue)
+    }
+
+    return configObject
+  }
+
+  return configObject
 }
