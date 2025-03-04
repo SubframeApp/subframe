@@ -1,5 +1,5 @@
 import { Command } from "commander"
-import { mkdir, readFile, writeFile, rm } from "node:fs/promises"
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises"
 import { dirname, join } from "node:path"
 import { oraPromise } from "ora"
 import { IGNORE_UPDATE_KEYWORD } from "shared/constants"

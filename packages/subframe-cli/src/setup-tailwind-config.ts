@@ -1,9 +1,12 @@
 import { ObjectLiteralExpression, printNode, Project, QuoteKind, ScriptKind, SourceFile, SyntaxKind } from "ts-morph"
 import { getTailwindConfigPath } from "./utils/get-tailwind-config"
 import { readFile, writeFile, mkdtemp } from "node:fs/promises"
+import prompts from "prompts"
 import { join, basename, extname } from "node:path"
 import { tmpdir } from "node:os"
 import { makeSubframeContentGlob, makeSubframeRequire } from "./transforms/tailwind"
+import ora from "ora"
+import { abortOnState } from "./sync-helpers"
 
 async function _createSourceFile(input: string, configPath: string) {
   const dir = await mkdtemp(join(tmpdir(), "subframe-"))
@@ -52,7 +55,7 @@ module.exports = {
 }
 
 // Note(Chris): yoinked from: https://github.com/shadcn-ui/ui/blob/535a7d9220b5812846636f4ec51a4cfef6dec9cd/packages/shadcn/src/utils/updaters/update-tailwind-content.ts#L12
-export async function updateTailwindContent(cwd: string, relPath: string) {
+export async function updateTailwindContent(cwd: string, relPath: string, opts: { tailwind?: boolean }) {
   const configPath = await getTailwindConfigPath(cwd)
   if (!configPath) {
     printManualTailwindSteps(
@@ -60,6 +63,20 @@ export async function updateTailwindContent(cwd: string, relPath: string) {
       relPath,
       "Subframe could not find a tailwind configuration file. You might need to configure it manually:",
     )
+    return
+  }
+
+  prompts.override({
+    updateTailwindConfig: opts.tailwind,
+  })
+  const response = await prompts({
+    type: "confirm",
+    name: "updateTailwindConfig",
+    initial: true,
+    message: "Do you want Subframe to configure your Tailwind config?",
+    onState: abortOnState,
+  })
+  if (!response.updateTailwindConfig) {
     return
   }
 
@@ -86,6 +103,7 @@ export async function updateTailwindContent(cwd: string, relPath: string) {
     return
   }
 
+  const spinner = ora("Updating Tailwind config").start()
   if (output === raw) {
     printManualTailwindSteps(
       cwd,
@@ -96,6 +114,7 @@ export async function updateTailwindContent(cwd: string, relPath: string) {
   }
 
   await writeFile(configPath, output, "utf-8")
+  spinner.succeed("Tailwind config updated")
 }
 
 export interface Preset {
