@@ -80,30 +80,24 @@ export async function updateTailwindContent(cwd: string, relPath: string, opts: 
     return
   }
 
-  const raw = await readFile(configPath, "utf-8")
-  const output = await transformTailwindConfigContent(raw, relPath, configPath)
-
   const subframePresetRequire = printNode(makeSubframeRequire(cwd, relPath))
   const subframeContentGlob = makeSubframeContentGlob(cwd, relPath)
+  const raw = await readFile(configPath, "utf-8")
   if (
-    output.indexOf(
+    raw.indexOf(
       // example: require("./<path-to-subframe>/tailwind.config.js")
       subframePresetRequire,
     ) !== -1 &&
-    output.indexOf(
+    raw.indexOf(
       // example: "./<path-to-subframe>/**/*.{tsx,ts,js,jsx}"
       subframeContentGlob,
     ) !== -1
   ) {
-    printManualTailwindSteps(
-      cwd,
-      relPath,
-      "Subframe could not automatically configure your Tailwind config. To setup manually:",
-    )
     return
   }
 
   const spinner = ora("Updating Tailwind config").start()
+  const output = await transformTailwindConfigContent(raw, relPath, configPath)
   if (output === raw) {
     printManualTailwindSteps(
       cwd,
@@ -112,7 +106,6 @@ export async function updateTailwindContent(cwd: string, relPath: string, opts: 
     )
     return
   }
-
   await writeFile(configPath, output, "utf-8")
   spinner.succeed("Tailwind config updated")
 }
