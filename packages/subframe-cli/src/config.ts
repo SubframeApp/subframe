@@ -32,6 +32,6 @@ export async function readAuthConfig(): Promise<AuthConfig | null> {
 }
 
 export async function writeAuthConfig(authConfig: AuthConfig): Promise<void> {
-  mkdir(SUBFRAME_DIRECTORY, { recursive: true })
-  writeFile(SUBFRAME_AUTH_CONFIG_PATH, JSON.stringify(authConfig, null, 2))
+  await mkdir(SUBFRAME_DIRECTORY, { recursive: true })
+  await writeFile(SUBFRAME_AUTH_CONFIG_PATH, JSON.stringify(authConfig, null, 2))
 }
