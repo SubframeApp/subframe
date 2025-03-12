@@ -6,9 +6,11 @@
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/cjs/index.d.ts",
+  "sideEffects": false,
   "scripts": {
     "build": "rm -rf dist/ && rollup -c --bundleConfigAsCjs",
     "build:icons": "npx @svgr/cli --icon --typescript --filename-case kebab -d ./src/assets/icons/final ./src/assets/icons/raw --no-svgo",
+    "build:iconnames": "node ./scripts/generateIconNames.mjs",
     "dev": "rollup -c --bundleConfigAsCjs --watch",
     "update-version": "npm version minor",
     "build-for-publish": "npm run build",
@@ -27,13 +29,18 @@
     "@babel/preset-typescript": "7.24.1",
     "@rollup/plugin-commonjs": "25.0.7",
     "@rollup/plugin-node-resolve": "15.2.3",
+    "@svgr/cli": "^8.1.0",
+    "@types/dashify": "^1.0.3",
     "@types/jest": "29.5.14",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "babel-jest": "29.7.0",
+    "camelcase": "^8.0.0",
     "jest": "29.7.0",
     "postcss": "8.4.21",
+    "prettier": "^3.5.3",
     "rollup": "4.2.0",
+    "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-peer-deps-external": "2.2.4",
     "rollup-plugin-postcss": "4.0.2",
     "rollup-plugin-preserve-directives": "0.4.0",
@@ -59,6 +66,7 @@
     "@radix-ui/react-visually-hidden": "1.1.1",
     "classnames": "2.5.1",
     "copy-to-clipboard": "3.3.3",
+    "dashify": "^2.0.0",
     "react-day-picker": "9.0.4",
     "react-virtualized-auto-sizer": "1.0.25",
     "recharts": "2.15.1",
@@ -69,6 +77,8 @@
     "@rollup/rollup-linux-x64-gnu": "4.13.0"
   },
   "peerDependencies": {
+    "@types/react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+    "@types/react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
     "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
     "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
   }

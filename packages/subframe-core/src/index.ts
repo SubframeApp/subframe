@@ -22,12 +22,14 @@ import { Skeleton } from "./components/skeleton"
 import * as CopyToClipboard from "./components/copy-to-clipboard"
 import * as Switch from "./components/switch"
 import { Loader } from "./components/loader"
+import type { IconName } from "./generated/iconNames"
 import { Icon } from "./components/icon"
 import * as Dialog from "./components/dialog"
 import * as Drawer from "./components/drawer"
 import * as FullScreenDialog from "./components/fullscreen-dialog"
 import * as ToggleGroup from "./components/toggle-group"
 import * as Collapsible from "./components/collapsible"
+import { SubframeProvider } from "./components/subframe-context"
 
 // utilities
 import { Text } from "./utilities/text"
@@ -53,15 +55,21 @@ export { CopyToClipboard }
 export { Switch }
 export { Loader }
 export { Icon }
-export type { IconName } from "./components/icon"
+export type { IconName }
 export { Dialog }
 export { Drawer }
 export { FullScreenDialog }
 export { ToggleGroup }
 export { Collapsible }
+export { SubframeProvider }
 export { Text }
 export { TypescriptHelpers }
 export { twClassNames }
+
+/**
+ * Export all icons
+ */
+export * from "./assets/icons/final"
 
 /**
  * Finally, create our default export using the imported values
@@ -98,6 +106,7 @@ const SubframeCore = {
   Dialog,
   Drawer,
   FullScreenDialog,
+  SubframeProvider,
   ToggleGroup,
   Collapsible,
   Text,
