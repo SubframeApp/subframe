@@ -5,10 +5,10 @@ export interface TreeshakableIconProps extends HTMLAttributes<HTMLSpanElement> {
 }
 
 export const TreeshakableIcon = forwardRef<HTMLSpanElement, TreeshakableIconProps>((props, ref) => {
-  const { className, icon, ...otherProps } = props
+  const { icon, ...otherProps } = props
 
   return (
-    <span className={className} ref={ref} {...otherProps}>
+    <span ref={ref} {...otherProps}>
       {icon}
     </span>
   )

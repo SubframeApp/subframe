@@ -8,7 +8,7 @@ export interface EagerIconProps extends HTMLAttributes<HTMLSpanElement> {
 }
 
 export const EagerIcon = forwardRef<HTMLSpanElement, EagerIconProps>((props, ref) => {
-  const { className, name, ...otherProps } = props
+  const { name, ...otherProps } = props
 
   let children: ReactNode = null
 

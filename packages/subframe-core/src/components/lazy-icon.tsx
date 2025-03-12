@@ -1,6 +1,3 @@
-"use client"
-
-import classNames from "classnames"
 import dashify from "dashify"
 import React, { HTMLAttributes, lazy, ReactNode, Suspense } from "react"
 import { type IconName, iconNames } from "../generated/iconNames"
@@ -18,7 +15,7 @@ const iconMap = Object.fromEntries(
 )
 
 export const LazyIcon = React.forwardRef<HTMLSpanElement, LazyIconProps>((props, ref) => {
-  const { className, name, ...otherProps } = props
+  const { name, ...otherProps } = props
 
   let children: ReactNode = null
   if (name === null) {
@@ -36,7 +33,7 @@ export const LazyIcon = React.forwardRef<HTMLSpanElement, LazyIconProps>((props,
   }
 
   return (
-    <span className={classNames(className)} ref={ref} {...otherProps}>
+    <span ref={ref} {...otherProps}>
       <Suspense fallback={<EmptyIcon />}>{children}</Suspense>
     </span>
   )
