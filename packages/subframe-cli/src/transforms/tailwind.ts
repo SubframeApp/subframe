@@ -1,4 +1,5 @@
-import { join, relative } from "node:path"
+import { relative } from "node:path"
+import { join } from "node:path/posix"
 import { ts } from "ts-morph"
 
 type PresetsProperty = ts.PropertyAssignment & {
