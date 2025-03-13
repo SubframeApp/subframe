@@ -5,7 +5,6 @@ import { EmptyIcon } from "./icon"
 
 export interface LazyIconProps extends HTMLAttributes<HTMLSpanElement> {
   name: IconName
-  icon?: never
 }
 
 const iconMap = Object.fromEntries(

@@ -1,17 +1,26 @@
 "use client"
 import classNames from "classnames"
-import React, { forwardRef, lazy, ReactNode, Suspense, useContext } from "react"
-import type { EagerIconProps } from "./eager-icon"
+import React, { forwardRef, HTMLAttributes, lazy, ReactNode, Suspense, useContext } from "react"
+import type { IconName } from "../generated/iconNames"
 import styles from "./icon.module.css"
-import type { LazyIconProps } from "./lazy-icon"
 import { SubframeContext } from "./subframe-context"
-import type { TreeshakableIconProps } from "./treeshakable-icon"
 
 export const EmptyIcon = () => {
   return <svg width="1em" height="1em"></svg>
 }
 
-export type IconProps = EagerIconProps | LazyIconProps | TreeshakableIconProps
+// Note(Chris): I'd rather use TreeshakableIconProps | EagerIconProps | LazyIconProps, but TypeScript on the end-user's side doesn't like that since it's too dynamic apparently.
+export type IconProps = HTMLAttributes<HTMLSpanElement> &
+  (
+    | {
+        name: IconName
+        icon?: undefined
+      }
+    | {
+        icon: ReactNode
+        name?: undefined
+      }
+  )
 
 // These are lazy loaded because statically importing them would defeat the purpose of not bundling all icons in the library
 const LazyEagerIcon = lazy(() => import("./eager-icon"))
