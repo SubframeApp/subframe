@@ -1,13 +1,12 @@
 import { existsSync, readFileSync } from "node:fs"
 import { mkdir, rm, writeFile } from "node:fs/promises"
 import { join } from "node:path"
-import { join as posixJoin } from "node:path/posix"
 import prompts from "prompts"
 import { DEFAULT_SUBFRAME_TS_ALIAS, ROOT_FOLDER_NAME } from "shared/constants"
 import { addAliasesToTSConfig, hasAliasSetup } from "./add-tsconfig-alias"
 import { ACCESS_TOKEN_FILENAME, SUBFRAME_DIR, SYNC_SETTINGS_FILENAME } from "./constants"
 import { abortOnState } from "./sync-helpers"
-import { exists, isDirectory } from "./utils/fs"
+import { exists, isDirectory, posixJoin } from "./utils/fs"
 
 export interface SyncSettingsConfig {
   directory: string

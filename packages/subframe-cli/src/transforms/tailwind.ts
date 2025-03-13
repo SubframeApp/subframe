@@ -1,6 +1,6 @@
 import { relative } from "node:path"
-import { join } from "node:path/posix"
 import { ts } from "ts-morph"
+import { posixJoin } from "../utils/fs"
 
 type PresetsProperty = ts.PropertyAssignment & {
   name: (ts.Identifier | ts.StringLiteral) & { text: "presets" }
@@ -37,7 +37,7 @@ export function isContentProperty(property: ts.ObjectLiteralElementLike): proper
 }
 
 export function makeSubframeContentGlob(cwd: string, subframeDirPath: string) {
-  return "./" + join(relative(cwd, subframeDirPath), "**", "*.{tsx,ts,js,jsx}")
+  return "./" + posixJoin(relative(cwd, subframeDirPath), "**", "*.{tsx,ts,js,jsx}")
 }
 
 export function hasSubframeContentGlob(globs: ts.ArrayLiteralExpression, cwd: string, subframeDirPath: string) {
@@ -53,7 +53,7 @@ export function hasSubframeContentGlob(globs: ts.ArrayLiteralExpression, cwd: st
 }
 
 function getSubframeTailwindPresetPath(cwd: string, subframeDirPath: string): string {
-  return "./" + join(relative(cwd, subframeDirPath), "tailwind.config.js")
+  return "./" + posixJoin(relative(cwd, subframeDirPath), "tailwind.config.js")
 }
 
 export function makeSubframeRequire(cwd: string, subframeDirPath: string) {
