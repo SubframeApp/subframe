@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2015", // note(chris): made this ES2015 instead to make sure template strings work (vite requires this for dynamic imports: https://vite.dev/guide/features.html#dynamic-import)
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
