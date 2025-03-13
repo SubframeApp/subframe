@@ -1,11 +1,11 @@
 "use client"
 import classNames from "classnames"
 import React, { forwardRef, lazy, ReactNode, Suspense, useContext } from "react"
-import { EagerIconProps } from "./eager-icon"
+import type { EagerIconProps } from "./eager-icon"
 import styles from "./icon.module.css"
-import { LazyIconProps } from "./lazy-icon"
+import type { LazyIconProps } from "./lazy-icon"
 import { SubframeContext } from "./subframe-context"
-import { TreeshakableIconProps } from "./treeshakable-icon"
+import type { TreeshakableIconProps } from "./treeshakable-icon"
 
 export const EmptyIcon = () => {
   return <svg width="1em" height="1em"></svg>
@@ -19,7 +19,7 @@ const LazyLazyIcon = lazy(() => import("./lazy-icon"))
 const LazyTreeshakableIcon = lazy(() => import("./treeshakable-icon"))
 
 export const Icon = forwardRef<HTMLSpanElement, IconProps>((props, ref) => {
-  const { className, ...otherProps } = props
+  const { className, name, icon, ...otherProps } = props
   const subframeContext = useContext(SubframeContext)
   let iconType: "eager" | "experimental_lazy" = "eager"
   if (subframeContext?.iconType) {
@@ -27,33 +27,26 @@ export const Icon = forwardRef<HTMLSpanElement, IconProps>((props, ref) => {
   }
 
   let children: ReactNode
-  if ((props as any).icon) {
-    children = (
-      <LazyTreeshakableIcon ref={ref} icon={(props as any).icon} className={classNames(className, styles.root)} />
-    )
+
+  if (icon === undefined && name === undefined) {
+    children = null
   } else {
-    switch (iconType) {
-      case "eager":
-      default:
-        children = (
-          <LazyEagerIcon
-            ref={ref}
-            name={(props as any).name}
-            className={classNames(className, styles.root)}
-            {...otherProps}
-          />
-        )
-        break
-      case "experimental_lazy":
-        children = (
-          <LazyLazyIcon
-            ref={ref}
-            name={(props as any).name}
-            className={classNames(className, styles.root)}
-            {...otherProps}
-          />
-        )
-        break
+    if (icon) {
+      children = <LazyTreeshakableIcon ref={ref} icon={icon} className={classNames(className, styles.root)} />
+    } else if (name) {
+      switch (iconType) {
+        case "eager":
+        default:
+          children = (
+            <LazyEagerIcon ref={ref} name={name} className={classNames(className, styles.root)} {...otherProps} />
+          )
+          break
+        case "experimental_lazy":
+          children = (
+            <LazyLazyIcon ref={ref} name={name} className={classNames(className, styles.root)} {...otherProps} />
+          )
+          break
+      }
     }
   }
 

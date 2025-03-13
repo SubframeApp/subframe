@@ -2,6 +2,7 @@ import React, { forwardRef, type HTMLAttributes, type ReactNode } from "react"
 
 export interface TreeshakableIconProps extends HTMLAttributes<HTMLSpanElement> {
   icon: ReactNode
+  name?: never
 }
 
 export const TreeshakableIcon = forwardRef<HTMLSpanElement, TreeshakableIconProps>((props, ref) => {

@@ -5,6 +5,7 @@ import { EmptyIcon } from "./icon"
 
 export interface EagerIconProps extends HTMLAttributes<HTMLSpanElement> {
   name: IconName
+  icon?: never
 }
 
 export const EagerIcon = forwardRef<HTMLSpanElement, EagerIconProps>((props, ref) => {
