@@ -13,15 +13,16 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false,
     "jsx": "react",
     "composite": false,
+    "outDir": "./dist/types",
     "declaration": true,
-    "declarationMap": true,
+    "emitDeclarationOnly": true,
     "inlineSources": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "preserveWatchOutput": true
+    "preserveWatchOutput": true,
   },
   "include": ["src"]
 }

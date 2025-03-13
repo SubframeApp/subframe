@@ -63,10 +63,14 @@ export async function prepareProject(
       },
     ])
 
-    const projectPath = await cloneStarterKit({ name, type })
-    cliLogger.trackEvent({ type: "cli:starter-kit_cloned", framework: type })
-
-    return { projectPath }
+    try {
+      const projectPath = await cloneStarterKit({ name, type })
+      cliLogger.trackEvent({ type: "cli:starter-kit_cloned", framework: type })
+      return { projectPath }
+    } catch (e) {
+      console.error(`Failed to clone starter kit: ${e}`)
+      process.exit(1)
+    }
   }
 
   return { projectPath: cwd }

@@ -8,19 +8,9 @@
  * Taken from https://davidwalsh.name/window-crypto-node
  * Shim is needed because we use the uuid package, which uses window.crypto
  */
-const crypto = require("crypto").webcrypto
+import "isomorphic-webcrypto"
 
-// Shims the crypto property onto global
-global.crypto = crypto
+// Polyfill fetch
+import("isomorphic-fetch")
 
-// fetch-polyfill.js taken from https://github.com/node-fetch/node-fetch?tab=readme-ov-file#providing-global-access
-const fetch = require("node-fetch")
-
-if (!globalThis.fetch) {
-  globalThis.fetch = fetch
-  globalThis.Headers = fetch.Headers
-  globalThis.Request = fetch.Request
-  globalThis.Response = fetch.Response
-}
-
-require("../dist/index.js")
+import("../dist/index.js")

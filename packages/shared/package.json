@@ -3,6 +3,36 @@
   "version": "0.0.0",
   "main": "./index.ts",
   "types": "./index.ts",
+  "exports": {
+    ".": {
+      "import": "./index.ts",
+      "require": "./index.ts"
+    },
+    "./constants": {
+      "import": "./constants.ts",
+      "require": "./constants.ts"
+    },
+    "./types": {
+      "import": "./types.ts",
+      "require": "./types.ts"
+    },
+    "./routes": {
+      "import": "./routes.ts",
+      "require": "./routes.ts"
+    },
+    "./logger/types": {
+      "import": "./logger/types.ts",
+      "require": "./logger/types.ts"
+    },
+    "./logger/logger-node": {
+      "import": "./logger/logger-node.ts",
+      "require": "./logger/logger-node.ts"
+    },
+    "./http": {
+      "import": "./http.ts",
+      "require": "./http.ts"
+    }
+  },
   "license": "MIT",
   "scripts": {
     "lint": "eslint \"**/*.{ts,tsx}\"",
