@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@antfu/ni": "0.21.8",
+    "@commander-js/extra-typings": "^13.1.0",
     "@segment/analytics-node": "2.1.2",
     "chalk": "4.1.2",
     "commander": "^13.1.0",
