@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs"
 import { mkdir, rm, writeFile } from "node:fs/promises"
 import { join } from "node:path"
+import { join as posixJoin } from "node:path/posix"
 import prompts from "prompts"
 import { DEFAULT_SUBFRAME_TS_ALIAS, ROOT_FOLDER_NAME } from "shared/constants"
 import { addAliasesToTSConfig, hasAliasSetup } from "./add-tsconfig-alias"
@@ -82,7 +83,7 @@ export async function setupSyncSettings(
     })
 
     // NOTE: join will remove the trailing slash
-    config.directory = "./" + join(response.directory, ROOT_FOLDER_NAME)
+    config.directory = "./" + posixJoin(response.directory, ROOT_FOLDER_NAME)
   }
 
   if (!options.importAlias) {
@@ -107,7 +108,7 @@ export async function setupSyncSettings(
 
       const aliases = {
         /** just the one alias for now */
-        [response.componentsDirAlias]: [`${config.directory}/*`],
+        [response.componentsDirAlias]: [posixJoin(config.directory, "/*")],
       }
 
       if (await exists(tsConfigPath)) {
