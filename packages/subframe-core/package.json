@@ -7,6 +7,17 @@
   "module": "dist/esm/index.js",
   "types": "dist/cjs/index.d.ts",
   "sideEffects": false,
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/cjs/index.d.ts"
+    }
+  },
   "scripts": {
     "build": "rm -rf dist/ && rollup -c --bundleConfigAsCjs",
     "build:icons": "npx @svgr/cli --icon --typescript --filename-case kebab -d ./src/assets/icons/final ./src/assets/icons/raw --no-svgo",
