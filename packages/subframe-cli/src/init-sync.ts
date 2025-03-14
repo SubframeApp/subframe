@@ -1,11 +1,12 @@
 import { resolve } from "node:path"
 import prompts from "prompts"
-import { syncFunction } from "./sync"
+import { syncComponents } from "./sync-components"
 import { abortOnState } from "./sync-helpers"
 
 export async function initSync(
   projectPath: string,
   projectId: string | undefined,
+  accessToken: string,
   opts: { sync?: boolean; install?: true },
 ) {
   prompts.override({
@@ -26,13 +27,14 @@ export async function initSync(
 
   const cwd = resolve(projectPath)
 
-  await syncFunction(
+  await syncComponents(
     [],
     {
       projectId,
       all: true,
       install: opts.install,
     },
+    accessToken,
     cwd,
   )
 }

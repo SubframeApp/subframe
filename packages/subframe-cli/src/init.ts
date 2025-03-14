@@ -62,7 +62,6 @@ initCommand.action(async (opts) => {
   try {
     const { projectPath } = await prepareProject(cliLogger, opts)
 
-    const truncatedProjectId = opts.projectId
     let accessToken = opts.authToken
     if (accessToken) {
       const isValid = await verifyTokenWithOra(accessToken)
@@ -77,6 +76,8 @@ initCommand.action(async (opts) => {
 
     console.time(SUBFRAME_INIT_MESSAGE)
 
+    const truncatedProjectId = opts.projectId ?? localSyncSettings?.projectId
+
     const { styleFile, oldImportAlias } = await oraPromise(
       apiInitProject({
         token: accessToken,
@@ -88,14 +89,12 @@ initCommand.action(async (opts) => {
       },
     )
 
-    const projectId = opts.projectId ?? localSyncSettings?.projectId
-
     const { importAlias: rawImportAlias, directory } = await setupSyncSettings(
       projectPath,
       {
         directory: opts.dir ?? localSyncSettings?.directory,
         importAlias: localSyncSettings?.importAlias,
-        projectId: opts.projectId ?? localSyncSettings?.projectId,
+        projectId: truncatedProjectId,
       },
       opts,
     )
@@ -137,12 +136,12 @@ initCommand.action(async (opts) => {
 
     await setupTailwindConfig(projectPath, rootPath, opts)
 
+    await initSync(projectPath, truncatedProjectId, accessToken, opts)
+
     // When setting up tailwind config on vite, the changes breaks vite (throws an error about preflight.css)
     // This is easily remedied by any npm install command. Thus, if we install dependencies after tailwind config is setup,
     // then we can avoid this issue.
     await installDependencies(projectPath, opts)
-
-    await initSync(projectPath, projectId, opts)
 
     console.timeEnd(SUBFRAME_INIT_MESSAGE)
   } catch (err: any) {
