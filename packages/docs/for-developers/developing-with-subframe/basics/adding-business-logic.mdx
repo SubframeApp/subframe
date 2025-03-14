@@ -1,0 +1,317 @@
+---
+title: Adding business logic
+icon: timeline
+---
+
+Since Subframe components are just React components, you can use them like any other React component. You can pass props to them, and they will work just like any other React component.
+
+## The basics
+
+Generally, when we add business logic to components that are designed in Subframe, we don't generally directly change any code in our `src/ui/` directory. Instead, we import the components into our app and hook up business logic there.
+
+Subframe components are built on top of Radix UI, which means that they are accessible by default and expose all event handlers that the underlying HTML elements expose. This means that you can use the `onClick`, `onChange`, and other event handlers to add business logic to your components.
+
+## Examples
+
+For the next few examples, let's imagine we're building the next music streaming service called Spoofy.
+
+### Example 1 - A simple form
+
+Of course for our app, we'll need to implement some form of login. I like magic link logins. They're easy, secure, and don't require a password. So let's build a simple magic link login form.
+
+This is what we want the end-result to look like:
+
+![Form Example 1](/images/for-developers/developing-with-subframe/basics/adding-business-logic/form-example-1.png)
+
+Adding business logic to your app is as simple as providing the necessary props to your Subframe components.
+
+```tsx src/App.tsx [expandable]
+import { DialogLayout } from "@/ui/layouts/DialogLayout"
+import { TextField } from "@/ui/components/TextField"
+import { Button } from "@/ui/components/Button"
+
+function App() {
+  return (
+    <DialogLayout open={true}>
+      <div className="flex h-full w-full flex-col items-center gap-6 bg-default-background px-6 py-12">
+        <span className="text-heading-2 font-heading-2 text-default-font">Magic Link Login</span>
+        <form className="flex w-full flex-col items-start gap-2">
+          <TextField className="h-auto w-full flex-none" label="Email">
+            <TextField.Input required name="name" />
+          </TextField>
+          <Button
+            type="submit"
+            className="h-8 w-full flex-none"
+            variant="brand-secondary"
+            icon="FeatherSend"
+            iconRight={null}
+            disabled={false}
+            loading={false}
+          >
+            Send Magic Link
+          </Button>
+        </form>
+      </div>
+    </DialogLayout>
+  )
+}
+
+export default App
+```
+
+Now, let's add some functionality to our design.
+We'll add a fake fetch function that simulates a network request and a `handleSubmit` function that handles the form submission.
+
+We also want our Button component to show that we're currently submitting the form, so we'll keep `submitting` in a state variable and pass it to the Button component in the `disabled` and `loading` prop.
+
+```tsx src/App.tsx {4, 6-15, 18, 20-32, 41, 59-60} [expandable]
+import { DialogLayout } from "@/ui/layouts/DialogLayout";
+import { TextField } from "@/ui/components/TextField";
+import { Button } from "@/ui/components/Button";
+import { useState, type FormEvent } from "react";
+
+const fakeFetch = (email: string | undefined) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (!email) {
+        reject(new Response("Email is required", { status: 400 }));
+      }
+      resolve(new Response("Success!", { status: 200 }));
+    }, 1000);
+  });
+};
+
+function App() {
+  const [submitting, setSubmitting] = useState(false);
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setSubmitting(true);
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email")?.toString();
+    try {
+      await fakeFetch(email);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <DialogLayout open={true}>
+      <div className="flex h-full w-full flex-col items-center gap-6 bg-default-background px-6 py-12">
+        <span className="text-heading-2 font-heading-2 text-default-font">
+          Magic Link Login
+        </span>
+        <form
+          onSubmit={handleSubmit}
+          className="flex w-full flex-col items-start gap-2"
+        >
+          <TextField
+            className="h-auto w-full flex-none"
+            label="Email"
+            icon={null}
+            iconRight={null}
+          >
+            <TextField.Input required name="name" />
+          </TextField>
+          <Button
+            type="submit"
+            className="h-8 w-full flex-none"
+            variant="brand-secondary"
+            size="medium"
+            icon="FeatherSend"
+            iconRight={null}
+            disabled={submitting}
+            loading={submitting}
+          >
+            Send Magic Link
+          </Button>
+        </form>
+      </div>
+    </DialogLayout>
+  );
+}
+
+export default App;
+```
+
+All these changes now result in the following:
+
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  className="w-full aspect-video"
+  src="/images/for-developers/developing-with-subframe/basics/adding-business-logic/form-example-2.webm"
+></video>
+
+### Example 2 - A complex custom component
+
+Now let's imagine we'd like to build a feature where we show the user their most-listened to songs of the past week and want to allow them to favorite them so they can easily find them later.
+
+We've built this component in Subframe:
+
+![Component Example Page](/images/for-developers/developing-with-subframe/basics/adding-business-logic/component-example-page.png)
+
+Now let's add some business logic to it!
+
+First, we'll create our component with business logic. Remember that we don't want to change the Subframe component's code directly, so we'll create a new component that wraps the Subframe component and adds our business logic to it.
+
+```tsx src/components/TrackCard.tsx [expandable]
+import { HTMLAttributes, useMemo } from "react";
+import { TrackCard } from "../ui";
+import { Image } from "./Image";
+
+export interface TrackCardWithLogicProps
+  extends HTMLAttributes<HTMLDivElement> {
+  title: string;
+  artist: string;
+  length: number; // in seconds
+  genre: string;
+  coverImage: string;
+  isFavorite: boolean;
+  onFavoriteClick: () => void;
+}
+
+function lengthToString(length: number): string {
+  const minutes = Math.floor(length / 60);
+  const seconds = length % 60;
+  return `${minutes.toString().padStart(2, "0")}:${seconds
+    .toString()
+    .padStart(2, "0")}`;
+}
+
+const TrackCardWithLogic = ({
+  title,
+  artist,
+  length,
+  genre,
+  coverImage,
+  isFavorite,
+  onFavoriteClick,
+}: TrackCardWithLogicProps) => {
+  // Convert track length in seconds to MM:SS format
+  const formattedLength = useMemo(() => lengthToString(length), [length]);
+  // Determine the icon based on favorite status
+  const icon = useMemo(
+    () => (isFavorite ? "FeatherHeartOff" : "FeatherHeart"),
+    [isFavorite]
+  );
+
+  return (
+    <TrackCard
+      title={title}
+      artist={artist}
+      length={formattedLength}
+      favoriteButtonSlot={
+        <TrackCard.FavoriteButton icon={icon} onClick={onFavoriteClick} />
+      }
+      imageSlot={
+        <Image
+          src={coverImage}
+          width={500}
+          height={500}
+        />
+      }
+      genre={genre}
+    />
+  );
+};
+
+export default TrackCardWithLogic;
+
+```
+
+Then, we'll create a wrapper component that keeps track of the favorite state and handles the click event.
+
+```tsx src/components/FavoriteTracks.tsx [expandable]
+import { useState } from "react";
+import TrackCardWithLogic from "../components/TrackCard";
+
+interface Track {
+  id: number;
+  title: string;
+  artist: string;
+  length: number; // in seconds
+  genre: string;
+  coverImage: string;
+  isFavorite: boolean;
+}
+
+const FavoriteTracks = () => {
+  const [tracks, setTracks] = useState<Track[]>([
+    {
+      id: 1,
+      title: "The Less I Know The Better",
+      artist: "Tame Impala",
+      length: 218,
+      genre: "Disco",
+      coverImage: "/covers/tame_impala-currents.jpg",
+      isFavorite: false,
+    },
+    {
+      id: 2,
+      title: "Shadowplay",
+      artist: "Joy Division",
+      length: 233,
+      genre: "Post Punk",
+      coverImage: "/covers/joy_division-unknown-pleasures.jpg",
+      isFavorite: false,
+    },
+    {
+      id: 3,
+      title: "Bohemian Rhapsody",
+      artist: "Queen",
+      length: 355,
+      genre: "Progressive Rock",
+      coverImage: "/covers/queen-bohemian_rhapsody.jpg",
+      isFavorite: false,
+    },
+  ]);
+
+  const handleFavoriteClick = (id: number) => {
+    setTracks((prevTracks) =>
+      prevTracks.map((track) =>
+        track.id === id ? { ...track, isFavorite: !track.isFavorite } : track
+      )
+    );
+  };
+
+  return (
+    <div className="flex flex-col gap-4">
+      <span className="text-heading-1 font-heading-1 text-default-font">
+        Your favorite tracks of the week
+      </span>
+      <div className="flex flex-row gap-4">
+        {tracks.map((track) => (
+          <TrackCardWithLogic
+            key={track.id}
+            title={track.title}
+            artist={track.artist}
+            length={track.length}
+            genre={track.genre}
+            coverImage={track.coverImage}
+            isFavorite={track.isFavorite}
+            onFavoriteClick={() => handleFavoriteClick(track.id)}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default FavoriteTracks;
+```
+
+And we're done! The end result looks like this:
+
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  className="w-full aspect-video"
+  src="/images/for-developers/developing-with-subframe/basics/adding-business-logic/component-example-2.webm"></video>

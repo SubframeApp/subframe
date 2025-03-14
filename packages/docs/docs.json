@@ -41,13 +41,13 @@
                 "pages": ["for-developers/getting-started/introduction", "for-developers/getting-started/quickstart"]
               },
               {
-                "group": "Manual Installation",
+                "group": "Framework Guides",
                 "pages": [
-                  "for-developers/getting-started/manual-installation/overview",
-                  "for-developers/getting-started/manual-installation/nextjs",
-                  "for-developers/getting-started/manual-installation/vite",
-                  "for-developers/getting-started/manual-installation/astro",
-                  "for-developers/getting-started/manual-installation/manual"
+                  "for-developers/getting-started/framework-guides/overview",
+                  "for-developers/getting-started/framework-guides/nextjs",
+                  "for-developers/getting-started/framework-guides/vite",
+                  "for-developers/getting-started/framework-guides/astro",
+                  "for-developers/getting-started/framework-guides/manual"
                 ]
               }
             ]
@@ -60,12 +60,16 @@
                 "group": "Basics",
                 "pages": [
                   "for-developers/developing-with-subframe/basics/syncing-components",
-                  "for-developers/developing-with-subframe/basics/using-components"
+                  "for-developers/developing-with-subframe/basics/using-components",
+                  "for-developers/developing-with-subframe/basics/adding-business-logic"
                 ]
               },
               {
                 "group": "Best practices",
-                "pages": ["for-developers/developing-with-subframe/best-practices/when-to-copy"]
+                "pages": [
+                  "for-developers/developing-with-subframe/best-practices/props-and-slots",
+                  "for-developers/developing-with-subframe/best-practices/copy-vs-sync"
+                ]
               }
             ]
           },

@@ -1,0 +1,82 @@
+---
+title: Vite
+description: "Get up and running with Vite and Subframe"
+---
+
+If you just want to get setup with Vite and Subframe quickly, you can follow the [quickstart guide](/for-developers/getting-started/quickstart). If you want to set up Subframe in your Vite app manually, you can follow the steps below.
+
+<Note>
+    This guide assumes that you already have React and Tailwind set up in your Vite app. If you don't, please follow the [Vite guide for scaffolding your project](https://vite.dev/guide/#scaffolding-your-first-vite-project) and the [TailwindCSS guide for setting up Tailwind in your Vite app using PostCSS](https://v3.tailwindcss.com/docs/installation/using-postcss).
+</Note>
+
+
+To be able to sync our components within our Vite app and use them, we will need to initialize the project and configure it to be able to style Subframe.
+
+The easiest way of doing so is the Subframe CLI, which will initialize the project for you and set up some necessary configurations.
+
+
+<Steps>
+    <Step title="Run the Subframe CLI">
+        The following command will set up Subframe in your project.
+
+        <CodeGroup>
+            ```bash npm
+            npx @subframe/cli@latest init
+            ```
+            ```bash yarn
+            yarn @subframe/cli@latest init
+            ```
+            ```bash pnpm
+            pnpm exec @subframe/cli@latest init
+            ```
+            ```bash bun
+            bunx --bun @subframe/cli@latest init
+            ```
+        </CodeGroup>
+    </Step>
+
+    <Step title="Configure Vite to use import aliases">
+        Now configure your import alias in `tsconfig.app.json`.
+
+        ```json tsconfig.app.json {3-8}
+        {
+            "compilerOptions": {
+                "baseUrl": "./",
+                "paths": {
+                    "@/*": [
+                        "./src/*"
+                    ]
+                },
+                "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+                "target": "ES2020",
+                "useDefineForClassFields": true,
+                "lib": ["ES2020", "DOM", "DOM.Iterable"],
+                "module": "ESNext",
+                "skipLibCheck": true,
+
+                /* Bundler mode */
+                "moduleResolution": "bundler",
+                "allowImportingTsExtensions": true,
+                "isolatedModules": true,
+                "moduleDetection": "force",
+                "noEmit": true,
+                "jsx": "react-jsx",
+
+                /* Linting */
+                "strict": true,
+                "noUnusedLocals": true,
+                "noUnusedParameters": true,
+                "noFallthroughCasesInSwitch": true,
+                "noUncheckedSideEffectImports": true+
+            },
+            "include": ["src"]
+        }
+        ```
+    </Step>
+</Steps>
+
+You now have Subframe set up to use in your Vite app. You can now go ahead and sync your components to use them in your project.
+
+<Card title="Syncing components" href="/for-developers/developing-with-subframe/basics/syncing-components">
+    Learn how to sync, unsync and update your Subframe components
+</Card>

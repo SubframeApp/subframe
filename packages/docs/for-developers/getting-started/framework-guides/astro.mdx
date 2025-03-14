@@ -1,0 +1,118 @@
+---
+title: Astro
+description: "Get up and running with Astro and Subframe"
+---
+
+If you just want to get setup with Astro and Subframe quickly, you can follow the [quickstart guide](/for-developers/getting-started/quickstart). If you want to set up Subframe in your Astro app manually, you can follow the steps below.
+
+<Note>
+    This guide assumes that you already have React and Tailwind set up in your Astro app. If you don't, please follow the [Astro guide for scaffolding your project](https://docs.astro.build/en/install-and-setup/#install-from-the-cli-wizard), [the Astro guide for installing the React integration](https://docs.astro.build/en/guides/integrations-guide/react/) and the [TailwindCSS guide for setting up Tailwind in your Astro app using PostCSS](https://v3.tailwindcss.com/docs/installation/using-postcss).
+</Note>
+
+## Initialize Subframe
+
+To be able to sync our components within our Astro app and use them, we will need to initialize the project and configure it to be able to style Subframe.
+
+The easiest way of doing so is the Subframe CLI, which will initialize the project for you and set up some necessary configurations.
+
+
+<Steps>
+    <Step title="Run the Subframe CLI">
+        The following command will set up Subframe in your project.
+
+        <CodeGroup>
+            ```bash npm
+            npx @subframe/cli@latest init
+            ```
+            ```bash yarn
+            yarn @subframe/cli@latest init
+            ```
+            ```bash pnpm
+            pnpm exec @subframe/cli@latest init
+            ```
+            ```bash bun
+            bunx @subframe/cli@latest init
+            ```
+        </CodeGroup>
+
+        <Steps>
+            <Step title="Authenticate">
+                Depending on whether you've used the Subframe CLI before, you'll be asked to authenticate when initializing your project. Simply follow the instructions in the terminal to authenticate.
+            </Step>
+            <Step title="Configure Subframe components directory">
+                In most cases, you will want your Subframe components to be synced to `./src` in your project. This will result in your components being synced to `src/subframe` in your project's codebase. If you want to sync your components to a different directory, you can specify so now.
+            </Step>
+            <Step title="Configure import alias">
+                Next, the CLI will set up an import alias for `@/subframe` for you. You can define what kind of alias you prefer here. Afterwards, the CLi will ask if you would like to add an alias to `tsconfig.json`. Since Astro will not directly play nicely with this, you can press `n` here. We'll fix this later.
+            </Step>
+            <Step title="Install dependencies">
+                The CLI will ask if it should install dependencies for you. 
+            </Step>
+            <Step title="Configure Tailwind">
+                Finally, the CLI will ask if it should configure your Tailwind config. Press `y` to confirm. This will add the necessary configurations to your Tailwind config. It should now look like this:
+            </Step>
+        </Steps>
+
+        ```javascript tailwind.config.js {5, 12}
+        /** @type {import('tailwindcss').Config} */
+        export default {
+            content: [
+                "./index.html",
+                "./src/subframe/**/*.{tsx,ts,js,jsx}" 
+            ],
+            theme: {
+                extend: {},
+            },
+            plugins: [],
+            presets: [
+                require("./src/subframe/tailwind.config.js")
+            ]
+        };
+        ```
+    </Step>
+
+    <Step title="Configure Astro to use import aliases">
+        Now configure your import alias in `tsconfig.json`.
+
+        ```json tsconfig.json {3-8}
+        {
+            "compilerOptions": {
+                "baseUrl": "./",
+                "paths": {
+                    "@/*": [
+                        "./src/*"
+                    ]
+                },
+                "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+                "target": "ES2020",
+                "useDefineForClassFields": true,
+                "lib": ["ES2020", "DOM", "DOM.Iterable"],
+                "module": "ESNext",
+                "skipLibCheck": true,
+
+                /* Bundler mode */
+                "moduleResolution": "bundler",
+                "allowImportingTsExtensions": true,
+                "isolatedModules": true,
+                "moduleDetection": "force",
+                "noEmit": true,
+                "jsx": "react-jsx",
+
+                /* Linting */
+                "strict": true,
+                "noUnusedLocals": true,
+                "noUnusedParameters": true,
+                "noFallthroughCasesInSwitch": true,
+                "noUncheckedSideEffectImports": true+
+            },
+            "include": ["src"]
+        }
+        ```
+    </Step>
+</Steps>
+
+You now have Subframe set up to use in your Astro app. You can now go ahead and sync your components to use them in your project.
+
+<Card title="Syncing components" href="/for-developers/developing-with-subframe/basics/syncing-components">
+    Learn how to sync, unsync and update your Subframe components
+</Card>
