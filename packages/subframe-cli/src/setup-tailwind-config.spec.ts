@@ -1,6 +1,13 @@
 import { Project, SourceFile } from "ts-morph"
 import { transformTailwindConfigFile } from "./setup-tailwind-config"
 
+// Note(Chris): Required for jest to not crash when running tests:
+jest.mock("ora", () => () => {
+  const start = jest.fn()
+  const result = { start }
+  return result
+})
+
 // Taken from Next13's default tailwind config
 const DEFAULT_TAILWIND_CONFIG = {
   content: [
@@ -34,21 +41,28 @@ const VITE_TAILWIND_CONFIG_WITH_PRESETS_PROPERTY = {
 const CWD = "cwd/path"
 const SUBFRAME_DIR_PATH = "subframe-dir/path"
 
-function makeTailwindConfigContents(config: object, useESM: boolean) {
-  if (useESM) {
-    return `/** @type {import('tailwindcss').Config} */
-export default ${JSON.stringify(config, null, 2)}`
-  }
-  return `/** @type {import('tailwindcss').Config} */
+type ConfigType = "cjs" | "esm" | "ts"
+
+function makeTailwindConfigContents(config: object, configType: ConfigType) {
+  switch (configType) {
+    case "cjs":
+      return `/** @type {import('tailwindcss').Config} */
   module.exports = ${JSON.stringify(config, null, 2)}
   `
+    case "esm":
+      return `/** @type {import('tailwindcss').Config} */
+export default ${JSON.stringify(config, null, 2)}`
+    case "ts":
+      return `import type {Config} from 'tailwindcss'
+      export default ${JSON.stringify(config, null, 2)} satisfies Config`
+  }
 }
 
-function getTransformedTailwindConfigFile(config: object, useESM = false): [SourceFile, SourceFile] {
+function getTransformedTailwindConfigFile(config: object, configType: ConfigType = "cjs"): [SourceFile, SourceFile] {
   const project = new Project({ compilerOptions: { allowJs: true } })
 
   // Taken from Next13's default tailwind config
-  const contents = makeTailwindConfigContents(config, useESM)
+  const contents = makeTailwindConfigContents(config, configType)
 
   const beforeFile = project.createSourceFile("./junk/delete-me/before", contents)
   const afterFile = project.createSourceFile("./junk/delete-me/after", contents)
@@ -73,7 +87,12 @@ describe("#transformTailwindConfig", () => {
   })
 
   it("adds content to ESM-style file", () => {
-    const [_before, after] = getTransformedTailwindConfigFile(DEFAULT_TAILWIND_CONFIG, true)
+    const [_before, after] = getTransformedTailwindConfigFile(DEFAULT_TAILWIND_CONFIG, "esm")
+    expect(after.getText()).toMatchSnapshot()
+  })
+
+  it("adds content to TypeScript file", () => {
+    const [_before, after] = getTransformedTailwindConfigFile(DEFAULT_TAILWIND_CONFIG, "ts")
     expect(after.getText()).toMatchSnapshot()
   })
 

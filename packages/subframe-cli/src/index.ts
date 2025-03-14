@@ -1,12 +1,8 @@
-// Polyfill fetch and webcrypto
-import "isomorphic-fetch"
-import "isomorphic-webcrypto"
-
-import { program } from "@commander-js/extra-typings"
+import { program } from "commander"
+import packageJson from "../package.json"
 import { isDev } from "./common"
 import { initCommand } from "./init"
 import { syncCommand } from "./sync"
-import packageJson from "../package.json"
 
 program.version(packageJson.version).description("Subframe CLI")
 

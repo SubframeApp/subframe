@@ -6,7 +6,7 @@ import { DEFAULT_SUBFRAME_TS_ALIAS, ROOT_FOLDER_NAME } from "shared/constants"
 import { addAliasesToTSConfig, hasAliasSetup } from "./add-tsconfig-alias"
 import { ACCESS_TOKEN_FILENAME, SUBFRAME_DIR, SYNC_SETTINGS_FILENAME } from "./constants"
 import { abortOnState } from "./sync-helpers"
-import { exists, isDirectory } from "./utils/fs"
+import { exists, isDirectory, posixJoin } from "./utils/fs"
 
 export interface SyncSettingsConfig {
   directory: string
@@ -82,7 +82,7 @@ export async function setupSyncSettings(
     })
 
     // NOTE: join will remove the trailing slash
-    config.directory = "./" + join(response.directory, ROOT_FOLDER_NAME)
+    config.directory = "./" + posixJoin(response.directory, ROOT_FOLDER_NAME)
   }
 
   if (!options.importAlias) {
@@ -107,7 +107,7 @@ export async function setupSyncSettings(
 
       const aliases = {
         /** just the one alias for now */
-        [response.componentsDirAlias]: [`${config.directory}/*`],
+        [response.componentsDirAlias]: [posixJoin(config.directory, "/*")],
       }
 
       if (await exists(tsConfigPath)) {
