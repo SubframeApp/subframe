@@ -1,4 +1,4 @@
-import { program } from "commander"
+import { program } from "@commander-js/extra-typings"
 import packageJson from "../package.json"
 import { isDev } from "./common"
 import { initCommand } from "./init"
