@@ -3,35 +3,9 @@ import { dirname, join } from "node:path"
 import { oraPromise } from "ora"
 import { IGNORE_UPDATE_KEYWORD } from "shared/constants"
 import { apiSyncProject } from "./api-endpoints"
-import { MALFORMED_INIT_MESSAGE, WRONG_PROJECT_MESSAGE } from "./constants"
-import { makeCLILogger } from "./logger/logger-cli"
-import { SyncOptions } from "./sync"
-import { getLocalSyncSettings } from "./sync-settings"
 import { getAllAbsFilePaths, isFileContentsWriteable } from "./utils/files"
 
-export async function syncComponents(components: string[], opts: SyncOptions, accessToken: string, cwd: string) {
-  const localSyncSettings = getLocalSyncSettings(cwd)
-  const cliLogger = makeCLILogger()
-
-  if (localSyncSettings?.projectId && opts.projectId && localSyncSettings.projectId !== opts.projectId) {
-    await cliLogger.trackWarningAndFlush("[CLI]: sync project id mismatch")
-    console.error(WRONG_PROJECT_MESSAGE)
-    process.exit(1)
-  }
-
-  if (!localSyncSettings) {
-    await cliLogger.trackWarningAndFlush("[CLI] sync local sync settings do not exist")
-    console.error(MALFORMED_INIT_MESSAGE)
-    process.exit(1)
-  }
-
-  // strip /* which is used for tsconfig.json
-  const importAlias = localSyncSettings.importAlias.endsWith("/*")
-    ? localSyncSettings.importAlias.slice(0, -2)
-    : localSyncSettings.importAlias
-
-  const projectId = opts.projectId || localSyncSettings.projectId
-
+export async function syncComponents(components: string[], projectId: string | undefined, accessToken: string, importAlias: string, syncDirectory: string) {
   const { definitionFiles, otherFiles } = await oraPromise(
     apiSyncProject({
       token: accessToken,
@@ -50,24 +24,23 @@ export async function syncComponents(components: string[], opts: SyncOptions, ac
   )
 
   // Ensure the root folder exists in case they deleted it.
-  const rootPath = join(cwd, localSyncSettings.directory)
-  await mkdir(rootPath, { recursive: true })
+  await mkdir(syncDirectory, { recursive: true })
 
   /**
    * Making map of files to write
    */
   const filesToWrite: { [absFilePath: string]: string } = {}
   definitionFiles.forEach(({ file, folderName }) => {
-    filesToWrite[join(rootPath, folderName, file.fileName)] = file.contents
+    filesToWrite[join(syncDirectory, folderName, file.fileName)] = file.contents
   })
   otherFiles.forEach((file) => {
-    filesToWrite[join(rootPath, file.fileName)] = file.contents
+    filesToWrite[join(syncDirectory, file.fileName)] = file.contents
   })
 
   /**
    * Removing all existing files and making map of files to ignore
    */
-  const allAbsFilePaths = await getAllAbsFilePaths(rootPath)
+  const allAbsFilePaths = await getAllAbsFilePaths(syncDirectory)
   const fileAbsPathsToIgnore = new Set<string>()
   await Promise.all(
     allAbsFilePaths.map(async (fileName) => {

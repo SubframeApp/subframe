@@ -1,4 +1,5 @@
 import { Command } from "@commander-js/extra-typings"
+import {join} from "node:path"
 import {
   COMMAND_ALL_KEY,
   COMMAND_ALL_KEY_SHORT,
@@ -9,10 +10,11 @@ import {
 } from "shared/constants"
 import { getAccessToken } from "./access-token"
 import { cwd } from "./common"
-import { SUBFRAME_SYNC_MESSAGE } from "./constants"
+import { MALFORMED_INIT_MESSAGE, SUBFRAME_SYNC_MESSAGE, WRONG_PROJECT_MESSAGE } from "./constants"
 import { installDependencies } from "./install-dependencies"
 import { makeCLILogger } from "./logger/logger-cli"
 import { syncComponents } from "./sync-components"
+import { getLocalSyncSettings } from "./sync-settings"
 
 export const syncCommand = new Command()
   .name("sync")
@@ -29,7 +31,31 @@ export const syncCommand = new Command()
 
       console.time(SUBFRAME_SYNC_MESSAGE)
 
-      await syncComponents(components, opts, accessToken, cwd)
+      const localSyncSettings = getLocalSyncSettings(cwd)
+      const cliLogger = makeCLILogger()
+    
+      if (localSyncSettings?.projectId && opts.projectId && localSyncSettings.projectId !== opts.projectId) {
+        await cliLogger.trackWarningAndFlush("[CLI]: sync project id mismatch")
+        console.error(WRONG_PROJECT_MESSAGE)
+        process.exit(1)
+      }
+    
+      if (!localSyncSettings) {
+        await cliLogger.trackWarningAndFlush("[CLI] sync local sync settings do not exist")
+        console.error(MALFORMED_INIT_MESSAGE)
+        process.exit(1)
+      }
+    
+      // strip /* which is used for tsconfig.json
+      const importAlias = localSyncSettings.importAlias.endsWith("/*")
+        ? localSyncSettings.importAlias.slice(0, -2)
+        : localSyncSettings.importAlias
+    
+      const projectId = opts.projectId || localSyncSettings.projectId
+
+
+      const syncDirectory = join(cwd, localSyncSettings.directory)
+      await syncComponents(components, projectId, accessToken, importAlias, syncDirectory)
       console.clear()
 
       await installDependencies(cwd, opts)

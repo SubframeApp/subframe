@@ -136,7 +136,8 @@ initCommand.action(async (opts) => {
 
     await setupTailwindConfig(projectPath, rootPath, opts)
 
-    await initSync(projectPath, truncatedProjectId, accessToken, opts)
+    const syncDirectory = join(projectPath, directory)
+    await initSync(syncDirectory, truncatedProjectId, accessToken, importAlias, opts)
 
     // When setting up tailwind config on vite, the changes breaks vite (throws an error about preflight.css)
     // This is easily remedied by any npm install command. Thus, if we install dependencies after tailwind config is setup,
