@@ -54,7 +54,7 @@ export const initCommand = new Command()
   .option(`${COMMAND_INSTALL_KEY_SHORT}, ${COMMAND_INSTALL_KEY}`, "install dependencies after initializing")
   .option(`${COMMAND_TAILWIND_KEY_SHORT}, ${COMMAND_TAILWIND_KEY}`, "setup tailwind config")
   .option(`${COMMAND_ALIAS_KEY_SHORT}, ${COMMAND_ALIAS_KEY} <alias>`, "import alias to use")
-  .option(`${COMMAND_SYNC_KEY_SHORT}, ${COMMAND_SYNC_KEY}`, "sync components to your project")
+  .option(`${COMMAND_SYNC_KEY_SHORT}, ${COMMAND_SYNC_KEY}`, "sync all components")
 
 initCommand.action(async (opts) => {
   const cliLogger = makeCLILogger()

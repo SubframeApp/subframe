@@ -17,7 +17,7 @@ export async function initSync(
     type: "confirm",
     name: "sync",
     initial: true,
-    message: ["Would you like to directly sync your Subframe components?"].join("\n"),
+    message: ["Would you like to sync all of your Subframe components?"].join("\n"),
     onState: abortOnState,
   })
 
@@ -25,5 +25,5 @@ export async function initSync(
     return
   }
 
-  await syncComponents([], projectId, accessToken, importAlias, syncDirectory)
+  await syncComponents({ components: [], projectId, accessToken, importAlias, syncDirectory })
 }

@@ -5,7 +5,20 @@ import { IGNORE_UPDATE_KEYWORD } from "shared/constants"
 import { apiSyncProject } from "./api-endpoints"
 import { getAllAbsFilePaths, isFileContentsWriteable } from "./utils/files"
 
-export async function syncComponents(components: string[], projectId: string | undefined, accessToken: string, importAlias: string, syncDirectory: string) {
+export async function syncComponents({
+  // Note: An empty array means sync all components
+  components,
+  projectId,
+  accessToken,
+  importAlias,
+  syncDirectory,
+}: {
+  components: string[]
+  projectId: string | undefined
+  accessToken: string
+  importAlias: string
+  syncDirectory: string
+}) {
   const { definitionFiles, otherFiles } = await oraPromise(
     apiSyncProject({
       token: accessToken,
