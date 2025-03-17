@@ -1,4 +1,4 @@
-import { Command, Option } from "commander"
+import { Command, Option } from "@commander-js/extra-typings"
 import { writeFile } from "node:fs/promises"
 import { join } from "node:path"
 import { oraPromise } from "ora"
@@ -15,6 +15,8 @@ import {
   COMMAND_NAME_KEY_SHORT,
   COMMAND_PROJECT_ID_KEY,
   COMMAND_PROJECT_ID_KEY_SHORT,
+  COMMAND_SYNC_KEY,
+  COMMAND_SYNC_KEY_SHORT,
   COMMAND_TAILWIND_KEY,
   COMMAND_TAILWIND_KEY_SHORT,
   COMMAND_TEMPLATE_KEY,
@@ -24,6 +26,7 @@ import { apiInitProject, apiUpdateImportAlias } from "./api-endpoints"
 import { localSyncSettings } from "./common"
 import { writeAuthConfig } from "./config"
 import { SUBFRAME_INIT_MESSAGE } from "./constants"
+import { initSync } from "./init-sync"
 import { installDependencies } from "./install-dependencies"
 import { makeCLILogger } from "./logger/logger-cli"
 import { prepareProject } from "./setup/prepare-project"
@@ -51,6 +54,7 @@ export const initCommand = new Command()
   .option(`${COMMAND_INSTALL_KEY_SHORT}, ${COMMAND_INSTALL_KEY}`, "install dependencies after initializing")
   .option(`${COMMAND_TAILWIND_KEY_SHORT}, ${COMMAND_TAILWIND_KEY}`, "setup tailwind config")
   .option(`${COMMAND_ALIAS_KEY_SHORT}, ${COMMAND_ALIAS_KEY} <alias>`, "import alias to use")
+  .option(`${COMMAND_SYNC_KEY_SHORT}, ${COMMAND_SYNC_KEY}`, "sync all components")
 
 initCommand.action(async (opts) => {
   const cliLogger = makeCLILogger()
@@ -58,7 +62,6 @@ initCommand.action(async (opts) => {
   try {
     const { projectPath } = await prepareProject(cliLogger, opts)
 
-    const truncatedProjectId = opts.projectId
     let accessToken = opts.authToken
     if (accessToken) {
       const isValid = await verifyTokenWithOra(accessToken)
@@ -72,6 +75,8 @@ initCommand.action(async (opts) => {
     }
 
     console.time(SUBFRAME_INIT_MESSAGE)
+
+    const truncatedProjectId = opts.projectId ?? localSyncSettings?.projectId
 
     const { styleFile, oldImportAlias } = await oraPromise(
       apiInitProject({
@@ -89,7 +94,7 @@ initCommand.action(async (opts) => {
       {
         directory: opts.dir ?? localSyncSettings?.directory,
         importAlias: localSyncSettings?.importAlias,
-        projectId: opts.projectId ?? localSyncSettings?.projectId,
+        projectId: truncatedProjectId,
       },
       opts,
     )
@@ -130,6 +135,9 @@ initCommand.action(async (opts) => {
     }
 
     await setupTailwindConfig(projectPath, rootPath, opts)
+
+    const syncDirectory = join(projectPath, directory)
+    await initSync(syncDirectory, truncatedProjectId, accessToken, importAlias, opts)
 
     // When setting up tailwind config on vite, the changes breaks vite (throws an error about preflight.css)
     // This is easily remedied by any npm install command. Thus, if we install dependencies after tailwind config is setup,

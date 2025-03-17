@@ -1,6 +1,6 @@
 {
   "name": "@subframe/cli",
-  "version": "1.179.0",
+  "version": "1.180.0",
   "description": "Subframe's CLI tool for syncing your code with Subframe designs.",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@antfu/ni": "0.21.8",
+    "@commander-js/extra-typings": "^13.1.0",
     "@segment/analytics-node": "2.1.2",
     "chalk": "4.1.2",
     "commander": "^13.1.0",
