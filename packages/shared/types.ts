@@ -14,6 +14,9 @@ export interface CodeGenFile {
 export const CODE_GEN_CSS_TYPE_OPTIONS = ["tailwind", "scss-with-modules"] as const
 export type CodeGenCSSType = (typeof CODE_GEN_CSS_TYPE_OPTIONS)[number]
 
+export const CODE_GEN_ICON_BEHAVIOR_OPTIONS = ["name", "component"] as const
+export type CodeGenIconBehavior = (typeof CODE_GEN_ICON_BEHAVIOR_OPTIONS)[number]
+
 // API
 export interface VerifyTokenResponse {
   success: true

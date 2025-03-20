@@ -34,6 +34,9 @@ import { Text } from "./utilities/text"
 import * as TypescriptHelpers from "./lib/typescript-helpers"
 import { twClassNames } from "./lib/tw-classnames"
 
+// Icons
+import * as Icons from "./assets/icons/final"
+
 /**
  * Then re-export everything
  */
@@ -62,11 +65,13 @@ export { Collapsible }
 export { Text }
 export { TypescriptHelpers }
 export { twClassNames }
+export * from "./assets/icons/final"
 
 /**
  * Finally, create our default export using the imported values
  */
 const SubframeCore = {
+  ...Icons,
   RadioGroup,
   Checkbox,
   Popover,
