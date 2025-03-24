@@ -53,7 +53,7 @@ export const syncCommand = new Command()
       const syncDirectory = join(cwd, localSyncSettings.directory)
       await syncComponents({ components, projectId, accessToken, importAlias, syncDirectory })
 
-      await installDependencies(cwd, { install: opts.install })
+      await installDependencies(cwd, opts)
 
       console.timeEnd(SUBFRAME_SYNC_MESSAGE)
     } catch (err: any) {
