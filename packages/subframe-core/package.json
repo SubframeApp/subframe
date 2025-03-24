@@ -6,6 +6,11 @@
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/cjs/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "package.json"
+  ],
   "scripts": {
     "build": "rm -rf dist/ && rollup -c --bundleConfigAsCjs",
     "build:icons": "npx @svgr/cli --expand-props none --icon --typescript --filename-case kebab --template icon-template.js -d ./src/assets/icons/final ./src/assets/icons/raw --no-svgo",
