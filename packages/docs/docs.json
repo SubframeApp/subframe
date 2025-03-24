@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "palm",
+  "theme": "willow",
   "name": "Subframe Docs",
   "colors": {
     "primary": "#000000",
@@ -20,77 +20,57 @@
           "anchor": "Blog",
           "href": "https://www.subframe.com/blog",
           "icon": "newspaper"
-        },
-        {
-          "anchor": "Guides",
-          "href": "https://www.subframe.com/guides",
-          "icon": "book-open-cover"
         }
       ]
     },
-    "tabs": [
+    "dropdowns": [
       {
-        "tab": "For Developers",
-        "dropdowns": [
+        "dropdown": "Getting Started",
+        "icon": "rocket",
+        "pages": [
           {
-            "dropdown": "Getting Started",
-            "icon": "rocket",
+            "group": "Getting Started",
+            "pages": ["getting-started/introduction", "getting-started/quickstart", "getting-started/faqs"]
+          },
+          {
+            "group": "Framework Guides",
             "pages": [
-              {
-                "group": "Getting Started",
-                "pages": ["for-developers/getting-started/introduction", "for-developers/getting-started/quickstart"]
-              },
-              {
-                "group": "Framework Guides",
-                "pages": [
-                  "for-developers/getting-started/framework-guides/overview",
-                  "for-developers/getting-started/framework-guides/nextjs",
-                  "for-developers/getting-started/framework-guides/vite",
-                  "for-developers/getting-started/framework-guides/astro",
-                  "for-developers/getting-started/framework-guides/manual"
-                ]
-              }
+              "getting-started/framework-guides/overview",
+              "getting-started/framework-guides/nextjs",
+              "getting-started/framework-guides/vite",
+              "getting-started/framework-guides/astro",
+              "getting-started/framework-guides/manual"
             ]
-          },
-          {
-            "dropdown": "Developing with Subframe",
-            "icon": "circle-play",
-            "pages": [
-              {
-                "group": "Basics",
-                "pages": [
-                  "for-developers/developing-with-subframe/basics/syncing-components",
-                  "for-developers/developing-with-subframe/basics/using-components",
-                  "for-developers/developing-with-subframe/basics/adding-business-logic"
-                ]
-              },
-              {
-                "group": "Best practices",
-                "pages": [
-                  "for-developers/developing-with-subframe/best-practices/props-and-slots",
-                  "for-developers/developing-with-subframe/best-practices/copy-vs-sync"
-                ]
-              }
-            ]
-          },
-          {
-            "dropdown": "FAQs",
-            "icon": "circle-question",
-            "pages": ["for-developers/faqs/importing-existing-components"]
-          },
-          {
-            "dropdown": "Troubleshooting",
-            "icon": "circle-exclamation",
-            "pages": ["for-developers/troubleshooting/missing-styling"]
           }
         ]
       },
       {
-        "tab": "For Designers",
-        "groups": [
+        "dropdown": "Developing with Subframe",
+        "icon": "circle-play",
+        "pages": [
           {
-            "group": "Getting Started",
-            "pages": ["for-designers/getting-started/introduction"]
+            "group": "Basics",
+            "pages": [
+              "developing-with-subframe/basics/syncing-components",
+              "developing-with-subframe/basics/using-components",
+              "developing-with-subframe/basics/adding-business-logic"
+            ]
+          },
+          {
+            "group": "Best practices",
+            "pages": [
+              "developing-with-subframe/best-practices/props-and-slots",
+              "developing-with-subframe/best-practices/copy-vs-sync",
+              "developing-with-subframe/best-practices/when-to-unsync"
+            ]
+          },
+          {
+            "group": "Building with AI",
+            "pages": [
+              "developing-with-subframe/building-with-ai/export-to-cursor",
+              "developing-with-subframe/building-with-ai/export-to-bolt",
+              "developing-with-subframe/building-with-ai/export-to-replit"
+            ]
           }
         ]
       }
