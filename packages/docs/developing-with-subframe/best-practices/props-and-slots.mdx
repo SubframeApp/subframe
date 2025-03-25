@@ -1,0 +1,103 @@
+---
+title: Props and Slots
+icon: square-arrow-down-left
+---
+
+In Subframe, there's two main ways to customize the contents of a component; props and slots. You can use both to customize the contents of a component, but they serve different purposes and are used in different situations.
+
+
+Props are used to customize "simple" parts of a component. Think text, image URLs, or other data that can be expressed as a simple data type. 
+
+Slots are much more flexible and can be used to pass arbitrary React nodes down into your component. This is called the [React composition pattern](https://felixgerschau.com/react-component-composition/). Although since using slots can make a component more complex to work with, there's a balance to be struck between using props and slots, and the right choice depends on the specific use case.
+
+The **TL;DR** is:
+
+* Use props for changing simple content - text, image URLs, etc.
+* Use slots when you have dynamic content, or need to access a subcomponent's props - `onClick`, `onChange`, `alt`, `src`, etc.
+
+Let's have a look at the `<TrackCard />` component from the [previous example](/developing-with-subframe/basics/adding-business-logic#example-2-a-complex-custom-component) to see how this works in practice.
+
+<CodeGroup>
+    ```tsx src/components/TrackCard.tsx (with only props)
+    "use client";
+    import { TrackCardWithProps } from "@/ui/components/TrackCardWithProps";
+
+    function TrackCardWithPropsExample() {
+        const [isFavorite, setIsFavorite] = useState<boolean>(false);
+
+        function handleFavoriteClick() {
+            setIsFavorite((prev) => !prev);
+        }
+
+        const favoriteIcon = isFavorite ? "FeatherHeartOff" : "FeatherHeart";
+
+        return (
+            <TrackCardWithProps
+                title="The Less I Know The Better"
+                artist="Tame Impala"
+                length="3:38"
+                genre="Disco"
+                // We can only pass a static image URL here and no alt text,
+                // since the props for the underlying <img /> are not exposed
+                image="/covers/tame_impala-currents.jpg"
+                // We have no way to add an onClick handler or an icon to our 
+                // FavoriteButton here, since it's events are not exposed
+            />
+        );
+    }
+
+    export default TrackCardWithPropsExample;
+    ```
+
+    ```tsx src/components/TrackCard.tsx (with slots)
+    "use client";
+    import { TrackCardWithSlots } from "@/ui/components/TrackCardWithSlots";
+    import Image from 'next/image'
+
+    function TrackCardWithSlotsExample() {
+        const [isFavorite, setIsFavorite] = useState<boolean>(false);
+
+        function handleFavoriteClick() {
+            setIsFavorite((prev) => !prev);
+        }
+
+        const favoriteIcon = isFavorite ? "FeatherHeartOff" : "FeatherHeart";
+
+        return (
+            <TrackCardWithSlots
+                title="The Less I Know The Better"
+                artist="Tame Impala"
+                length="3:38"
+                // We can pass in an onClick handler
+                // and icon to the FavoriteButton here, 
+                // since it's props are now exposed
+                favoriteButtonSlot={
+                    <TrackCardWithSlots.FavoriteButton
+                        icon={favoriteIcon}
+                        onClick={handleFavoriteClick}
+                    />
+                }
+                imageSlot={
+                    // We can pass an arbitrary React node here
+                    // such as Next's <Image /> component,
+                    // allowing us to optimize images and add alt text
+                    <Image
+                        src="/covers/tame_impala-currents.jpg"
+                        alt="Tame Impala Currents Cover Art"
+                        fill={true}
+                    />
+                }
+                genre="Disco"
+            />
+        );
+    }
+
+    export default TrackCardWithSlotsExample;
+```
+</CodeGroup>
+
+<Tip>
+ **Protip:** We can use Subcomponents to expose props and slots to the consumer of a component while giving a hint which components are supposed to be used within that slot, as we've done with the `<TrackCardWithSlots.FavoriteButton />` subcomponent in the example above.
+</Tip>
+
+When used in conjunction with Subcomponents, you can make sure that you expose all the necessary props and slots to the consumer of a component while making sure that the component is easy to use and understand.

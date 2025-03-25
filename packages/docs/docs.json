@@ -1,0 +1,92 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "willow",
+  "name": "Subframe Docs",
+  "colors": {
+    "primary": "#000000",
+    "light": "#dddddd",
+    "dark": "#333333"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Community",
+          "href": "https://join.slack.com/t/subframecommunity/shared_invite/zt-2gcv0nlow-qO_3pM3ZfNVGXZTWHVfwVw",
+          "icon": "slack"
+        },
+        {
+          "anchor": "Blog",
+          "href": "https://www.subframe.com/blog",
+          "icon": "newspaper"
+        }
+      ]
+    },
+    "dropdowns": [
+      {
+        "dropdown": "Getting Started",
+        "icon": "rocket",
+        "pages": [
+          {
+            "group": "Getting Started",
+            "pages": ["getting-started/introduction", "getting-started/quickstart", "getting-started/faqs"]
+          },
+          {
+            "group": "Framework Guides",
+            "pages": [
+              "getting-started/framework-guides/overview",
+              "getting-started/framework-guides/nextjs",
+              "getting-started/framework-guides/vite",
+              "getting-started/framework-guides/astro",
+              "getting-started/framework-guides/manual"
+            ]
+          }
+        ]
+      },
+      {
+        "dropdown": "Developing with Subframe",
+        "icon": "circle-play",
+        "pages": [
+          {
+            "group": "Basics",
+            "pages": [
+              "developing-with-subframe/basics/syncing-components",
+              "developing-with-subframe/basics/using-components",
+              "developing-with-subframe/basics/adding-business-logic"
+            ]
+          },
+          {
+            "group": "Best practices",
+            "pages": [
+              "developing-with-subframe/best-practices/props-and-slots",
+              "developing-with-subframe/best-practices/copy-vs-sync",
+              "developing-with-subframe/best-practices/when-to-unsync"
+            ]
+          },
+          {
+            "group": "Building with AI",
+            "pages": [
+              "developing-with-subframe/building-with-ai/export-to-cursor",
+              "developing-with-subframe/building-with-ai/export-to-bolt",
+              "developing-with-subframe/building-with-ai/export-to-replit"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "navbar": {
+    "links": []
+  },
+  "footer": {
+    "socials": {
+      "slack": "https://join.slack.com/t/subframecommunity/shared_invite/zt-2gcv0nlow-qO_3pM3ZfNVGXZTWHVfwVw",
+      "github": "https://github.com/SubframeApp"
+    }
+  }
+}

@@ -1,0 +1,198 @@
+---
+title: Manual
+description: "Get up and running with your Framework of choice"
+---
+
+If you're using a Framework that's not directly supported by Subframe, you might still be able to use Subframe within your project.
+The only direct dependencies of Subframe are React, TailwindCSS (with PostCSS and Autoprefixer) and TypeScript. Follow the steps below to set up Subframe in your project.
+
+For this example, we're assuming you have a project set up with the following file structure:
+
+```
+my-app/
+|-- src/
+|   |-- main.tsx
+|   `-- styles.css
+|-- index.html
+|-- package.json
+`-- tsconfig.json
+```
+
+## Set up TailwindCSS
+
+<Note>
+    You can find more information on how to set up TailwindCSS in the [official TailwindCSS documentation](https://v3.tailwindcss.com/docs/installation/using-postcss).
+</Note>
+
+First, we want to install TailwindCSS, PostCSS and Autoprefixer in our project.
+
+<CodeGroup>
+    ```bash npm
+    npm install -D tailwindcss@^3 postcss autoprefixer
+    ```
+    ```bash yarn
+    yarn add -D tailwindcss@^3 postcss autoprefixer
+    ```
+    ```bash pnpm
+    pnpm add -D tailwindcss@^3 postcss autoprefixer
+    ```
+    ```bash bun
+    bun add -D tailwindcss@^3 postcss autoprefixer
+    ```
+</CodeGroup>
+
+Next, we want to initialize our TailwindCSS config:
+
+<CodeGroup>
+    ```bash npm
+    npx tailwindcss init -p
+    ```
+    ```bash yarn
+    yarn tailwindcss init -p
+    ```
+    ```bash pnpm
+    pnpm exec tailwindcss init -p
+    ```
+    ```bash bun
+    bunx tailwindcss init -p
+    ```
+</CodeGroup>
+
+This will create a `tailwind.config.js` file in your project root.
+Our file structure should now look like this:
+
+``` {8-9}
+my-app/
+|-- src/
+|   |-- main.tsx
+|   `-- styles.css
+|-- index.html
+|-- package.json
+|-- tsconfig.json
+|-- postcss.config.js
+`-- tailwind.config.js
+```
+We also need to include our source directory and any files we might use TailwindCSS in. 
+
+
+```javascript tailwind.config.js {4-5}
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,jsx,ts,tsx}"
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+  presets: [
+    require("./src/ui/tailwind.config.js")
+  ]
+}
+```
+
+<Info>
+    We're assuming you'll sync your Subframe projects to somewhere inside your `src/` directory. If not, you'll need to adjust the `content` array in your `tailwind.config.js` file accordingly.
+</Info>
+
+Finally, we want to include TailwindCSS in our CSS. In your `src/styles.css` file, add the following:
+
+```css src/styles.css {1-3}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+Also make sure to include your stylesheet in your App:
+
+```typescript src/main.tsx {1}
+import './styles.css';
+```
+
+## Set up Subframe
+
+<Note>
+    We recommend using `@subframe/cli` to initialize your project instead. If for some reason that's not a possibility, you can follow the steps below.
+</Note>
+
+We'll assume that you want to sync your Subframe components to `src/ui` in your project. You can change this to any directory you prefer.
+
+<Steps>
+    <Step title="Create `.subframe/sync.json` file">
+        Create a `.subframe/sync.json` file in your project with the following content:
+
+        ```json .subframe/sync.json {1-5}
+        {
+            "directory": "./src/ui",
+            "importAlias": "@/ui/*",
+            "projectId": "YOUR_PROJECT_ID"
+        }
+        ```
+
+        You can find your project's ID within the Subframe app when looking at the `sync` command under `Sync code` in the top bar behind the `-p`argument.
+    </Step>
+
+    <Step title="Install the necessary dependencies">
+        Subframe depends on `@subframe/core` and `classnames`. You can install these dependencies with the following command:
+            
+        <CodeGroup>
+            ```bash npm
+            npm install @subframe/core@latest classnames@^2.3.1
+            ```
+            ```bash yarn
+            yarn add @subframe/core@latest classnames@^2.3.1
+            ```
+            ```bash pnpm
+            pnpm add @subframe/core@latest classnames@^2.3.1
+            ```
+            ```bash bun
+            bun add @subframe/core@latest classnames@^2.3.1
+            ```
+        </CodeGroup>
+    </Step>
+
+    <Step title="Include Subframe's TailwindCSS config">
+        In your `tailwind.config.js` file, include the TailwindCSS config from Subframe:
+
+        ```javascript tailwind.config.js {11-13}
+        /** @type {import('tailwindcss').Config} */
+        module.exports = {
+            content: [
+                "./index.html",
+                "./src/**/*.{js,jsx,ts,tsx}"
+            ],
+            theme: {
+                extend: {},
+            },
+            plugins: [],
+            presets: [
+                require("./src/ui/tailwind.config")
+            ]
+        }
+        ```
+    </Step>
+
+    <Step title="Configure TypeScript">
+        In your `tsconfig.json` file, add the following paths:
+
+        ```json tsconfig.json {3-6}
+        {
+            "compilerOptions": {
+                "baseUrl": "./",
+                "paths": {
+                    "@/ui/*": ["./src/ui/*"]
+                }
+            }
+        }
+        ```
+
+        Make sure to change the path to your Subframe components if you've chosen a different directory.
+    </Step>
+</Steps>
+
+You should now be prepared to use Subframe within your project.
+
+<Card title="Syncing components" href="/developing-with-subframe/basics/syncing-components">
+    Learn how to sync, unsync and update your Subframe components
+</Card>

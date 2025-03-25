@@ -1,0 +1,11 @@
+{
+  "name": "@subframe/docs",
+  "type": "module",
+  "scripts": {
+    "dev": "mintlify dev",
+    "broken-links": "mintlify broken-links"
+  },
+  "devDependencies": {
+    "mintlify": "^4.0.393"
+  }
+}
