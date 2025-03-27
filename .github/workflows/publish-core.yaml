@@ -1,11 +1,11 @@
-name: Publish CLI
+name: Publish Core
 
 on:
   workflow_dispatch:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest-l
+    runs-on: ubuntu-latest-m
     permissions:
       contents: write
     env:
@@ -23,17 +23,15 @@ jobs:
           cache: "npm"
           registry-url: "https://registry.npmjs.org"
       - name: Install dependencies
-        run: npm ci --workspace=@subframe/cli
+        run: npm ci --workspace=@subframe/core
       - name: Bump version
-        run: npm run update-version --workspace=@subframe/cli
+        run: npm run update-version --workspace=@subframe/core
       - name: Build
-        run: npm run build-for-publish --workspace=@subframe/cli
-        env:
-          SEGMENT_WRITE_KEY: ${{ secrets.SEGMENT_WRITE_KEY }}
+        run: npm run build-for-publish --workspace=@subframe/core
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: Publish CLI
+          commit_message: Publish Core
       - name: Publish
-        run: npm run publish-to-npm --workspace=@subframe/cli
+        run: npm run publish-to-npm --workspace=@subframe/core
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
