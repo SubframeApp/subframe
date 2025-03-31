@@ -38,6 +38,7 @@
               "getting-started/framework-guides/nextjs",
               "getting-started/framework-guides/vite",
               "getting-started/framework-guides/astro",
+              "getting-started/framework-guides/monorepo",
               "getting-started/framework-guides/manual"
             ]
           }
@@ -66,9 +67,9 @@
           {
             "group": "Building with AI",
             "pages": [
-              "developing-with-subframe/building-with-ai/export-to-cursor",
-              "developing-with-subframe/building-with-ai/export-to-bolt",
-              "developing-with-subframe/building-with-ai/export-to-replit"
+              "developing-with-subframe/building-with-ai/integrate-with-cursor",
+              "developing-with-subframe/building-with-ai/integrate-with-bolt",
+              "developing-with-subframe/building-with-ai/integrate-with-replit"
             ]
           }
         ]
