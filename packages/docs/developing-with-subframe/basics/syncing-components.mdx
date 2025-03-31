@@ -3,23 +3,22 @@ title: Syncing components
 icon: rotate
 ---
 
-
 <video
-    autoPlay
-    muted
-    loop
-    playsInline
-    controls
-    className="w-full"
-    src="/images/developing-with-subframe/basics/syncing-components/sync-components.webm"
+  autoPlay
+  muted
+  loop
+  playsInline
+  controls
+  className="w-full"
+  src="/images/developing-with-subframe/basics/syncing-components/sync-components.webm"
 />
 
 To be able to import and use Subframe components in your app, you will need to sync them to your project. This will create a local copy of all the component code in your repository and allow you to use them in your app. You can then use the Subframe CLI to update the components whenever you change your designs in the Subframe app.
 
 <Note>
-    **Sync goes one way;** from Subframe to your project. This means that if you make changes to the component code in your project, those changes will be overwritten the next time you sync.
+  **Sync goes one way;** from Subframe to your project. This means that if you make changes to the component code in
+  your project, those changes will be overwritten the next time you sync.
 </Note>
-
 
 ## Running the sync command
 
@@ -27,18 +26,20 @@ If you've already run the Subframe CLI to initialize your project, you might hav
 For all subsequent syncs, you can run the following command to sync your components:
 
 <CodeGroup>
-    ```bash npm
-    npx @subframe/cli@latest sync --all
-    ```
-    ```bash yarn
-    yarn @subframe/cli@latest sync --all
-    ```
-    ```bash pnpm
-    pnpm exec @subframe/cli@latest sync --all
-    ```
-    ```bash bun
-    bunx --bun @subframe/cli@latest sync --all
-    ```
+
+  ```bash npm
+  npx @subframe/cli@latest sync --all
+  ```
+  ```bash yarn
+  yarn @subframe/cli@latest sync --all
+  ```
+  ```bash pnpm
+  pnpm exec @subframe/cli@latest sync --all
+  ```
+  ```bash bun
+  bunx --bun @subframe/cli@latest sync --all
+  ```
+
 </CodeGroup>
 
 You can also provide arguments to the command to sync only specific components, all components, and to directly install all necessary dependencies:
@@ -57,44 +58,50 @@ Options:
 For example, to sync all components, you can run the following command:
 
 <CodeGroup>
-    ```bash npm
-    npx @subframe/cli@latest sync --all
-    ```
-    ```bash yarn
-    yarn @subframe/cli@latest sync --all
-    ```
-    ```bash pnpm
-    pnpm exec @subframe/cli@latest sync --all
-    ```
-    ```bash bun
-    bunx --bun @subframe/cli@latest sync --all
-    ```
+
+  ```bash npm
+  npx @subframe/cli@latest sync --all
+  ```
+  ```bash yarn
+  yarn @subframe/cli@latest sync --all
+  ```
+  ```bash pnpm
+  pnpm exec @subframe/cli@latest sync --all
+  ```
+  ```bash bun
+  bunx --bun @subframe/cli@latest sync --all
+  ```
+
 </CodeGroup>
-
-
 
 Or to only sync the `<Alert />` and `<Accordion />` component, you can run the following command:
 
 <CodeGroup>
-    ```bash npm
-    npx @subframe/cli@latest sync Alert,Accordion
-    ```
-    ```bash yarn
-    yarn @subframe/cli@latest sync Alert,Accordion
-    ```
-    ```bash pnpm
-    pnpm exec @subframe/cli@latest sync Alert,Accordion
-    ```
-    ```bash bun
-    bunx --bun @subframe/cli@latest sync Alert,Accordion
-    ```
+
+  ```bash npm
+  npx @subframe/cli@latest sync Alert Accordion
+  ```
+  ```bash yarn
+  yarn @subframe/cli@latest sync Alert Accordion
+  ```
+  ```bash pnpm
+  pnpm exec @subframe/cli@latest sync Alert Accordion
+  ```
+  ```bash bun
+  bunx --bun @subframe/cli@latest sync Alert Accordion
+  ```
+
 </CodeGroup>
 
 ## Unsyncing components
-<Warning>Unsyncing components is supposed to be a last resort in case you *really* need to change something about how the component works. If you can, try wrapping your component and adding your business logic there. For more information, visit our guide on best practices on syncing.</Warning>
+
+<Warning>
+  Unsyncing components is supposed to be a last resort in case you *really* need to change something about how the
+  component works. If you can, try wrapping your component and adding your business logic there. For more information,
+  visit our guide on best practices on syncing.
+</Warning>
 
 If you make a change to a component that Subframe would sync (generally all components in your `@/ui/` directory), Subframe will overwrite the changes you made to the component on the next sync. To make sure that doesn't happen, you can unsync the component by adding `// @subframe/sync-disable` to the top of the component file.
-
 
 ```tsx src/ui/Accordion.tsx {1}
 // @subframe/sync-disable

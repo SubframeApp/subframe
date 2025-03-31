@@ -36,15 +36,16 @@ The easiest way of doing so is the Subframe CLI, which will initialize the proje
     </Step>
 
     <Step title="Configure Vite to use import aliases">
-        Now configure your import alias in `tsconfig.app.json`.
+        For Vite to understand the `@/[DIRECTORY]` import syntax, we need to configure the `compilerOptions` in our `tsconfig.app.json` file and let Vite know how to resolve the aliases in our `vite.config.ts` file.
 
-        ```json tsconfig.app.json {3-8}
+       <CodeGroup>
+         ```json tsconfig.app.json {3-8}
         {
             "compilerOptions": {
                 "baseUrl": "./",
                 "paths": {
                     "@/*": [
-                        "./src/*"
+                        "src/*"
                     ]
                 },
                 "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
@@ -72,6 +73,21 @@ The easiest way of doing so is the Subframe CLI, which will initialize the proje
             "include": ["src"]
         }
         ```
+
+        ```tsx vite.config.ts {6-10}
+        import { defineConfig } from 'vite'
+        import react from '@vitejs/plugin-react'
+
+        export default defineConfig({
+            plugins: [react()],
+            resolve: {
+                alias: {
+                    "@/*": "./src/*"
+                }
+            }
+        })
+        ```
+       </CodeGroup>
     </Step>
 </Steps>
 

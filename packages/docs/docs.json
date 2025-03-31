@@ -23,9 +23,9 @@
         }
       ]
     },
-    "dropdowns": [
+    "groups": [
       {
-        "dropdown": "Getting Started",
+        "group": "Getting Started",
         "icon": "rocket",
         "pages": [
           {
@@ -35,7 +35,6 @@
           {
             "group": "Framework Guides",
             "pages": [
-              "getting-started/framework-guides/overview",
               "getting-started/framework-guides/nextjs",
               "getting-started/framework-guides/vite",
               "getting-started/framework-guides/astro",
@@ -45,7 +44,7 @@
         ]
       },
       {
-        "dropdown": "Developing with Subframe",
+        "group": "Developing with Subframe",
         "icon": "circle-play",
         "pages": [
           {
@@ -86,7 +85,7 @@
   "footer": {
     "socials": {
       "slack": "https://join.slack.com/t/subframecommunity/shared_invite/zt-2gcv0nlow-qO_3pM3ZfNVGXZTWHVfwVw",
-      "github": "https://github.com/SubframeApp"
+      "github": "https://github.com/SubframeApp/subframe"
     }
   }
 }
