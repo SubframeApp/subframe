@@ -1,11 +1,12 @@
 {
   "name": "@subframe/core",
-  "version": "1.139.0",
+  "version": "1.141.0",
   "description": "",
   "source": "src/index.ts",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/cjs/index.d.ts",
+  "sideEffects": false,
   "scripts": {
     "build": "rm -rf dist/ && rollup -c --bundleConfigAsCjs",
     "build:icons": "npx @svgr/cli --expand-props none --icon --typescript --filename-case kebab --template icon-template.js -d ./src/assets/icons/final ./src/assets/icons/raw --no-svgo",

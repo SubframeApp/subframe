@@ -3,6 +3,7 @@ import { dirname, join } from "node:path"
 import { oraPromise } from "ora"
 import { IGNORE_UPDATE_KEYWORD } from "shared/constants"
 import { apiSyncProject } from "./api-endpoints"
+import { warning } from "./output/style"
 import { getAllAbsFilePaths, isFileContentsWriteable } from "./utils/files"
 
 export async function syncComponents({
@@ -19,7 +20,7 @@ export async function syncComponents({
   importAlias: string
   syncDirectory: string
 }) {
-  const { definitionFiles, otherFiles } = await oraPromise(
+  const { definitionFiles, otherFiles, errorComponents } = await oraPromise(
     apiSyncProject({
       token: accessToken,
       truncatedProjectId: projectId,
@@ -31,6 +32,10 @@ export async function syncComponents({
       failText: "Failed to sync Subframe components",
     },
   )
+
+  if (errorComponents.length) {
+    console.log(warning(`The following components were not found: ${errorComponents.join(", ")}\n`))
+  }
 
   console.log(
     `Tip: You can ignore any updates for a specific file by adding the following comment anywhere in the file:\n// ${IGNORE_UPDATE_KEYWORD}\n`,

@@ -23,6 +23,7 @@ import * as CopyToClipboard from "./components/copy-to-clipboard"
 import * as Switch from "./components/switch"
 import { Loader } from "./components/loader"
 import { Icon } from "./components/icon"
+import { IconWrapper } from "./components/icon-wrapper"
 import * as Dialog from "./components/dialog"
 import * as Drawer from "./components/drawer"
 import * as FullScreenDialog from "./components/fullscreen-dialog"
@@ -56,6 +57,7 @@ export { CopyToClipboard }
 export { Switch }
 export { Loader }
 export { Icon }
+export { IconWrapper }
 export type { IconName } from "./components/icon"
 export { Dialog }
 export { Drawer }
@@ -100,6 +102,7 @@ const SubframeCore = {
   Switch,
   Loader,
   Icon,
+  IconWrapper,
   Dialog,
   Drawer,
   FullScreenDialog,
