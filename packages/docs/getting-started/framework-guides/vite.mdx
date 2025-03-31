@@ -3,14 +3,14 @@ title: Vite
 description: "Get up and running with Vite and Subframe"
 ---
 
-If you just want to get setup with Vite and Subframe quickly, you can follow the [quickstart guide](/getting-started/quickstart). If you want to set up Subframe in your Vite app manually, you can follow the steps below.
+If you just want to get set up with Vite and Subframe quickly, you can follow the [quickstart guide](/getting-started/quickstart). If you want to set up Subframe in your Vite app manually, you can follow the steps below.
 
 <Note>
     This guide assumes that you already have React and Tailwind set up in your Vite app. If you don't, please follow the [Vite guide for scaffolding your project](https://vite.dev/guide/#scaffolding-your-first-vite-project) and the [TailwindCSS guide for setting up Tailwind in your Vite app using PostCSS](https://v3.tailwindcss.com/docs/installation/using-postcss).
 </Note>
 
 
-To be able to sync our components within our Vite app and use them, we will need to initialize the project and configure it to be able to style Subframe.
+To be able to sync our components into our Vite app, we will need to initialize the project.
 
 The easiest way of doing so is the Subframe CLI, which will initialize the project for you and set up some necessary configurations.
 
@@ -33,6 +33,10 @@ The easiest way of doing so is the Subframe CLI, which will initialize the proje
             bunx --bun @subframe/cli@latest init
             ```
         </CodeGroup>
+        
+        <Info>
+            Should you run into any trouble with the automated installation, have a look at the [manual installation guide](/getting-started/framework-guides/manual).
+        </Info>
     </Step>
 
     <Step title="Configure Vite to use import aliases">
@@ -91,8 +95,9 @@ The easiest way of doing so is the Subframe CLI, which will initialize the proje
     </Step>
 </Steps>
 
-You now have Subframe set up to use in your Vite app. You can now go ahead and sync your components to use them in your project.
 
-<Card title="Syncing components" href="/developing-with-subframe/basics/syncing-components">
-    Learn how to sync, unsync and update your Subframe components
+You now have your Subframe components set up to use in your app. You can now go ahead and use them in your project.
+
+<Card title="Using components" href="/developing-with-subframe/basics/using-components">
+    Learn how to use your Subframe components in your app
 </Card>

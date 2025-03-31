@@ -189,10 +189,33 @@ We'll assume that you want to sync your Subframe components to `src/ui` in your 
 
 		Make sure to change the path to your Subframe components if you've chosen a different directory.
 	</Step>
+
+	<Step title="Sync your Subframe components">
+		The last step is to actually download our Subframe component's code into our codebase.
+
+		To do so, run the following command:
+
+		<CodeGroup>
+			```bash npm
+			npx @subframe/cli@latest sync --all
+			```
+			```bash yarn
+			yarn @subframe/cli@latest sync --all
+			```
+			```bash pnpm
+			pnpm exec @subframe/cli@latest sync --all
+			```
+			```bash bun
+			bunx --bun @subframe/cli@latest sync --all
+			```
+		</CodeGroup>
+
+		The Subframe CLI will look for the project ID and configuration in your `.subframe` directory and download the components accordingly.
+	</Step>
 </Steps>
 
-You should now be prepared to use Subframe within your project.
+You now have your Subframe components set up to use in your app. You can now go ahead and use them in your project.
 
-<Card title="Syncing components" href="/developing-with-subframe/basics/syncing-components">
-	Learn how to sync, unsync and update your Subframe components
+<Card title="Using components" href="/developing-with-subframe/basics/using-components">
+    Learn how to use your Subframe components in your app
 </Card>

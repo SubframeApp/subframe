@@ -4,13 +4,13 @@ icon: timeline
 description: "Get your components to not only look good, but also do things"
 ---
 
-Since Subframe components are just React components, you can use them like any other React component. You can pass props to them, and they will work just like any other React component.
+Since Subframe components are just React components, you can use them like any other React component. You can pass props to them or pass down your component using slots, just like any other React component.
 
 ## The basics
 
 Generally, when we add business logic to components that are designed in Subframe, we don't generally directly change any code in our `src/ui/` directory. Instead, we import the components into our app and hook up business logic there.
 
-Subframe components are built on top of Radix UI, which means that they are accessible by default. They also expose all event handlers that the underlying HTML elements take. This means that you can use the `onClick`, `onChange`, and other event handlers to add business logic to your components.
+Subframe components are built on top of Radix UI, which means that they are accessible by default. They also expose all event handlers that the underlying HTML elements would expose. This means that you can use the `onClick`, `onChange`, and other event handlers to add business logic to your components.
 
 ## Examples
 
@@ -23,7 +23,7 @@ For the next few examples, let's imagine we're building the next music streaming
 
 ### Example 1 - A simple form
 
-Of course for our app, we'll need to implement some form of login. Magic link logins seem to be a popular choice these days, so let's build a simple magic link login form.
+For our example app, we'll need to implement some form of login. Magic link logins seem to be a popular choice these days, so let's build a simple magic link login form.
 
 This is what we want the end-result to look like:
 
@@ -33,7 +33,7 @@ This is what we want the end-result to look like:
   className="w-full"
 />
 
-Adding business logic to your app is as simple as providing the necessary props to your Subframe components.
+In this case, adding business logic to your app is as simple as providing the necessary props to your Subframe components.
 
 Now, let's add some functionality to our design.
 We'll add a fake fetch function that simulates a network request and a `handleSubmit` function that handles the form submission.
@@ -143,7 +143,7 @@ export default App
 
 </CodeGroup>
 
-All these changes now result in the following:
+We now have an interactive login form!
 
 <video
   autoPlay
@@ -164,9 +164,9 @@ We've built this component in Subframe:
 
 Now let's add some business logic to it!
 
-First, we'll create our component with business logic. Remember that we don't want to change the Subframe component's code directly, so we'll create a new component that wraps the Subframe component and adds our business logic to it.
+First, we'll create our component with business logic. Remember that we don't want to change the Subframe component's code directly, so we'll create a new component that wraps the Subframe component and passes our content and events down to it.
 
-Then, we'll create a wrapper component that keeps track of the favorite state and handles the click event.
+Then, we'll create a page component that keeps track of the favorite state and handles the click event.
 
 <CodeGroup>
 
