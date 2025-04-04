@@ -1,50 +1,35 @@
 ---
 title: Adding business logic
-icon: timeline
-description: "Get your components to not only look good, but also do things"
 ---
 
-Since Subframe components are just React components, you can use them like any other React component. You can pass props to them or pass down your component using slots, just like any other React component.
+A core principle behind Subframe’s code export flow is that business logic (like making an API call or managing React state) belongs in code, not a design tool. Thus, Subframe does not export any business logic, other than UI-specific interactions like animating an accordion open / close.
 
-## The basics
-
-Generally, when we add business logic to components that are designed in Subframe, we don't generally directly change any code in our `src/ui/` directory. Instead, we import the components into our app and hook up business logic there.
-
-Subframe components are built on top of Radix UI, which means that they are accessible by default. They also expose all event handlers that the underlying HTML elements would expose. This means that you can use the `onClick`, `onChange`, and other event handlers to add business logic to your components.
-
-## Examples
-
-For the next few examples, let's imagine we're building the next music streaming service called Spoofy.
+Let's consider a hypothetical music streaming app called Spoofy to demonstrate integrating business logic into Subframe pages and components.
 
 <Tip>
-  We've made a CodeSandbox project for the examples below so you can play around with the code. You can find it
-  [here](https://codesandbox.io/p/devbox/subframe-spoofy-rw5wrj).
+  We've made a [CodeSandbox](https://codesandbox.io/p/devbox/subframe-spoofy-rw5wrj) project for the examples below so you can play around with the code.
 </Tip>
 
-### Example 1 - A simple form
+### Example 1 - Magic link login form
 
-For our example app, we'll need to implement some form of login. Magic link logins seem to be a popular choice these days, so let's build a simple magic link login form.
-
-This is what we want the end-result to look like:
+For our example app, we'll build a simple magic link login form. This is what we want the end-result to look like:
 
 <img
-  src="/images/developing-with-subframe/basics/adding-business-logic/form-example-1.png"
+  src="/images/adding-business-logic/form-example-1.png"
   alt="Form Example 1"
   className="w-full"
 />
 
-In this case, adding business logic to your app is as simple as providing the necessary props to your Subframe components.
+We've finished [copying the page code](/copy-paste-pages) from Subframe, so now let's add some basic functionality.
 
-Now, let's add some functionality to our design.
-We'll add a fake fetch function that simulates a network request and a `handleSubmit` function that handles the form submission.
+1. We add a fake fetch function that simulates a network request and a `handleSubmit` function that handles the form submission.
+2. We also want to update our Button to show that we're currently submitting the form, so we'll maintain a `submitting` state variable and pass it to the Button in the `disabled` and `loading` props.
 
-We also want our Button component to show that we're currently submitting the form, so we'll keep `submitting` in a state variable and pass it to the Button component in the `disabled` and `loading` prop.
-
-You can see the changes we made to the components in the highlighted lines below.
+You can see the changes we made in the highlighted lines below: 
 
 <CodeGroup>
 
-```tsx src/App.tsx (without business logic)
+```tsx src/App.tsx (without business logic) [expandable]
 import { DialogLayout } from "@/ui/layouts/DialogLayout"
 import { TextField } from "@/ui/components/TextField"
 import { Button } from "@/ui/components/Button"
@@ -78,7 +63,7 @@ function App() {
 export default App
 ```
 
-```tsx src/App.tsx (with business logic) {4, 6-15, 18, 20-32, 49-50}
+```tsx src/App.tsx (with business logic) {4, 6-15, 18, 20-32, 49-50} [expandable]
 import { DialogLayout } from "@/ui/layouts/DialogLayout"
 import { TextField } from "@/ui/components/TextField"
 import { Button } from "@/ui/components/Button"
@@ -151,26 +136,26 @@ We now have an interactive login form!
   loop
   playsInline
   className="w-full"
-  src="/images/developing-with-subframe/basics/adding-business-logic/form-example-2.webm"
+  src="/images/adding-business-logic/form-example-2.webm"
 />
 
-### Example 2 - A complex custom component
+### Example 2 - Interactive track cards
 
-Now let's imagine we'd like to build a feature where we show the user their most-listened-to tracks of the past week and want to allow them to favorite them so they can easily find them later.
+We now want to build a feature where we show the user their most-listened-to tracks of the past week and allow them to favorite tracks so they can easily find them later.
 
-We've built this component in Subframe:
+When adding business logic to Subframe-designed components, we recommend not editing the generated code inside the `src/ui/` directory directly, but instead [wrapping the component](/disabling-sync#wrapping-%E2%80%9Cdumb%E2%80%9D-components-recommended).
 
-![Component Example Page](/images/developing-with-subframe/basics/adding-business-logic/component-example-page.png)
+We built a `TrackCard` component and `FavoriteTracks` page in Subframe and brought them to our codebase:
 
-Now let's add some business logic to it!
+![Component Example Page](/images/adding-business-logic/component-example-page.png)
 
-First, we'll create our component with business logic. Remember that we don't want to change the Subframe component's code directly, so we'll create a new component that wraps the Subframe component and passes our content and events down to it.
-
-Then, we'll create a page component that keeps track of the favorite state and handles the click event.
+Now we'll add the functionality to be able to favorite tracks:
+1. We'll wrap the original `TrackCard` component with a new component that will manage the simple business logic.
+2. We'll use this wrapper component in our `FavoriteTracks` page which manages the data, the `favorite` state, and provides the onClick handlers.
 
 <CodeGroup>
 
-```tsx src/components/TrackCard.tsx
+```tsx src/components/TrackCard.tsx [expandable]
 import { HTMLAttributes, useMemo } from "react"
 import { TrackCard as SubframeTrackCard } from "@/ui"
 import { Image } from "./Image"
@@ -212,7 +197,7 @@ const TrackCard = ({ title, artist, length, genre, coverImage, isFavorite, onFav
 export default TrackCard
 ```
 
-```tsx src/components/FavoriteTracks.tsx
+```tsx src/components/FavoriteTracks.tsx [expandable]
 import { useState } from "react"
 import TrackCardWithLogic from "../components/TrackCard"
 
@@ -297,7 +282,7 @@ And we're done! The end result looks like this:
   loop
   playsInline
   className="w-full aspect-video"
-  src="/images/developing-with-subframe/basics/adding-business-logic/component-example-2.webm"
+  src="/images/adding-business-logic/component-example-2.webm"
 />
 
-You may have noticed that we're using slots for our image and favorite button. We'll cover the reasons for this in the next page.
+You may have noticed that we're using slots for our image and favorite button. We'll cover the reasons for this in [Props and Slots](/props-and-slots).

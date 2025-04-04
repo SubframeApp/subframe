@@ -1,25 +1,21 @@
 ---
 title: Props and Slots
-icon: square-arrow-down-left
-description: "Learn when and when not to add slots to your components"
 ---
 
-In Subframe, there's two main ways to customize the contents of a component; props and slots. You can use both to customize the contents of a component, but they serve different purposes and are used in different situations.
+In Subframe, you can customize components using two primary methods: **props** and **slots**:
+- **Props**: Ideal for customizing simple, static content such as text, images URLs, numbers, or other basic data types.
+- **Slots**:  Provide greater flexibility by allowing you to insert arbitrary React nodes directly into components. Slots utilize the [React composition pattern](https://felixgerschau.com/react-component-composition/), offering more control and interactivity while avoiding prop drilling.
 
-Props are used to customize "simple" parts of a component. Think text, image URLs, or other data that can be expressed as a simple data type.
 
-Slots are much more flexible and can be used to pass arbitrary React nodes down into your component. This is called the [React composition pattern](https://felixgerschau.com/react-component-composition/). Although since using slots can make a component more complex to work with, there's a balance to be struck between using props and slots, and the right choice depends on the specific use case.
+### Recommended usage
+- Use **props** for straightforward, static content updates like titles, labels, image URLs, and simple data.
+- Use **slots** when you require dynamic content or need access to specific subcomponent properties like event handlers (`onClick`, `onChange`) or attributes (`alt`, `src`).
 
-The **TL;DR** is:
-
-- Use props for changing simple content - text, image URLs, etc.
-- Use slots when you have dynamic content, or need to access a subcomponent's props - `onClick`, `onChange`, `alt`, `src`, etc.
-
-Let's have a look at the `<TrackCard />` component from the [previous example](/developing-with-subframe/basics/adding-business-logic#example-2-a-complex-custom-component) to see how this works in practice.
+Let's compare two implementations of the `<TrackCard />` component from the [previous example](/adding-business-logic#example-2-a-complex-custom-component).
 
 <CodeGroup>
 
-```tsx src/components/TrackCard.tsx (with only props)
+```tsx src/components/TrackCard.tsx (with only props) [expandable]
 "use client"
 import { TrackCardWithProps } from "@/ui/components/TrackCardWithProps"
 
@@ -50,7 +46,7 @@ function TrackCardWithPropsExample() {
 export default TrackCardWithPropsExample
 ```
 
-```tsx src/components/TrackCard.tsx (with slots)
+```tsx src/components/TrackCard.tsx (with slots) [expandable]
 "use client"
 import { TrackCardWithSlots } from "@/ui/components/TrackCardWithSlots"
 import Image from "next/image"
@@ -90,9 +86,8 @@ export default TrackCardWithSlotsExample
 </CodeGroup>
 
 <Tip>
-  **Protip:** We can use Subcomponents to expose props and slots to the consumer of a component while giving a hint
-  which components are supposed to be used within that slot, as we've done with the `
-  <TrackCardWithSlots.FavoriteButton />` subcomponent in the example above.
+  Subcomponents can help further clarify intended usage by explicitly exposing slots and relevant props to the consumer of a component.
+  The `<TrackCardWithSlots.FavoriteButton />` subcomponent is a good example of this in the example above.
 </Tip>
 
 When used in conjunction with Subcomponents, you can make sure that you expose all the necessary props and slots to the consumer of a component while making sure that the component is easy to use and understand.

@@ -1,48 +1,42 @@
 ---
-title: Integrate with Cursor
-description: "Let Cursor build UI for you with your own components"
+title: Export to Cursor
 ---
 
-## Import your Subframe components into Cursor
+Subframe generates React code for your designs which you can export directly to [Cursor](/export-to-cursor), [Bolt](/export-to-bolt), or [Replit](/export-to-replit) to speed up development. We've created prompts optimized for Cursor, or you can export manually.
 
-Subframe generates React code for your designs which you can export directly to your AI tool of choice to speed up development. We've created prompts optimized for Bolt, or you can export manually.
+![Export to Cursor](/images/export-to-cursor/export-to-cursor.png)
 
-We've created prompts optimized for Cursor so you can get started quickly.
+### Open Code Mode
+1. Click **Code** in the top right of your page to open **Code Mode**.
+2. Select **Export to Cursor**.
 
+### Set up your Cursor project
+To sync your Subframe components with Cursor, you'll need to install it for your project. If you're starting fresh, we recommend using our [Vite or Next.js starter kit](/installation#setting-up-with-a-template), but you can use any framework you prefer.
 
-![Export to Cursor](/images/developing-with-subframe/building-with-ai/export-to-cursor/export-to-cursor.png)
+1. Go to the **Setup your Cursor project** section in **Code Mode**.
+2. Click **Open Cursor**.
+3. Click **Generate Cursor Prompt** — this will create an installation prompt that sets up Subframe and installs any required dependencies.
+4. Copy the generated prompt and paste it into **Cursor Agent** to run the setup.
 
-<Steps>
-  <Step title="Open Code Mode">
-    1. Click **Code** in the top right of your page to open **Code Mode**.
-    2. Select **Export to Cursor**.
-  </Step>
-  <Step title="Set up your Cursor project">
-    To sync your Subframe components with Cursor, you'll need to install it for your project. If you're starting fresh, we recommend using our [Vite or Next.js starter kit](/getting-started/quickstart#setting-up-with-a-template), but you can use any framework you prefer.
+### Export your design to Cursor
+You can export an entire page or a specific selection from Subframe to Cursor.
 
-    1. Go to the **Setup your Cursor project** section in **Code Mode**.
-    2. Click **Open Cursor**.
-    3. Click **Generate Cursor Prompt** — this will create an installation prompt that sets up Subframe and installs any required dependencies.
-    4. Copy the generated prompt and paste it into **Cursor Agent** to run the setup.
-  </Step>
-  <Step title="Export your design to Cursor">
-    You can export an entire page or a specific selection from Subframe to Cursor.
-
-    1. Copy the **Export to Cursor** prompt and paste it into **Cursor Agent**. This will sync your components and copy over your design code.
-    2. In Cursor, modify the prompt as needed to:
-        * Create a new page
-        * Update an existing page
-        * [Add additional logic or connections](/developing-with-subframe/basics/adding-business-logic)
-  </Step>
-</Steps>
+1. Copy the **Export to Cursor** prompt and paste it into **Cursor Agent**. This will sync your components and copy over your design code.
+2. In Cursor, modify the prompt as needed to:
+    * Create a new page
+    * Update an existing page
+    * [Add additional logic or connections](/adding-business-logic)
 
 Once exported, your design is ready to build on, connect to a backend, or deploy to production.
 
-## Use your Cursor rules to kickstart development with AI
+## Configuring Cursor rules to work with Subframe
 
-We've created a set of Cursor rules files for your project using Subframe. Also included are framework specific rules for Astro, Vite and Next.js projects.
+[Cursor rules](https://docs.cursor.com/context/rules-for-ai) help customize AI behavior in your project. We provide general Subframe rules as well as framework-specific rules for Next.js, Vite, and Astro projects.
 
-Simply copy and paste the files into your project directory and make sure that `.cursor/rules/subframe/general.mdc`'s "Rule Type" is set to "Always".
+To use them:
+1. Copy the relevant rule files into your `.cursor/rules` directory
+2. Set `.cursor/rules/subframe/general.mdc` to "Always" rule type
+
 
 <CodeGroup>
 
@@ -53,7 +47,7 @@ Simply copy and paste the files into your project directory and make sure that `
 
   # General Guidelines
 
-  Check if this project uses NextJS by looking for a `next.config.(js|mjs|cjs|ts|cts|mts)` file. If so, adhere to the guidelines in @nextjs.mdc. Check if this project uses vite by looking for a `vite.config.(js|mjs|cjs|ts|cts|mts)` file. If so, adhere to the guidelines in @vite.mdc. Check if this project uses astro by looking for a `astro.config.(js|mjs|cjs|ts|cts|mts)` file. If so, adhere to the guidelines in @astro.mdc.
+  Check if this project uses Next.js by looking for a `next.config.(js|mjs|cjs|ts|cts|mts)` file. If so, adhere to the guidelines in @nextjs.mdc. Check if this project uses vite by looking for a `vite.config.(js|mjs|cjs|ts|cts|mts)` file. If so, adhere to the guidelines in @vite.mdc. Check if this project uses astro by looking for a `astro.config.(js|mjs|cjs|ts|cts|mts)` file. If so, adhere to the guidelines in @astro.mdc.
 
   Check `ui/tailwind.config.js` for the fonts used in the project. Import them using Google Fonts adhering the to following structure: 
 
@@ -97,6 +91,51 @@ Simply copy and paste the files into your project directory and make sure that `
   - Subfame Documentation: https://docs.subframe.com
   ```
 
+  ```markdown .cursor/rules/subframe/nextjs.mdc [expandable]
+  # Project Overview
+
+  This is a project using Next.js.
+
+  # Development Guidelines
+
+  - Adhere to Next.js development best practices. 
+  - Check if the current project uses Next.js' App or Pages router. Implement pages and data-fetching accordingly.
+  - Make sure that sub-pages within a page use the same page layout.
+  - If pages use client side logic, wrap that client side logic in it's own component and import it into the page. Do not add `"use client"` directives to pages, only add it to components.
+
+  # Important Scripts
+
+  - `dev`: Starts the development server.
+  - `build`: Builds the application for production
+
+  # Additional Resources
+
+  - Next.js Documentation: https://nextjs.org/docs
+  ```
+
+  ```markdown .cursor/rules/subframe/vite.mdc [expandable]
+  # Project Overview
+
+  This is a project using Vite.
+
+  # Development Guidelines
+
+  - If necessary, create new pages in **src/pages** and route between them using the `react-router-dom` library. Import the pages through `React.lazy` and `React.Suspense` and route them all through **src/App.tsx**
+  - If necessary, edit the `.eslintrc.cjs` and `tsconfig.json` files and add ignore rules to make sure we don't get linting errors when building from any files in the `ui` directory.
+  - After making changes, run `eslint` and `tsc --noEmit` to check for linting errors and fix them. 
+
+  # Important Scripts
+
+  - `dev`: Starts the development server.
+  - `build`: Builds the application for production
+
+  # Additional Resources
+
+  - React-Router Documentation: https://reactrouter.com/start/declarative/installation
+  - ExpressJS Documentation: https://expressjs.com/en/5x/api.html
+  - Vite Documentation: https://vite.dev/guide/
+  ```
+
   ```markdown .cursor/rules/subframe/astro.mdx [expandable]
   # Project Overview
 
@@ -115,50 +154,6 @@ Simply copy and paste the files into your project directory and make sure that `
   # Additional Resources
 
   - Astro Documentation: https://docs.astro.build/en/getting-started/
-  ```
-
-  ```markdown .cursor/rules/subframe/nextjs.mdc [expandable]
-  # Project Overview
-
-  This is a project using Next.js.
-
-  # Development Guidelines
-
-  - Adhere to Next.js development best practices. 
-  - Check if the current project uses Next.js' App or Pages router. Implement pages and data-fetching accordingly.
-  - Make sure that sub-pages within a page use the same page layout.
-  - If pages use client side logic, wrap that client side logic in it's own component and import it into the page. Do not add `"use client"` directives to pages, only add it to components.
-
-  # Important Scripts
-
-  - `dev`: Starts the development server.
-  - `build`: Builds the application for production
-
-  # Additional Resources
-
-  - Next.js Documentation: https://nextjs.org/docs
-  ```
-
-  ```markdown .cursor/rules/subframe/nextjs.mdc [expandable]
-  # Project Overview
-
-  This is a project using Next.js.
-
-  # Development Guidelines
-
-  - Adhere to Next.js development best practices. 
-  - Check if the current project uses Next.js' App or Pages router. Implement pages and data-fetching accordingly.
-  - Make sure that sub-pages within a page use the same page layout.
-  - If pages use client side logic, wrap that client side logic in it's own component and import it into the page. Do not add `"use client"` directives to pages, only add it to components.
-
-  # Important Scripts
-
-  - `dev`: Starts the development server.
-  - `build`: Builds the application for production
-
-  # Additional Resources
-
-  - Next.js Documentation: https://nextjs.org/docs
   ```
 
 </CodeGroup>
