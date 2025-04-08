@@ -1,13 +1,13 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "willow",
+  "theme": "mint",
   "name": "Subframe Docs",
   "colors": {
     "primary": "#000000",
     "light": "#dddddd",
     "dark": "#333333"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.ico",
   "navigation": {
     "global": {
       "anchors": [
@@ -25,68 +25,63 @@
     },
     "groups": [
       {
-        "group": "Getting Started",
-        "icon": "rocket",
+        "group": "Get started",
         "pages": [
+          "introduction",
+          "installation",
+          "faq",
           {
-            "group": "Getting Started",
-            "pages": ["getting-started/introduction", "getting-started/quickstart", "getting-started/faqs"]
-          },
-          {
-            "group": "Framework Guides",
+            "group": "Framework guides",
             "pages": [
-              "getting-started/framework-guides/nextjs",
-              "getting-started/framework-guides/vite",
-              "getting-started/framework-guides/astro",
-              "getting-started/framework-guides/monorepo",
-              "getting-started/framework-guides/manual"
+              "framework-guides/nextjs",
+              "framework-guides/vite",
+              "framework-guides/astro",
+              "framework-guides/monorepo",
+              "framework-guides/manual"
             ]
           }
+
         ]
       },
       {
         "group": "Developing with Subframe",
-        "icon": "circle-play",
         "pages": [
-          {
-            "group": "Basics",
-            "pages": [
-              "developing-with-subframe/basics/syncing-components",
-              "developing-with-subframe/basics/using-components",
-              "developing-with-subframe/basics/adding-business-logic"
-            ]
-          },
-          {
-            "group": "Best practices",
-            "pages": [
-              "developing-with-subframe/best-practices/props-and-slots",
-              "developing-with-subframe/best-practices/copy-vs-sync",
-              "developing-with-subframe/best-practices/when-to-unsync"
-            ]
-          },
-          {
-            "group": "Building with AI",
-            "pages": [
-              "developing-with-subframe/building-with-ai/integrate-with-cursor",
-              "developing-with-subframe/building-with-ai/integrate-with-bolt",
-              "developing-with-subframe/building-with-ai/integrate-with-replit"
-            ]
-          }
+          "syncing-components",
+          "using-components",
+          "copy-paste-pages",
+          "adding-business-logic",
+          "props-and-slots",
+          "disabling-sync"
+        ]
+      },
+      {
+        "group": "Building with AI",
+        "pages": [
+          "export-to-bolt",
+          "export-to-replit",
+          "export-to-cursor"
         ]
       }
     ]
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "https://res.cloudinary.com/subframe/image/upload/v1711417507/shared/y2rsnhq3mex4auk54aye.png",
+    "dark": "https://res.cloudinary.com/subframe/image/upload/v1712778911/uploads/302/ul72rsawfl5muaja4dbp.png"
   },
   "navbar": {
-    "links": []
+    "primary": {
+      "type": "button",
+      "label": "Log in",
+      "href": "https://app.subframe.com"
+    }
   },
   "footer": {
     "socials": {
-      "slack": "https://join.slack.com/t/subframecommunity/shared_invite/zt-2gcv0nlow-qO_3pM3ZfNVGXZTWHVfwVw",
-      "github": "https://github.com/SubframeApp/subframe"
+      "linkedin": "https://www.linkedin.com/company/subframeapp",
+      "x": "https://x.com/SubframeApp",
+      "github": "https://github.com/SubframeApp/subframe",
+      "instagram": "https://www.instagram.com/subframeapp",
+      "slack": "https://join.slack.com/t/subframecommunity/shared_invite/zt-2gcv0nlow-qO_3pM3ZfNVGXZTWHVfwVw"
     }
   }
 }
