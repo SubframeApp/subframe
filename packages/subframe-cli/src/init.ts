@@ -22,10 +22,11 @@ import {
   COMMAND_TEMPLATE_KEY,
 } from "shared/constants"
 import { getAccessToken, verifyTokenWithOra } from "./access-token"
-import { apiInitProject, apiUpdateImportAlias } from "./api-endpoints"
+import { apiUpdateImportAlias } from "./api-endpoints"
 import { localSyncSettings } from "./common"
 import { writeAuthConfig } from "./config"
 import { SUBFRAME_INIT_MESSAGE } from "./constants"
+import { initProject } from "./init-project"
 import { initSync } from "./init-sync"
 import { installDependencies } from "./install-dependencies"
 import { makeCLILogger } from "./logger/logger-cli"
@@ -78,16 +79,7 @@ initCommand.action(async (opts) => {
 
     const truncatedProjectId = opts.projectId ?? localSyncSettings?.projectId
 
-    const { styleFile, oldImportAlias } = await oraPromise(
-      apiInitProject({
-        token: accessToken,
-        truncatedProjectId,
-      }),
-      {
-        text: "Initializing Subframe project",
-        failText: "Failed to initialize Subframe project",
-      },
-    )
+    const { styleFile, oldImportAlias } = await initProject({ accessToken, truncatedProjectId })
 
     const { importAlias: rawImportAlias, directory } = await setupSyncSettings(
       projectPath,
