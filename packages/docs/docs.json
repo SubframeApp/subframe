@@ -83,5 +83,10 @@
       "instagram": "https://www.instagram.com/subframeapp",
       "slack": "https://join.slack.com/t/subframecommunity/shared_invite/zt-2gcv0nlow-qO_3pM3ZfNVGXZTWHVfwVw"
     }
+  },
+  "seo": {
+    "metatags": {
+      "og:image": "https://www.subframe.com/images/subframe-social-media.png"
+    }
   }
 }
