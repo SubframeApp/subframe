@@ -32,18 +32,7 @@ export async function verifyTokenWithOra(token: string): Promise<boolean> {
   }
 }
 
-export async function getAccessToken(): Promise<string> {
-  const authConfig = await readAuthConfig()
-  if (authConfig && (await verifyTokenWithOra(authConfig.token))) {
-    return authConfig.token
-  }
-
-  if (!authConfig) {
-    console.log("> No existing credentials found.")
-  } else {
-    console.log("> Credentials are no longer valid.")
-  }
-
+export async function promptForNewAccessToken(): Promise<string> {
   console.log("> To get new credentials, please visit the following URL in your web browser:")
   console.log(`> ${link(`${BASE_URL}${CLI_AUTH_ROUTE}`)}`)
   console.log()
@@ -62,4 +51,19 @@ export async function getAccessToken(): Promise<string> {
   await writeAuthConfig({ token })
 
   return token
+}
+
+export async function getAccessToken(): Promise<string> {
+  const authConfig = await readAuthConfig()
+  if (authConfig && (await verifyTokenWithOra(authConfig.token))) {
+    return authConfig.token
+  }
+
+  if (!authConfig) {
+    console.log("> No existing credentials found.")
+  } else {
+    console.log("> Credentials are no longer valid.")
+  }
+
+  return promptForNewAccessToken()
 }

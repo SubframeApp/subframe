@@ -6,6 +6,8 @@ export const DEFAULT_SUBFRAME_TS_ALIAS = "@/ui"
 // the folder where everything is nested under
 export const ROOT_FOLDER_NAME = "ui"
 
+export const FAILED_TO_FETCH_PROJECT_ERROR = "Unable to fetch project"
+
 /**
  * CLI-specific constants
  */
