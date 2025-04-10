@@ -1,0 +1,86 @@
+---
+title: Vite
+---
+
+<Note>
+    This guide assumes that you have already setup React and Tailwind CSS in your Vite app. If you haven't, please follow the [Vite](https://vite.dev/guide/#scaffolding-your-first-vite-project) and [Tailwind CSS](https://v3.tailwindcss.com/docs/installation/using-postcss) installation guides.
+</Note>
+
+### Install Subframe
+Run the following command in the root of your repository to install Subframe and configure your project:
+
+<CodeGroup>
+    ```bash npm
+    npx @subframe/cli@latest init
+    ```
+    ```bash yarn
+    yarn @subframe/cli@latest init
+    ```
+    ```bash pnpm
+    pnpm exec @subframe/cli@latest init
+    ```
+    ```bash bun
+    bunx --bun @subframe/cli@latest init
+    ```
+</CodeGroup>
+
+### Configure Vite to use import aliases
+1. Configure the `compilerOptions` in the `tsconfig.app.json` file so Typescript understand your import aliases.
+
+<CodeGroup>
+```json tsconfig.app.json {3-8}
+{
+    "compilerOptions": {
+        "baseUrl": "./",
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ]
+        },
+        "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+        "target": "ES2020",
+        "useDefineForClassFields": true,
+        "lib": ["ES2020", "DOM", "DOM.Iterable"],
+        "module": "ESNext",
+        "skipLibCheck": true,
+
+        /* Bundler mode */
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
+        "isolatedModules": true,
+        "moduleDetection": "force",
+        "noEmit": true,
+        "jsx": "react-jsx",
+
+        /* Linting */
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUncheckedSideEffectImports": true+
+    },
+    "include": ["src"]
+}
+```
+</CodeGroup>
+
+2. Update `vite.config.ts` so Vite can resolve paths without error:
+<CodeGroup>
+```tsx vite.config.ts {6-10}
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+    plugins: [react()],
+    resolve: {
+        alias: {
+            "@/*": "./src/*"
+        }
+    }
+})
+```
+</CodeGroup>
+
+### Troubleshooting
+
+If you run into any issues with the installation, refer to the [manual installation guide](/framework-guides/manual) for all of the steps needed to get Subframe working in your codebase.
