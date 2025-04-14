@@ -1,0 +1,38 @@
+---
+title: Copy & paste pages
+---
+
+As we saw in [Syncing components](/syncing-components), most people use Subframe as the source of truth for their design system. This is why we recommend using the Subframe CLI to sync changes to components to your codebase.
+
+Pages, however, often require refactoring and additional business logic after export. For that reason, pages are never synced via the Subframe CLI and always copy / pasted.
+
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  controls
+  className="w-full"
+  src="/images/copy-paste-pages/copy-and-paste.webm"
+/>
+
+1. Open the page editor.
+2. Select Code in the top-right of the nav to open the code panel.
+3. By default, the code panel will show the code for the entire page. You can select individual elements on the page to see a code snippet for your selection.
+4. The code panel will show the following for each page or selection:
+    1. Snippet to install/sync components.
+    2. List of imports.
+    3. Generated React + Tailwind CSS code.
+5. Copy & paste the code to your code editor.
+
+### Add your business logic
+
+Most users from here begin to refactor the code, add custom business logic, and hook it up to their APIs. This code is all yours to customize!
+
+Learn more about [adding business logic](/adding-business-logic).
+
+### What if I change the design after exporting the page?
+
+You will need to re-export just the parts that have changed. To make this easier, if you have something selected, the Code tab will show just the code for your selection.
+
+In practice, most Subframe users do all design iterations on Subframe and rarely re-export older pages. For small changes, some find it easier to just make the changes in code.

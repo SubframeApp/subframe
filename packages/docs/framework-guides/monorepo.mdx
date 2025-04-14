@@ -1,0 +1,191 @@
+---
+title: Monorepo
+---
+
+When building complex apps with multiple frontends, it can be useful to use a monorepo setup so you can import the same components into many different apps.
+
+<Note>
+  For this guide we'll assume that you're using [Turborepo](https://turbo.build/repo/docs) as your monorepo and [Next.js](https://nextjs.org/) for your frontend. Monorepo-specific functionality should work with any package manager or framework that supports [workspaces](https://docs.npmjs.com/cli/v7/using-npm/workspaces?v=true). For more information visit the [manual installation guide](/framework-guides/manual) and the framework guide for your frontend of choice. 
+</Note>
+
+### Create a package for Subframe
+
+Since we're using Turborepo, we can use the `turbo generate` command to create a package in our monorepo where we'll be importing our Subframe components. We'll call the package `@repo/subframe`.
+
+<Tip>
+  If you're using a different monorepo framework or just plain workspaces, you can just duplicate an existing package directory and change the contents accordingly.
+</Tip>
+
+<CodeGroup>
+
+  ```bash npm
+  npx turbo generate workspace --name @repo/subframe --type package
+  ```
+  ```bash yarn
+  yarn turbo generate workspace --name @repo/subframe --type package
+  ```
+  ```bash pnpm
+  pnpm turbo generate workspace --name @repo/subframe --type package
+  ```
+  ```bash bun
+  bunx turbo generate workspace --name @repo/subframe --type package
+  ```
+
+</CodeGroup>
+
+On the interactive prompt, make sure to select your monorepo's TypeScript and ESLint config packages as `devDependencies` for the next step. 
+
+We'll also want to integrate our monorepo's TypeScript and ESLint configuration, so we'll create the following two files:
+
+<CodeGroup>
+
+  ```javascript packages/subframe/eslint.config.mjs 
+  import { config } from "@repo/eslint-config/react-internal";
+
+  /** @type {import("eslint").Linter.Config} */
+  export default config;
+  ```
+
+  ```json packages/subframe/tsconfig.json 
+  {
+    "extends": "@repo/typescript-config/react-library.json",
+    "compilerOptions": {
+      "outDir": "dist"
+    },
+    "include": ["ui"],
+    "exclude": ["node_modules", "dist"]
+  }
+  ```
+
+</CodeGroup>
+
+### Install Subframe
+
+We now want to install and configure Subframe in our new package. Let's do so by running the `@subframe/cli init` command.
+
+
+<CodeGroup>
+
+  ```bash npm
+  cd packages/subframe && npx @subframe/cli@latest init --sync --dir ui
+  ```
+  ```bash yarn
+  cd packages/subframe && yarn @subframe/cli@latest init --sync --dir ui
+  ```
+  ```bash pnpm
+  cd packages/subframe && pnpm @subframe/cli@latest init --sync --dir ui
+  ```
+  ```bash bun
+  cd packages/subframe && bunx --bun @subframe/cli@latest init --sync --dir ui
+  ```
+
+</CodeGroup>
+
+<Warning>
+  Make sure that you set the import alias to `@repo/subframe/*` during the initialization process. This will make sure that the code imports from Subframe will work within our UI apps later. 
+  If you forgot to set it, simply edit the importAlias key in your `.subframe/sync.json` file and run `@subframe/cli init` again to sync the changed import alias to your Subframe project.
+
+  ```json packages/subframe/.subframe/sync.json {3}
+  {
+    "directory": "ui",
+    "importAlias": "@repo/subframe/*"
+  }
+  ```
+
+</Warning>
+
+### Export Subframe components from your package
+
+To be able to import our components from this package in other apps in the monorepo, we'll have to make sure they can find the components within our package, as well as Subframe's TailwindCSS config. 
+We can easily achieve this by setting the `exports` field in our `package.json` accordingly:
+
+
+```json packages/subframe/package.json {5-10}
+{
+  "name": "@repo/subframe",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": "./ui/index.ts",
+    "./components/*": "./ui/components/*.tsx",
+    "./layouts/*": "./ui/layouts/*.tsx",
+    "./tailwind-config": "./ui/tailwind.config.js"
+  },
+  "dependencies": {
+    "@subframe/core": "^1.141.0"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*"
+  }
+}
+
+```
+
+### Install the `@repo/subframe` package into your app
+
+To install your local package to your app, add the following line to your frontend apps' `dependencies`:
+
+
+<CodeGroup>
+
+  ```text apps/web/package.json (npm and yarn)
+  "@repo/subframe": "*"
+  ```
+  ```text apps/web/package.json (pnpm and bun)
+  "@repo/subframe": "workspace:*"
+  ```
+
+</CodeGroup>
+
+Then run your package manager's `install` command to link your dependencies:
+
+<CodeGroup>
+
+  ```bash npm
+  npm install
+  ```
+  ```bash yarn
+  yarn install
+  ```
+  ```bash pnpm
+  pnpm install
+  ```
+  ```bash bun
+  bun install
+  ```
+
+</CodeGroup>
+
+### Set up TailwindCSS in your frontend app
+
+<Note>
+  We assume you've already set up Tailwind CSS for your frontend app. If you haven't done so, follow the [Tailwind CSS](https://v3.tailwindcss.com/docs/installation/using-postcss) guide.
+</Note>
+
+The key change here is that we need to import Subframe's tailwind config `preset` from our local package, as well as include the Subframe component source files in tailwind's `content` array:
+
+
+```javascript apps/web/tailwind.config.js {8, 14}
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./ui/**/*.{js,ts,jsx,tsx}",
+    "../../packages/subframe/ui/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+  presets: [require("@repo/subframe/tailwind-config")],
+};
+```
+
+### Use Subframe components in your app
+
+You can now import Subframe components directly into your app. Since we changed the import alias to the name of your local package, all imports generated by the Subframe app will resolve to the components in your `@repo/subframe` package.
+
+![@repo/subframe import example](/images/framework-guides/monorepo/subframe-import-example.webp)

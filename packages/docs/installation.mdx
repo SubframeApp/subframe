@@ -1,0 +1,76 @@
+---
+title: Installation
+---
+
+<Note>
+  Subframe works with any framework that uses Typescript, React, and Tailwind CSS. 
+</Note>
+
+Run the following command in the root of your repository to install Subframe and configure your project:
+
+<CodeGroup>
+  ```bash npm
+  npx @subframe/cli@latest init
+  ```
+  ```bash yarn
+  yarn @subframe/cli@latest init
+  ```
+  ```bash pnpm
+  pnpm @subframe/cli@latest init
+  ```
+  ```bash bun
+  bunx @subframe/cli@latest init
+  ```
+</CodeGroup>
+
+If you're starting a new project, you can choose one of our starter templates that are optimized to work well with Subframe out of the box.
+
+```
+? Would you like to start a new project? › - Use arrow-keys. Return to submit.
+❯   Next.js
+    Vite
+    Astro
+```
+
+Copy and paste your access token from your browser so that the Subframe CLI can authenticate with your project.
+```
+> No existing credentials found.
+> To get new credentials, please visit the following URL in your web browser:
+> https://app.subframe.com/cli/auth
+
+> You will need to login then enter the provided credentials below.
+? Access token ›
+```
+
+You will then be asked a few questions and can press Enter to accept the defaults.
+
+```
+Where should the Subframe components be synced to? › ./src
+Configure an alias for the subframe component directory (e.g. @/ui) › @/ui/*
+Do you want Subframe to configure your Tailwind config? › (Y/n)
+Would you like to sync all of your Subframe components? › (Y/n)
+Would you like to install dependencies? › (Y/n)
+```
+
+### Troubleshooting
+
+If you run into any issues with the installation, refer to the guide for your particular framework or the [manual installation guide](/framework-guides/manual) for all of the steps needed to get Subframe working in your codebase.
+
+<CardGroup cols={2}>
+  <Card
+    title="Next.js"
+    href="/framework-guides/nextjs"
+  />
+  <Card
+    title="Vite"
+    href="/framework-guides/vite"
+  />
+  <Card
+    title="Astro"
+    href="/framework-guides/astro"
+  />
+  <Card
+    title="Monorepo"
+    href="/framework-guides/monorepo"
+  />
+</CardGroup>

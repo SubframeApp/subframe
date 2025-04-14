@@ -1,0 +1,69 @@
+---
+title: Astro
+---
+
+<Note>
+  This guide assumes that you have already setup React and Tailwind CSS in your Astro app. If you haven't, please follow the
+  [Astro](https://docs.astro.build/en/install-and-setup/#install-from-the-cli-wizard), [Astro React](https://docs.astro.build/en/guides/integrations-guide/react/), and [Tailwind CSS](https://v3.tailwindcss.com/docs/installation/using-postcss) guides.
+</Note>
+
+### Install Subframe
+Run the following command in the root of your repository to install Subframe and configure your project:
+
+<CodeGroup>
+  ```bash npm
+  npx @subframe/cli@latest init
+  ```
+  ```bash yarn
+  yarn @subframe/cli@latest init
+  ```
+  ```bash pnpm
+  pnpm exec @subframe/cli@latest init
+  ```
+  ```bash bun
+  bunx @subframe/cli@latest init
+  ```
+</CodeGroup>
+
+### Configure Astro to use import aliases
+
+<CodeGroup>
+  ```json tsconfig.json {3-8}
+  {
+    "compilerOptions": {
+      "baseUrl": "./",
+      "paths": {
+        "@/*": [
+          "./src/*"
+        ]
+      },
+      "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+      "target": "ES2020",
+      "useDefineForClassFields": true,
+      "lib": ["ES2020", "DOM", "DOM.Iterable"],
+      "module": "ESNext",
+      "skipLibCheck": true,
+
+      /* Bundler mode */
+      "moduleResolution": "bundler",
+      "allowImportingTsExtensions": true,
+      "isolatedModules": true,
+      "moduleDetection": "force",
+      "noEmit": true,
+      "jsx": "react-jsx",
+
+      /* Linting */
+      "strict": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noFallthroughCasesInSwitch": true,
+      "noUncheckedSideEffectImports": true+
+    },
+    "include": ["src"]
+  }
+  ```
+</CodeGroup>
+
+### Troubleshooting
+
+If you run into any issues with the installation, refer to the [manual installation guide](/framework-guides/manual) for all of the steps needed to get Subframe working in your codebase.
