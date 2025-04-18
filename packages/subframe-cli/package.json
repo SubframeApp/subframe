@@ -1,6 +1,6 @@
 {
   "name": "@subframe/cli",
-  "version": "1.185.0",
+  "version": "1.186.0",
   "description": "Subframe's CLI tool for syncing your code with Subframe designs.",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
