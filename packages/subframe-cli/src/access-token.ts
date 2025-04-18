@@ -1,6 +1,6 @@
-import { CLI_AUTH_ROUTE } from "@subframe/shared/routes"
 import { oraPromise } from "ora"
 import prompt from "prompts"
+import { CLI_AUTH_ROUTE } from "shared/routes"
 import { apiVerifyToken } from "./api-endpoints"
 import { isDev } from "./common"
 import { readAuthConfig, writeAuthConfig } from "./config"

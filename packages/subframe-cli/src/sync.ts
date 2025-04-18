@@ -1,4 +1,5 @@
 import { Command } from "@commander-js/extra-typings"
+import { join } from "node:path"
 import {
   COMMAND_ALL_KEY,
   COMMAND_ALL_KEY_SHORT,
@@ -6,8 +7,7 @@ import {
   COMMAND_INSTALL_KEY_SHORT,
   COMMAND_PROJECT_ID_KEY,
   COMMAND_PROJECT_ID_KEY_SHORT,
-} from "@subframe/shared/constants"
-import { join } from "node:path"
+} from "shared/constants"
 import { getAccessToken } from "./access-token"
 import { cwd } from "./common"
 import { localSyncSettings } from "./common"
