@@ -1,6 +1,6 @@
 {
   "name": "@subframe/cli",
-  "version": "1.184.0",
+  "version": "1.183.0",
   "description": "Subframe's CLI tool for syncing your code with Subframe designs.",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -40,7 +40,7 @@
     "ora": "8.2.0",
     "prompts": "2.4.2",
     "semver": "7.6.3",
-    "@subframe/shared": "*",
+    "shared": "*",
     "ts-morph": "19.0.0",
     "xdg-app-paths": "8.3.0"
   },

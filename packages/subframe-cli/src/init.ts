@@ -1,4 +1,7 @@
 import { Command, Option } from "@commander-js/extra-typings"
+import { writeFile } from "node:fs/promises"
+import { join } from "node:path"
+import { oraPromise } from "ora"
 import {
   COMMAND_ALIAS_KEY,
   COMMAND_ALIAS_KEY_SHORT,
@@ -17,10 +20,7 @@ import {
   COMMAND_TAILWIND_KEY,
   COMMAND_TAILWIND_KEY_SHORT,
   COMMAND_TEMPLATE_KEY,
-} from "@subframe/shared/constants"
-import { writeFile } from "node:fs/promises"
-import { join } from "node:path"
-import { oraPromise } from "ora"
+} from "shared/constants"
 import { getAccessToken, verifyTokenWithOra } from "./access-token"
 import { apiUpdateImportAlias } from "./api-endpoints"
 import { localSyncSettings } from "./common"
