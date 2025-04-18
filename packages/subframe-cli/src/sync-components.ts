@@ -1,7 +1,7 @@
+import { IGNORE_UPDATE_KEYWORD } from "@subframe/shared/constants"
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises"
 import { dirname, join } from "node:path"
 import { oraPromise } from "ora"
-import { IGNORE_UPDATE_KEYWORD } from "shared/constants"
 import { apiSyncProject } from "./api-endpoints"
 import { warning } from "./output/style"
 import { getAllAbsFilePaths, isFileContentsWriteable } from "./utils/files"
