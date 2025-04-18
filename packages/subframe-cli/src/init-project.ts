@@ -1,5 +1,5 @@
+import { FAILED_TO_FETCH_PROJECT_ERROR } from "@subframe/shared/constants"
 import { oraPromise } from "ora"
-import { FAILED_TO_FETCH_PROJECT_ERROR } from "shared/constants"
 import { promptForNewAccessToken } from "./access-token"
 import { apiInitProject } from "./api-endpoints"
 
