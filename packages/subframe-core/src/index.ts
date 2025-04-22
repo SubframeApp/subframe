@@ -33,7 +33,7 @@ import * as Collapsible from "./components/collapsible"
 // utilities
 import { Text } from "./utilities/text"
 import * as TypescriptHelpers from "./lib/typescript-helpers"
-import { twClassNames } from "./lib/tw-classnames"
+import { createTwClassNames, twClassNames } from "./lib/tw-classnames"
 
 // Icons
 import * as Icons from "./assets/icons/final"
@@ -66,7 +66,7 @@ export { ToggleGroup }
 export { Collapsible }
 export { Text }
 export { TypescriptHelpers }
-export { twClassNames }
+export { createTwClassNames, twClassNames }
 export * from "./assets/icons/final"
 
 /**
@@ -110,6 +110,7 @@ const SubframeCore = {
   Collapsible,
   Text,
   TypescriptHelpers,
+  createTwClassNames,
   twClassNames,
 }
 

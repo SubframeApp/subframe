@@ -8,7 +8,7 @@ function prepareHttpBody<TBody>(body: TBody, headers?: Record<string, string>) {
   return body as BodyInit
 }
 
-const MAX_RETRIES = 3
+const MAX_RETRIES = 1
 const fetchWithRetries = retry(fetch, {
   retries: MAX_RETRIES,
   retryDelay: (attempt) => {

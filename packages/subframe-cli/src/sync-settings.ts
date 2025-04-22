@@ -107,7 +107,8 @@ export async function setupSyncSettings(
 
       const aliases = {
         /** just the one alias for now */
-        [response.componentsDirAlias]: [posixJoin(config.directory, "/*")],
+        // NOTE: tsconfig.json requires relative paths (unless baseUrl is set), and posixJoin strips the ./
+        [response.componentsDirAlias]: ["./" + posixJoin(config.directory, "/*")],
       }
 
       if (await exists(tsConfigPath)) {
