@@ -7,7 +7,7 @@
     "light": "#dddddd",
     "dark": "#333333"
   },
-  "favicon": "/favicon.ico",
+  "favicon": "/favicon.png",
   "navigation": {
     "global": {
       "anchors": [
