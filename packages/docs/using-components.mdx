@@ -1,0 +1,42 @@
+---
+title: Using components
+---
+
+## Documentation
+
+Subframe gives you a customizable design system that's exported as React code. To understand the React props available for a component, view its documentation.
+
+1. Open Subframe and click on the [Components](https://app.subframe.com/library/overview) tab in the top nav.
+2. Click on the component you want either in the left sidebar or in the middle.
+3. You should now see documentation for the React props, source code, and interactive examples.
+
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  controls
+  className="w-full"
+  src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/view-component-documentation-ygcEi4y47JotWdboZUunSHbkxdpYrh.webm"
+/>
+
+## Importing Subframe components in code
+
+After [syncing the components](/syncing-components) to your repository, you can use a Subframe component in your code. Import it directly or use the import alias you set up during installation:
+
+```tsx src/App.tsx {1, 5-10}
+import { Alert } from "@/ui/components/Alert"
+
+function App() {
+  return (
+    <Alert
+      variant="neutral"
+      icon="FeatherInfo"
+      title="A great title for an alert"
+      description="Describe what's happening in more detail."
+    />
+  )
+}
+
+export default App
+```

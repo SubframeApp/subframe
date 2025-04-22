@@ -1,0 +1,92 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Subframe Docs",
+  "colors": {
+    "primary": "#000000",
+    "light": "#dddddd",
+    "dark": "#333333"
+  },
+  "favicon": "/favicon.ico",
+  "navigation": {
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Community",
+          "href": "https://join.slack.com/t/subframecommunity/shared_invite/zt-2gcv0nlow-qO_3pM3ZfNVGXZTWHVfwVw",
+          "icon": "slack"
+        },
+        {
+          "anchor": "Blog",
+          "href": "https://www.subframe.com/blog",
+          "icon": "newspaper"
+        }
+      ]
+    },
+    "groups": [
+      {
+        "group": "Get started",
+        "pages": [
+          "introduction",
+          "installation",
+          "faq",
+          {
+            "group": "Framework guides",
+            "pages": [
+              "framework-guides/nextjs",
+              "framework-guides/vite",
+              "framework-guides/astro",
+              "framework-guides/monorepo",
+              "framework-guides/manual"
+            ]
+          }
+
+        ]
+      },
+      {
+        "group": "Developing with Subframe",
+        "pages": [
+          "syncing-components",
+          "using-components",
+          "copy-paste-pages",
+          "adding-business-logic",
+          "props-and-slots",
+          "disabling-sync"
+        ]
+      },
+      {
+        "group": "Building with AI",
+        "pages": [
+          "export-to-bolt",
+          "export-to-replit",
+          "export-to-cursor"
+        ]
+      }
+    ]
+  },
+  "logo": {
+    "light": "https://res.cloudinary.com/subframe/image/upload/v1711417507/shared/y2rsnhq3mex4auk54aye.png",
+    "dark": "https://res.cloudinary.com/subframe/image/upload/v1712778911/uploads/302/ul72rsawfl5muaja4dbp.png"
+  },
+  "navbar": {
+    "primary": {
+      "type": "button",
+      "label": "Log in",
+      "href": "https://app.subframe.com"
+    }
+  },
+  "footer": {
+    "socials": {
+      "linkedin": "https://www.linkedin.com/company/subframeapp",
+      "x": "https://x.com/SubframeApp",
+      "github": "https://github.com/SubframeApp/subframe",
+      "instagram": "https://www.instagram.com/subframeapp",
+      "slack": "https://join.slack.com/t/subframecommunity/shared_invite/zt-2gcv0nlow-qO_3pM3ZfNVGXZTWHVfwVw"
+    }
+  },
+  "seo": {
+    "metatags": {
+      "og:image": "https://www.subframe.com/images/subframe-social-media.png"
+    }
+  }
+}
