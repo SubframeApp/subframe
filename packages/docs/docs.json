@@ -29,6 +29,7 @@
         "pages": [
           "introduction",
           "installation",
+          "fonts",
           "faq",
           {
             "group": "Framework guides",
