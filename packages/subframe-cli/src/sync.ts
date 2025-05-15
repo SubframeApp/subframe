@@ -34,7 +34,6 @@ export const syncCommand = new Command()
       }
 
       if (!localSyncSettings) {
-        await cliLogger.trackWarningAndFlush("[CLI] sync local sync settings do not exist")
         console.error(MALFORMED_INIT_MESSAGE)
         process.exit(1)
       }
