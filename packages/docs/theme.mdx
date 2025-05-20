@@ -1,0 +1,382 @@
+---
+title: Theme
+---
+
+<Tabs>
+  <Tab title="Tailwind v3">
+After [installing Subframe](/installation) your theme will be automatically updated in your codebase. The CLI will create a `tailwind.config.js` with your theme tokens.
+
+If you update your theme in Subframe in the future, you can update it in your codebase by [syncing your components](/syncing-components) or manually copy / pasting the `tailwind.config.js` file for your project.
+<Note>
+    Find the exact tailwind.config.js for your project [here](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV3).
+</Note>
+
+```js tailwind.config.js [expandable]
+module.exports = {
+  // ...
+
+  theme: {
+    extend: {
+      colors: {
+        brand: {
+          50: "rgb(250, 250, 250)",
+          100: "rgb(245, 245, 245)",
+          200: "rgb(229, 229, 229)",
+          300: "rgb(212, 212, 212)",
+          400: "rgb(163, 163, 163)",
+          500: "rgb(115, 115, 115)",
+          600: "rgb(38, 38, 38)",
+          700: "rgb(64, 64, 64)",
+          800: "rgb(38, 38, 38)",
+          900: "rgb(23, 23, 23)",
+        },
+        neutral: {
+          0: "rgb(255, 255, 255)",
+          50: "rgb(250, 250, 250)",
+          100: "rgb(245, 245, 245)",
+          200: "rgb(229, 229, 229)",
+          300: "rgb(212, 212, 212)",
+          400: "rgb(163, 163, 163)",
+          500: "rgb(115, 115, 115)",
+          600: "rgb(82, 82, 82)",
+          700: "rgb(64, 64, 64)",
+          800: "rgb(38, 38, 38)",
+          900: "rgb(23, 23, 23)",
+          950: "rgb(10, 10, 10)",
+        },
+        error: {
+          50: "rgb(254, 242, 242)",
+          100: "rgb(254, 226, 226)",
+          200: "rgb(254, 202, 202)",
+          300: "rgb(252, 165, 165)",
+          400: "rgb(248, 113, 113)",
+          500: "rgb(239, 68, 68)",
+          600: "rgb(220, 38, 38)",
+          700: "rgb(185, 28, 28)",
+          800: "rgb(153, 27, 27)",
+          900: "rgb(127, 29, 29)",
+        },
+        warning: {
+          50: "rgb(240, 249, 255)",
+          100: "rgb(224, 242, 254)",
+          200: "rgb(186, 230, 253)",
+          300: "rgb(125, 211, 252)",
+          400: "rgb(56, 189, 248)",
+          500: "rgb(14, 165, 233)",
+          600: "rgb(2, 132, 199)",
+          700: "rgb(3, 105, 161)",
+          800: "rgb(7, 89, 133)",
+          900: "rgb(12, 74, 110)",
+        },
+        success: {
+          50: "rgb(240, 253, 244)",
+          100: "rgb(220, 252, 231)",
+          200: "rgb(187, 247, 208)",
+          300: "rgb(134, 239, 172)",
+          400: "rgb(74, 222, 128)",
+          500: "rgb(34, 197, 94)",
+          600: "rgb(22, 163, 74)",
+          700: "rgb(21, 128, 61)",
+          800: "rgb(22, 101, 52)",
+          900: "rgb(20, 83, 45)",
+        },
+        "brand-primary": "rgb(38, 38, 38)",
+        "default-font": "rgb(23, 23, 23)",
+        "subtext-color": "rgb(115, 115, 115)",
+        "neutral-border": "rgb(229, 229, 229)",
+        white: "rgb(255, 255, 255)",
+        "default-background": "rgb(255, 255, 255)",
+      },
+      fontSize: {
+        caption: [
+          "12px",
+          {
+            lineHeight: "16px",
+            fontWeight: "400",
+            letterSpacing: "0em",
+          },
+        ],
+        "caption-bold": [
+          "12px",
+          {
+            lineHeight: "16px",
+            fontWeight: "500",
+            letterSpacing: "0em",
+          },
+        ],
+        body: [
+          "14px",
+          {
+            lineHeight: "20px",
+            fontWeight: "400",
+            letterSpacing: "0em",
+          },
+        ],
+        "body-bold": [
+          "14px",
+          {
+            lineHeight: "20px",
+            fontWeight: "500",
+            letterSpacing: "0em",
+          },
+        ],
+        "heading-3": [
+          "16px",
+          {
+            lineHeight: "20px",
+            fontWeight: "600",
+            letterSpacing: "0em",
+          },
+        ],
+        "heading-2": [
+          "20px",
+          {
+            lineHeight: "24px",
+            fontWeight: "600",
+            letterSpacing: "0em",
+          },
+        ],
+        "heading-1": [
+          "30px",
+          {
+            lineHeight: "36px",
+            fontWeight: "600",
+            letterSpacing: "0em",
+          },
+        ],
+        "monospace-body": [
+          "14px",
+          {
+            lineHeight: "20px",
+            fontWeight: "400",
+            letterSpacing: "0em",
+          },
+        ],
+      },
+      fontFamily: {
+        caption: "Figtree",
+        "caption-bold": "Figtree",
+        body: "Figtree",
+        "body-bold": "Figtree",
+        "heading-3": "Figtree",
+        "heading-2": "Figtree",
+        "heading-1": "Figtree",
+        "monospace-body": "monospace",
+      },
+      boxShadow: {
+        sm: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)",
+        default: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)",
+        md: "0px 4px 16px -2px rgba(0, 0, 0, 0.08), 0px 2px 4px -1px rgba(0, 0, 0, 0.08)",
+        lg: "0px 12px 32px -4px rgba(0, 0, 0, 0.08), 0px 4px 8px -2px rgba(0, 0, 0, 0.08)",
+        overlay:
+          "0px 12px 32px -4px rgba(0, 0, 0, 0.08), 0px 4px 8px -2px rgba(0, 0, 0, 0.08)",
+      },
+      borderRadius: {
+        sm: "4px",
+        md: "8px",
+        DEFAULT: "8px",
+        lg: "12px",
+        full: "9999px",
+      },
+      container: {
+        padding: {
+          DEFAULT: "16px",
+          sm: "calc((100vw + 16px - 640px) / 2)",
+          md: "calc((100vw + 16px - 768px) / 2)",
+          lg: "calc((100vw + 16px - 1024px) / 2)",
+          xl: "calc((100vw + 16px - 1280px) / 2)",
+          "2xl": "calc((100vw + 16px - 1536px) / 2)",
+        },
+      },
+      spacing: {
+        112: "28rem",
+        144: "36rem",
+        192: "48rem",
+        256: "64rem",
+        320: "80rem",
+      },
+      screens: {
+        mobile: {
+          max: "767px",
+        },
+      },
+    },
+  },
+};
+```
+</Tab>
+<Tab title="Tailwind v4">
+Subframe does not yet officially support Tailwind CSS v4 in the Subframe CLI. However you can manually copy / paste the `theme.css` file for your project whenever you update your theme in Subframe.
+<Note>
+    Find the exact theme.css for your project [here](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV4).
+</Note>
+
+We recommend creating a `theme.css` file in your `ui` directory and then importing that file into your `index.css` file. Please refer to the [Tailwind CSS v4 docs](https://tailwindcss.com/docs/theme#sharing-across-projects) for more information.
+
+```css theme.css [expandable]
+@theme {
+  /* Colors */
+  --color-brand-50: rgb(250, 250, 250);
+  --color-brand-100: rgb(245, 245, 245);
+  --color-brand-200: rgb(229, 229, 229);
+  --color-brand-300: rgb(212, 212, 212);
+  --color-brand-400: rgb(163, 163, 163);
+  --color-brand-500: rgb(115, 115, 115);
+  --color-brand-600: rgb(38, 38, 38);
+  --color-brand-700: rgb(64, 64, 64);
+  --color-brand-800: rgb(38, 38, 38);
+  --color-brand-900: rgb(23, 23, 23);
+  --color-neutral-0: rgb(255, 255, 255);
+  --color-neutral-50: rgb(250, 250, 250);
+  --color-neutral-100: rgb(245, 245, 245);
+  --color-neutral-200: rgb(229, 229, 229);
+  --color-neutral-300: rgb(212, 212, 212);
+  --color-neutral-400: rgb(163, 163, 163);
+  --color-neutral-500: rgb(115, 115, 115);
+  --color-neutral-600: rgb(82, 82, 82);
+  --color-neutral-700: rgb(64, 64, 64);
+  --color-neutral-800: rgb(38, 38, 38);
+  --color-neutral-900: rgb(23, 23, 23);
+  --color-neutral-950: rgb(10, 10, 10);
+  --color-error-50: rgb(254, 242, 242);
+  --color-error-100: rgb(254, 226, 226);
+  --color-error-200: rgb(254, 202, 202);
+  --color-error-300: rgb(252, 165, 165);
+  --color-error-400: rgb(248, 113, 113);
+  --color-error-500: rgb(239, 68, 68);
+  --color-error-600: rgb(220, 38, 38);
+  --color-error-700: rgb(185, 28, 28);
+  --color-error-800: rgb(153, 27, 27);
+  --color-error-900: rgb(127, 29, 29);
+  --color-warning-50: rgb(240, 249, 255);
+  --color-warning-100: rgb(224, 242, 254);
+  --color-warning-200: rgb(186, 230, 253);
+  --color-warning-300: rgb(125, 211, 252);
+  --color-warning-400: rgb(56, 189, 248);
+  --color-warning-500: rgb(14, 165, 233);
+  --color-warning-600: rgb(2, 132, 199);
+  --color-warning-700: rgb(3, 105, 161);
+  --color-warning-800: rgb(7, 89, 133);
+  --color-warning-900: rgb(12, 74, 110);
+  --color-success-50: rgb(240, 253, 244);
+  --color-success-100: rgb(220, 252, 231);
+  --color-success-200: rgb(187, 247, 208);
+  --color-success-300: rgb(134, 239, 172);
+  --color-success-400: rgb(74, 222, 128);
+  --color-success-500: rgb(34, 197, 94);
+  --color-success-600: rgb(22, 163, 74);
+  --color-success-700: rgb(21, 128, 61);
+  --color-success-800: rgb(22, 101, 52);
+  --color-success-900: rgb(20, 83, 45);
+  --color-brand-primary: rgb(38, 38, 38);
+  --color-default-font: rgb(23, 23, 23);
+  --color-subtext-color: rgb(115, 115, 115);
+  --color-neutral-border: rgb(229, 229, 229);
+  --color-white: rgb(255, 255, 255);
+  --color-default-background: rgb(255, 255, 255);
+
+  /* Fonts */
+  --text-caption: 12px;
+  --text-caption--font-weight: 400;
+  --text-caption--letter-spacing: 0em;
+  --text-caption--line-height: 16px;
+  --text-caption-bold: 12px;
+  --text-caption-bold--font-weight: 500;
+  --text-caption-bold--letter-spacing: 0em;
+  --text-caption-bold--line-height: 16px;
+  --text-body: 14px;
+  --text-body--font-weight: 400;
+  --text-body--letter-spacing: 0em;
+  --text-body--line-height: 20px;
+  --text-body-bold: 14px;
+  --text-body-bold--font-weight: 500;
+  --text-body-bold--letter-spacing: 0em;
+  --text-body-bold--line-height: 20px;
+  --text-heading-3: 16px;
+  --text-heading-3--font-weight: 600;
+  --text-heading-3--letter-spacing: 0em;
+  --text-heading-3--line-height: 20px;
+  --text-heading-2: 20px;
+  --text-heading-2--font-weight: 600;
+  --text-heading-2--letter-spacing: 0em;
+  --text-heading-2--line-height: 24px;
+  --text-heading-1: 30px;
+  --text-heading-1--font-weight: 600;
+  --text-heading-1--letter-spacing: 0em;
+  --text-heading-1--line-height: 36px;
+  --text-monospace-body: 14px;
+  --text-monospace-body--font-weight: 400;
+  --text-monospace-body--letter-spacing: 0em;
+  --text-monospace-body--line-height: 20px;
+
+  /* Font families */
+  --font-caption: Figtree;
+  --font-caption-bold: Figtree;
+  --font-body: Figtree;
+  --font-body-bold: Figtree;
+  --font-heading-3: Figtree;
+  --font-heading-2: Figtree;
+  --font-heading-1: Figtree;
+  --font-monospace-body: monospace;
+
+  /* Box shadows */
+  --shadow-sm: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  --shadow-default: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0px 4px 16px -2px rgba(0, 0, 0, 0.08),
+    0px 2px 4px -1px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0px 12px 32px -4px rgba(0, 0, 0, 0.08),
+    0px 4px 8px -2px rgba(0, 0, 0, 0.08);
+  --shadow-overlay: 0px 12px 32px -4px rgba(0, 0, 0, 0.08),
+    0px 4px 8px -2px rgba(0, 0, 0, 0.08);
+
+  /* Border radiuses */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-DEFAULT: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* Spacing */
+  --spacing-112: 28rem;
+  --spacing-144: 36rem;
+  --spacing-192: 48rem;
+  --spacing-256: 64rem;
+  --spacing-320: 80rem;
+}
+
+/* Container */
+@utility container {
+  padding-left: 16px;
+  padding-right: 16px;
+
+  @media (width >= theme(--breakpoint-sm)) {
+    padding-left: calc((100vw + 16px - 640px) / 2);
+    padding-right: calc((100vw + 16px - 640px) / 2);
+  }
+
+  @media (width >= theme(--breakpoint-md)) {
+    padding-left: calc((100vw + 16px - 768px) / 2);
+    padding-right: calc((100vw + 16px - 768px) / 2);
+  }
+
+  @media (width >= theme(--breakpoint-lg)) {
+    padding-left: calc((100vw + 16px - 1024px) / 2);
+    padding-right: calc((100vw + 16px - 1024px) / 2);
+  }
+
+  @media (width >= theme(--breakpoint-xl)) {
+    padding-left: calc((100vw + 16px - 1280px) / 2);
+    padding-right: calc((100vw + 16px - 1280px) / 2);
+  }
+
+  @media (width >= theme(--breakpoint-2xl)) {
+    padding-left: calc((100vw + 16px - 1536px) / 2);
+    padding-right: calc((100vw + 16px - 1536px) / 2);
+  }
+}
+
+@custom-variant mobile (@media (max-width: 767px));
+```
+
+</Tab>
+</Tabs>

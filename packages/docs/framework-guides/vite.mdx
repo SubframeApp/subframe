@@ -25,7 +25,7 @@ Run the following command in the root of your repository to install Subframe and
 </CodeGroup>
 
 ### Configure Vite to use import aliases
-1. Configure the `compilerOptions` in the `tsconfig.app.json` file so Typescript understand your import aliases.
+1. Configure the `compilerOptions` in the `tsconfig.app.json` file so Typescript understands your import aliases.
 
 <CodeGroup>
 ```json tsconfig.app.json {3-8}
@@ -57,24 +57,26 @@ Run the following command in the root of your repository to install Subframe and
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
-        "noUncheckedSideEffectImports": true+
+        "noUncheckedSideEffectImports": true
     },
     "include": ["src"]
 }
 ```
 </CodeGroup>
 
-2. Update `vite.config.ts` so Vite can resolve paths without error:
+2. Run `npm install -D @types/node` and then update `vite.config.ts` so Vite can resolve paths without error:
+
 <CodeGroup>
-```tsx vite.config.ts {6-10}
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+```tsx vite.config.ts {7-11}
+import { defineConfig } from "vite"
+import react from "@vitejs/plugin-react"
+import { resolve } from "node:path"
 
 export default defineConfig({
     plugins: [react()],
     resolve: {
         alias: {
-            "@/*": "./src/*"
+            "@": resolve(__dirname, "./src"),
         }
     }
 })
