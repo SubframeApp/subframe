@@ -1,0 +1,31 @@
+{
+  "name": "@subframe/byoc",
+  "version": "0.0.1",
+  "source": "src/index.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "scripts": {
+    "build": "rollup -c --bundleConfigAsCjs",
+    "dev": "rollup -c --bundleConfigAsCjs --watch",
+    "format": "prettier --write \"**/*.{ts,tsx}\"",
+    "lint": "eslint \"**/*.{ts,tsx}\"",
+    "lint:fix": "eslint --fix \"**/*.{ts,tsx}\"",
+    "ts": "tsc --noEmit"
+  },
+  "keywords": [
+    "subframe"
+  ],
+  "author": "Subframe",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/preset-typescript": "7.23.0",
+    "@rollup/plugin-commonjs": "24.1.0",
+    "@rollup/plugin-json": "6.0.1",
+    "@rollup/plugin-node-resolve": "15.2.2",
+    "@rollup/plugin-terser": "0.4.4",
+    "rollup": "3.29.5",
+    "rollup-plugin-typescript2": "0.34.1",
+    "typescript": "^5.1.3"
+  }
+}
