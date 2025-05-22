@@ -60,3 +60,18 @@ export interface SyncProjectResponse {
   otherFiles: CodeGenFile[]
   errorComponents: string[]
 }
+
+export interface ComponentFilesUploadRequest {
+  token: string
+  id: string
+  truncatedProjectId?: string
+  files: Array<{
+    contentType: "text/css" | "text/javascript"
+    base64EncodedData: string
+    name: string
+  }>
+}
+
+export interface ComponentFilesUploadResponse {
+  message: string
+}

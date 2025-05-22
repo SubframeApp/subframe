@@ -1,5 +1,7 @@
 import { http } from "shared/http"
 import type {
+  ComponentFilesUploadRequest,
+  ComponentFilesUploadResponse,
   InitProjectRequest,
   InitProjectResponse,
   SyncProjectRequest,
@@ -39,5 +41,12 @@ export async function apiSyncProject({ token, truncatedProjectId, components, im
   return http<SyncProjectRequest, SyncProjectResponse>(`${BASE_URL}/api/cli/sync`, {
     method: "POST",
     body: { token, truncatedProjectId, components, importAlias, cssType },
+  })
+}
+
+export async function apiUploadComponentFiles({ token, truncatedProjectId, id, files }: ComponentFilesUploadRequest) {
+  return http<ComponentFilesUploadRequest, ComponentFilesUploadResponse>(`${BASE_URL}/api/cli/byoc`, {
+    method: "POST",
+    body: { token, truncatedProjectId, id, files },
   })
 }
