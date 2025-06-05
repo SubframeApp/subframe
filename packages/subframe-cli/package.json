@@ -38,6 +38,8 @@
     "execa": "7.2.0",
     "node-fetch": "2.7.0",
     "ora": "8.2.0",
+    "postcss": "^8.5.4",
+    "postcss-selector-parser": "^7.1.0",
     "prompts": "2.4.2",
     "semver": "7.6.3",
     "ts-morph": "19.0.0",

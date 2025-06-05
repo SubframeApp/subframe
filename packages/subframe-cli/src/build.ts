@@ -1,5 +1,7 @@
 import { Command } from "@commander-js/extra-typings"
 import { oraPromise } from "ora"
+import postcss from "postcss"
+import selectorParser from "postcss-selector-parser"
 import { OutputChunk } from "rollup"
 import { OutputAsset } from "rollup"
 import { getLibraryName, getScopedCSSClassName } from "shared/byoc-helpers"
@@ -13,17 +15,64 @@ import { apiUploadComponentFiles } from "./api-endpoints"
 import { localSyncSettings } from "./common"
 
 function scopeCssAdapter({ id }: { id: string }): Plugin {
+  const scopedClass = getScopedCSSClassName(id)
+
   return {
     name: "scope-css-adapter",
     apply: "build",
     enforce: "post",
-    generateBundle(_options, bundle) {
+
+    async generateBundle(_options, bundle) {
       for (const file of Object.values(bundle)) {
-        if (file.type === "asset" && file.fileName.endsWith(".css")) {
-          const raw = file.source.toString()
-          // TODO: Handle :root { } -> .registry-${id} { }
-          file.source = `@scope(.${getScopedCSSClassName(id)}) {${raw}}`
-        }
+        if (!(file.type === "asset" && file.fileName.endsWith(".css"))) continue
+
+        const rootDecls: postcss.Declaration[] = []
+        const root = postcss.parse(file.source.toString())
+
+        root.walkRules((rule) => {
+          const keep: string[] = []
+
+          selectorParser((sel) => {
+            sel.each((selector) => {
+              const hasRoot = selector.some((n) => n.type === "pseudo" && n.value === ":root")
+
+              if (!hasRoot) {
+                keep.push(selector.toString())
+                return
+              }
+
+              const onlyRoot = selector.nodes.every((n) => n.type === "pseudo" && n.value === ":root")
+              if (onlyRoot) {
+                rootDecls.push(
+                  ...rule.nodes.filter((n): n is postcss.Declaration => n.type === "decl").map((n) => n.clone()),
+                )
+                return
+              }
+
+              selector.nodes = selector.nodes.filter((n) => !(n.type === "pseudo" && n.value === ":root"))
+              keep.push(selector.toString())
+
+              rootDecls.push(
+                ...rule.nodes.filter((n): n is postcss.Declaration => n.type === "decl").map((n) => n.clone()),
+              )
+            })
+          }).processSync(rule.selector)
+
+          if (keep.length) {
+            rule.selector = keep.join(", ")
+          } else {
+            rule.remove()
+          }
+        })
+
+        const mergedRoot = postcss.rule({ selector: `.${scopedClass}` })
+        mergedRoot.append(rootDecls)
+
+        file.source = `@scope(.${scopedClass}) {
+${root.toString()}
+}
+
+${mergedRoot.toString()}`
       }
     },
   }
@@ -43,6 +92,10 @@ buildCommand.action(async (opts) => {
       logLevel: "warn",
       configFile: false,
       plugins: [scopeCssAdapter({ id })],
+      define: {
+        "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+        "process.env": "{}",
+      },
       build: {
         lib: {
           entry: entrypoint,
