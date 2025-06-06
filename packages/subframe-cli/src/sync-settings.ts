@@ -12,6 +12,7 @@ export interface SyncSettingsConfig {
   directory: string
   importAlias: string
   projectId?: string
+  cssType?: "tailwind" | "tailwind-v4"
 }
 
 export function getLocalSyncSettings(cwd: string): SyncSettingsConfig | null {
@@ -64,6 +65,7 @@ export async function setupSyncSettings(
     directory: options.directory,
     importAlias: options.importAlias,
     projectId: options.projectId,
+    cssType: options.cssType,
   }
 
   if (!options.directory) {
@@ -127,5 +129,6 @@ export async function setupSyncSettings(
     directory: config.directory!,
     importAlias: config.importAlias!,
     projectId: options.projectId,
+    cssType: options.cssType,
   }
 }

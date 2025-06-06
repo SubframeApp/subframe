@@ -6,15 +6,18 @@ import { apiInitProject } from "./api-endpoints"
 export async function initProject({
   accessToken,
   truncatedProjectId,
+  cssType,
 }: {
   accessToken: string
   truncatedProjectId: string | undefined
+  cssType: "tailwind" | "tailwind-v4"
 }) {
   try {
     const { styleFile, oldImportAlias } = await oraPromise(
       apiInitProject({
         token: accessToken,
         truncatedProjectId,
+        cssType,
       }),
       {
         text: "Initializing Subframe project",
@@ -26,7 +29,7 @@ export async function initProject({
     if (error.message === FAILED_TO_FETCH_PROJECT_ERROR) {
       console.log("> Unable to fetch project. Try authenticating again.")
       const newAccessToken = await promptForNewAccessToken()
-      return initProject({ accessToken: newAccessToken, truncatedProjectId })
+      return initProject({ accessToken: newAccessToken, truncatedProjectId, cssType })
     } else {
       throw error
     }

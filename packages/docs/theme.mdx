@@ -206,12 +206,35 @@ module.exports = {
 ```
 </Tab>
 <Tab title="Tailwind v4">
-Subframe does not yet officially support Tailwind CSS v4 in the Subframe CLI. However you can manually copy / paste the `theme.css` file for your project whenever you update your theme in Subframe.
+Subframe has experimental support for Tailwind CSS v4 in the Subframe CLI. You can [install Subframe](/installation) with the css-type flag:
+
+<CodeGroup>
+  ```bash npm
+  npx @subframe/cli@latest init --css-type tailwind-v4
+  ```
+  ```bash yarn
+  yarn dlx @subframe/cli@latest init --css-type tailwind-v4
+  ```
+  ```bash pnpm
+  pnpx @subframe/cli@latest init --css-type tailwind-v4
+  ```
+  ```bash bun
+  bunx @subframe/cli@latest init --css-type tailwind-v4
+  ```
+</CodeGroup>
+
+After installation completes you will need to import the `theme.css` file into your global css file that is imported into the root of your app - typically `index.css`, `styles.css`, or `globals.css`. Please refer to the [Tailwind CSS v4 docs](https://tailwindcss.com/docs/theme#sharing-across-projects) for more information on importing the `theme.css` file.
+
+```css index.css
+@import "tailwindcss";
+@import "../ui/theme.css";
+```
+
+
+If you update your theme in Subframe in the future, you can update it in your codebase by [syncing your components](/syncing-components) or manually copy / pasting the `theme.css` file for your project.
 <Note>
     Find the exact theme.css for your project [here](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV4).
 </Note>
-
-We recommend creating a `theme.css` file in your `ui` directory and then importing that file into your `index.css` file. Please refer to the [Tailwind CSS v4 docs](https://tailwindcss.com/docs/theme#sharing-across-projects) for more information.
 
 ```css theme.css [expandable]
 @theme {

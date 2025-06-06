@@ -7,6 +7,8 @@ import {
   COMMAND_ALIAS_KEY_SHORT,
   COMMAND_AUTH_TOKEN_KEY,
   COMMAND_AUTH_TOKEN_KEY_SHORT,
+  COMMAND_CSS_TYPE_KEY,
+  COMMAND_CSS_TYPE_KEY_SHORT,
   COMMAND_DIR_KEY,
   COMMAND_DIR_KEY_SHORT,
   COMMAND_INSTALL_KEY,
@@ -30,10 +32,12 @@ import { initProject } from "./init-project"
 import { initSync } from "./init-sync"
 import { installDependencies } from "./install-dependencies"
 import { makeCLILogger } from "./logger/logger-cli"
+import { link } from "./output/format"
 import { prepareProject } from "./setup/prepare-project"
 import { setupTailwindConfig } from "./setup-tailwind-config"
 import { setupSyncSettings } from "./sync-settings"
 import { mkdirIfNotExist } from "./utils/fs"
+
 
 export const initCommand = new Command()
   .name("init")
@@ -56,6 +60,11 @@ export const initCommand = new Command()
   .option(`${COMMAND_TAILWIND_KEY_SHORT}, ${COMMAND_TAILWIND_KEY}`, "setup tailwind config")
   .option(`${COMMAND_ALIAS_KEY_SHORT}, ${COMMAND_ALIAS_KEY} <alias>`, "import alias to use")
   .option(`${COMMAND_SYNC_KEY_SHORT}, ${COMMAND_SYNC_KEY}`, "sync all components")
+  .addOption(
+    new Option(`${COMMAND_CSS_TYPE_KEY_SHORT}, ${COMMAND_CSS_TYPE_KEY} <cssType>`, "css type to use")
+      .choices(["tailwind", "tailwind-v4"])
+      .default("tailwind")
+  )
 
 initCommand.action(async (opts) => {
   const cliLogger = makeCLILogger()
@@ -79,7 +88,7 @@ initCommand.action(async (opts) => {
 
     const truncatedProjectId = opts.projectId ?? localSyncSettings?.projectId
 
-    const { styleFile, oldImportAlias } = await initProject({ accessToken, truncatedProjectId })
+    const { styleFile, oldImportAlias } = await initProject({ accessToken, truncatedProjectId, cssType: opts.cssType })
 
     const { importAlias: rawImportAlias, directory } = await setupSyncSettings(
       projectPath,
@@ -87,6 +96,7 @@ initCommand.action(async (opts) => {
         directory: opts.dir ?? localSyncSettings?.directory,
         importAlias: localSyncSettings?.importAlias,
         projectId: truncatedProjectId,
+        cssType: opts.cssType,
       },
       opts,
     )
@@ -126,10 +136,12 @@ initCommand.action(async (opts) => {
       }
     }
 
-    await setupTailwindConfig(projectPath, rootPath, opts)
+    if (opts.cssType === "tailwind") {
+      await setupTailwindConfig(projectPath, rootPath, opts)
+    }
 
     const syncDirectory = join(projectPath, directory)
-    await initSync(syncDirectory, truncatedProjectId, accessToken, importAlias, opts)
+    await initSync(syncDirectory, truncatedProjectId, accessToken, importAlias, opts.cssType, opts)
 
     // When setting up tailwind config on vite, the changes breaks vite (throws an error about preflight.css)
     // This is easily remedied by any npm install command. Thus, if we install dependencies after tailwind config is setup,
@@ -137,6 +149,13 @@ initCommand.action(async (opts) => {
     await installDependencies(projectPath, opts)
 
     console.timeEnd(SUBFRAME_INIT_MESSAGE)
+
+    if (opts.cssType === "tailwind-v4") {
+      console.log()
+      console.log("To finish setting up your theme with Tailwind v4, you'll need to import the theme.css file into your app:")
+      console.log(`${link(`https://docs.subframe.com/theme#tailwind-v4`)}`)
+      console.log()
+    }
   } catch (err: any) {
     console.error(err)
     await cliLogger.trackWarningAndFlush("CLI init: uncaught error", { error: err.toString() })
