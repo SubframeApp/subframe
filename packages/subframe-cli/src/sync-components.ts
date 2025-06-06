@@ -13,12 +13,14 @@ export async function syncComponents({
   accessToken,
   importAlias,
   syncDirectory,
+  cssType,
 }: {
   components: string[]
   projectId: string | undefined
   accessToken: string
   importAlias: string
   syncDirectory: string
+  cssType: "tailwind" | "tailwind-v4"
 }) {
   const { definitionFiles, otherFiles, errorComponents } = await oraPromise(
     apiSyncProject({
@@ -26,6 +28,7 @@ export async function syncComponents({
       truncatedProjectId: projectId,
       components,
       importAlias,
+      cssType,
     }),
     {
       text: "Syncing Subframe components",

@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+html {
+  font-family: Inter;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+#root {
+  flex-grow: 1;
+}
