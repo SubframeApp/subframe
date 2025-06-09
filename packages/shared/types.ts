@@ -11,7 +11,7 @@ export interface CodeGenFile {
   }
 }
 
-export const CODE_GEN_CSS_TYPE_OPTIONS = ["tailwind", "scss-with-modules"] as const
+export const CODE_GEN_CSS_TYPE_OPTIONS = ["tailwind", "tailwind-v4", "scss-with-modules"] as const
 export type CodeGenCSSType = (typeof CODE_GEN_CSS_TYPE_OPTIONS)[number]
 
 export const CODE_GEN_ICON_BEHAVIOR_OPTIONS = ["name", "component"] as const
@@ -25,6 +25,7 @@ export interface VerifyTokenResponse {
 export interface InitProjectRequest {
   token: string
   truncatedProjectId?: string
+  cssType?: CodeGenCSSType
 }
 
 export interface InitProjectResponse {
@@ -48,6 +49,7 @@ export interface SyncProjectRequest {
   truncatedProjectId?: string
   components: string[]
   importAlias: string
+  cssType?: CodeGenCSSType
 }
 
 export interface SyncProjectResponse {

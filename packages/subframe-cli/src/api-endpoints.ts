@@ -20,10 +20,10 @@ export async function apiVerifyToken(token: string) {
   return response.success
 }
 
-export async function apiInitProject({ token, truncatedProjectId }: InitProjectRequest) {
+export async function apiInitProject({ token, truncatedProjectId, cssType }: InitProjectRequest) {
   return http<InitProjectRequest, InitProjectResponse>(`${BASE_URL}/api/cli/init`, {
     method: "POST",
-    body: { token, truncatedProjectId },
+    body: { token, truncatedProjectId, cssType },
   })
 }
 
@@ -35,9 +35,9 @@ export async function apiUpdateImportAlias({ token, truncatedProjectId, importAl
   return response.success
 }
 
-export async function apiSyncProject({ token, truncatedProjectId, components, importAlias }: SyncProjectRequest) {
+export async function apiSyncProject({ token, truncatedProjectId, components, importAlias, cssType }: SyncProjectRequest) {
   return http<SyncProjectRequest, SyncProjectResponse>(`${BASE_URL}/api/cli/sync`, {
     method: "POST",
-    body: { token, truncatedProjectId, components, importAlias },
+    body: { token, truncatedProjectId, components, importAlias, cssType },
   })
 }

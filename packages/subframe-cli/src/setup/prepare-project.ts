@@ -9,10 +9,21 @@ import { highlight } from "../output/format"
 import { exists } from "../utils/fs"
 import { tryGitInit } from "../utils/git"
 
-async function cloneStarterKit({ name, type }: { name: string; type: "astro" | "vite" | "nextjs" }) {
+async function cloneStarterKit({ name, type, cssType }: { name: string; type: "astro" | "vite" | "nextjs"; cssType: "tailwind" | "tailwind-v4" }) {
   const spinner = ora(`Cloning starter kit...`).start()
 
-  const emitter = degit(`SubframeApp/subframe/starter-kits/${type}`)
+  function getStarterKitName(type: string, cssType: "tailwind" | "tailwind-v4") {
+    switch (cssType) {
+      case "tailwind":
+        return type
+      case "tailwind-v4":
+        return `${type}-${cssType}`
+      default:
+        throw new Error(`Invalid CSS type: ${cssType}`)
+    }
+  }
+
+  const emitter = degit(`SubframeApp/subframe/starter-kits/${getStarterKitName(type, cssType)}`)
   await emitter.clone(`${name}`)
 
   const projectPath = join(cwd, name)
@@ -31,7 +42,7 @@ async function cloneStarterKit({ name, type }: { name: string; type: "astro" | "
 
 export async function prepareProject(
   cliLogger: CLILogger,
-  options: { template?: "vite" | "nextjs" | "astro"; name?: string },
+  options: { template?: "vite" | "nextjs" | "astro"; name?: string; cssType?: "tailwind" | "tailwind-v4" },
 ): Promise<{ projectPath: string }> {
   // No package.json in current directory - assume they need to set up a new project.
   if (!(await exists(resolve(cwd, "package.json"))) || options.template !== undefined) {
@@ -63,7 +74,8 @@ export async function prepareProject(
       },
     ])
 
-    const projectPath = await cloneStarterKit({ name, type })
+    // TODO: Add an prompt to ask if they want to use tailwind v3 vs. v4.
+    const projectPath = await cloneStarterKit({ name, type, cssType: options.cssType ?? "tailwind" })
     cliLogger.trackEvent({ type: "cli:starter-kit_cloned", framework: type })
 
     return { projectPath }
