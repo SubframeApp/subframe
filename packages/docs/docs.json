@@ -61,7 +61,8 @@
         "pages": [
           "export-to-bolt",
           "export-to-replit",
-          "export-to-cursor"
+          "export-to-cursor",
+          "export-to-lovable"
         ]
       }
     ]
