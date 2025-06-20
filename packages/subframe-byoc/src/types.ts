@@ -1,3 +1,61 @@
+// Inspired by the Coda packs SDK which has solved some of the typescript voodoo needed for dynamic object schemas
+// https://github.com/coda/packs-sdk
+
+export interface TextSchema {
+  type: "text"
+}
+
+export interface NumberSchema {
+  type: "number"
+}
+
+export interface BooleanSchema {
+  type: "boolean"
+}
+
+export interface IconSchema {
+  type: "icon"
+}
+
+export interface ImageSchema {
+  type: "image"
+}
+
+export interface ObjectSchemaProperty {
+  required?: boolean
+}
+
+export interface ObjectSchema {
+  type: "object"
+  properties: Record<string, Schema & ObjectSchemaProperty>
+}
+
+export interface ArraySchema<T extends Schema = Schema> {
+  type: "array"
+  items: T
+}
+
+export type Schema = ArraySchema | ObjectSchema | TextSchema | NumberSchema | BooleanSchema | IconSchema | ImageSchema
+
+// Get the Typescript type for a schema
+export type SchemaType<T extends Schema> = T extends TextSchema
+  ? string
+  : T extends NumberSchema
+  ? number
+  : T extends BooleanSchema
+  ? boolean
+  : T extends IconSchema
+  ? string // TODO: Figure this out
+  : T extends ImageSchema
+  ? string
+  : T extends ArraySchema
+  ? Array<SchemaType<T["items"]>>
+  : T extends ObjectSchema
+  ? {
+      [K in keyof T["properties"]]: SchemaType<T["properties"][K]>
+    }
+  : never
+
 /**
  * Properties
  */
@@ -40,6 +98,18 @@ export interface IconPropertyDefinition {
   defaultValue?: string
 }
 
+export interface ObjectPropertyDefinition<T extends ObjectSchema = ObjectSchema> {
+  type: "object"
+  schema: T
+  defaultValue?: SchemaType<T>
+}
+
+export interface ArrayPropertyDefinition<T extends ArraySchema = ArraySchema> {
+  type: "array"
+  schema: T
+  defaultValue?: SchemaType<T>
+}
+
 export type PropertyDefinition =
   | TextPropertyDefinition
   | NumberPropertyDefinition
@@ -48,6 +118,8 @@ export type PropertyDefinition =
   | EnumPropertyDefinition
   | SlotPropertyDefinition
   | IconPropertyDefinition
+  | ObjectPropertyDefinition
+  | ArrayPropertyDefinition
 
 // Helper type to extract the corresponding value type from a PropertyDefinition
 type PropertyValueType<T extends PropertyDefinition> = T extends TextPropertyDefinition
@@ -62,6 +134,10 @@ type PropertyValueType<T extends PropertyDefinition> = T extends TextPropertyDef
   ? React.ReactNode
   : T extends IconPropertyDefinition
   ? string
+  : T extends ObjectPropertyDefinition
+  ? SchemaType<T["schema"]>
+  : T extends ArrayPropertyDefinition
+  ? SchemaType<T["schema"]>
   : never
 
 // Transform the properties object type into the args type
