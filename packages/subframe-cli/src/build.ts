@@ -35,31 +35,36 @@ function scopeCssAdapter({ id }: { id: string }): Plugin {
           selectorParser((sel) => {
             sel.each((selector) => {
               const hasRoot = selector.some((n) => n.type === "pseudo" && n.value === ":root")
+              const hasHtml = selector.some((n) => n.type === "tag" && n.value === "html")
               const hasAttribute = selector.some((n) => n.type === "attribute")
 
-              // Handle selectors with attributes (but not :root) - transform to :scope[attr]
-              if (hasAttribute && !hasRoot) {
+              // Handle selectors with attributes (but not :root/html) - transform to :scope[attr]
+              if (hasAttribute && !hasRoot && !hasHtml) {
                 // Replace the entire selector with :scope + original selector
                 keep.push(`:scope${selector.toString()}`)
                 return
               }
 
-              // Handle :root selectors
-              if (!hasRoot) {
+              // Handle :root and html selectors
+              if (!hasRoot && !hasHtml) {
                 keep.push(selector.toString())
                 return
               }
 
-              const onlyRoot = selector.nodes.every((n) => n.type === "pseudo" && n.value === ":root")
-              if (onlyRoot) {
+              const onlyRootOrHtml = selector.nodes.every(
+                (n) => (n.type === "pseudo" && n.value === ":root") || (n.type === "tag" && n.value === "html"),
+              )
+              if (onlyRootOrHtml) {
                 rootDecls.push(
                   ...rule.nodes.filter((n): n is postcss.Declaration => n.type === "decl").map((n) => n.clone()),
                 )
                 return
               }
 
-              // Handle complex :root selectors (like :root[data-theme="light"])
-              selector.nodes = selector.nodes.filter((n) => !(n.type === "pseudo" && n.value === ":root"))
+              // Handle complex :root/:html selectors (like :root[data-theme="light"] or html[lang="en"])
+              selector.nodes = selector.nodes.filter(
+                (n) => !((n.type === "pseudo" && n.value === ":root") || (n.type === "tag" && n.value === "html")),
+              )
               keep.push(selector.toString())
             })
           }).processSync(rule.selector)
