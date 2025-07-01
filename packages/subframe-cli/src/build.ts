@@ -126,6 +126,9 @@ buildCommand.action(async (opts) => {
         rollupOptions: {
           external: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime"],
           output: {
+            format: "umd",
+            entryFileNames: "subframe-bundle.js",
+            assetFileNames: "subframe-bundle.css",
             globals: {
               react: "React",
               "react-dom": "ReactDOM",
@@ -153,11 +156,11 @@ buildCommand.action(async (opts) => {
 
     // Get the built files from memory
     const jsOutput = buildResult.find(
-      (file) => file.type === "chunk" && file.fileName.endsWith(".js"),
+      (file) => file.type === "chunk" && file.fileName === "subframe-bundle.js",
     )! as unknown as OutputChunk
 
     const cssOutput = buildResult.find(
-      (file) => file.type === "asset" && file.fileName.endsWith(".css"),
+      (file) => file.type === "asset" && file.fileName === "subframe-bundle.css",
     )! as unknown as OutputAsset
 
     if (!jsOutput) {
