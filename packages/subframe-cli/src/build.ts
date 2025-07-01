@@ -38,7 +38,22 @@ function scopeCssAdapter({ id }: { id: string }): Plugin {
               const hasHtml = selector.some((n) => n.type === "tag" && n.value === "html")
               const hasAttribute = selector.some((n) => n.type === "attribute")
 
+              // Check for global selectors that should remain unscoped
+              const isGlobalSelector = selector.some(
+                (n) =>
+                  n.type === "class" ||
+                  n.type === "id" ||
+                  n.type === "tag" ||
+                  (n.type === "attribute" && n.attribute === "class"),
+              )
+
+              if (isGlobalSelector) {
+                keep.push(selector.toString())
+                return
+              }
+
               // Handle selectors with attributes (but not :root/html) - transform to :scope[attr]
+              // Only add :scope prefix if the selector is not a global selector
               if (hasAttribute && !hasRoot && !hasHtml) {
                 // Replace the entire selector with :scope + original selector
                 keep.push(`:scope${selector.toString()}`)
