@@ -1,6 +1,6 @@
 {
   "name": "@subframe/core",
-  "version": "1.144.0",
+  "version": "1.145.0",
   "description": "",
   "source": "src/index.ts",
   "main": "dist/cjs/index.js",
