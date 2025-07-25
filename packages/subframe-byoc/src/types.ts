@@ -85,12 +85,22 @@ export interface EnumPropertyDefinition<T extends readonly string[] = readonly s
   defaultValue?: T[number]
 }
 
+interface ComponentInstance<P extends MetadataProperties = any, Q = PropertiesArgs<P>> {
+  type: "component"
+  component: Metadata<P>
+  args: Partial<Q>
+}
+
+interface TextPrimitive {
+  type: "text"
+  args: {
+    text: string
+  }
+}
+
 export interface SlotPropertyDefinition<P extends MetadataProperties = any, Q = PropertiesArgs<P>> {
   type: "slot"
-  defaultValue?: Array<{
-    component: Metadata<P>
-    args: Partial<Q>
-  }>
+  defaultValue?: Array<ComponentInstance<P, Q> | TextPrimitive>
 }
 
 export interface IconPropertyDefinition {

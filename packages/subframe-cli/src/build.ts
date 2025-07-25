@@ -1,4 +1,5 @@
 import { Command } from "@commander-js/extra-typings"
+import fs from "fs"
 import { oraPromise } from "ora"
 import postcss from "postcss"
 import selectorParser from "postcss-selector-parser"
@@ -10,6 +11,7 @@ import { COMMAND_PROJECT_ID_KEY } from "shared/constants"
 import { ComponentFilesUploadRequest } from "shared/types"
 import { v4 } from "uuid"
 import { build, type InlineConfig, type Plugin } from "vite"
+import tsconfigPaths from "vite-tsconfig-paths"
 import { getAccessToken } from "./access-token"
 import { apiUploadComponentFiles } from "./api-endpoints"
 import { localSyncSettings } from "./common"
@@ -123,7 +125,12 @@ buildCommand.action(async (opts) => {
     const viteConfig: InlineConfig = {
       logLevel: "warn",
       configFile: false,
-      plugins: [scopeCssAdapter({ id })],
+      plugins: [
+        tsconfigPaths({
+          projects: [fs.existsSync("tsconfig.storybook.json") ? "tsconfig.storybook.json" : "tsconfig.json"],
+        }),
+        scopeCssAdapter({ id }),
+      ],
       define: {
         "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
         "process.env": "{}",
