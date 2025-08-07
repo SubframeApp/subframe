@@ -20,7 +20,7 @@ For our example app, we'll build a simple magic link login form. This is what we
   className="w-full"
 />
 
-We've finished [copying the page code](/articles/developing/copy-paste-pages) from Subframe, so now let's add some basic functionality.
+We've finished [copying the page code](/developing/copy-paste-pages) from Subframe, so now let's add some basic functionality.
 
 1. We add a fake fetch function that simulates a network request and a `handleSubmit` function that handles the form submission.
 2. We also want to update our Button to show that we're currently submitting the form, so we'll maintain a `submitting` state variable and pass it to the Button in the `disabled` and `loading` props.
@@ -143,7 +143,7 @@ We now have an interactive login form!
 
 We now want to build a feature where we show the user their most-listened-to tracks of the past week and allow them to favorite tracks so they can easily find them later.
 
-When adding business logic to Subframe-designed components, we recommend not editing the generated code inside the `src/ui/` directory directly, but instead [wrapping the component](/articles/developing/disabling-sync#wrapping-%E2%80%9Cdumb%E2%80%9D-components-recommended).
+When adding business logic to Subframe-designed components, we recommend not editing the generated code inside the `src/ui/` directory directly, but instead [wrapping the component](/developing/disabling-sync#wrapping-%E2%80%9Cdumb%E2%80%9D-components-recommended).
 
 We built a `TrackCard` component and `FavoriteTracks` page in Subframe and brought them to our codebase:
 
@@ -285,4 +285,4 @@ And we're done! The end result looks like this:
   src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/component-example-2-ZRPtwOWlu7m9aaOgLi7ASo4FwRNaIj.webm"
 />
 
-You may have noticed that we're using slots for our image and favorite button. We'll cover the reasons for this in [Props and Slots](/articles/developing/props-and-slots).
+You may have noticed that we're using slots for our image and favorite button. We'll cover the reasons for this in [Props and Slots](/developing/props-and-slots).

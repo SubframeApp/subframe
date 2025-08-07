@@ -24,7 +24,7 @@
 ## docs.json
 
 - Refer to the [docs.json schema](https://mintlify.com/docs.json) when building the docs.json file and site navigation
-- All articles should be under the articles folder. The directory structure should mirror that of docs.json
+- The directory structure should mirror that of docs.json
 
 ## Frontmatter requirements for pages
 
