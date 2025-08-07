@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+/*@import "../ui/theme.css";*/
 html {
   font-family: Inter;
   height: 100vh;
