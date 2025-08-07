@@ -27,42 +27,57 @@
       {
         "group": "Get started",
         "pages": [
-          "introduction",
-          "installation",
-          "theme",
-          "fonts",
-          "faq",
+          "articles/get-started/introduction",
+          "articles/get-started/installation",
+          "articles/get-started/tailwind",
+          "articles/get-started/fonts",
+          "articles/get-started/faq",
           {
             "group": "Framework guides",
             "pages": [
-              "framework-guides/nextjs",
-              "framework-guides/vite",
-              "framework-guides/astro",
-              "framework-guides/monorepo",
-              "framework-guides/manual"
+              "articles/framework-guides/nextjs",
+              "articles/framework-guides/vite",
+              "articles/framework-guides/astro",
+              "articles/framework-guides/monorepo",
+              "articles/framework-guides/manual"
             ]
           }
         ]
       },
       {
+        "group": "Designing with Subframe",
+        "pages": [
+          "articles/designing/adding-elements",
+          "articles/designing/using-ai-to-design",
+          "articles/designing/personalizing-ai"
+        ]
+      },
+      {
+        "group": "Prototyping with Subframe",
+        "pages": [
+          "articles/prototyping/creating-ai-prototypes",
+          "articles/prototyping/sharing-prototypes"
+        ]
+      },
+      {
         "group": "Developing with Subframe",
         "pages": [
-          "syncing-components",
-          "using-components",
-          "copy-paste-pages",
-          "adding-business-logic",
-          "props-and-slots",
-          "disabling-sync"
+          "articles/developing/syncing-components",
+          "articles/developing/using-components",
+          "articles/developing/copy-paste-pages",
+          "articles/developing/adding-business-logic",
+          "articles/developing/props-and-slots",
+          "articles/developing/disabling-sync"
         ]
       },
       {
         "group": "Building with AI",
         "pages": [
-          "export-to-bolt",
-          "export-to-replit",
-          "export-to-cursor",
-          "export-to-lovable",
-          "mcp-server"
+          "articles/building-ai/mcp-server",
+          "articles/building-ai/export-to-bolt",
+          "articles/building-ai/export-to-replit",
+          "articles/building-ai/export-to-cursor",
+          "articles/building-ai/export-to-lovable"
         ]
       },
       {
@@ -70,9 +85,7 @@
         "pages": [
           {
             "group": "Single Sign-On",
-            "pages": [
-              "sso/okta"
-            ]
+            "pages": ["articles/account-management/sso/okta"]
           }
         ]
       }
