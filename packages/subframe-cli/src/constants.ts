@@ -30,9 +30,9 @@ export const SUBFRAME_SYNC_MESSAGE = "Subframe - all changes synced"
 export const SUBFRAME_INIT_MESSAGE = "Subframe - initialized successfully"
 
 export const MALFORMED_INIT_MESSAGE =
-  "It looks like you need to first run the init command to setup your codebase for Subframe CLI.\nYou can do so by following the instructions here:\n\nhttps://docs.subframe.com/installation"
+  "It looks like you need to first run the init command to setup your codebase for Subframe CLI.\nYou can do so by following the instructions here:\n\nhttps://docs.subframe.com/articles/get-started/installation"
 
 export const MULTIPLE_PROJECTS_SUGGESTION =
-  "We suggest using a separate package for each project. If you want to start fresh, you can run the CLI init again. You can find instructions here:\n\nhttps://docs.subframe.com/installation"
+  "We suggest using a separate package for each project. If you want to start fresh, you can run the CLI init again. You can find instructions here:\n\nhttps://docs.subframe.com/articles/get-started/installation"
 
 export const WRONG_PROJECT_MESSAGE = `\nt seems you're trying to sync with a project that doesn't match the project in your current Subframe settings (sync.json)\n\n${MULTIPLE_PROJECTS_SUGGESTION}\n`

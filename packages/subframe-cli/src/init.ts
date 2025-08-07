@@ -153,7 +153,7 @@ initCommand.action(async (opts) => {
     if (opts.cssType === "tailwind-v4") {
       console.log()
       console.log("To finish setting up your theme with Tailwind v4, you'll need to import the theme.css file into your app:")
-      console.log(`${link(`https://docs.subframe.com/theme#tailwind-v4`)}`)
+      console.log(`${link(`https://docs.subframe.com/articles/get-started/tailwind#tailwind-v4`)}`)
       console.log()
     }
   } catch (err: any) {

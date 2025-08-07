@@ -28,7 +28,7 @@ export default function Home() {
       <div className="flex gap-2 max-w-md mt-12 gap-4">
         <a
           className="rounded-lg bg-slate-950 text-white px-4 py-2 text-center"
-          href="https://docs.subframe.com/installation"
+          href="https://docs.subframe.com/articles/get-started/installation"
           target="_blank"
         >
           Install Subframe

@@ -16,4 +16,4 @@ npm run dev
 
 ## Learn More
 
-Once running, you can Install Subframe locally by "syncing" Subframe with your Starter Kit. This is achieved by running the Subframe [Sync Command](https://docs.subframe.com/installation)
+Once running, you can Install Subframe locally by "syncing" Subframe with your Starter Kit. This is achieved by running the Subframe [Sync Command](https://docs.subframe.com/articles/get-started/installation)
