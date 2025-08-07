@@ -1,5 +1,5 @@
 ---
-title: Theme
+title: Tailwind CSS
 ---
 
 <Tabs>
@@ -7,8 +7,10 @@ title: Theme
 After [installing Subframe](/installation) your theme will be automatically updated in your codebase. The CLI will create a `tailwind.config.js` with your theme tokens.
 
 If you update your theme in Subframe in the future, you can update it in your codebase by [syncing your components](/syncing-components) or manually copy / pasting the `tailwind.config.js` file for your project.
+
 <Note>
-    Find the exact tailwind.config.js for your project [here](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV3).
+  Find the exact tailwind.config.js for your project
+  [here](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV3).
 </Note>
 
 ```js tailwind.config.js [expandable]
@@ -168,8 +170,7 @@ module.exports = {
         default: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)",
         md: "0px 4px 16px -2px rgba(0, 0, 0, 0.08), 0px 2px 4px -1px rgba(0, 0, 0, 0.08)",
         lg: "0px 12px 32px -4px rgba(0, 0, 0, 0.08), 0px 4px 8px -2px rgba(0, 0, 0, 0.08)",
-        overlay:
-          "0px 12px 32px -4px rgba(0, 0, 0, 0.08), 0px 4px 8px -2px rgba(0, 0, 0, 0.08)",
+        overlay: "0px 12px 32px -4px rgba(0, 0, 0, 0.08), 0px 4px 8px -2px rgba(0, 0, 0, 0.08)",
       },
       borderRadius: {
         sm: "4px",
@@ -202,25 +203,17 @@ module.exports = {
       },
     },
   },
-};
+}
 ```
+
 </Tab>
 <Tab title="Tailwind v4">
 Subframe has experimental support for Tailwind CSS v4 in the Subframe CLI. You can [install Subframe](/installation) with the css-type flag:
 
 <CodeGroup>
-  ```bash npm
-  npx @subframe/cli@latest init --css-type tailwind-v4
-  ```
-  ```bash yarn
-  yarn dlx @subframe/cli@latest init --css-type tailwind-v4
-  ```
-  ```bash pnpm
-  pnpx @subframe/cli@latest init --css-type tailwind-v4
-  ```
-  ```bash bun
-  bunx @subframe/cli@latest init --css-type tailwind-v4
-  ```
+  ```bash npm npx @subframe/cli@latest init --css-type tailwind-v4 ``` ```bash yarn yarn dlx @subframe/cli@latest init
+  --css-type tailwind-v4 ``` ```bash pnpm pnpx @subframe/cli@latest init --css-type tailwind-v4 ``` ```bash bun bunx
+  @subframe/cli@latest init --css-type tailwind-v4 ```
 </CodeGroup>
 
 After installation completes you will need to import the `theme.css` file into your global css file that is imported into the root of your app - typically `index.css`, `styles.css`, or `globals.css`. Please refer to the [Tailwind CSS v4 docs](https://tailwindcss.com/docs/theme#sharing-across-projects) for more information on importing the `theme.css` file.
@@ -230,10 +223,11 @@ After installation completes you will need to import the `theme.css` file into y
 @import "../ui/theme.css";
 ```
 
-
 If you update your theme in Subframe in the future, you can update it in your codebase by [syncing your components](/syncing-components) or manually copy / pasting the `theme.css` file for your project.
+
 <Note>
-    Find the exact theme.css for your project [here](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV4).
+  Find the exact theme.css for your project
+  [here](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV4).
 </Note>
 
 ```css theme.css [expandable]
@@ -345,12 +339,9 @@ If you update your theme in Subframe in the future, you can update it in your co
   /* Box shadows */
   --shadow-sm: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
   --shadow-default: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0px 4px 16px -2px rgba(0, 0, 0, 0.08),
-    0px 2px 4px -1px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0px 12px 32px -4px rgba(0, 0, 0, 0.08),
-    0px 4px 8px -2px rgba(0, 0, 0, 0.08);
-  --shadow-overlay: 0px 12px 32px -4px rgba(0, 0, 0, 0.08),
-    0px 4px 8px -2px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0px 4px 16px -2px rgba(0, 0, 0, 0.08), 0px 2px 4px -1px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0px 12px 32px -4px rgba(0, 0, 0, 0.08), 0px 4px 8px -2px rgba(0, 0, 0, 0.08);
+  --shadow-overlay: 0px 12px 32px -4px rgba(0, 0, 0, 0.08), 0px 4px 8px -2px rgba(0, 0, 0, 0.08);
 
   /* Border radiuses */
   --radius-sm: 4px;

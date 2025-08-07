@@ -29,50 +29,50 @@
         "pages": [
           "introduction",
           "installation",
-          "theme",
+          "tailwind",
           "fonts",
           "faq",
           {
             "group": "Framework guides",
             "pages": [
-              "framework-guides/nextjs",
-              "framework-guides/vite",
-              "framework-guides/astro",
-              "framework-guides/monorepo",
-              "framework-guides/manual"
+              "articles/framework-guides/nextjs",
+              "articles/framework-guides/vite",
+              "articles/framework-guides/astro",
+              "articles/framework-guides/monorepo",
+              "articles/framework-guides/manual"
             ]
           }
         ]
       },
       {
+        "group": "Designing with Subframe",
+        "pages": [
+          "articles/designing/adding-elements",
+          "articles/designing/using-ai-to-design",
+          "articles/designing/customizing-ask-ai"
+        ]
+      },
+      {
         "group": "Developing with Subframe",
         "pages": [
-          "syncing-components",
-          "using-components",
-          "copy-paste-pages",
-          "adding-business-logic",
-          "props-and-slots",
-          "disabling-sync"
+          "articles/syncing-components",
+          "articles/using-components",
+          "articles/copy-paste-pages",
+          "articles/adding-business-logic",
+          "articles/props-and-slots",
+          "articles/disabling-sync"
         ]
       },
       {
         "group": "Building with AI",
-        "pages": [
-          "export-to-bolt",
-          "export-to-replit",
-          "export-to-cursor",
-          "export-to-lovable",
-          "mcp-server"
-        ]
+        "pages": ["export-to-bolt", "export-to-replit", "export-to-cursor", "export-to-lovable", "mcp-server"]
       },
       {
         "group": "Account Management",
         "pages": [
           {
             "group": "Single Sign-On",
-            "pages": [
-              "sso/okta"
-            ]
+            "pages": ["sso/okta"]
           }
         ]
       }
