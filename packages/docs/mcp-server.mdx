@@ -1,0 +1,45 @@
+---
+title: MCP Server
+---
+
+To make Subframe documentation available to your AI tools, we've created an MCP server at https://docs.subframe.com/mcp.
+
+### Cursor
+
+To connect the Subframe MCP server to Cursor:
+
+<Steps>
+  <Step title="Open MCP settings">
+    1. Use `Command` + `Shift` + `P` (`Ctrl` + `Shift` + `P` on Windows) to open the command palette.
+    2. Search for “Open MCP settings”.
+    3. Select **Add custom MCP**. This will open the `mcp.json` file.
+  </Step>
+  <Step title="Configure the Subframe server">
+    In mcp.json, add:
+
+```json mcp.json
+{
+  "mcpServers": {
+    "subframe": {
+      "url": "https://docs.subframe.com/mcp"
+    }
+  }
+}
+```
+
+  </Step>
+  <Step title="Test the connection">
+    In Cursor’s chat, you can ask “What tools do you have available? Subframe docs search should now be available.
+  </Step>
+</Steps>
+
+See [Installing MCP servers](https://docs.cursor.com/en/context/mcp#installing-mcp-servers) in the Cursor documentation for more details.
+
+### Claude Code
+
+To connect the Subframe MCP server to Claude code:
+
+```bash
+claude mcp add --transport http subframe https://docs.subframe.com/mcp
+```
+
