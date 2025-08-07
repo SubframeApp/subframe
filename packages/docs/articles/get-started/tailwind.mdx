@@ -211,9 +211,23 @@ module.exports = {
 Subframe has experimental support for Tailwind CSS v4 in the Subframe CLI. You can [install Subframe](/installation) with the css-type flag:
 
 <CodeGroup>
-  ```bash npm npx @subframe/cli@latest init --css-type tailwind-v4 ``` ```bash yarn yarn dlx @subframe/cli@latest init
-  --css-type tailwind-v4 ``` ```bash pnpm pnpx @subframe/cli@latest init --css-type tailwind-v4 ``` ```bash bun bunx
-  @subframe/cli@latest init --css-type tailwind-v4 ```
+
+```bash npm
+npx @subframe/cli@latest init --css-type tailwind-v4
+```
+
+```bash yarn
+yarn dlx @subframe/cli@latest init --css-type tailwind-v4
+```
+
+```bash pnpm
+pnpx @subframe/cli@latest init --css-type tailwind-v4
+```
+
+```bash bun
+bunx @subframe/cli@latest init --css-type tailwind-v4
+```
+
 </CodeGroup>
 
 After installation completes you will need to import the `theme.css` file into your global css file that is imported into the root of your app - typically `index.css`, `styles.css`, or `globals.css`. Please refer to the [Tailwind CSS v4 docs](https://tailwindcss.com/docs/theme#sharing-across-projects) for more information on importing the `theme.css` file.
