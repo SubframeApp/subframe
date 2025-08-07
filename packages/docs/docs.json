@@ -53,6 +53,13 @@
         ]
       },
       {
+        "group": "Prototyping with Subframe",
+        "pages": [
+          "articles/prototyping/creating-ai-prototypes",
+          "articles/prototyping/sharing-prototypes"
+        ]
+      },
+      {
         "group": "Developing with Subframe",
         "pages": [
           "articles/developing/syncing-components",
