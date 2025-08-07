@@ -27,19 +27,19 @@
       {
         "group": "Get started",
         "pages": [
-          "articles/get-started/introduction",
-          "articles/get-started/installation",
-          "articles/get-started/tailwind",
-          "articles/get-started/fonts",
-          "articles/get-started/faq",
+          "introduction",
+          "installation",
+          "theme",
+          "fonts",
+          "faq",
           {
             "group": "Framework guides",
             "pages": [
-              "articles/framework-guides/nextjs",
-              "articles/framework-guides/vite",
-              "articles/framework-guides/astro",
-              "articles/framework-guides/monorepo",
-              "articles/framework-guides/manual"
+              "framework-guides/nextjs",
+              "framework-guides/vite",
+              "framework-guides/astro",
+              "framework-guides/monorepo",
+              "framework-guides/manual"
             ]
           }
         ]
@@ -47,37 +47,37 @@
       {
         "group": "Designing with Subframe",
         "pages": [
-          "articles/designing/adding-elements",
-          "articles/designing/using-ai-to-design",
-          "articles/designing/personalizing-ai"
+          "designing/adding-elements",
+          "designing/using-ai-to-design",
+          "designing/personalizing-ai"
         ]
       },
       {
         "group": "Prototyping with Subframe",
         "pages": [
-          "articles/prototyping/creating-ai-prototypes",
-          "articles/prototyping/sharing-prototypes"
+          "prototyping/creating-ai-prototypes",
+          "prototyping/sharing-prototypes"
         ]
       },
       {
         "group": "Developing with Subframe",
         "pages": [
-          "articles/developing/syncing-components",
-          "articles/developing/using-components",
-          "articles/developing/copy-paste-pages",
-          "articles/developing/adding-business-logic",
-          "articles/developing/props-and-slots",
-          "articles/developing/disabling-sync"
+          "developing/syncing-components",
+          "developing/using-components",
+          "developing/copy-paste-pages",
+          "developing/adding-business-logic",
+          "developing/props-and-slots",
+          "developing/disabling-sync"
         ]
       },
       {
         "group": "Building with AI",
         "pages": [
-          "articles/building-ai/mcp-server",
-          "articles/building-ai/export-to-bolt",
-          "articles/building-ai/export-to-replit",
-          "articles/building-ai/export-to-cursor",
-          "articles/building-ai/export-to-lovable"
+          "ai/mcp-server",
+          "ai/export-to-bolt",
+          "ai/export-to-replit",
+          "ai/export-to-cursor",
+          "ai/export-to-lovable"
         ]
       },
       {
@@ -85,7 +85,7 @@
         "pages": [
           {
             "group": "Single Sign-On",
-            "pages": ["articles/account-management/sso/okta"]
+            "pages": ["sso/okta"]
           }
         ]
       }
