@@ -1,13 +1,14 @@
 ---
-title: Props and Slots
+title: Props and slots
 ---
 
 In Subframe, you can customize components using two primary methods: **props** and **slots**:
-- **Props**: Ideal for customizing simple, static content such as text, images URLs, numbers, or other basic data types.
-- **Slots**:  Provide greater flexibility by allowing you to insert arbitrary React nodes directly into components. Slots utilize the [React composition pattern](https://felixgerschau.com/react-component-composition/), offering more control and interactivity while avoiding prop drilling.
 
+- **Props**: Ideal for customizing simple, static content such as text, images URLs, numbers, or other basic data types.
+- **Slots**: Provide greater flexibility by allowing you to insert arbitrary React nodes directly into components. Slots utilize the [React composition pattern](https://felixgerschau.com/react-component-composition/), offering more control and interactivity while avoiding prop drilling.
 
 ### Recommended usage
+
 - Use **props** for straightforward, static content updates like titles, labels, image URLs, and simple data.
 - Use **slots** when you require dynamic content or need access to specific subcomponent properties like event handlers (`onClick`, `onChange`) or attributes (`alt`, `src`).
 
@@ -86,8 +87,8 @@ export default TrackCardWithSlotsExample
 </CodeGroup>
 
 <Tip>
-  Subcomponents can help clarify intended usage by explicitly exposing slots and relevant props to the consumer of a component.
-  The `<TrackCardWithSlots.FavoriteButton />` subcomponent is a good example of this in the example above.
+  Subcomponents can help clarify intended usage by explicitly exposing slots and relevant props to the consumer of a
+  component. The `<TrackCardWithSlots.FavoriteButton />` subcomponent is a good example of this in the example above.
 </Tip>
 
 When using Subcomponents, you can expose all necessary props and slots to the consumer of a component while ensuring that the component is easy to use and understand.
