@@ -7,25 +7,22 @@ A core principle behind Subframe’s code export flow is that business logic (li
 Let's consider a hypothetical music streaming app called Spoofy to demonstrate integrating business logic into Subframe pages and components.
 
 <Tip>
-  We've made a [CodeSandbox](https://codesandbox.io/p/devbox/subframe-spoofy-rw5wrj) project for the examples below so you can play around with the code.
+  We've made a [CodeSandbox](https://codesandbox.io/p/devbox/subframe-spoofy-rw5wrj) project for the examples below so
+  you can play around with the code.
 </Tip>
 
 ### Example 1 - Magic link login form
 
 For our example app, we'll build a simple magic link login form. This is what we want the end-result to look like:
 
-<img
-  src="/images/adding-business-logic/form-example-1.png"
-  alt="Form Example 1"
-  className="w-full"
-/>
+<img src="/images/adding-business-logic/form-example-1.png" alt="Form Example 1" className="w-full" />
 
 We've finished [copying the page code](/developing/copy-paste-pages) from Subframe, so now let's add some basic functionality.
 
 1. We add a fake fetch function that simulates a network request and a `handleSubmit` function that handles the form submission.
 2. We also want to update our Button to show that we're currently submitting the form, so we'll maintain a `submitting` state variable and pass it to the Button in the `disabled` and `loading` props.
 
-You can see the changes we made in the highlighted lines below: 
+You can see the changes we made in the highlighted lines below:
 
 <CodeGroup>
 
@@ -150,6 +147,7 @@ We built a `TrackCard` component and `FavoriteTracks` page in Subframe and broug
 ![Component Example Page](/images/adding-business-logic/component-example-page.png)
 
 Now we'll add the functionality to be able to favorite tracks:
+
 1. We'll wrap the original `TrackCard` component with a new component that will manage the simple business logic.
 2. We'll use this wrapper component in our `FavoriteTracks` page which manages the data, the `favorite` state, and provides the onClick handlers.
 
@@ -285,4 +283,4 @@ And we're done! The end result looks like this:
   src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/component-example-2-ZRPtwOWlu7m9aaOgLi7ASo4FwRNaIj.webm"
 />
 
-You may have noticed that we're using slots for our image and favorite button. We'll cover the reasons for this in [Props and Slots](/developing/props-and-slots).
+You may have noticed that we're using slots for our image and favorite button. We'll cover the reasons for this in [Props and slots](/developing/props-and-slots).
