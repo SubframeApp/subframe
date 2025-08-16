@@ -38,7 +38,7 @@ To connect the Subframe MCP server to Cursor:
   </Step>
 </Steps>
 
-See [Installing MCP servers](https://docs.cursor.com/en/context/mcp#installing-mcp-servers) in the Cursor documentation for more details.
+See [Installing MCP servers](https://docs.cursor.com/en/context/mcp#installing-mcp-servers) in the Cursor documentation for more information.
 
 ### Claude Code
 
@@ -47,3 +47,20 @@ To connect the Subframe MCP server to Claude code:
 ```bash
 claude mcp add --transport http subframe https://docs.subframe.com/mcp
 ```
+
+### Gemini CLI
+
+To connect the Subframe MCP server to the Gemini CLI, add the following configuration either globally at `~/.gemini/settings.json` or locally at `.gemini/settings.json`
+
+```json ~/.gemini/settings.json
+{
+  ...file contains other config objects
+  "mcpServers": {
+    "subframe": {
+      "httpUrl": "https://docs.subframe.com/mcp"
+    }
+  }
+}
+```
+
+See [MCP Servers with the Gemini CLI](https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/mcp-server.md#mcp-servers-with-the-gemini-cli) for more information.
