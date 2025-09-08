@@ -1,14 +1,25 @@
+interface CodeGenFileUnknownMetadata {
+  type: "unknown"
+}
+
+export interface CodeGenFileDefinitionMetadata {
+  type: "definition"
+  id: string
+  isPageComponent: boolean
+}
+
+interface CodeGenFileIconMetadata {
+  type: "icon"
+  id: string
+}
+
+export type CodeGenFileMetadata = CodeGenFileUnknownMetadata | CodeGenFileDefinitionMetadata | CodeGenFileIconMetadata
+
 export interface CodeGenFile {
   fileType: "css" | "tsx" | "ts" | "js"
   fileName: string
   contents: string
-  metadata: {
-    // the definition this file is associated with, if any
-    definitionInfo?: {
-      id: string
-      isPageComponent: boolean
-    }
-  }
+  metadata: CodeGenFileMetadata
 }
 
 export const CODE_GEN_CSS_TYPE_OPTIONS = ["tailwind", "tailwind-v4", "scss-with-modules"] as const
@@ -59,4 +70,15 @@ export interface SyncProjectResponse {
   }>
   otherFiles: CodeGenFile[]
   errorComponents: string[]
+}
+
+export interface ComponentFilesUploadRequest {
+  token: string
+  id: string
+  truncatedProjectId?: string
+  files: Array<{
+    contentType: "text/css" | "text/javascript"
+    base64EncodedData: string
+    name: string
+  }>
 }

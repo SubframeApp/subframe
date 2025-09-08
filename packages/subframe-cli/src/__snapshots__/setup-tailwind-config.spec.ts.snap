@@ -1,12 +1,12 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`#transformTailwindConfig adds content to ESM-style file 1`] = `
+exports[`#transformTailwindConfig > adds content to ESM-style file 1`] = `
 "export default {
   "content": [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "../../subframe-dir/path/**/*.{tsx,ts,js,jsx}"
+    "./../../subframe-dir/path/**/*.{tsx,ts,js,jsx}"
   ],
   "theme": {
     "extend": {
@@ -17,19 +17,19 @@ exports[`#transformTailwindConfig adds content to ESM-style file 1`] = `
     }
   },
   "plugins": [],
-  presets: [require("../../subframe-dir/path/tailwind.config.js")]
+  presets: [require("./../../subframe-dir/path/tailwind.config.js")]
 }
 "
 `;
 
-exports[`#transformTailwindConfig adds content to TypeScript file 1`] = `
+exports[`#transformTailwindConfig > adds content to TypeScript file 1`] = `
 "import type { Config } from 'tailwindcss'
 export default {
   "content": [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "../../subframe-dir/path/**/*.{tsx,ts,js,jsx}"
+    "./../../subframe-dir/path/**/*.{tsx,ts,js,jsx}"
   ],
   "theme": {
     "extend": {
@@ -40,18 +40,18 @@ export default {
     }
   },
   "plugins": [],
-  presets: [require("../../subframe-dir/path/tailwind.config.js")]
+  presets: [require("./../../subframe-dir/path/tailwind.config.js")]
 } satisfies Config
 "
 `;
 
-exports[`#transformTailwindConfig adds content to default NextJS tailwind config 1`] = `
+exports[`#transformTailwindConfig > adds content to default NextJS tailwind config 1`] = `
 "module.exports = {
   "content": [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "../../subframe-dir/path/**/*.{tsx,ts,js,jsx}"
+    "./../../subframe-dir/path/**/*.{tsx,ts,js,jsx}"
   ],
   "theme": {
     "extend": {
@@ -62,31 +62,31 @@ exports[`#transformTailwindConfig adds content to default NextJS tailwind config
     }
   },
   "plugins": [],
-  presets: [require("../../subframe-dir/path/tailwind.config.js")]
+  presets: [require("./../../subframe-dir/path/tailwind.config.js")]
 }
 "
 `;
 
-exports[`#transformTailwindConfig adds content to default Vite tailwind config with presets property 1`] = `
+exports[`#transformTailwindConfig > adds content to default Vite tailwind config with presets property 1`] = `
 "module.exports = {
   "content": [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    "../../subframe-dir/path/**/*.{tsx,ts,js,jsx}"
+    "./../../subframe-dir/path/**/*.{tsx,ts,js,jsx}"
   ],
   "theme": {
     "extend": {}
   },
   "plugins": [],
-  "presets": [require("../../subframe-dir/path/tailwind.config.js")]
+  "presets": [require("./../../subframe-dir/path/tailwind.config.js")]
 }
 "
 `;
 
-exports[`#transformTailwindConfig adds content to empty NextJS tailwind config 1`] = `
+exports[`#transformTailwindConfig > adds content to empty NextJS tailwind config 1`] = `
 "module.exports = {
-  content: ["../../subframe-dir/path/**/*.{tsx,ts,js,jsx}"],
-  presets: [require("../../subframe-dir/path/tailwind.config.js")]
+  content: ["./../../subframe-dir/path/**/*.{tsx,ts,js,jsx}"],
+  presets: [require("./../../subframe-dir/path/tailwind.config.js")]
 }
 "
 `;

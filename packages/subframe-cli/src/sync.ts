@@ -50,7 +50,14 @@ export const syncCommand = new Command()
       const projectId = opts.projectId || localSyncSettings.projectId
 
       const syncDirectory = join(cwd, localSyncSettings.directory)
-      await syncComponents({ components, projectId, accessToken, importAlias, syncDirectory, cssType: localSyncSettings.cssType ?? "tailwind" })
+      await syncComponents({
+        components,
+        projectId,
+        accessToken,
+        importAlias,
+        syncDirectory,
+        cssType: localSyncSettings.cssType ?? "tailwind",
+      })
 
       await installDependencies(cwd, opts)
 

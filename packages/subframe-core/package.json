@@ -17,8 +17,8 @@
     "minor-publish": "npm run build && npm version minor && npm publish --access public",
     "ts": "tsc --noEmit",
     "ts:watch": "tsc --watch --incremental --noEmit",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "vitest run",
+    "test:watch": "vitest watch"
   },
   "author": "Irvin Zhan",
   "license": "ISC",
@@ -28,18 +28,16 @@
     "@babel/preset-typescript": "7.24.1",
     "@rollup/plugin-commonjs": "25.0.7",
     "@rollup/plugin-node-resolve": "15.2.3",
-    "@types/jest": "29.5.14",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "babel-jest": "29.7.0",
-    "jest": "29.7.0",
     "postcss": "8.4.21",
     "rollup": "4.2.0",
     "rollup-plugin-peer-deps-external": "2.2.4",
     "rollup-plugin-postcss": "4.0.2",
     "rollup-plugin-preserve-directives": "0.4.0",
     "rollup-plugin-typescript2": "0.36.0",
-    "typescript": "5.8.3"
+    "typescript": "5.8.3",
+    "vitest": "^3.2.4"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "1.1.2",
