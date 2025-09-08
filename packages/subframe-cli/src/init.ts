@@ -38,7 +38,6 @@ import { setupTailwindConfig } from "./setup-tailwind-config"
 import { setupSyncSettings } from "./sync-settings"
 import { mkdirIfNotExist } from "./utils/fs"
 
-
 export const initCommand = new Command()
   .name("init")
   .description("Initializes Subframe in your local project or sets up a new one for you")
@@ -63,7 +62,7 @@ export const initCommand = new Command()
   .addOption(
     new Option(`${COMMAND_CSS_TYPE_KEY_SHORT}, ${COMMAND_CSS_TYPE_KEY} <cssType>`, "css type to use")
       .choices(["tailwind", "tailwind-v4"])
-      .default("tailwind")
+      .default("tailwind"),
   )
 
 initCommand.action(async (opts) => {
@@ -152,7 +151,9 @@ initCommand.action(async (opts) => {
 
     if (opts.cssType === "tailwind-v4") {
       console.log()
-      console.log("To finish setting up your theme with Tailwind v4, you'll need to import the theme.css file into your app:")
+      console.log(
+        "To finish setting up your theme with Tailwind v4, you'll need to import the theme.css file into your app:",
+      )
       console.log(`${link(`https://docs.subframe.com/theme#tailwind-v4`)}`)
       console.log()
     }

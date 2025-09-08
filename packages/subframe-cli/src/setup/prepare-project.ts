@@ -9,7 +9,15 @@ import { highlight } from "../output/format"
 import { exists } from "../utils/fs"
 import { tryGitInit } from "../utils/git"
 
-async function cloneStarterKit({ name, type, cssType }: { name: string; type: "astro" | "vite" | "nextjs"; cssType: "tailwind" | "tailwind-v4" }) {
+async function cloneStarterKit({
+  name,
+  type,
+  cssType,
+}: {
+  name: string
+  type: "astro" | "vite" | "nextjs"
+  cssType: "tailwind" | "tailwind-v4"
+}) {
   const spinner = ora(`Cloning starter kit...`).start()
 
   function getStarterKitName(type: string, cssType: "tailwind" | "tailwind-v4") {
