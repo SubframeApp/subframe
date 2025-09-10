@@ -1,5 +1,5 @@
 import { Project, SourceFile } from "ts-morph"
-import { describe, expect,it, vi } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 import { transformTailwindConfigFile } from "./setup-tailwind-config"
 
 // Note(Chris): Required for vitest to not crash when running tests:
