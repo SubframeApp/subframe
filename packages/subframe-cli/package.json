@@ -44,19 +44,18 @@
     "xdg-app-paths": "8.3.0"
   },
   "devDependencies": {
-    "@babel/preset-typescript": "7.23.0",
-    "@rollup/plugin-commonjs": "24.1.0",
-    "@rollup/plugin-json": "6.0.1",
-    "@rollup/plugin-node-resolve": "15.2.2",
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-replace": "^6.0.2",
-    "@rollup/plugin-terser": "0.4.4",
+    "@rollup/plugin-terser": "^0.4.4",
     "@types/degit": "^2.8.6",
     "@types/prompts": "2.4.5",
     "@types/segment-analytics": "0.0.34",
-    "vitest": "^3.2.4",
-    "rollup": "3.29.5",
-    "rollup-plugin-typescript2": "0.34.1",
-    "typescript": "^5.1.3"
+    "rollup": "^4.50.1",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "typescript": "^5.1.3",
+    "vitest": "^3.2.4"
   },
   "files": [
     "dist/"
