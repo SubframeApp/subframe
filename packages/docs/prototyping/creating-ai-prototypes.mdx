@@ -1,54 +1,57 @@
 ---
-title: Creating AI prototypes
-description: Learn how to create interactive prototypes from your designs using Subframe's AI-powered prototyping features.
+title: "Creating AI prototypes"
+description: "Learn how to create interactive prototypes from your designs using Subframe's AI-powered prototyping features."
 ---
-
-<Note>This feature is currently in beta and available for Pro users only.</Note>
 
 ## How Subframe prototyping works
 
-Subframe uses annotations to transform static designs into interactive prototypes. Annotations are comments on design elements that explain how they should function.
+Subframe follows a design-first workflow: create your designs for pages in a flow, then bring them to life with a real interactive prototype.
 
-Annotations serve two purposes:
+There are two main ways to prompt your prototype with AI:
 
-- They appear as comments in generated code for developer handoff
-- AI uses them to understand functionality and build interactive prototypes
+1. **Annotations**: Add comments to your designs to explain how they should function.
+2. **Chat with AI**: Prompt your prototype by asking AI to make changes.
+
+Both annotations and chat prompts help AI generate code for your functional prototype that matches your designs exactly.
+
+<Info>
+  Tip: use annotations for hand-off – they appear as inline comments in exported code for developer.
+</Info>
 
 ## Creating a prototype
 
-<video
-  autoPlay
-  muted
-  loop
-  playsInline
-  className="w-full"
-  src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/Mintlify/creating-prototypes-z4bcfmhmbnZH5wDZKyHOQgYfEm2qct.mp4"
-/>
+<video autoPlay muted loop playsInline className="w-full" src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/Mintlify/creating-prototypes-z4bcfmhmbnZH5wDZKyHOQgYfEm2qct.mp4" />
 
-1. Complete your designs in design mode
-2. Switch to **Prototype** mode using the toggle in the top-right corner
-3. Click on elements in your design and add annotations describing functionality
-4. Add more pages to your prototype if needed via the right panel
-5. Click the **Build** button to build the prototype
+1. Create a page in **Design** mode.
+2. Switch to **Prototype** mode using the toggle in the top-right corner.
+3. Add annotations to describe the functionality for specific elements.
+4. Click the **Apply** button to create the first version of your prototype.
+
+<Info>
+  Note: Every prototype is part of a flow that contains the pages included in the prototype. Create a new flow and add pages to it to create more prototypes.
+</Info>
 
 ## Updating a prototype
 
-#### Changing styles
+Every time you apply design changes, modify annotations, or send a prompt, Subframe creates a new version of your prototype.
 
-1. Make changes in design mode, then go back to prototype mode
-2. Click **Update** to apply changes to your existing prototype
+#### Making design changes
 
-#### Changing functionality
+1. Switch to **Design** mode to make updates to your pages.
+2. Add additional pages to a flow to add them to your prototype.
+3. Switch to **Prototype** mode.
+4. Click **Apply** to update your prototype with new designs.
 
-1. Update the annotations on the design elements
-2. Click **Update** to apply changes to your existing prototype
+#### Updating annotations
 
-#### Fixing a broken prototype
+1. Click the **Annotate** button in the top nav or in the prototype chat bar.
+2. Edit existing annotations or add new ones across any page in the flow.
+3. Click **Apply** to update your prototype with new annotations.
 
-For small functionality changes, use **Quick fix** to update the prototype.
+### Prompting via chat
 
-1. Click **Quick fix**
-2. Describe the changes you want to make
-3. AI will apply targeted updates to your prototype
+1. Switch to **Prototype** mode to view the conversation history for the prototype.
+2. In the prototype chat bar, add a prompt to make changes to your prototype.
+3. Click send to update your prototype.
 
-Sometimes the prototype gets stuck or needs a fresh start. To do this, click **Rebuild** to generate the prototype from scratch.
+Sometimes the prototype gets stuck or needs a fresh start. Click **Start over** to rebuild your prototype from your designs and annotations.
