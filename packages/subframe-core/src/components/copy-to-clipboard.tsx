@@ -6,7 +6,7 @@ import { composeRefs } from "../lib/compose-react-refs"
 
 // NOTE: this is the nearly same code as https://github.com/nkbt/react-copy-to-clipboard only written
 // as a functional component and with forwarding refs, minus a few useless props
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLElement> {
   clipboardText?: string
   children?: React.ReactElement
   onCopy?: () => void // NOTE: deviating from react-copy-to-clipboard here
@@ -37,7 +37,7 @@ export const Root = React.forwardRef<HTMLElement, Props>(function CopyToClipboar
         }
       }
 
-      // Bypass onClick if it was present
+      // Call the original onClick handler if provided
       if (typeof elemOnClick === "function") {
         elemOnClick(event)
       }
