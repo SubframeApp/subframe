@@ -3,7 +3,7 @@
 **[Subframe](https://subframe.com) is a UI design tool featuring a drag-and-drop visual editor, React + Tailwind code export, and AI-powered design and prototyping features.**
 
 <p align="center">
-  <a href="https://join.slack.com/t/subframecommunity/shared_invite/zt-2gcv0nlow-qO_3pM3ZfNVGXZTWHVfwVw">
+  <a href="https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ">
     <img src="https://img.shields.io/badge/Slack-join-8F87F7?logo=slack" alt="Slack" />    
   </a>
   <a href="https://twitter.com/SubframeApp">

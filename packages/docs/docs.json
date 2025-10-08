@@ -13,7 +13,7 @@
       "anchors": [
         {
           "anchor": "Community",
-          "href": "https://join.slack.com/t/subframecommunity/shared_invite/zt-2gcv0nlow-qO_3pM3ZfNVGXZTWHVfwVw",
+          "href": "https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ",
           "icon": "slack"
         },
         {
@@ -46,18 +46,11 @@
       },
       {
         "group": "Designing with Subframe",
-        "pages": [
-          "designing/adding-elements",
-          "designing/using-ai-to-design",
-          "designing/personalizing-ai"
-        ]
+        "pages": ["designing/adding-elements", "designing/using-ai-to-design", "designing/personalizing-ai"]
       },
       {
         "group": "Prototyping with Subframe",
-        "pages": [
-          "prototyping/creating-ai-prototypes",
-          "prototyping/sharing-prototypes"
-        ]
+        "pages": ["prototyping/creating-ai-prototypes", "prototyping/sharing-prototypes"]
       },
       {
         "group": "Developing with Subframe",
@@ -108,7 +101,7 @@
       "x": "https://x.com/SubframeApp",
       "github": "https://github.com/SubframeApp/subframe",
       "instagram": "https://www.instagram.com/subframeapp",
-      "slack": "https://join.slack.com/t/subframecommunity/shared_invite/zt-2gcv0nlow-qO_3pM3ZfNVGXZTWHVfwVw"
+      "slack": "https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ"
     }
   },
   "seo": {
