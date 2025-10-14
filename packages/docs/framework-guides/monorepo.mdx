@@ -159,6 +159,9 @@ Then run your package manager's `install` command to link your dependencies:
 
 ### Set up TailwindCSS in your frontend app
 
+<Tabs>
+  <Tab title="Tailwind v3">
+
 <Note>
   We assume you've already set up Tailwind CSS for your frontend app. If you haven't done so, follow the [Tailwind CSS](https://v3.tailwindcss.com/docs/installation/using-postcss) guide.
 </Note>
@@ -183,6 +186,28 @@ export default {
   presets: [require("@repo/subframe/tailwind-config")],
 };
 ```
+
+  </Tab>
+  <Tab title="Tailwind v4">
+
+<Note>
+  We assume you've already set up Tailwind CSS v4 for your frontend app. If you haven't done so, follow the [Tailwind CSS v4](https://tailwindcss.com/docs/installation) guide.
+</Note>
+
+With Tailwind v4, you need to add two directives to your global CSS file (typically `globals.css`, `index.css`, or `styles.css`):
+
+```css apps/web/globals.css {2,3}
+@import "tailwindcss";
+@import "../../packages/subframe/ui/theme.css";
+@source "../../packages/subframe/**";
+```
+
+- The `@import` directive extends your styles with the Subframe theme
+- The `@source` directive ensures Tailwind discovers the Subframe component files during class name detection
+
+Make sure to adjust the relative paths based on your monorepo structure.
+  </Tab>
+</Tabs>
 
 ### Use Subframe components in your app
 
