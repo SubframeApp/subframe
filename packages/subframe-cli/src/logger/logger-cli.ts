@@ -13,5 +13,5 @@ export type CLILogger = WithRequired<
 >
 
 export function makeCLILogger(): CLILogger {
-  return makeNodeLogger<CLITrackEventType>(ANONYMOUS_CLI_USER_ID)
+  return makeNodeLogger<CLITrackEventType>({ userId: ANONYMOUS_CLI_USER_ID, teamId: null })
 }

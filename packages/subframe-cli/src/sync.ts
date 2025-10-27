@@ -8,6 +8,7 @@ import {
   COMMAND_PROJECT_ID_KEY,
   COMMAND_PROJECT_ID_KEY_SHORT,
 } from "shared/constants"
+import { TruncatedProjectId } from "shared/types"
 import { getAccessToken } from "./access-token"
 import { cwd } from "./common"
 import { localSyncSettings } from "./common"
@@ -47,7 +48,7 @@ export const syncCommand = new Command()
 
       console.time(SUBFRAME_SYNC_MESSAGE)
 
-      const projectId = opts.projectId || localSyncSettings.projectId
+      const projectId = (opts.projectId as TruncatedProjectId | undefined) || localSyncSettings.projectId
 
       const syncDirectory = join(cwd, localSyncSettings.directory)
       await syncComponents({

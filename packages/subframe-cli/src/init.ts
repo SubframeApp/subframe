@@ -23,6 +23,7 @@ import {
   COMMAND_TAILWIND_KEY_SHORT,
   COMMAND_TEMPLATE_KEY,
 } from "shared/constants"
+import { TruncatedProjectId } from "shared/types"
 import { getAccessToken, verifyTokenWithOra } from "./access-token"
 import { apiUpdateImportAlias } from "./api-endpoints"
 import { localSyncSettings } from "./common"
@@ -85,7 +86,7 @@ initCommand.action(async (opts) => {
 
     console.time(SUBFRAME_INIT_MESSAGE)
 
-    const truncatedProjectId = opts.projectId ?? localSyncSettings?.projectId
+    const truncatedProjectId = (opts.projectId as TruncatedProjectId | undefined) ?? localSyncSettings?.projectId
 
     const { styleFile, oldImportAlias } = await initProject({ accessToken, truncatedProjectId, cssType: opts.cssType })
 

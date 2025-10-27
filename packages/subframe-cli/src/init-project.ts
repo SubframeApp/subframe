@@ -1,5 +1,6 @@
 import { oraPromise } from "ora"
 import { FAILED_TO_FETCH_PROJECT_ERROR } from "shared/constants"
+import { TruncatedProjectId } from "shared/types"
 import { promptForNewAccessToken } from "./access-token"
 import { apiInitProject } from "./api-endpoints"
 
@@ -9,7 +10,7 @@ export async function initProject({
   cssType,
 }: {
   accessToken: string
-  truncatedProjectId: string | undefined
+  truncatedProjectId: TruncatedProjectId | undefined
   cssType: "tailwind" | "tailwind-v4"
 }) {
   try {

@@ -1,3 +1,5 @@
+import { Distinct } from "shared/ts-type-helpers"
+
 interface CodeGenFileUnknownMetadata {
   type: "unknown"
 }
@@ -33,9 +35,11 @@ export interface VerifyTokenResponse {
   success: true
 }
 
+export type TruncatedProjectId = Distinct<string, "TruncatedProjectId">
+
 export interface InitProjectRequest {
   token: string
-  truncatedProjectId?: string
+  truncatedProjectId?: TruncatedProjectId
   cssType?: CodeGenCSSType
 }
 
@@ -47,7 +51,7 @@ export interface InitProjectResponse {
 
 export interface UpdateImportAliasRequest {
   token: string
-  truncatedProjectId?: string
+  truncatedProjectId?: TruncatedProjectId
   importAlias: string
 }
 
@@ -57,7 +61,7 @@ export interface UpdateImportAliasResponse {
 
 export interface SyncProjectRequest {
   token: string
-  truncatedProjectId?: string
+  truncatedProjectId?: TruncatedProjectId
   components: string[]
   importAlias: string
   cssType?: CodeGenCSSType
@@ -75,7 +79,7 @@ export interface SyncProjectResponse {
 export interface ComponentFilesUploadRequest {
   token: string
   id: string
-  truncatedProjectId?: string
+  truncatedProjectId?: TruncatedProjectId
   files: Array<{
     contentType: "text/css" | "text/javascript"
     base64EncodedData: string

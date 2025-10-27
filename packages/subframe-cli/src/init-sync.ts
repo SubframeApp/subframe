@@ -1,10 +1,11 @@
 import prompts from "prompts"
+import { TruncatedProjectId } from "shared/types"
 import { syncComponents } from "./sync-components"
 import { abortOnState } from "./sync-helpers"
 
 export async function initSync(
   syncDirectory: string,
-  projectId: string | undefined,
+  projectId: TruncatedProjectId | undefined,
   accessToken: string,
   importAlias: string,
   cssType: "tailwind" | "tailwind-v4",
