@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest"
+import { describe, expect, it } from "vitest"
 import { createTwClassNames } from "./tw-classnames"
 
 const SUBFRAME_FONT_MIXINS = [
@@ -43,6 +43,11 @@ describe("twClassNames", () => {
   describe("spacing", () => {
     it("should override custom spacing", () => {
       expect(twClassNames("pt-4", "pt-192")).toBe("pt-192")
+    })
+
+    it("should allow axis padding utilities to override directional padding", () => {
+      expect(twClassNames("pr-1", "px-0")).toBe("px-0")
+      expect(twClassNames("px-3", "p-2")).toBe("p-2")
     })
   })
 

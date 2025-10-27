@@ -3,7 +3,20 @@ export interface BaseEvent {
 }
 
 export interface Logger {
-  identifyUser: (userId: string, email?: string, additionalData?: object) => void
+  identify: ({
+    user,
+    group,
+  }: {
+    user: {
+      userId: string
+      email?: string
+      additionalData?: object
+    }
+    group: {
+      groupId: string
+      additionalData?: object
+    } | null
+  }) => void
   trackEvent(event: BaseEvent): void
   trackEventAndFlush?: (event: BaseEvent) => Promise<void>
   trackWarning: (event: string, additionalData?: { [key: string]: string | number | boolean }) => void

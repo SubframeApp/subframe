@@ -16,6 +16,7 @@ export function createTwClassNames(subframeFontMixins: string[]) {
         // "font-weight": [{ text: [isFontStyle] }, ...defaultConfig.classGroups["font-weight"]],
       },
       conflictingClassGroups: {
+        ...defaultConfig.conflictingClassGroups,
         // font colors
         // "text-color": ["subframe-colors"],
 

@@ -2,6 +2,7 @@ import { mkdir, readFile, rm, writeFile } from "node:fs/promises"
 import { dirname, join } from "node:path"
 import { oraPromise } from "ora"
 import { IGNORE_UPDATE_KEYWORD } from "shared/constants"
+import { TruncatedProjectId } from "shared/types"
 import { apiSyncProject } from "./api-endpoints"
 import { warning } from "./output/style"
 import { getAllAbsFilePaths, isFileContentsWriteable } from "./utils/files"
@@ -16,7 +17,7 @@ export async function syncComponents({
   cssType,
 }: {
   components: string[]
-  projectId: string | undefined
+  projectId: TruncatedProjectId | undefined
   accessToken: string
   importAlias: string
   syncDirectory: string
