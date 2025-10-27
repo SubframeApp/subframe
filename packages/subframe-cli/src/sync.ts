@@ -35,11 +35,12 @@ export const syncCommand = new Command()
       }
 
       if (!localSyncSettings) {
+        await cliLogger.trackWarningAndFlush("[CLI]: sync could not find local sync settings")
         console.error(MALFORMED_INIT_MESSAGE)
         process.exit(1)
       }
 
-      const accessToken = await getAccessToken()
+      const accessToken = await getAccessToken(cliLogger)
 
       // strip /* which is used for tsconfig.json
       const importAlias = localSyncSettings.importAlias.endsWith("/*")
@@ -52,6 +53,7 @@ export const syncCommand = new Command()
 
       const syncDirectory = join(cwd, localSyncSettings.directory)
       await syncComponents({
+        cliLogger,
         components,
         projectId,
         accessToken,
@@ -66,6 +68,5 @@ export const syncCommand = new Command()
     } catch (err: any) {
       console.error(err)
       await cliLogger.trackWarningAndFlush("[CLI]: sync uncaught error", { error: err.toString() })
-      await cliLogger.logExceptionAndFlush(err)
     }
   })

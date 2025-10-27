@@ -33,12 +33,13 @@ export type CodeGenIconBehavior = (typeof CODE_GEN_ICON_BEHAVIOR_OPTIONS)[number
 // API
 export interface VerifyTokenResponse {
   success: true
+  userId: string
+  teamId: number
 }
 
 export type TruncatedProjectId = Distinct<string, "TruncatedProjectId">
 
 export interface InitProjectRequest {
-  token: string
   truncatedProjectId?: TruncatedProjectId
   cssType?: CodeGenCSSType
 }
@@ -47,10 +48,13 @@ export interface InitProjectResponse {
   styleFile: CodeGenFile
   cssType: CodeGenCSSType
   oldImportAlias?: string
+  projectInfo: {
+    truncatedProjectId: TruncatedProjectId
+    name: string
+  }
 }
 
 export interface UpdateImportAliasRequest {
-  token: string
   truncatedProjectId?: TruncatedProjectId
   importAlias: string
 }
@@ -60,7 +64,6 @@ export interface UpdateImportAliasResponse {
 }
 
 export interface SyncProjectRequest {
-  token: string
   truncatedProjectId?: TruncatedProjectId
   components: string[]
   importAlias: string
@@ -74,10 +77,13 @@ export interface SyncProjectResponse {
   }>
   otherFiles: CodeGenFile[]
   errorComponents: string[]
+  projectInfo: {
+    truncatedProjectId: TruncatedProjectId
+    name: string
+  }
 }
 
 export interface ComponentFilesUploadRequest {
-  token: string
   id: string
   truncatedProjectId?: TruncatedProjectId
   files: Array<{

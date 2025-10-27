@@ -74,21 +74,28 @@ initCommand.action(async (opts) => {
 
     let accessToken = opts.authToken
     if (accessToken) {
-      const isValid = await verifyTokenWithOra(accessToken)
+      const isValid = await verifyTokenWithOra(cliLogger, accessToken)
       if (!isValid) {
         throw new Error("Failed to authenticate with provided token")
       }
 
       await writeAuthConfig({ token: accessToken })
     } else {
-      accessToken = await getAccessToken()
+      accessToken = await getAccessToken(cliLogger)
     }
 
     console.time(SUBFRAME_INIT_MESSAGE)
 
-    const truncatedProjectId = (opts.projectId as TruncatedProjectId | undefined) ?? localSyncSettings?.projectId
+    const maybeTruncatedProjectId = (opts.projectId as TruncatedProjectId | undefined) ?? localSyncSettings?.projectId
 
-    const { styleFile, oldImportAlias } = await initProject({ accessToken, truncatedProjectId, cssType: opts.cssType })
+    const { styleFile, oldImportAlias, projectInfo } = await initProject({
+      cliLogger,
+      accessToken,
+      truncatedProjectId: maybeTruncatedProjectId,
+      cssType: opts.cssType,
+    })
+
+    const truncatedProjectId = projectInfo.truncatedProjectId
 
     const { importAlias: rawImportAlias, directory } = await setupSyncSettings(
       projectPath,
@@ -119,8 +126,7 @@ initCommand.action(async (opts) => {
 
       try {
         await oraPromise(
-          apiUpdateImportAlias({
-            token: accessToken,
+          apiUpdateImportAlias(accessToken, {
             truncatedProjectId,
             importAlias,
           }),
@@ -133,6 +139,7 @@ initCommand.action(async (opts) => {
       } catch (error) {
         // Note: don't block init if this fails
         console.error(error)
+        await cliLogger.trackWarningAndFlush("[CLI]: updateImportAlias failed", { error: error.toString() })
       }
     }
 
@@ -141,7 +148,7 @@ initCommand.action(async (opts) => {
     }
 
     const syncDirectory = join(projectPath, directory)
-    await initSync(syncDirectory, truncatedProjectId, accessToken, importAlias, opts.cssType, opts)
+    await initSync(cliLogger, syncDirectory, truncatedProjectId, accessToken, importAlias, opts.cssType, opts)
 
     // When setting up tailwind config on vite, the changes breaks vite (throws an error about preflight.css)
     // This is easily remedied by any npm install command. Thus, if we install dependencies after tailwind config is setup,
@@ -160,7 +167,6 @@ initCommand.action(async (opts) => {
     }
   } catch (err: any) {
     console.error(err)
-    await cliLogger.trackWarningAndFlush("CLI init: uncaught error", { error: err.toString() })
-    await cliLogger.logExceptionAndFlush(err)
+    await cliLogger.trackWarningAndFlush("[CLI] init: uncaught error", { error: err.toString() })
   }
 })

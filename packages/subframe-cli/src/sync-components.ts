@@ -2,12 +2,14 @@ import { mkdir, readFile, rm, writeFile } from "node:fs/promises"
 import { dirname, join } from "node:path"
 import { oraPromise } from "ora"
 import { IGNORE_UPDATE_KEYWORD } from "shared/constants"
-import { TruncatedProjectId } from "shared/types"
+import { SyncProjectResponse, TruncatedProjectId } from "shared/types"
 import { apiSyncProject } from "./api-endpoints"
-import { warning } from "./output/style"
+import { CLILogger } from "./logger/logger-cli"
+import { highlight, warning } from "./output/format"
 import { getAllAbsFilePaths, isFileContentsWriteable } from "./utils/files"
 
 export async function syncComponents({
+  cliLogger,
   // Note: An empty array means sync all components
   components,
   projectId,
@@ -16,6 +18,7 @@ export async function syncComponents({
   syncDirectory,
   cssType,
 }: {
+  cliLogger: CLILogger
   components: string[]
   projectId: TruncatedProjectId | undefined
   accessToken: string
@@ -23,9 +26,8 @@ export async function syncComponents({
   syncDirectory: string
   cssType: "tailwind" | "tailwind-v4"
 }) {
-  const { definitionFiles, otherFiles, errorComponents } = await oraPromise(
-    apiSyncProject({
-      token: accessToken,
+  const { definitionFiles, otherFiles, errorComponents, projectInfo } = await oraPromise(
+    apiSyncProject(accessToken, {
       truncatedProjectId: projectId,
       components,
       importAlias,
@@ -33,12 +35,21 @@ export async function syncComponents({
     }),
     {
       text: "Syncing Subframe components",
+      successText: (result: SyncProjectResponse) => `Synced components for ${highlight(result.projectInfo.name)}`,
       failText: "Failed to sync Subframe components",
     },
   )
 
   if (errorComponents.length) {
-    console.log(warning(`The following components were not found: ${errorComponents.join(", ")}\n`))
+    await cliLogger.trackWarningAndFlush("[CLI]: sync components not found", {
+      components: errorComponents.join(", "),
+      truncatedProjectId: projectInfo.truncatedProjectId,
+    })
+    console.log(
+      warning(
+        `The following components were not found in ${highlight(projectInfo.name)}: ${errorComponents.join(", ")}\n`,
+      ),
+    )
   }
 
   console.log(

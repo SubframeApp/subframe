@@ -37,6 +37,15 @@ export function makeNodeLogger<T extends BaseEvent = BaseEvent>({
     identify({ user: { userId }, group: teamId !== null ? { groupId: String(teamId) } : null })
   }
 
+  async function flush(): Promise<void> {
+    if (!shouldEnableLogger()) {
+      return
+    }
+
+    // segment batches events (10s delay), so you will need to flush them before exiting
+    return segmentAnalytics!.flush()
+  }
+
   function trackEventRaw({
     userId,
     groupId,
@@ -74,7 +83,7 @@ export function makeNodeLogger<T extends BaseEvent = BaseEvent>({
 
   async function trackEventAndFlush(event: T) {
     await trackEvent(event)
-    await flushAndClose()
+    await flush()
   }
 
   function trackWarning(event: string, additionalData: { [key: string]: string | number | boolean } = {}) {
@@ -95,7 +104,7 @@ export function makeNodeLogger<T extends BaseEvent = BaseEvent>({
     additionalData: { [key: string]: string | number | boolean } = {},
   ) {
     await trackWarning(event, additionalData)
-    await flushAndClose()
+    await flush()
   }
 
   function trackPageView() {
@@ -122,17 +131,9 @@ export function makeNodeLogger<T extends BaseEvent = BaseEvent>({
 
   async function logExceptionAndFlush(error: Error, additionalData: { [key: string]: string | number | boolean } = {}) {
     await logException(error, additionalData)
-    await flushAndClose()
+    await flush()
   }
 
-  async function flushAndClose(): Promise<void> {
-    if (!shouldEnableLogger()) {
-      return
-    }
-
-    // segment batches events (10s delay), so you will need to flush them before exiting
-    return segmentAnalytics!.closeAndFlush()
-  }
   return {
     identify,
     trackEvent,
