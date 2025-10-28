@@ -1,6 +1,6 @@
 {
   "name": "@subframe/cli",
-  "version": "1.189.0",
+  "version": "1.190.0",
   "description": "Subframe's CLI tool for syncing your code with Subframe designs.",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -39,6 +39,7 @@
     "node-fetch": "2.7.0",
     "ora": "8.2.0",
     "prompts": "2.4.2",
+    "proxy-agent": "^6.5.0",
     "semver": "7.6.3",
     "ts-morph": "19.0.0",
     "xdg-app-paths": "8.3.0"
@@ -51,12 +52,13 @@
     "@rollup/plugin-replace": "^6.0.2",
     "@rollup/plugin-terser": "0.4.4",
     "@types/degit": "^2.8.6",
+    "@types/node-fetch": "^2.6.13",
     "@types/prompts": "2.4.5",
     "@types/segment-analytics": "0.0.34",
-    "vitest": "^3.2.4",
     "rollup": "3.29.5",
     "rollup-plugin-typescript2": "0.34.1",
-    "typescript": "^5.1.3"
+    "typescript": "^5.1.3",
+    "vitest": "^3.2.4"
   },
   "files": [
     "dist/"

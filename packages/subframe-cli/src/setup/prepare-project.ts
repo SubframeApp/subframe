@@ -84,7 +84,7 @@ export async function prepareProject(
 
     // TODO: Add an prompt to ask if they want to use tailwind v3 vs. v4.
     const projectPath = await cloneStarterKit({ name, type, cssType: options.cssType ?? "tailwind" })
-    cliLogger.trackEvent({ type: "cli:starter-kit_cloned", framework: type })
+    await cliLogger.trackEventAndFlush({ type: "cli:starter-kit_cloned", framework: type })
 
     return { projectPath }
   }

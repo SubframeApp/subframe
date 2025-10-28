@@ -35,4 +35,4 @@ export const MALFORMED_INIT_MESSAGE =
 export const MULTIPLE_PROJECTS_SUGGESTION =
   "We suggest using a separate package for each project. If you want to start fresh, you can run the CLI init again. You can find instructions here:\n\nhttps://docs.subframe.com/installation"
 
-export const WRONG_PROJECT_MESSAGE = `\nt seems you're trying to sync with a project that doesn't match the project in your current Subframe settings (sync.json)\n\n${MULTIPLE_PROJECTS_SUGGESTION}\n`
+export const WRONG_PROJECT_MESSAGE = `\nIt seems you're trying to sync a project that doesn't match the project in your current Subframe settings (sync.json)\n\n${MULTIPLE_PROJECTS_SUGGESTION}\n`

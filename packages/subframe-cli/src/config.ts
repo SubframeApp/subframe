@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises"
 import { join } from "node:path"
 import XDGAppPaths from "xdg-app-paths"
+import { CLILogger } from "./logger/logger-cli"
 import { exists } from "./utils/fs"
 
 const SUBFRAME_DIRECTORY = XDGAppPaths("com.subframe.cli").dataDirs()[0]
@@ -14,7 +15,7 @@ function isAuthConfig(config: any): config is AuthConfig {
   return typeof config === "object" && config !== null && typeof config.token === "string"
 }
 
-export async function readAuthConfig(): Promise<AuthConfig | null> {
+export async function readAuthConfig(cliLogger: CLILogger): Promise<AuthConfig | null> {
   try {
     if (!(await exists(SUBFRAME_AUTH_CONFIG_PATH))) {
       return null
@@ -27,6 +28,7 @@ export async function readAuthConfig(): Promise<AuthConfig | null> {
 
     return config
   } catch (err) {
+    await cliLogger.trackWarningAndFlush("[CLI]: readAuthConfig failed", { error: err.toString() })
     return null
   }
 }

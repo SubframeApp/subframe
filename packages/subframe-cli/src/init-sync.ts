@@ -1,9 +1,11 @@
 import prompts from "prompts"
 import { TruncatedProjectId } from "shared/types"
+import { CLILogger } from "./logger/logger-cli"
 import { syncComponents } from "./sync-components"
 import { abortOnState } from "./sync-helpers"
 
 export async function initSync(
+  cliLogger: CLILogger,
   syncDirectory: string,
   projectId: TruncatedProjectId | undefined,
   accessToken: string,
@@ -27,5 +29,5 @@ export async function initSync(
     return
   }
 
-  await syncComponents({ components: [], projectId, accessToken, importAlias, syncDirectory, cssType })
+  await syncComponents({ cliLogger, components: [], projectId, accessToken, importAlias, syncDirectory, cssType })
 }
