@@ -1,4 +1,6 @@
-import { http } from "shared/http"
+import nodeFetch, { BodyInit } from "node-fetch"
+import { ProxyAgent } from "proxy-agent"
+import { makeFetchWithRetries, prepareHttpBody } from "shared/http"
 import type {
   InitProjectRequest,
   InitProjectResponse,
@@ -11,6 +13,39 @@ import type {
 import { isDev } from "./common"
 
 const BASE_URL = isDev ? "http://localhost:6501" : "https://app.subframe.com"
+
+// NOTE: ProxyAgent handles making HTTP requests through a corporate proxy
+const agent = new ProxyAgent({ keepAlive: true })
+const fetchWithRetries = makeFetchWithRetries<typeof nodeFetch>(nodeFetch)
+
+/**
+ * Sends an HTTP request with proxy support.
+ * Automatically detects proxy from HTTP_PROXY, HTTPS_PROXY, NO_PROXY environment variables.
+ */
+const http = async <TBody, TResponse>(
+  url: string,
+  {
+    method,
+    body,
+    headers = {
+      "Content-Type": "application/json",
+    },
+  }: { method: "GET" | "POST"; body?: TBody; headers?: Record<string, string> },
+): Promise<TResponse> => {
+  const response = await fetchWithRetries(url, {
+    method,
+    headers,
+    body: body ? prepareHttpBody<TBody, BodyInit>(body, headers) : undefined,
+    agent,
+  })
+
+  if (response.ok) {
+    return response.json()
+  } else {
+    const { message } = await response.json()
+    throw new Error(message)
+  }
+}
 
 export async function apiVerifyToken(token: string): Promise<VerifyTokenResponse> {
   const url = `${BASE_URL}/api/cli/verify`

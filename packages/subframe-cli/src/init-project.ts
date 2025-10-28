@@ -26,8 +26,7 @@ export async function initProject({
       }),
       {
         text: "Initializing Subframe project",
-        successText: (result: InitProjectResponse) =>
-          `Successfully initialized ${highlight(result.projectInfo.name)}`,
+        successText: (result: InitProjectResponse) => `Successfully initialized ${highlight(result.projectInfo.name)}`,
         failText: "Failed to initialize Subframe project",
       },
     )
