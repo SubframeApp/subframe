@@ -2,7 +2,7 @@ import { detect } from "@antfu/ni"
 import { execa } from "execa"
 import { readFile } from "node:fs/promises"
 
-type PackageManager = "yarn" | "pnpm" | "npm" | "bun"
+export type PackageManager = "yarn" | "pnpm" | "npm" | "bun"
 
 export async function getInstalledPackageVersion(packageName: string, cwd: string): Promise<string | null> {
   try {
@@ -51,4 +51,46 @@ export async function getLatestPackageVersion(packageName: string) {
 
 export function makePackageSpecifier(packageName: string, packageVersion: string) {
   return `${packageName}@${packageVersion}`
+}
+
+export function getInstallPackagesCommand(packageManager: PackageManager, packageSpecifiers: string[]): string[] {
+  switch (packageManager) {
+    case "yarn":
+      return ["yarn", "add", ...packageSpecifiers]
+    case "bun":
+      return ["bun", "add", ...packageSpecifiers]
+    case "pnpm":
+      return ["pnpm", "add", ...packageSpecifiers]
+    case "npm":
+    default:
+      return ["npm", "install", ...packageSpecifiers]
+  }
+}
+
+export function getInstallCommand(packageManager: PackageManager): string[] {
+  switch (packageManager) {
+    case "yarn":
+      return ["yarn"]
+    case "bun":
+      return ["bun", "install"]
+    case "pnpm":
+      return ["pnpm", "install"]
+    case "npm":
+    default:
+      return ["npm", "install"]
+  }
+}
+
+export function getRunDevCommand(packageManager: PackageManager): string[] {
+  switch (packageManager) {
+    case "yarn":
+      return ["yarn", "dev"]
+    case "bun":
+      return ["bun", "dev"]
+    case "pnpm":
+      return ["pnpm", "dev"]
+    case "npm":
+    default:
+      return ["npm", "run", "dev"]
+  }
 }

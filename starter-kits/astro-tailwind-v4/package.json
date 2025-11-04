@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@astrojs/react": "^4.3.0",
-    "@subframe/core": "^1.143.0",
+    "@subframe/core": "^1.147.0",
     "@tailwindcss/vite": "^4.1.8",
     "astro": "^5.9.0",
     "react": "^18.3.1",

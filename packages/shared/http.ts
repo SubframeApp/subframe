@@ -13,7 +13,8 @@ export function makeFetchWithRetries<T extends FetchLibrary>(fetch: T) {
   return retry(fetch, {
     retries: MAX_RETRIES,
     retryDelay: (attempt) => Math.pow(2, attempt) * 1000,
-    retryOn: (attempt, error, response) => attempt < MAX_RETRIES && Boolean(error !== null || (response && response.status >= 400)),
+    retryOn: (attempt, error, response) =>
+      attempt < MAX_RETRIES && Boolean(error !== null || (response && response.status >= 400)),
   })
 }
 const fetchWithRetries = makeFetchWithRetries<typeof fetch>(fetch)

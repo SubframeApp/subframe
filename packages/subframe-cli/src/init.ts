@@ -36,6 +36,7 @@ import { makeCLILogger } from "./logger/logger-cli"
 import { link } from "./output/format"
 import { prepareProject } from "./setup/prepare-project"
 import { setupTailwindConfig } from "./setup-tailwind-config"
+import { startDevServer } from "./start-dev-server"
 import { setupSyncSettings } from "./sync-settings"
 import { mkdirIfNotExist } from "./utils/fs"
 
@@ -70,7 +71,7 @@ initCommand.action(async (opts) => {
   const cliLogger = makeCLILogger()
 
   try {
-    const { projectPath } = await prepareProject(cliLogger, opts)
+    const { projectPath, didCreateNewProject } = await prepareProject(cliLogger, opts)
 
     let accessToken = opts.authToken
     if (accessToken) {
@@ -147,16 +148,6 @@ initCommand.action(async (opts) => {
       await setupTailwindConfig(projectPath, rootPath, opts)
     }
 
-    const syncDirectory = join(projectPath, directory)
-    await initSync(cliLogger, syncDirectory, truncatedProjectId, accessToken, importAlias, opts.cssType, opts)
-
-    // When setting up tailwind config on vite, the changes breaks vite (throws an error about preflight.css)
-    // This is easily remedied by any npm install command. Thus, if we install dependencies after tailwind config is setup,
-    // then we can avoid this issue.
-    await installDependencies(projectPath, opts)
-
-    console.timeEnd(SUBFRAME_INIT_MESSAGE)
-
     if (opts.cssType === "tailwind-v4") {
       console.log()
       console.log(
@@ -164,6 +155,15 @@ initCommand.action(async (opts) => {
       )
       console.log(`${link(`https://docs.subframe.com/theme#tailwind-v4`)}`)
       console.log()
+    }
+
+    const syncDirectory = join(projectPath, directory)
+    await initSync(cliLogger, syncDirectory, truncatedProjectId, accessToken, importAlias, opts.cssType, opts)
+    const { didInstall } = await installDependencies({ cwd: projectPath, didCreateNewProject }, opts)
+
+    console.timeEnd(SUBFRAME_INIT_MESSAGE)
+    if (didCreateNewProject) {
+      await startDevServer(projectPath, { didInstall })
     }
   } catch (err: any) {
     console.error(err)

@@ -1,14 +1,9 @@
-import Image from "next/image";
+import Image from "next/image"
 
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center p-8">
-      <Image
-        src="subframe-logo.svg"
-        width={112}
-        height={20}
-        alt="Subframe logo"
-      />
+      <Image src="subframe-logo.svg" width={112} height={20} alt="Subframe logo" />
 
       <div className="flex flex-col gap-1 mt-20">
         <div className="relative mx-auto max-w-4xl gap-12 px-6 lg:px-8">
@@ -18,9 +13,8 @@ export default function Home() {
         </div>
         <div className="relative mx-auto max-w-2xl gap-12 px-6 lg:px-8">
           <div className="mt-6 text-lg text-base sm:text-lg text-center max-w-">
-            Use this project to kickstart Subframe. It includes configuration
-            files, dependencies you will need, and a clean slate for getting
-            started.
+            Use this project to kickstart Subframe. It includes configuration files, dependencies you will need, and a
+            clean slate for getting started.
           </div>
         </div>
       </div>
@@ -43,5 +37,5 @@ export default function Home() {
         </a>
       </div>
     </main>
-  );
+  )
 }

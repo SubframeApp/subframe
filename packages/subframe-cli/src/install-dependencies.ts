@@ -5,7 +5,9 @@ import { coerce, lt } from "semver"
 import { AUTOINSTALLED_DEPENDENCIES } from "./constants"
 import { abortOnState } from "./prompt-helpers"
 import {
+  getInstallCommand,
   getInstalledPackageVersion,
+  getInstallPackagesCommand,
   getLatestPackageVersion,
   getPackageManager,
   makePackageSpecifier,
@@ -19,9 +21,10 @@ import {
  * - if yes, installs/updates them
  * - if no, does nothing
  */
-export async function installDependencies(cwd: string, opts: { install?: boolean }) {
-  const packageManager = await getPackageManager(cwd)
-
+export async function installDependencies(
+  { cwd, didCreateNewProject }: { cwd: string; didCreateNewProject: boolean },
+  opts: { install?: boolean },
+): Promise<{ didInstall: boolean }> {
   const toInstall = new Map<string, string>()
 
   for (const [packageName, packageVersion] of Object.entries(AUTOINSTALLED_DEPENDENCIES)) {
@@ -42,8 +45,8 @@ export async function installDependencies(cwd: string, opts: { install?: boolean
     }
   }
 
-  if (toInstall.size === 0) {
-    return
+  if (toInstall.size === 0 && !didCreateNewProject) {
+    return { didInstall: false }
   }
 
   const packageSpecifiers = Array.from(toInstall.entries()).map(([packageName, packageVersion]) =>
@@ -63,18 +66,32 @@ export async function installDependencies(cwd: string, opts: { install?: boolean
   })
 
   if (!response.install) {
-    return
+    return { didInstall: false }
   }
+
+  const packageManager = await getPackageManager(cwd)
 
   await oraPromise(
     async () => {
-      await execa(packageManager, [packageManager === "yarn" ? "add" : "install", ...packageSpecifiers], { cwd })
-        .pipeStdout?.(process.stdout)
-        .pipeStderr?.(process.stderr)
+      // Install the explicitly required dependencies like @subframe/core
+      const installPackagesCommand = getInstallPackagesCommand(packageManager, packageSpecifiers)
+      await execa(installPackagesCommand[0], installPackagesCommand.slice(1), {
+        cwd,
+      }).pipeStderr?.(process.stderr)
+
+      // When creating a new project, we also need to install all of the dependencies in the package.json
+      if (didCreateNewProject) {
+        const installCommand = getInstallCommand(packageManager)
+        await execa(installCommand[0], installCommand.slice(1), { cwd }).pipeStderr?.(process.stderr)
+      }
+
+      return { didInstall: true }
     },
     {
-      text: "Installing dependencies",
+      text: `Installing dependencies with ${packageManager}`,
       failText: "Failed to install dependencies",
     },
   )
+
+  return { didInstall: true }
 }
