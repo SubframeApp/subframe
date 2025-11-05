@@ -1,5 +1,26 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`#addThemeImportToCss > adds theme import after tailwindcss import 1`] = `
+"@import "tailwindcss";
+@import "../ui/theme.css";
+
+body {
+  margin: 0;
+}"
+`;
+
+exports[`#addThemeImportToCss > adds theme import to the top if tailwindcss import not found 1`] = `
+"@import "../ui/theme.css";
+body {
+  margin: 0;
+}"
+`;
+
+exports[`#addThemeImportToCss > handles CSS with only tailwindcss import 1`] = `
+"@import "tailwindcss";
+@import "../ui/theme.css";"
+`;
+
 exports[`#transformTailwindConfig > adds content to ESM-style file 1`] = `
 "export default {
   "content": [

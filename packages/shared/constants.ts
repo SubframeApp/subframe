@@ -8,6 +8,9 @@ export const ROOT_FOLDER_NAME = "ui"
 
 export const FAILED_TO_FETCH_PROJECT_ERROR = "Unable to fetch project"
 
+export const TAILWIND_CONFIG_EXPORT_FILENAME = "tailwind.config.js"
+export const TAILWIND_CSS_EXPORT_FILENAME = "theme.css"
+
 /**
  * CLI-specific constants
  */
@@ -39,3 +42,5 @@ export const COMMAND_ALL_KEY = "--all"
 export const COMMAND_ALL_KEY_SHORT = "-a"
 export const COMMAND_CSS_TYPE_KEY = "--css-type"
 export const COMMAND_CSS_TYPE_KEY_SHORT = "-c"
+export const COMMAND_CSS_PATH_KEY = "--css-path"
+export const COMMAND_CSS_PATH_KEY_SHORT = "-x"

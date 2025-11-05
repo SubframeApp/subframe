@@ -6,6 +6,16 @@ title: Theme
   <Tab title="Tailwind v3">
 After [installing Subframe](/installation) your theme will be automatically updated in your codebase. The CLI will create a `tailwind.config.js` with your theme tokens.
 
+The CLI will add an import to the Subframe `tailwind.config.js` file in your global `tailwind.config.js` file at the root of your app. Please refer to the [Tailwind CSS v3 docs](https://v3.tailwindcss.com/docs/presets) for more information on importing the `tailwind.config.js` file.
+
+```js tailwind.config.js
+module.exports = {
+  // ...rest of tailwind config
+  presets: [require("./src/ui/tailwind.config.js")]
+};
+
+```
+
 If you update your theme in Subframe in the future, you can update it in your codebase by [syncing your components](/developing/syncing-components) or manually copy / pasting the `tailwind.config.js` file for your project.
 
 <Note>
@@ -208,29 +218,9 @@ module.exports = {
 
 </Tab>
 <Tab title="Tailwind v4">
-Subframe has experimental support for Tailwind CSS v4 in the Subframe CLI. You can [install Subframe](/installation) with the css-type flag:
+After [installing Subframe](/installation) your theme will be automatically updated in your codebase. The CLI will create a `theme.css` with your theme tokens.
 
-<CodeGroup>
-
-```bash npm
-npx @subframe/cli@latest init --css-type tailwind-v4
-```
-
-```bash yarn
-yarn dlx @subframe/cli@latest init --css-type tailwind-v4
-```
-
-```bash pnpm
-pnpx @subframe/cli@latest init --css-type tailwind-v4
-```
-
-```bash bun
-bunx @subframe/cli@latest init --css-type tailwind-v4
-```
-
-</CodeGroup>
-
-After installation completes you will need to import the `theme.css` file into your global css file that is imported into the root of your app - typically `index.css`, `styles.css`, or `globals.css`. Please refer to the [Tailwind CSS v4 docs](https://tailwindcss.com/docs/theme#sharing-across-projects) for more information on importing the `theme.css` file.
+The CLI will add an import to the `theme.css` file in the global css file that is imported into the root of your app - typically `index.css`, `styles.css`, or `globals.css`. Please refer to the [Tailwind CSS v4 docs](https://tailwindcss.com/docs/theme#sharing-across-projects) for more information on importing the `theme.css` file.
 
 ```css index.css
 @import "tailwindcss";
