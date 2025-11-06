@@ -1,4 +1,4 @@
-import degit from "degit"
+import { downloadTemplate } from "@bluwy/giget-core"
 import { readFile, writeFile } from "node:fs/promises"
 import { join, resolve } from "node:path"
 import ora from "ora"
@@ -31,19 +31,27 @@ async function cloneStarterKit({
     }
   }
 
-  const emitter = degit(`SubframeApp/subframe/starter-kits/${getStarterKitName(type, cssType)}`)
-  await emitter.clone(`${name}`)
-
   const projectPath = join(cwd, name)
-  spinner.text = `Initializing git repository...`
-  await tryGitInit(projectPath)
 
-  const packageJsonPath = join(projectPath, "package.json")
-  const packageJson = JSON.parse(await readFile(packageJsonPath, "utf8"))
-  packageJson.name = name
-  await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2))
+  try {
+    await downloadTemplate(`SubframeApp/subframe/starter-kits/${getStarterKitName(type, cssType)}`, {
+      cwd,
+      dir: name,
+    })
 
-  spinner.succeed(`Successfully created ${name} at ${projectPath}`)
+    spinner.text = `Initializing git repository...`
+    await tryGitInit(projectPath)
+
+    const packageJsonPath = join(projectPath, "package.json")
+    const packageJson = JSON.parse(await readFile(packageJsonPath, "utf8"))
+    packageJson.name = name
+    await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2))
+
+    spinner.succeed(`Successfully created ${name} at ${projectPath}`)
+  } catch (error) {
+    spinner.fail("Failed to clone starter kit")
+    throw error
+  }
 
   return projectPath
 }
