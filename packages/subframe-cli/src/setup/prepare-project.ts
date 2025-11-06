@@ -1,5 +1,4 @@
 import degit from "degit"
-import fetch from "node-fetch"
 import { readFile, writeFile } from "node:fs/promises"
 import { join, resolve } from "node:path"
 import ora from "ora"
@@ -9,29 +8,6 @@ import { CLILogger } from "../logger/logger-cli"
 import { highlight } from "../output/format"
 import { exists } from "../utils/fs"
 import { tryGitInit } from "../utils/git"
-
-async function getLatestCommitHash(starterKitPath: string): Promise<string | null> {
-  try {
-    const response = await fetch(
-      `https://api.github.com/repos/SubframeApp/subframe/commits?path=starter-kits/${starterKitPath}&per_page=1`,
-      {
-        headers: {
-          Accept: "application/vnd.github.v3+json",
-          "User-Agent": "Subframe-CLI",
-        },
-      },
-    )
-
-    if (!response.ok) {
-      return null
-    }
-
-    const commits = (await response.json()) as Array<{ sha: string }>
-    return commits[0]?.sha ?? null
-  } catch {
-    return null
-  }
-}
 
 async function cloneStarterKit({
   name,
@@ -56,31 +32,38 @@ async function cloneStarterKit({
   }
 
   const starterKitName = getStarterKitName(type, cssType)
+  const repoPath = `SubframeApp/subframe/starter-kits/${starterKitName}`
 
   try {
-    // Try to get the latest commit hash via GitHub API to avoid git ls-remote
-    // This prevents hanging when user has SSH configured for all git operations
-    const commitHash = await getLatestCommitHash(starterKitName)
-
-    let repoPath = `SubframeApp/subframe/starter-kits/${starterKitName}`
-    if (commitHash) {
-      repoPath = `${repoPath}#${commitHash}`
-      spinner.text = `Cloning starter kit (${commitHash.substring(0, 7)})...`
-    }
-
     const emitter = degit(repoPath, {
       cache: false,
       force: true,
       verbose: false,
     })
 
-    // Set environment variable to prevent git from prompting for credentials
-    // This prevents hanging if git operations are needed
-    const originalGitPrompt = process.env.GIT_TERMINAL_PROMPT
-    process.env.GIT_TERMINAL_PROMPT = "0"
+    // Save original environment to restore later
+    const originalEnv = {
+      GIT_TERMINAL_PROMPT: process.env.GIT_TERMINAL_PROMPT,
+      GIT_ASKPASS: process.env.GIT_ASKPASS,
+      SSH_ASKPASS: process.env.SSH_ASKPASS,
+      GIT_CONFIG_GLOBAL: process.env.GIT_CONFIG_GLOBAL,
+      GIT_CONFIG_SYSTEM: process.env.GIT_CONFIG_SYSTEM,
+    }
 
     try {
-      // Add timeout to prevent indefinite hanging
+      // Prevent git from using user's config that might have SSH URL rewriting
+      // This prevents hanging when user has git configured to use SSH with locked keys
+      // By setting these to /dev/null, git won't read any config files
+      process.env.GIT_CONFIG_GLOBAL = "/dev/null"
+      process.env.GIT_CONFIG_SYSTEM = "/dev/null"
+
+      // Defense in depth: also prevent credential prompting
+      process.env.GIT_TERMINAL_PROMPT = "0"
+      process.env.GIT_ASKPASS = ""
+      process.env.SSH_ASKPASS = ""
+
+      // Add timeout as final safety net
+      // Even with config disabled, add timeout in case of network issues
       const CLONE_TIMEOUT = 120000 // 2 minutes
       await Promise.race([
         emitter.clone(`${name}`),
@@ -89,11 +72,13 @@ async function cloneStarterKit({
         ),
       ])
     } finally {
-      // Restore original environment variable
-      if (originalGitPrompt === undefined) {
-        delete process.env.GIT_TERMINAL_PROMPT
-      } else {
-        process.env.GIT_TERMINAL_PROMPT = originalGitPrompt
+      // Restore original environment variables
+      for (const [key, value] of Object.entries(originalEnv)) {
+        if (value === undefined) {
+          delete process.env[key]
+        } else {
+          process.env[key] = value
+        }
       }
     }
   } catch (error: any) {
