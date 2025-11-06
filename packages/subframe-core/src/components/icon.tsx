@@ -2,6 +2,7 @@
 
 import React from "react"
 import * as Icons from "../assets/icons/final"
+import { forwardRef } from "../lib/forward-ref"
 import { IconWrapper } from "./icon-wrapper"
 
 // If empty, then renders as an empty icon, but takes up the same amount of space
@@ -12,7 +13,7 @@ export interface IconProps extends React.HTMLAttributes<HTMLSpanElement> {
   name: IconName
 }
 
-export const Icon = React.forwardRef<HTMLSpanElement, IconProps>(function Icon(props, ref) {
+export const Icon = forwardRef<HTMLSpanElement, IconProps>(function Icon(props, ref) {
   const { name, ...otherProps } = props
 
   if (name === null) {

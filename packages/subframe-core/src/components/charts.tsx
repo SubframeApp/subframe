@@ -66,7 +66,7 @@ interface Props extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
   children: (args: { width: number; height: number }) => React.ReactElement
 }
 
-export const AutoSizedChartWrapper = React.forwardRef<HTMLDivElement, Props>(function AutoSizedChartWrapper(
+export const AutoSizedChartWrapper = forwardRef<HTMLDivElement, Props>(function AutoSizedChartWrapper(
   { className, style, children, ...props },
   ref,
 ) {

@@ -3,11 +3,12 @@
 import * as RadixSlider from "@radix-ui/react-slider"
 import classNames from "classnames"
 import React from "react"
+import { forwardRef } from "../lib/forward-ref"
 import styles from "./slider.module.css"
 
 interface RootProps extends RadixSlider.SliderProps {}
 
-export const Root = React.forwardRef<HTMLDivElement, RootProps>(function ProgressRoot(
+export const Root = forwardRef<HTMLDivElement, RootProps>(function ProgressRoot(
   { className, children, defaultValue = [27], ...otherProps },
   ref,
 ) {
@@ -23,7 +24,7 @@ export const Root = React.forwardRef<HTMLDivElement, RootProps>(function Progres
   )
 })
 
-export const Track = React.forwardRef<HTMLDivElement, RadixSlider.SliderTrackProps>(function Indicator(
+export const Track = forwardRef<HTMLDivElement, RadixSlider.SliderTrackProps>(function Indicator(
   { className, children, ...otherProps },
   ref,
 ) {
@@ -34,14 +35,14 @@ export const Track = React.forwardRef<HTMLDivElement, RadixSlider.SliderTrackPro
   )
 })
 
-export const Range = React.forwardRef<HTMLDivElement, RadixSlider.SliderRangeProps>(function Indicator(
+export const Range = forwardRef<HTMLDivElement, RadixSlider.SliderRangeProps>(function Indicator(
   { className, ...otherProps },
   ref,
 ) {
   return <RadixSlider.Range className={classNames(className, styles.sliderRange)} ref={ref} {...otherProps} />
 })
 
-export const Thumb = React.forwardRef<HTMLDivElement, RadixSlider.SliderThumbProps>(function Indicator(
+export const Thumb = forwardRef<HTMLDivElement, RadixSlider.SliderThumbProps>(function Indicator(
   { className, ...otherProps },
   ref,
 ) {

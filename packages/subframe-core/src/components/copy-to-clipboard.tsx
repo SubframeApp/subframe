@@ -16,7 +16,7 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
   }
 }
 
-export const Root = React.forwardRef<HTMLElement, Props>(function CopyToClipboardRootComponent(props: Props, ref) {
+export const Root = forwardRef<HTMLElement, Props>(function CopyToClipboardRootComponent(props: Props, ref) {
   const { clipboardText, onCopy, children, options, ...otherProps } = props
 
   const format = options?.format

@@ -2,6 +2,7 @@
 
 import classNames from "classnames"
 import React from "react"
+import { forwardRef } from "../lib/forward-ref"
 import { Area, AreaChart as RechartsAreaChart, Dot, DotProps } from "recharts"
 import styles from "./area-chart.module.css"
 import {
@@ -37,7 +38,7 @@ export interface AreaChartProps extends React.HTMLAttributes<HTMLDivElement> {
   stackOffset?: "expand" | "none" | "wiggle" | "silhouette"
 }
 
-export const AreaChart = React.forwardRef<HTMLDivElement, AreaChartProps>(function AreaChart(
+export const AreaChart = forwardRef<HTMLDivElement, AreaChartProps>(function AreaChart(
   {
     categories,
     colors = DEFAULT_COLORS,

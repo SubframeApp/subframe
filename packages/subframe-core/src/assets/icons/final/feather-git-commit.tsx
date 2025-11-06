@@ -1,6 +1,7 @@
 import * as React from "react"
+import { forwardRef } from "../../../lib/forward-ref"
 import { IconWrapper } from "../../../components/icon-wrapper"
-const SvgFeatherGitCommit = React.forwardRef(function SvgFeatherGitCommit(
+const SvgFeatherGitCommit = forwardRef(function SvgFeatherGitCommit(
   props: React.HTMLAttributes<HTMLSpanElement>,
   ref: React.Ref<HTMLSpanElement>,
 ) {

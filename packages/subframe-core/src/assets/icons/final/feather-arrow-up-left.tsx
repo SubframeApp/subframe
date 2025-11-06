@@ -1,6 +1,7 @@
 import * as React from "react"
+import { forwardRef } from "../../../lib/forward-ref"
 import { IconWrapper } from "../../../components/icon-wrapper"
-const SvgFeatherArrowUpLeft = React.forwardRef(function SvgFeatherArrowUpLeft(
+const SvgFeatherArrowUpLeft = forwardRef(function SvgFeatherArrowUpLeft(
   props: React.HTMLAttributes<HTMLSpanElement>,
   ref: React.Ref<HTMLSpanElement>,
 ) {

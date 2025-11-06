@@ -1,6 +1,7 @@
 import * as React from "react"
+import { forwardRef } from "../../../lib/forward-ref"
 import { IconWrapper } from "../../../components/icon-wrapper"
-const SvgFeatherCalendarClock = React.forwardRef(function SvgFeatherCalendarClock(
+const SvgFeatherCalendarClock = forwardRef(function SvgFeatherCalendarClock(
   props: React.HTMLAttributes<HTMLSpanElement>,
   ref: React.Ref<HTMLSpanElement>,
 ) {

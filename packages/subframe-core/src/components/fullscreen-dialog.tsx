@@ -3,11 +3,12 @@
 import * as RadixDialog from "@radix-ui/react-dialog"
 import classNames from "classnames"
 import React from "react"
+import { forwardRef } from "../lib/forward-ref"
 import styles from "./fullscreen-dialog.module.css"
 
 interface RootProps extends RadixDialog.DialogProps, RadixDialog.DialogOverlayProps {}
 
-export const Root = React.forwardRef<HTMLDivElement, RootProps>(function FullScreenDialog(
+export const Root = forwardRef<HTMLDivElement, RootProps>(function FullScreenDialog(
   { className, defaultOpen, open, onOpenChange, modal, ...otherProps },
   ref,
 ) {

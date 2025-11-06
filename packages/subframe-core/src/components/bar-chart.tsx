@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import { forwardRef } from "../lib/forward-ref"
 import { Bar, BarChart as RechartsBarChart } from "recharts"
 import {
   AutoSizedChartWrapper,
@@ -40,7 +41,7 @@ export interface BarChartProps extends React.HTMLAttributes<HTMLDivElement> {
   reverseStackOrder?: boolean
 }
 
-export const BarChart = React.forwardRef<HTMLDivElement, BarChartProps>(function BarChart(
+export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(function BarChart(
   {
     categories,
     colors = DEFAULT_COLORS,

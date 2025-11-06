@@ -3,6 +3,7 @@
 import * as RadixProgress from "@radix-ui/react-progress"
 import classNames from "classnames"
 import React from "react"
+import { forwardRef } from "../lib/forward-ref"
 import styles from "./progress.module.css"
 
 const DEFAULT_PROGRESS_VALUE = 0
@@ -10,7 +11,7 @@ const ProgressContext = React.createContext(DEFAULT_PROGRESS_VALUE)
 
 interface RootProps extends RadixProgress.ProgressProps {}
 
-export const Root = React.forwardRef<HTMLDivElement, RootProps>(function ProgressRoot(
+export const Root = forwardRef<HTMLDivElement, RootProps>(function ProgressRoot(
   { className, children, value, ...otherProps },
   ref,
 ) {
@@ -23,7 +24,7 @@ export const Root = React.forwardRef<HTMLDivElement, RootProps>(function Progres
   )
 })
 
-export const Indicator = React.forwardRef<HTMLDivElement, RadixProgress.ProgressIndicatorProps>(function Indicator(
+export const Indicator = forwardRef<HTMLDivElement, RadixProgress.ProgressIndicatorProps>(function Indicator(
   { className, ...otherProps },
   ref,
 ) {

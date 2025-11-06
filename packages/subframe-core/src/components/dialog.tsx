@@ -4,11 +4,12 @@ import * as RadixDialog from "@radix-ui/react-dialog"
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
 import classNames from "classnames"
 import React, { useCallback } from "react"
+import { forwardRef } from "../lib/forward-ref"
 import styles from "./dialog.module.css"
 
 interface RootProps extends RadixDialog.DialogProps, RadixDialog.DialogOverlayProps {}
 
-export const Root = React.forwardRef<HTMLDivElement, RootProps>(function Dialog(
+export const Root = forwardRef<HTMLDivElement, RootProps>(function Dialog(
   { className, defaultOpen, open, onOpenChange, modal, title = "", ...otherProps },
   ref,
 ) {
@@ -30,7 +31,7 @@ interface ContentProps extends RadixDialog.DialogContentProps {
   initialFocusRef?: React.MutableRefObject<HTMLElement | null>
 }
 
-export const Content = React.forwardRef<HTMLDivElement, ContentProps>(function Content(
+export const Content = forwardRef<HTMLDivElement, ContentProps>(function Content(
   // Silence Dialog.Description warning:
   // https://github.com/radix-ui/primitives/blob/dae8ef4920b45f736e2574abf23676efab103645/packages/react/dialog/src/Dialog.tsx#L532
   { "aria-describedby": ariaDescribedBy = undefined, onOpenAutoFocus, initialFocusRef, ...otherProps },

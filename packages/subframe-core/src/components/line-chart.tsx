@@ -2,6 +2,7 @@
 
 import classNames from "classnames"
 import React from "react"
+import { forwardRef } from "../lib/forward-ref"
 import { Dot, DotProps, Line, LineChart as RechartsLineChart } from "recharts"
 import {
   AutoSizedChartWrapper,
@@ -35,7 +36,7 @@ export interface LineChartProps extends React.HTMLAttributes<HTMLDivElement> {
   margin?: { top: number; right: number; bottom: number; left: number }
 }
 
-export const LineChart = React.forwardRef<HTMLDivElement, LineChartProps>(function LineChart(
+export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(function LineChart(
   {
     categories,
     colors = DEFAULT_COLORS,

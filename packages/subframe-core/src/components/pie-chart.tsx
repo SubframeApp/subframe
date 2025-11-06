@@ -2,6 +2,7 @@
 
 import classNames from "classnames"
 import React from "react"
+import { forwardRef } from "../lib/forward-ref"
 import { Cell, Pie, PieChart as RechartsPieChart } from "recharts"
 import { AutoSizedChartWrapper, ChartContextProvider, ChartLegend, ChartTooltip, DEFAULT_COLORS } from "./charts"
 import styles from "./pie-chart.module.css"
@@ -20,7 +21,7 @@ export interface PieChartProps extends React.HTMLAttributes<HTMLDivElement> {
   margin?: { top: number; right: number; bottom: number; left: number }
 }
 
-export const PieChart = React.forwardRef<HTMLDivElement, PieChartProps>(function PieChart(
+export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(function PieChart(
   {
     className,
     category,

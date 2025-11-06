@@ -1,6 +1,7 @@
 import * as React from "react"
+import { forwardRef } from "../../../lib/forward-ref"
 import { IconWrapper } from "../../../components/icon-wrapper"
-const SvgFeatherRulerDimensionLine = React.forwardRef(function SvgFeatherRulerDimensionLine(
+const SvgFeatherRulerDimensionLine = forwardRef(function SvgFeatherRulerDimensionLine(
   props: React.HTMLAttributes<HTMLSpanElement>,
   ref: React.Ref<HTMLSpanElement>,
 ) {

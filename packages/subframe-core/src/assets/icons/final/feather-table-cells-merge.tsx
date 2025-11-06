@@ -1,6 +1,7 @@
 import * as React from "react"
+import { forwardRef } from "../../../lib/forward-ref"
 import { IconWrapper } from "../../../components/icon-wrapper"
-const SvgFeatherTableCellsMerge = React.forwardRef(function SvgFeatherTableCellsMerge(
+const SvgFeatherTableCellsMerge = forwardRef(function SvgFeatherTableCellsMerge(
   props: React.HTMLAttributes<HTMLSpanElement>,
   ref: React.Ref<HTMLSpanElement>,
 ) {

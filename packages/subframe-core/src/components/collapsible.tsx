@@ -4,17 +4,18 @@ import * as RadixCollapsible from "@radix-ui/react-collapsible"
 import { Slot, SlotProps } from "@radix-ui/react-slot"
 import classNames from "classnames"
 import React from "react"
+import { forwardRef } from "../lib/forward-ref"
 import styles from "./collapsible.module.css"
 
 interface ChevronProps extends SlotProps {}
-export const Chevron = React.forwardRef<HTMLElement, ChevronProps>(function CollapsibleChevron(
+export const Chevron = forwardRef<HTMLElement, ChevronProps>(function CollapsibleChevron(
   { className, ...otherProps }: ChevronProps,
   ref,
 ) {
   return <Slot ref={ref} className={classNames(className, styles.chevron)} {...otherProps} />
 })
 
-export const Trigger = React.forwardRef<HTMLButtonElement, RadixCollapsible.CollapsibleTriggerProps>(function Trigger(
+export const Trigger = forwardRef<HTMLButtonElement, RadixCollapsible.CollapsibleTriggerProps>(function Trigger(
   { className, children, ...otherProps },
   ref,
 ) {
@@ -25,7 +26,7 @@ export const Trigger = React.forwardRef<HTMLButtonElement, RadixCollapsible.Coll
   )
 })
 
-export const Content = React.forwardRef<HTMLDivElement, RadixCollapsible.CollapsibleContentProps>(function Content(
+export const Content = forwardRef<HTMLDivElement, RadixCollapsible.CollapsibleContentProps>(function Content(
   { className, children, ...otherProps },
   ref,
 ) {

@@ -1,6 +1,7 @@
 import * as React from "react"
+import { forwardRef } from "../../../lib/forward-ref"
 import { IconWrapper } from "../../../components/icon-wrapper"
-const SvgFeatherBadgePercent = React.forwardRef(function SvgFeatherBadgePercent(
+const SvgFeatherBadgePercent = forwardRef(function SvgFeatherBadgePercent(
   props: React.HTMLAttributes<HTMLSpanElement>,
   ref: React.Ref<HTMLSpanElement>,
 ) {

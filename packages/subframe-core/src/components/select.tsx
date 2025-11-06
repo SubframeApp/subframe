@@ -3,15 +3,16 @@
 import * as RadixSelect from "@radix-ui/react-select"
 import classNames from "classnames"
 import React from "react"
+import { forwardRef } from "../lib/forward-ref"
 import styles from "./select.module.css"
 
 interface RootProps extends RadixSelect.SelectProps {}
 
-export const Root = React.forwardRef<HTMLDivElement, RootProps>(function SelectRoot({ children, ...otherProps }, _ref) {
+export const Root = forwardRef<HTMLDivElement, RootProps>(function SelectRoot({ children, ...otherProps }, _ref) {
   return <RadixSelect.Root {...otherProps}>{children}</RadixSelect.Root>
 })
 
-export const Trigger = React.forwardRef<HTMLButtonElement, RadixSelect.SelectTriggerProps>(function Trigger(
+export const Trigger = forwardRef<HTMLButtonElement, RadixSelect.SelectTriggerProps>(function Trigger(
   { className, children, ...otherProps },
   ref,
 ) {
@@ -22,7 +23,7 @@ export const Trigger = React.forwardRef<HTMLButtonElement, RadixSelect.SelectTri
   )
 })
 
-export const Value = React.forwardRef<HTMLButtonElement, RadixSelect.SelectValueProps>(function Value(
+export const Value = forwardRef<HTMLButtonElement, RadixSelect.SelectValueProps>(function Value(
   {
     children, // NOTE: ignored
     placeholder,
@@ -39,7 +40,7 @@ export const Value = React.forwardRef<HTMLButtonElement, RadixSelect.SelectValue
   )
 })
 
-export const Content = React.forwardRef<HTMLDivElement, RadixSelect.SelectContentProps>(function Content(
+export const Content = forwardRef<HTMLDivElement, RadixSelect.SelectContentProps>(function Content(
   { className, children, position = "popper", sideOffset = 4, ...otherProps },
   ref,
 ) {
@@ -58,7 +59,7 @@ export const Content = React.forwardRef<HTMLDivElement, RadixSelect.SelectConten
   )
 })
 
-export const Viewport = React.forwardRef<HTMLDivElement, RadixSelect.SelectViewportProps>(function Viewport(
+export const Viewport = forwardRef<HTMLDivElement, RadixSelect.SelectViewportProps>(function Viewport(
   { className, children, ...otherProps },
   ref,
 ) {
@@ -69,7 +70,7 @@ export const Viewport = React.forwardRef<HTMLDivElement, RadixSelect.SelectViewp
   )
 })
 
-export const Item = React.forwardRef<HTMLDivElement, RadixSelect.SelectItemProps>(function Item(
+export const Item = forwardRef<HTMLDivElement, RadixSelect.SelectItemProps>(function Item(
   { className, children, value, ...otherProps },
   ref,
 ) {

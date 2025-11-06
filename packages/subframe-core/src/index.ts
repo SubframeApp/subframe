@@ -34,6 +34,7 @@ import * as Collapsible from "./components/collapsible"
 import { Text } from "./utilities/text"
 import * as TypescriptHelpers from "./lib/typescript-helpers"
 import { createTwClassNames, twClassNames } from "./lib/tw-classnames"
+import { forwardRef } from "./lib/forward-ref"
 
 // Icons
 import * as Icons from "./assets/icons/final"
@@ -67,6 +68,7 @@ export { Collapsible }
 export { Text }
 export { TypescriptHelpers }
 export { createTwClassNames, twClassNames }
+export { forwardRef }
 export * from "./assets/icons/final"
 
 /**
@@ -112,6 +114,7 @@ const SubframeCore = {
   TypescriptHelpers,
   createTwClassNames,
   twClassNames,
+  forwardRef,
 }
 
 export default SubframeCore

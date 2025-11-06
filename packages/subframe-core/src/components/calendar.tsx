@@ -3,8 +3,9 @@
 import React from "react"
 import { DayPicker, DayPickerProps } from "react-day-picker"
 import { FeatherChevronLeft, FeatherChevronRight } from "../assets/icons/final"
+import { forwardRef } from "../lib/forward-ref"
 
-export const Calendar = React.forwardRef<HTMLDivElement, DayPickerProps>(function CalendarRoot(
+export const Calendar = forwardRef<HTMLDivElement, DayPickerProps>(function CalendarRoot(
   { classNames, className, showOutsideDays = true, ...otherProps },
   ref,
 ) {
