@@ -6,7 +6,7 @@ import { DEFAULT_SUBFRAME_TS_ALIAS, ROOT_FOLDER_NAME } from "shared/constants"
 import { TruncatedProjectId } from "shared/types"
 import { addAliasesToTSConfig, hasAliasSetup } from "./add-tsconfig-alias"
 import { ACCESS_TOKEN_FILENAME, SUBFRAME_DIR, SYNC_SETTINGS_FILENAME } from "./constants"
-import { abortOnState } from "./sync-helpers"
+import { abortOnState } from "./prompt-helpers"
 import { exists, isDirectory, posixJoin } from "./utils/fs"
 
 export interface SyncSettingsConfig {

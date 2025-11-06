@@ -2,7 +2,7 @@ import { join } from "node:path"
 import ora from "ora"
 import prompts from "prompts"
 import { ObjectLiteralExpression, printNode, Project, QuoteKind, SourceFile, SyntaxKind } from "ts-morph"
-import { abortOnState } from "./sync-helpers"
+import { abortOnState } from "./prompt-helpers"
 import { makeSubframeContentGlob, makeSubframeRequire } from "./transforms/tailwind"
 
 function printManualTailwindSteps(cwd: string, subframeDirPath: string, prependText: string) {

@@ -6,6 +6,7 @@ import prompts from "prompts"
 import { cwd } from "../common"
 import { CLILogger } from "../logger/logger-cli"
 import { highlight } from "../output/format"
+import { abortOnState } from "../prompt-helpers"
 import { exists } from "../utils/fs"
 import { tryGitInit } from "../utils/git"
 
@@ -79,6 +80,7 @@ export async function prepareProject(
           { title: "Astro", value: "astro" },
         ],
         initial: 0,
+        onState: abortOnState,
       },
       {
         type: "text",
@@ -87,6 +89,7 @@ export async function prepareProject(
         initial: "my-app",
         format: (value: string) => value.trim(),
         validate: (value: string) => (value.length > 128 ? `Name should be less than 128 characters.` : true),
+        onState: abortOnState,
       },
     ])
 
