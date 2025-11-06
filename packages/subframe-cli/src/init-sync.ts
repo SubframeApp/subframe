@@ -1,8 +1,8 @@
 import prompts from "prompts"
 import { TruncatedProjectId } from "shared/types"
 import { CLILogger } from "./logger/logger-cli"
-import { syncComponents } from "./sync-components"
 import { abortOnState } from "./prompt-helpers"
+import { syncComponents } from "./sync-components"
 
 export async function initSync(
   cliLogger: CLILogger,

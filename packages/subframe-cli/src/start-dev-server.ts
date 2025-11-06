@@ -1,7 +1,7 @@
 import { execa } from "execa"
 import path from "node:path"
 import prompts from "prompts"
-import { abortOnState } from "./sync-helpers"
+import { abortOnState } from "./prompt-helpers"
 import { getInstallCommand, getPackageManager, getRunDevCommand, type PackageManager } from "./utils/package-managers"
 
 export async function startDevServer(projectPath: string, { didInstall }: { didInstall: boolean }): Promise<void> {
