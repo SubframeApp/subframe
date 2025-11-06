@@ -31,16 +31,10 @@ async function cloneStarterKit({
     }
   }
 
-  const starterKitName = getStarterKitName(type, cssType)
-  // giget-core uses github:owner/repo#subdirectory syntax
-  const templateTarget = `github:SubframeApp/subframe#starter-kits/${starterKitName}`
   const projectPath = join(cwd, name)
 
   try {
-    // giget-core downloads tarballs directly via HTTP, avoiding git commands entirely
-    // This prevents hanging issues with SSH git configurations
-    await downloadTemplate(templateTarget, {
-      force: true,
+    await downloadTemplate(`SubframeApp/subframe/starter-kits/${getStarterKitName(type, cssType)}`, {
       cwd,
       dir: name,
     })
@@ -54,17 +48,8 @@ async function cloneStarterKit({
     await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2))
 
     spinner.succeed(`Successfully created ${name} at ${projectPath}`)
-  } catch (error: any) {
+  } catch (error) {
     spinner.fail("Failed to clone starter kit")
-
-    // Provide helpful error messages
-    console.error(`\nError: ${error.message}`)
-    console.error("\nThis could be due to:")
-    console.error("  • Network connectivity issues")
-    console.error("  • Firewall or proxy blocking the connection")
-    console.error("  • Invalid template name")
-    console.error("\nFor more help, visit: https://github.com/SubframeApp/subframe/issues/73")
-
     throw error
   }
 
