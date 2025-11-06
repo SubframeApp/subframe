@@ -71,7 +71,7 @@ export async function installDependencies(
 
   const packageManager = await getPackageManager(cwd)
 
-  await oraPromise(
+  return oraPromise(
     async () => {
       // Install the explicitly required dependencies like @subframe/core
       const installPackagesCommand = getInstallPackagesCommand(packageManager, packageSpecifiers)
@@ -92,6 +92,4 @@ export async function installDependencies(
       failText: "Failed to install dependencies",
     },
   )
-
-  return { didInstall: true }
 }
