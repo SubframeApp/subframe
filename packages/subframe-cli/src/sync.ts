@@ -62,7 +62,7 @@ export const syncCommand = new Command()
         cssType: localSyncSettings.cssType ?? "tailwind",
       })
 
-      await installDependencies(cwd, opts)
+      await installDependencies({ cwd, didCreateNewProject: false }, opts)
 
       console.timeEnd(SUBFRAME_SYNC_MESSAGE)
     } catch (err: any) {

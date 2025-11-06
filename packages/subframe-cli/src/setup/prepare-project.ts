@@ -19,6 +19,14 @@ async function cloneStarterKit({
   type: "astro" | "vite" | "nextjs"
   cssType: "tailwind" | "tailwind-v4"
 }) {
+  const projectPath = join(cwd, name)
+
+  if (await exists(projectPath)) {
+    throw new Error(
+      `Target directory ${name} already exists. Please choose a different name or remove the existing directory.`,
+    )
+  }
+
   const spinner = ora(`Cloning starter kit...`).start()
 
   function getStarterKitName(type: string, cssType: "tailwind" | "tailwind-v4") {
@@ -31,8 +39,6 @@ async function cloneStarterKit({
         throw new Error(`Invalid CSS type: ${cssType}`)
     }
   }
-
-  const projectPath = join(cwd, name)
 
   try {
     await downloadTemplate(`SubframeApp/subframe/starter-kits/${getStarterKitName(type, cssType)}`, {
@@ -60,7 +66,7 @@ async function cloneStarterKit({
 export async function prepareProject(
   cliLogger: CLILogger,
   options: { template?: "vite" | "nextjs" | "astro"; name?: string; cssType?: "tailwind" | "tailwind-v4" },
-): Promise<{ projectPath: string }> {
+): Promise<{ projectPath: string; didCreateNewProject: boolean }> {
   // No package.json in current directory - assume they need to set up a new project.
   if (!(await exists(resolve(cwd, "package.json"))) || options.template !== undefined) {
     prompts.override({
@@ -88,8 +94,17 @@ export async function prepareProject(
         message: "What is your project named?",
         initial: "my-app",
         format: (value: string) => value.trim(),
-        validate: (value: string) => (value.length > 128 ? `Name should be less than 128 characters.` : true),
         onState: abortOnState,
+        validate: async (value: string) => {
+          if (value.length > 128) {
+            return `Name should be less than 128 characters.`
+          }
+          const projectPath = join(cwd, value)
+          if (await exists(projectPath)) {
+            return `Target directory ${value} already exists. Please choose a different name.`
+          }
+          return true
+        },
       },
     ])
 
@@ -97,8 +112,8 @@ export async function prepareProject(
     const projectPath = await cloneStarterKit({ name, type, cssType: options.cssType ?? "tailwind" })
     await cliLogger.trackEventAndFlush({ type: "cli:starter-kit_cloned", framework: type })
 
-    return { projectPath }
+    return { projectPath, didCreateNewProject: true }
   }
 
-  return { projectPath: cwd }
+  return { projectPath: cwd, didCreateNewProject: false }
 }
