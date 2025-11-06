@@ -6,7 +6,7 @@ import { isDev } from "./common"
 import { readAuthConfig, writeAuthConfig } from "./config"
 import { CLILogger } from "./logger/logger-cli"
 import { link } from "./output/format"
-import { abortOnState } from "./sync-helpers"
+import { abortOnState } from "./prompt-helpers"
 
 const BASE_URL = isDev ? "http://localhost:6501" : "https://app.subframe.com"
 

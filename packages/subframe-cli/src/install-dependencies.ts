@@ -3,7 +3,7 @@ import { oraPromise } from "ora"
 import prompts from "prompts"
 import { coerce, lt } from "semver"
 import { AUTOINSTALLED_DEPENDENCIES } from "./constants"
-import { abortOnState } from "./sync-helpers"
+import { abortOnState } from "./prompt-helpers"
 import {
   getInstalledPackageVersion,
   getLatestPackageVersion,
