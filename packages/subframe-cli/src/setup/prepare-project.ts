@@ -1,4 +1,5 @@
 import degit from "degit"
+import fetch from "node-fetch"
 import { readFile, writeFile } from "node:fs/promises"
 import { join, resolve } from "node:path"
 import ora from "ora"
@@ -8,6 +9,29 @@ import { CLILogger } from "../logger/logger-cli"
 import { highlight } from "../output/format"
 import { exists } from "../utils/fs"
 import { tryGitInit } from "../utils/git"
+
+async function getLatestCommitHash(starterKitPath: string): Promise<string | null> {
+  try {
+    const response = await fetch(
+      `https://api.github.com/repos/SubframeApp/subframe/commits?path=starter-kits/${starterKitPath}&per_page=1`,
+      {
+        headers: {
+          Accept: "application/vnd.github.v3+json",
+          "User-Agent": "Subframe-CLI",
+        },
+      },
+    )
+
+    if (!response.ok) {
+      return null
+    }
+
+    const commits = (await response.json()) as Array<{ sha: string }>
+    return commits[0]?.sha ?? null
+  } catch {
+    return null
+  }
+}
 
 async function cloneStarterKit({
   name,
@@ -31,8 +55,74 @@ async function cloneStarterKit({
     }
   }
 
-  const emitter = degit(`SubframeApp/subframe/starter-kits/${getStarterKitName(type, cssType)}`)
-  await emitter.clone(`${name}`)
+  const starterKitName = getStarterKitName(type, cssType)
+
+  try {
+    // Try to get the latest commit hash via GitHub API to avoid git ls-remote
+    // This prevents hanging when user has SSH configured for all git operations
+    const commitHash = await getLatestCommitHash(starterKitName)
+
+    let repoPath = `SubframeApp/subframe/starter-kits/${starterKitName}`
+    if (commitHash) {
+      repoPath = `${repoPath}#${commitHash}`
+      spinner.text = `Cloning starter kit (${commitHash.substring(0, 7)})...`
+    }
+
+    const emitter = degit(repoPath, {
+      cache: false,
+      force: true,
+      verbose: false,
+    })
+
+    // Set environment variable to prevent git from prompting for credentials
+    // This prevents hanging if git operations are needed
+    const originalGitPrompt = process.env.GIT_TERMINAL_PROMPT
+    process.env.GIT_TERMINAL_PROMPT = "0"
+
+    try {
+      // Add timeout to prevent indefinite hanging
+      const CLONE_TIMEOUT = 120000 // 2 minutes
+      await Promise.race([
+        emitter.clone(`${name}`),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Clone operation timed out after 2 minutes")), CLONE_TIMEOUT),
+        ),
+      ])
+    } finally {
+      // Restore original environment variable
+      if (originalGitPrompt === undefined) {
+        delete process.env.GIT_TERMINAL_PROMPT
+      } else {
+        process.env.GIT_TERMINAL_PROMPT = originalGitPrompt
+      }
+    }
+  } catch (error: any) {
+    spinner.fail("Failed to clone starter kit")
+
+    // Provide helpful error messages
+    if (error.message?.includes("timed out")) {
+      console.error("\nThe clone operation timed out. This could be due to:")
+      console.error("  • Slow network connection")
+      console.error("  • Git configured to use SSH without proper authentication")
+      console.error("  • Firewall or proxy blocking the connection")
+      console.error("\nIf you have git configured to use SSH for all connections,")
+      console.error("make sure your SSH keys are unlocked and ssh-agent is running.")
+      console.error("\nYou can check your git config with:")
+      console.error('  git config --global --get-regexp url')
+    } else if (error.code === "MISSING_REF" || error.message?.includes("HEAD")) {
+      console.error("\nFailed to resolve repository reference. This could be due to:")
+      console.error("  • Network connectivity issues")
+      console.error("  • Git authentication problems")
+      console.error("  • SSH key not unlocked or ssh-agent not running")
+      console.error("\nIf you have URL rewriting configured (e.g., HTTPS → SSH),")
+      console.error("ensure your SSH keys are properly set up and accessible.")
+    } else {
+      console.error(`\nError: ${error.message}`)
+    }
+
+    console.error("\nFor more help, visit: https://github.com/SubframeApp/subframe/issues/73")
+    throw error
+  }
 
   const projectPath = join(cwd, name)
   spinner.text = `Initializing git repository...`
