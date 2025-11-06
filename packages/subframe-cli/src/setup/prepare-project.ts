@@ -1,4 +1,4 @@
-import degit from "degit"
+import { downloadTemplate } from "@bluwy/giget-core"
 import { readFile, writeFile } from "node:fs/promises"
 import { join, resolve } from "node:path"
 import ora from "ora"
@@ -32,93 +32,41 @@ async function cloneStarterKit({
   }
 
   const starterKitName = getStarterKitName(type, cssType)
-  const repoPath = `SubframeApp/subframe/starter-kits/${starterKitName}`
+  // giget-core uses github:owner/repo#subdirectory syntax
+  const templateTarget = `github:SubframeApp/subframe#starter-kits/${starterKitName}`
+  const projectPath = join(cwd, name)
 
   try {
-    const emitter = degit(repoPath, {
-      cache: false,
+    // giget-core downloads tarballs directly via HTTP, avoiding git commands entirely
+    // This prevents hanging issues with SSH git configurations
+    await downloadTemplate(templateTarget, {
       force: true,
-      verbose: false,
+      cwd,
+      dir: name,
     })
 
-    // Save original environment to restore later
-    const originalEnv = {
-      GIT_TERMINAL_PROMPT: process.env.GIT_TERMINAL_PROMPT,
-      GIT_ASKPASS: process.env.GIT_ASKPASS,
-      SSH_ASKPASS: process.env.SSH_ASKPASS,
-      GIT_CONFIG_GLOBAL: process.env.GIT_CONFIG_GLOBAL,
-      GIT_CONFIG_SYSTEM: process.env.GIT_CONFIG_SYSTEM,
-    }
+    spinner.text = `Initializing git repository...`
+    await tryGitInit(projectPath)
 
-    try {
-      // Prevent git from using user's config that might have SSH URL rewriting
-      // This prevents hanging when user has git configured to use SSH with locked keys
-      // By setting these to /dev/null, git won't read any config files
-      process.env.GIT_CONFIG_GLOBAL = "/dev/null"
-      process.env.GIT_CONFIG_SYSTEM = "/dev/null"
+    const packageJsonPath = join(projectPath, "package.json")
+    const packageJson = JSON.parse(await readFile(packageJsonPath, "utf8"))
+    packageJson.name = name
+    await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2))
 
-      // Defense in depth: also prevent credential prompting
-      process.env.GIT_TERMINAL_PROMPT = "0"
-      process.env.GIT_ASKPASS = ""
-      process.env.SSH_ASKPASS = ""
-
-      // Add timeout as final safety net
-      // Even with config disabled, add timeout in case of network issues
-      const CLONE_TIMEOUT = 120000 // 2 minutes
-      await Promise.race([
-        emitter.clone(`${name}`),
-        new Promise((_, reject) =>
-          setTimeout(() => reject(new Error("Clone operation timed out after 2 minutes")), CLONE_TIMEOUT),
-        ),
-      ])
-    } finally {
-      // Restore original environment variables
-      for (const [key, value] of Object.entries(originalEnv)) {
-        if (value === undefined) {
-          delete process.env[key]
-        } else {
-          process.env[key] = value
-        }
-      }
-    }
+    spinner.succeed(`Successfully created ${name} at ${projectPath}`)
   } catch (error: any) {
     spinner.fail("Failed to clone starter kit")
 
     // Provide helpful error messages
-    if (error.message?.includes("timed out")) {
-      console.error("\nThe clone operation timed out. This could be due to:")
-      console.error("  • Slow network connection")
-      console.error("  • Git configured to use SSH without proper authentication")
-      console.error("  • Firewall or proxy blocking the connection")
-      console.error("\nIf you have git configured to use SSH for all connections,")
-      console.error("make sure your SSH keys are unlocked and ssh-agent is running.")
-      console.error("\nYou can check your git config with:")
-      console.error('  git config --global --get-regexp url')
-    } else if (error.code === "MISSING_REF" || error.message?.includes("HEAD")) {
-      console.error("\nFailed to resolve repository reference. This could be due to:")
-      console.error("  • Network connectivity issues")
-      console.error("  • Git authentication problems")
-      console.error("  • SSH key not unlocked or ssh-agent not running")
-      console.error("\nIf you have URL rewriting configured (e.g., HTTPS → SSH),")
-      console.error("ensure your SSH keys are properly set up and accessible.")
-    } else {
-      console.error(`\nError: ${error.message}`)
-    }
-
+    console.error(`\nError: ${error.message}`)
+    console.error("\nThis could be due to:")
+    console.error("  • Network connectivity issues")
+    console.error("  • Firewall or proxy blocking the connection")
+    console.error("  • Invalid template name")
     console.error("\nFor more help, visit: https://github.com/SubframeApp/subframe/issues/73")
+
     throw error
   }
-
-  const projectPath = join(cwd, name)
-  spinner.text = `Initializing git repository...`
-  await tryGitInit(projectPath)
-
-  const packageJsonPath = join(projectPath, "package.json")
-  const packageJson = JSON.parse(await readFile(packageJsonPath, "utf8"))
-  packageJson.name = name
-  await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2))
-
-  spinner.succeed(`Successfully created ${name} at ${projectPath}`)
 
   return projectPath
 }
