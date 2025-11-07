@@ -17,6 +17,11 @@
           "icon": "slack"
         },
         {
+          "anchor": "YouTube",
+          "href": "https://www.youtube.com/@SubframeApp",
+          "icon": "youtube"
+        },
+        {
           "anchor": "Blog",
           "href": "https://www.subframe.com/blog",
           "icon": "newspaper"
