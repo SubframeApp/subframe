@@ -3,12 +3,48 @@ import { readFile, writeFile } from "node:fs/promises"
 import { join, resolve } from "node:path"
 import ora from "ora"
 import prompts from "prompts"
+import { coerce, gte } from "semver"
 import { cwd } from "../common"
 import { CLILogger } from "../logger/logger-cli"
 import { highlight } from "../output/format"
 import { abortOnState } from "../prompt-helpers"
 import { exists } from "../utils/fs"
 import { tryGitInit } from "../utils/git"
+import { getInstalledPackageVersion } from "../utils/package-managers"
+
+// NOTE: hardcoded based on the starter kit templates
+function getGlobalCssPath(type: "astro" | "vite" | "nextjs"): string {
+  switch (type) {
+    case "vite":
+      return "src/index.css"
+    case "nextjs":
+      return "src/app/globals.css"
+    case "astro":
+      return "src/styles/global.css"
+    default:
+      throw new Error(`Invalid template type: ${type}`)
+  }
+}
+
+async function detectTailwindVersion(projectPath: string): Promise<"tailwind" | "tailwind-v4" | null> {
+  const versionString = await getInstalledPackageVersion("tailwindcss", projectPath)
+  if (!versionString) {
+    return null
+  }
+
+  const version = coerce(versionString)
+  if (!version) {
+    return null
+  }
+
+  if (gte(version, "4.0.0")) {
+    return "tailwind-v4"
+  } else if (gte(version, "3.0.0")) {
+    return "tailwind"
+  }
+
+  return null
+}
 
 async function cloneStarterKit({
   name,
@@ -63,17 +99,20 @@ async function cloneStarterKit({
   return projectPath
 }
 
+export type StyleInfo = { cssType: "tailwind" } | { cssType: "tailwind-v4"; globalCssPath?: string }
+
 export async function prepareProject(
   cliLogger: CLILogger,
   options: { template?: "vite" | "nextjs" | "astro"; name?: string; cssType?: "tailwind" | "tailwind-v4" },
-): Promise<{ projectPath: string; didCreateNewProject: boolean }> {
+): Promise<{ projectPath: string; didCreateNewProject: boolean; styleInfo: StyleInfo }> {
   // No package.json in current directory - assume they need to set up a new project.
-  if (!(await exists(resolve(cwd, "package.json"))) || options.template !== undefined) {
+  if (options.template !== undefined || !(await exists(resolve(cwd, "package.json")))) {
     prompts.override({
       type: options.template,
       name: options.name,
+      cssType: options.cssType,
     })
-    const { type, name } = await prompts([
+    const { type, name, cssType } = await prompts([
       {
         type: "select",
         name: "type",
@@ -106,14 +145,48 @@ export async function prepareProject(
           return true
         },
       },
+      {
+        type: "select",
+        name: "cssType",
+        message: "What version of Tailwind CSS do you want to use?",
+        choices: [
+          { title: "Tailwind v3", value: "tailwind" },
+          { title: "Tailwind v4", value: "tailwind-v4" },
+        ],
+        initial: 0,
+        onState: abortOnState,
+      },
     ])
 
-    // TODO: Add an prompt to ask if they want to use tailwind v3 vs. v4.
-    const projectPath = await cloneStarterKit({ name, type, cssType: options.cssType ?? "tailwind" })
-    await cliLogger.trackEventAndFlush({ type: "cli:starter-kit_cloned", framework: type })
+    const projectPath = await cloneStarterKit({ name, type, cssType })
+    await cliLogger.trackEventAndFlush({ type: "cli:starter-kit_cloned", framework: type, cssType })
 
-    return { projectPath, didCreateNewProject: true }
+    const styleInfo: StyleInfo =
+      cssType === "tailwind"
+        ? { cssType: "tailwind" }
+        : { cssType: "tailwind-v4", globalCssPath: getGlobalCssPath(type) }
+
+    return { projectPath, didCreateNewProject: true, styleInfo }
   }
 
-  return { projectPath: cwd, didCreateNewProject: false }
+  const incomingOrDetectedCssType = options.cssType ?? (await detectTailwindVersion(cwd))
+  const { cssType } = incomingOrDetectedCssType
+    ? { cssType: incomingOrDetectedCssType }
+    : await prompts({
+        type: "select",
+        name: "cssType",
+        message: "What version of Tailwind CSS are you using?",
+        choices: [
+          { title: "Tailwind v3", value: "tailwind" },
+          { title: "Tailwind v4", value: "tailwind-v4" },
+        ],
+        initial: 0,
+        onState: abortOnState,
+      })
+
+  return {
+    projectPath: cwd,
+    didCreateNewProject: false,
+    styleInfo: { cssType },
+  }
 }

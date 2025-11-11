@@ -34,7 +34,10 @@ function _getQuoteChar(configObject: ObjectLiteralExpression) {
     : '"'
 }
 
-export async function setupTailwindConfig(cwd: string, subframeDirPath: string, opts: { tailwind?: boolean }) {
+export async function setupTailwindV3(
+  { projectPath: cwd, rootPath: subframeDirPath }: { projectPath: string; rootPath: string },
+  opts: { tailwind?: boolean },
+) {
   const subframePresetRequireAST = makeSubframeRequire(cwd, subframeDirPath)
   const subframeContentGlob = makeSubframeContentGlob(cwd, subframeDirPath)
 

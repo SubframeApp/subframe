@@ -1,6 +1,7 @@
 import { Project, SourceFile } from "ts-morph"
 import { describe, expect, it, vi } from "vitest"
-import { transformTailwindConfigFile } from "./setup-tailwind-config"
+import { transformTailwindConfigFile } from "./setup-tailwind-v3"
+import { addThemeImportToCss } from "./setup-tailwind-v4"
 
 // Note(Chris): Required for vitest to not crash when running tests:
 vi.mock("ora", () => ({
@@ -104,5 +105,85 @@ describe("#transformTailwindConfig", () => {
     const firstRun = after.getText()
     transformTailwindConfigFile(after, CWD, SUBFRAME_DIR_PATH)
     expect(after.getText()).toEqual(firstRun)
+  })
+})
+
+describe("#addThemeImportToCss", () => {
+  const THEME_PATH = "../ui/theme.css"
+
+  it("adds theme import after tailwindcss import", () => {
+    const cssContent = `@import "tailwindcss";
+
+body {
+  margin: 0;
+}`
+
+    const result = addThemeImportToCss(cssContent, THEME_PATH)
+    expect(result).toMatchSnapshot()
+  })
+
+  it("adds theme import after tailwindcss import with semicolon", () => {
+    const cssContent = `@import "tailwindcss";
+
+body {
+  margin: 0;
+}`
+
+    const result = addThemeImportToCss(cssContent, THEME_PATH)
+    expect(result).toContain('@import "tailwindcss";\n@import "../ui/theme.css";')
+  })
+
+  it("adds theme import to the top if tailwindcss import not found", () => {
+    const cssContent = `body {
+  margin: 0;
+}`
+
+    const result = addThemeImportToCss(cssContent, THEME_PATH)
+    expect(result).toMatchSnapshot()
+  })
+
+  it("does not add theme import if already present", () => {
+    const cssContent = `@import "tailwindcss";
+@import "../ui/theme.css";
+
+body {
+  margin: 0;
+}`
+
+    const result = addThemeImportToCss(cssContent, THEME_PATH)
+    expect(result).toEqual(cssContent)
+  })
+
+  it("works with single quotes in tailwindcss import", () => {
+    const cssContent = `@import 'tailwindcss';
+
+body {
+  margin: 0;
+}`
+
+    const result = addThemeImportToCss(cssContent, THEME_PATH)
+    expect(result).toContain("@import 'tailwindcss';\n@import \"../ui/theme.css\";")
+  })
+
+  it("handles empty CSS file", () => {
+    const cssContent = ``
+
+    const result = addThemeImportToCss(cssContent, THEME_PATH)
+    expect(result).toEqual(`@import "../ui/theme.css";\n`)
+  })
+
+  it("handles CSS with only tailwindcss import", () => {
+    const cssContent = `@import "tailwindcss";`
+
+    const result = addThemeImportToCss(cssContent, THEME_PATH)
+    expect(result).toMatchSnapshot()
+  })
+
+  it("running it the second time does not change the content", () => {
+    const cssContent = `@import "tailwindcss";`
+
+    const firstRun = addThemeImportToCss(cssContent, THEME_PATH)
+    const secondRun = addThemeImportToCss(firstRun, THEME_PATH)
+    expect(secondRun).toEqual(firstRun)
   })
 })

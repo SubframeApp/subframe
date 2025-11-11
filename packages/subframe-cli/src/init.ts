@@ -7,6 +7,8 @@ import {
   COMMAND_ALIAS_KEY_SHORT,
   COMMAND_AUTH_TOKEN_KEY,
   COMMAND_AUTH_TOKEN_KEY_SHORT,
+  COMMAND_CSS_PATH_KEY,
+  COMMAND_CSS_PATH_KEY_SHORT,
   COMMAND_CSS_TYPE_KEY,
   COMMAND_CSS_TYPE_KEY_SHORT,
   COMMAND_DIR_KEY,
@@ -33,9 +35,9 @@ import { initProject } from "./init-project"
 import { initSync } from "./init-sync"
 import { installDependencies } from "./install-dependencies"
 import { makeCLILogger } from "./logger/logger-cli"
-import { link } from "./output/format"
 import { prepareProject } from "./setup/prepare-project"
-import { setupTailwindConfig } from "./setup-tailwind-config"
+import { setupTailwindV3 } from "./setup-tailwind-v3"
+import { setupTailwindV4 } from "./setup-tailwind-v4"
 import { startDevServer } from "./start-dev-server"
 import { setupSyncSettings } from "./sync-settings"
 import { mkdirIfNotExist } from "./utils/fs"
@@ -58,20 +60,22 @@ export const initCommand = new Command()
   )
   .option(`${COMMAND_PROJECT_ID_KEY_SHORT}, ${COMMAND_PROJECT_ID_KEY} <projectId>`, "project id to run sync with")
   .option(`${COMMAND_INSTALL_KEY_SHORT}, ${COMMAND_INSTALL_KEY}`, "install dependencies after initializing")
-  .option(`${COMMAND_TAILWIND_KEY_SHORT}, ${COMMAND_TAILWIND_KEY}`, "setup tailwind config")
+  .option(`${COMMAND_TAILWIND_KEY_SHORT}, ${COMMAND_TAILWIND_KEY}`, "setup tailwind with Subframe theme")
   .option(`${COMMAND_ALIAS_KEY_SHORT}, ${COMMAND_ALIAS_KEY} <alias>`, "import alias to use")
   .option(`${COMMAND_SYNC_KEY_SHORT}, ${COMMAND_SYNC_KEY}`, "sync all components")
   .addOption(
-    new Option(`${COMMAND_CSS_TYPE_KEY_SHORT}, ${COMMAND_CSS_TYPE_KEY} <cssType>`, "css type to use")
-      .choices(["tailwind", "tailwind-v4"])
-      .default("tailwind"),
+    new Option(`${COMMAND_CSS_TYPE_KEY_SHORT}, ${COMMAND_CSS_TYPE_KEY} <cssType>`, "css type to use").choices([
+      "tailwind",
+      "tailwind-v4",
+    ]),
   )
+  .option(`${COMMAND_CSS_PATH_KEY_SHORT}, ${COMMAND_CSS_PATH_KEY} <path>`, "path to global CSS file (for Tailwind v4)")
 
 initCommand.action(async (opts) => {
   const cliLogger = makeCLILogger()
 
   try {
-    const { projectPath, didCreateNewProject } = await prepareProject(cliLogger, opts)
+    const { projectPath, didCreateNewProject, styleInfo } = await prepareProject(cliLogger, opts)
 
     let accessToken = opts.authToken
     if (accessToken) {
@@ -93,7 +97,7 @@ initCommand.action(async (opts) => {
       cliLogger,
       accessToken,
       truncatedProjectId: maybeTruncatedProjectId,
-      cssType: opts.cssType,
+      cssType: styleInfo.cssType,
     })
 
     const truncatedProjectId = projectInfo.truncatedProjectId
@@ -104,7 +108,7 @@ initCommand.action(async (opts) => {
         directory: opts.dir ?? localSyncSettings?.directory,
         importAlias: localSyncSettings?.importAlias,
         projectId: truncatedProjectId,
-        cssType: opts.cssType,
+        cssType: styleInfo.cssType,
       },
       opts,
     )
@@ -144,21 +148,19 @@ initCommand.action(async (opts) => {
       }
     }
 
-    if (opts.cssType === "tailwind") {
-      await setupTailwindConfig(projectPath, rootPath, opts)
-    }
-
-    if (opts.cssType === "tailwind-v4") {
-      console.log()
-      console.log(
-        "To finish setting up your theme with Tailwind v4, you'll need to import the theme.css file into your app:",
-      )
-      console.log(`${link(`https://docs.subframe.com/theme#tailwind-v4`)}`)
-      console.log()
+    switch (styleInfo.cssType) {
+      case "tailwind":
+        await setupTailwindV3({ projectPath, rootPath }, opts)
+        break
+      case "tailwind-v4":
+        await setupTailwindV4({ projectPath, rootPath }, { globalCssPath: styleInfo.globalCssPath, ...opts })
+        break
+      default:
+        throw new Error(`Invalid css type: ${JSON.stringify(styleInfo)}`)
     }
 
     const syncDirectory = join(projectPath, directory)
-    await initSync(cliLogger, syncDirectory, truncatedProjectId, accessToken, importAlias, opts.cssType, opts)
+    await initSync(cliLogger, syncDirectory, truncatedProjectId, accessToken, importAlias, styleInfo.cssType, opts)
     const { didInstall } = await installDependencies({ cwd: projectPath, didCreateNewProject }, opts)
 
     console.timeEnd(SUBFRAME_INIT_MESSAGE)

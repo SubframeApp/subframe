@@ -6,19 +6,22 @@ export type PackageManager = "yarn" | "pnpm" | "npm" | "bun"
 
 export async function getInstalledPackageVersion(packageName: string, cwd: string): Promise<string | null> {
   try {
-    const packageJSON: { dependencies: Record<string, string> } = JSON.parse(
+    const packageJSON: {
+      dependencies?: Record<string, string>,
+      devDependencies?: Record<string, string>
+    } = JSON.parse(
       await readFile(`${cwd}/package.json`, "utf-8"),
     )
 
-    if (!packageJSON.dependencies) {
-      return null
+    if (packageJSON.dependencies?.[packageName]) {
+      return packageJSON.dependencies[packageName]
     }
 
-    if (!packageJSON.dependencies[packageName]) {
-      return null
+    if (packageJSON.devDependencies?.[packageName]) {
+      return packageJSON.devDependencies[packageName]
     }
 
-    return packageJSON.dependencies[packageName]
+    return null
   } catch (e) {
     return null
   }
