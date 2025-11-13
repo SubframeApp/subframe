@@ -12,7 +12,12 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Community",
+          "anchor": "Go to Subframe",
+          "href": "https://subframe.com?utm_source=mintlify&utm_medium=docs&utm_campaign=global_link",
+          "icon": "house"
+        },
+        {
+          "anchor": "Slack Community",
           "href": "https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ",
           "icon": "slack"
         },
@@ -50,15 +55,15 @@
         ]
       },
       {
-        "group": "Designing with Subframe",
+        "group": "Design with Subframe",
         "pages": ["designing/adding-elements", "designing/using-ai-to-design", "designing/personalizing-ai"]
       },
       {
-        "group": "Prototyping with Subframe",
+        "group": "Prototype with Subframe",
         "pages": ["prototyping/creating-ai-prototypes", "prototyping/sharing-prototypes"]
       },
       {
-        "group": "Developing with Subframe",
+        "group": "Develop with Subframe",
         "pages": [
           "developing/mcp-server",
           "developing/syncing-components",
@@ -68,15 +73,6 @@
           "developing/props-and-slots",
           "developing/disabling-sync",
           "developing/dark-mode"
-        ]
-      },
-      {
-        "group": "Building with AI",
-        "pages": [
-          "ai/export-to-bolt",
-          "ai/export-to-replit",
-          "ai/export-to-cursor",
-          "ai/export-to-lovable"
         ]
       },
       {
