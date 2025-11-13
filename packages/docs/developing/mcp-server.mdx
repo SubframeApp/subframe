@@ -1,14 +1,10 @@
 ---
 title: MCP server
-description: Connect Subframe to AI coding tools using the Model Context Protocol.
 ---
 
-The Subframe MCP server lets AI coding assistants like Claude Code and Cursor access your Subframe designs directly. Instead of copying code manually, AI can fetch components, pages, and themes from your projects automatically.
+The Subframe MCP server lets AI coding assistants like Claude Code and Cursor access your Subframe designs directly. Instead of copying code manually, AI can fetch components, pages, and themes from your projects automatically. A seperate Subframe Docs MCP server provides access Subframe documentation.
 
 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/docs/getting-started/intro) is a standard that lets AI assistants connect to external data sources.
-
-
-A seperate Subframe Docs MCP server provides access Subframe documentation.
 
 ## Installation
 
@@ -21,9 +17,8 @@ The easiest way to set up the Subframe MCP server is right from Subframe:
 To install the Subframe MCP manually, you'll need an authentication token:
 
 1. Navigate to https://app.subframe.com/settings/tokens
-2. Generate a new API token and copy it
+2. Generate a new token and copy it
 
-<Note>The Subframe MCP server works with AI tools that support MCP over HTTP</Note>
 
 <Tabs>
 <Tab title="Cursor">
@@ -41,7 +36,7 @@ Add this to your Cursor MCP configuration file (`~/.cursor/mcp.json`):
     "subframe": {
       "url": "https://mcp.subframe.com/mcp",
       "headers": {
-        "Authorization": "Bearer YOUR_API_TOKEN"
+        "Authorization": "Bearer YOUR_AUTH_TOKEN"
       }
     },
     "subframe-docs": {
@@ -51,10 +46,9 @@ Add this to your Cursor MCP configuration file (`~/.cursor/mcp.json`):
 }
 ```
 
-Replace `YOUR_API_TOKEN` with your actual token.
 </Step>
 <Step title="Verify installation">
-Restart Cursor, then verify the MCP servers are available in your AI assistant.
+Ask Cursor "What tools do you have available?" to verify MCP servers are connected.
 </Step>
 </Steps>
 
@@ -70,10 +64,8 @@ This adds two MCP servers:
 
 ```bash
 claude mcp add --transport http subframe https://mcp.subframe.com/mcp \
-  --header "Authorization: Bearer YOUR_TOKEN"
+  --header "Authorization: Bearer YOUR_AUTH_TOKEN"
 ```
-
-Replace `YOUR_TOKEN` with your actual API token.
 
 This adds the `subframe` server for accessing your Subframe projects and code.
 </Step>
@@ -97,9 +89,8 @@ Configure your MCP client to connect to the Subframe MCP server:
 - **URL:** `https://mcp.subframe.com/mcp`
 - **Transport:** HTTP
 - **Authentication:** Bearer token in header
-- **Header:** `Authorization: Bearer YOUR_TOKEN`
+- **Header:** `Authorization: Bearer YOUR_AUTH_TOKEN`
 
-Replace `YOUR_TOKEN` with your actual API token.
 </Step>
 <Step title="Configure the Subframe Docs MCP Server (optional)">
 Optionally add the Subframe Docs MCP server for documentation access:
@@ -121,51 +112,33 @@ Restart your MCP client, then verify the MCP servers are available in your AI as
 
 Once configured, your AI assistant can access Subframe automatically when you prompt or paste an MCP link to a page from the Code panel.
 
-
 ### Available tools
 
-| Tool | Description | Returns |
-|------|-------------|---------|
-| `list_components` | List all components in your project | Array of components with id, name, and type. |
-| `list_pages` | List all pages in your project | Array of pages with id and name. |
-| `get_component_info` | Get code for a specific component | Component id, name, and files array with fileName and contents. |
-| `get_page_info` | Get code for a specific page | Page id, name, and files array with fileName and contents. |
-| `get_theme` | Get your project's Tailwind theme configuration | Tailwind theme configuration code matching your Subframe theme tokens. |
+| Tool | Description | Input Parameters | Returns |
+|------|-------------|-----------------|---------|
+| `list_components` | Lists all components in your project | `projectId` (optional) | Array of components with `id`, `name`, `url` |
+| `list_pages` | Lists all pages in your project | `projectId` (optional) | Array of pages with `id`, `name`, `url` |
+| `get_component_info` | Gets the code and metadata for a component | `id`, `name`, or `url`<br/>`projectId` (optional) | `id`, `name`, `files` |
+| `get_page_info` | Gets the code for a page | `id`, `name`, or `url`<br/>`projectId` (optional) | `id`, `name`, `files` |
+| `get_theme` | Generates the Tailwind theme for the project | `projectId` (optional)<br/>`cssType` (optional) | `theme` config |
 
-<Note>For the latest component updates, run `npx @subframe/cli@latest sync --all` to sync all components directly to your codebase.</Note>
+If `projectId` is not specified, the tool will use the first project you have access to.
 
-### Reference by URL
+### Prompt with MCP link
 
-When sharing designs with AI, include the Subframe URL from the Code Mode Inspect tab.
+When prompting we recommend using the MCP link found in the Code Inspect panel for a page.
 
 ```text
 Implement the design at https://app.subframe.com/design/...
 ```
 
+<Note>To get the latest version of components in your project, run `npx @subframe/cli@latest sync` to [sync components](/developing/syncing-components).</Note>
+
+
 ### Example prompts
 
 <AccordionGroup>
-<Accordion title="Fetch a component">
 
-```text
-Get the Button component from Subframe and use it in this file
-```
-
-</Accordion>
-<Accordion title="List available components">
-
-```text
-Show me all components in my Subframe project
-```
-
-</Accordion>
-<Accordion title="Get the theme">
-
-```text
-Get my Subframe theme configuration
-```
-
-</Accordion>
 <Accordion title="Implement a new page from a design">
 
 ```text
@@ -209,6 +182,28 @@ functionality unless the new design requires a change.
 ```
 
 </Accordion>
+
+<Accordion title="Fetch a component">
+
+```text
+Get the Button component from Subframe and use it in this file
+```
+
+</Accordion>
+<Accordion title="List available components">
+
+```text
+Show me all components in my Subframe project
+```
+
+</Accordion>
+<Accordion title="Get the theme">
+
+```text
+Get my Subframe theme configuration
+```
+
+</Accordion>
 </AccordionGroup>
 
 ## Troubleshooting
@@ -219,9 +214,9 @@ functionality unless the new design requires a change.
 Check that:
 - Your API token is correct and hasn't expired
 - You copied the entire token without extra spaces
-- The token is in the `Authorization` header as `Bearer YOUR_TOKEN`
+- The token is in the `Authorization` header as `Bearer YOUR_AUTH_TOKEN`
 
-Get a fresh token at [app.subframe.com/cli/auth](https://app.subframe.com/cli/auth).
+Generate a new token at [app.subframe.com/settings/tokens](https://app.subframe.com/settings/tokens).
 
 </Accordion>
 <Accordion title="AI not calling the server">
@@ -236,12 +231,12 @@ Check your tool's logs for MCP-related errors.
 </Accordion>
 <Accordion title="Component or page not found">
 
+Use `list_components` or `list_pages` to see what's available.
+
 Verify:
 - The component/page exists in your Subframe project
-- The name matches exactly
+- The name or URL matches exactly
 - You have access to the project
-
-Use `list_components` or `list_pages` to see what's available.
 
 </Accordion>
 <Accordion title="Connection errors">
