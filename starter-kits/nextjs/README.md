@@ -1,4 +1,4 @@
-This is a [Subframe](https://subframe.com) Next.js Starter Kit that provides just enough configuration to get off and running with Subframe.
+This is a [Subframe](https://subframe.com) Next.js Starter Kit that provides just enough configuration to get up and running with Subframe.
 
 ## Getting Started
 
@@ -16,4 +16,5 @@ npm run dev
 
 ## Learn More
 
-Once running, you can Install Subframe locally by "syncing" Subframe with your Starter Kit. This is achieved by running the Subframe [Sync Command](https://docs.subframe.com/installation)
+- [Subframe documentation](https://docs.subframe.com/introduction)
+- [Next.js documentation](https://nextjs.org/docs)
