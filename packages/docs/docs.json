@@ -60,6 +60,7 @@
       {
         "group": "Developing with Subframe",
         "pages": [
+          "ai/mcp-server",
           "developing/syncing-components",
           "developing/using-components",
           "developing/copy-paste-pages",
@@ -72,7 +73,6 @@
       {
         "group": "Building with AI",
         "pages": [
-          "ai/mcp-server",
           "ai/export-to-bolt",
           "ai/export-to-replit",
           "ai/export-to-cursor",

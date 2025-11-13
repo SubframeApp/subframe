@@ -1,51 +1,41 @@
 ---
-title: MCP Servers
+title: MCP server
+description: Connect Subframe to AI coding tools using the Model Context Protocol.
 ---
 
-Subframe provides two MCP servers to enhance your AI workflows:
+The Subframe MCP server lets AI coding assistants like Claude Code and Cursor access your Subframe designs directly. Instead of copying code manually, AI can fetch components, pages, and themes from your projects automatically.
 
-1. **Subframe**: Access your Subframe components, pages, and themes directly from AI tools
-2. **Subframe Docs**: Search Subframe documentation to help AI tools understand how to use Subframe
+[Model Context Protocol (MCP)](https://modelcontextprotocol.io/docs/getting-started/intro) is a standard that lets AI assistants connect to external data sources.
 
-<Note>
-  The **Subframe** MCP server is currently in beta. Features and functionality may change as we continue to improve the service.
-</Note>
 
-## Available tools
+A seperate Subframe Docs MCP server provides access Subframe documentation.
 
-The Subframe MCP server provides the following tools:
+## Installation
 
-- **list_components**: List all components in your project
-- **list_pages**: List all pages in your project
-- **get_component_info**: Generate code for a specific component
-- **get_page_info**: Generate code for a specific page
-- **get_theme**: Get your project's theme in Tailwind format
+The easiest way to set up the Subframe MCP server is right from Subframe:
+1. Open a page in Subframe
+2. Open Code mode in the top right
+3. Click the Installation tab in the code panel
+4. Follow the instructions for Cursor or Claude Code
 
-## Getting your API token
-
-To use the Subframe MCP server, you need an API token:
+To install the Subframe MCP manually, you'll need an authentication token:
 
 1. Navigate to https://app.subframe.com/settings/tokens
 2. Generate a new API token and copy it
 
-<Note>
-  The **Subframe Docs** MCP server does not require an API token. Only the **Subframe** MCP server requires authentication.
-</Note>
-
-## Installation
+<Note>The Subframe MCP server works with AI tools that support MCP over HTTP</Note>
 
 <Tabs>
-  <Tab title="Cursor">
-    <Steps>
-      <Step title="Open MCP settings">
-        1. Use `Command` + `Shift` + `P` (`Ctrl` + `Shift` + `P` on Windows) to open the command palette.
-        2. Search for "Open MCP settings".
-        3. Select **Add custom MCP**. This will open the `mcp.json` file.
-      </Step>
-      <Step title="Configure both Subframe servers">
-        In mcp.json, add:
+<Tab title="Cursor">
 
-```json mcp.json
+<Steps>
+<Step title="One-click install (recommended)">
+Click the "Add to Cursor" button in the Code Mode Installation tab in Subframe. This automatically configures Cursor with your MCP servers.
+</Step>
+<Step title="Manual configuration">
+Add this to your Cursor MCP configuration file (`~/.cursor/mcp.json`):
+
+```json
 {
   "mcpServers": {
     "subframe": {
@@ -61,55 +51,206 @@ To use the Subframe MCP server, you need an API token:
 }
 ```
 
-Replace `YOUR_API_TOKEN` with your actual API token.
+Replace `YOUR_API_TOKEN` with your actual token.
+</Step>
+<Step title="Verify installation">
+Restart Cursor, then verify the MCP servers are available in your AI assistant.
+</Step>
+</Steps>
 
-      </Step>
-      <Step title="Test the connection">
-        In Cursor's chat, you can ask "What tools do you have available?" to verify both MCP servers are connected.
-      </Step>
-    </Steps>
+This adds two MCP servers:
+- `subframe` - Access your Subframe projects
+- `subframe-docs` - Access Subframe documentation
 
-    See [Installing MCP servers](https://docs.cursor.com/en/context/mcp#installing-mcp-servers) in the Cursor documentation for more information.
-  </Tab>
+</Tab>
+<Tab title="Claude Code">
 
-  <Tab title="Claude Code">
-    Add the Subframe MCP server (requires API token):
+<Steps>
+<Step title="Install the Subframe MCP server">
 
 ```bash
-claude mcp add --transport http subframe https://mcp.subframe.com/mcp --header "Authorization: Bearer YOUR_API_TOKEN"
+claude mcp add --transport http subframe https://mcp.subframe.com/mcp \
+  --header "Authorization: Bearer YOUR_TOKEN"
 ```
 
-Be sure to replace `YOUR_API_TOKEN` with your actual API token.
+Replace `YOUR_TOKEN` with your actual API token.
 
-Add the Subframe Docs MCP server:
+This adds the `subframe` server for accessing your Subframe projects and code.
+</Step>
+<Step title="Install the Subframe Docs MCP server (optional)">
 
 ```bash
 claude mcp add --transport http subframe-docs https://docs.subframe.com/mcp
 ```
-  </Tab>
 
-  <Tab title="Gemini CLI">
-    To connect both Subframe MCP servers to the Gemini CLI, add the following configuration either globally at `~/.gemini/settings.json` or locally at `.gemini/settings.json`
+This adds the `subframe-docs` server for accessing Subframe documentation.
+</Step>
+</Steps>
 
-```json ~/.gemini/settings.json
-{
-  ...file contains other config objects
-  "mcpServers": {
-    "subframe": {
-      "httpUrl": "https://mcp.subframe.com/mcp",
-      "headers": {
-        "Authorization": "Bearer YOUR_API_TOKEN"
-      }
-    },
-    "subframe-docs": {
-      "httpUrl": "https://docs.subframe.com/mcp"
-    }
-  }
-}
+</Tab>
+<Tab title="Other MCP clients">
+
+<Steps>
+<Step title="Configure the Subframe MCP Server">
+Configure your MCP client to connect to the Subframe MCP server:
+
+- **URL:** `https://mcp.subframe.com/mcp`
+- **Transport:** HTTP
+- **Authentication:** Bearer token in header
+- **Header:** `Authorization: Bearer YOUR_TOKEN`
+
+Replace `YOUR_TOKEN` with your actual API token.
+</Step>
+<Step title="Configure the Subframe Docs MCP Server (optional)">
+Optionally add the Subframe Docs MCP server for documentation access:
+
+- **URL:** `https://docs.subframe.com/mcp`
+- **Transport:** HTTP
+- **Authentication:** None required
+</Step>
+<Step title="Verify installation">
+Restart your MCP client, then verify the MCP servers are available in your AI assistant.
+</Step>
+</Steps>
+
+</Tab>
+</Tabs>
+
+
+## Using the MCP server
+
+Once configured, your AI assistant can access Subframe automatically when you prompt or paste an MCP link to a page from the Code panel.
+
+
+### Available tools
+
+| Tool | Description | Returns |
+|------|-------------|---------|
+| `list_components` | List all components in your project | Array of components with id, name, and type. |
+| `list_pages` | List all pages in your project | Array of pages with id and name. |
+| `get_component_info` | Get code for a specific component | Component id, name, and files array with fileName and contents. |
+| `get_page_info` | Get code for a specific page | Page id, name, and files array with fileName and contents. |
+| `get_theme` | Get your project's Tailwind theme configuration | Tailwind theme configuration code matching your Subframe theme tokens. |
+
+<Note>For the latest component updates, run `npx @subframe/cli@latest sync --all` to sync all components directly to your codebase.</Note>
+
+### Reference by URL
+
+When sharing designs with AI, include the Subframe URL from the Code Mode Inspect tab.
+
+```text
+Implement the design at https://app.subframe.com/design/...
 ```
 
-Replace `YOUR_API_TOKEN` with your actual API token.
+### Example prompts
 
-See [MCP Servers with the Gemini CLI](https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/mcp-server.md#mcp-servers-with-the-gemini-cli) for more information.
-  </Tab>
-</Tabs>
+<AccordionGroup>
+<Accordion title="Fetch a component">
+
+```text
+Get the Button component from Subframe and use it in this file
+```
+
+</Accordion>
+<Accordion title="List available components">
+
+```text
+Show me all components in my Subframe project
+```
+
+</Accordion>
+<Accordion title="Get the theme">
+
+```text
+Get my Subframe theme configuration
+```
+
+</Accordion>
+<Accordion title="Implement a new page from a design">
+
+```text
+Create a new page using the Subframe page at
+https://app.subframe.com/PROJECT_ID/design/DESIGN_ID/edit as reference.
+
+Wire up relevant app logic (API calls, hooks, routing) where applicable. 
+Keep it consistent with existing project conventions.
+```
+
+</Accordion>
+<Accordion title="Update an existing page with a new design">
+
+```text
+Update the existing page to match the Subframe design at
+https://app.subframe.com/PROJECT_ID/design/DESIGN_ID/edit.
+
+Preserve all existing functionality unless the new design requires a change.
+```
+
+</Accordion>
+<Accordion title="Add accessibility tags in code">
+
+```text
+Review the Subframe design at
+https://app.subframe.com/PROJECT_ID/design/DESIGN_ID/edit and add proper
+accessibility attributes to the existing page.
+
+Add ARIA labels, roles, and descriptions, and proper semantic HTML throughout.
+```
+
+</Accordion>
+<Accordion title="Migrate to Subframe's design system">
+
+```text
+Migrate the components on the existing page to use Subframe components instead
+of the old components.
+
+Get all components in my Subframe project and preserve all existing
+functionality unless the new design requires a change.
+```
+
+</Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="Authentication failed">
+
+Check that:
+- Your API token is correct and hasn't expired
+- You copied the entire token without extra spaces
+- The token is in the `Authorization` header as `Bearer YOUR_TOKEN`
+
+Get a fresh token at [app.subframe.com/cli/auth](https://app.subframe.com/cli/auth).
+
+</Accordion>
+<Accordion title="AI not calling the server">
+
+Make sure your AI tool:
+- Has MCP support enabled
+- Has the Subframe server in its MCP configuration
+- Has been restarted after adding the configuration
+
+Check your tool's logs for MCP-related errors.
+
+</Accordion>
+<Accordion title="Component or page not found">
+
+Verify:
+- The component/page exists in your Subframe project
+- The name matches exactly
+- You have access to the project
+
+Use `list_components` or `list_pages` to see what's available.
+
+</Accordion>
+<Accordion title="Connection errors">
+
+If the MCP server is unreachable:
+- Check your internet connection
+- Verify the URL is `https://mcp.subframe.com/mcp`
+- Reach out to the Subframe team for support
+
+</Accordion>
+</AccordionGroup>
+
