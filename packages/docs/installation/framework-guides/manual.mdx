@@ -1,72 +1,55 @@
 ---
 title: Manual installation
-description: Install Subframe without the CLI for custom setups or troubleshooting.
+description: Install Subframe without the CLI
 ---
 
-You can install Subframe manually without using the CLI. This is useful when the CLI doesn't work with your setup, you need custom configuration, or you want full control over the installation process.
+Install Subframe manually when the CLI doesn't work with your setup or you need custom configuration.
 
 <Note>
-The CLI automates these steps and handles edge cases. Use manual installation only when necessary.
+This guide assumes you have TypeScript, React, and Tailwind CSS already configured. The CLI automates these steps and handles edge cases—use manual installation only when necessary.
 </Note>
-
-## When to use manual installation
-
-- CLI fails or doesn't support your framework
-- Custom build system or tooling
-- Restricted environment without CLI access
-- Learning how Subframe integrates
-- Troubleshooting CLI issues
 
 ## Step 1: Install dependencies
 
-Install the required package:
-
 <CodeGroup>
-```bash npm
-npm install @subframe/core
-```
-
-```bash yarn
-yarn add @subframe/core
-```
-
-```bash pnpm
-pnpm add @subframe/core
-```
-
-```bash bun
-bun add @subframe/core
-```
+  ```bash npm
+  npm install @subframe/core
+  ```
+  ```bash yarn
+  yarn add @subframe/core
+  ```
+  ```bash pnpm
+  pnpm add @subframe/core
+  ```
+  ```bash bun
+  bun add @subframe/core
+  ```
 </CodeGroup>
-
-This package contains the core utilities Subframe components need.
 
 ## Step 2: Create directory structure
 
-Create a directory for Subframe components (typically `src/ui` or `app/ui`):
+Create directories for Subframe:
 
 ```bash
-mkdir -p src/ui/components
-mkdir -p src/ui/layouts
+mkdir -p src/ui
+mkdir -p .subframe
 ```
 
-Your project structure should look like:
+## Step 3: Create sync configuration
 
-```
-src/
-├── ui/
-│   ├── components/
-│   │   ├── Button.tsx
-│   │   ├── TextField.tsx
-│   │   └── [other components]
-│   ├── layouts/
-│   ├── tailwind.config.js  (for Tailwind v3)
-│   └── subframe-core.module.css
-├── app/
-└── [your app code]
+Create `.subframe/sync.json` with your project settings:
+
+```json .subframe/sync.json
+{
+  "directory": "./src/ui",
+  "importAlias": "@/ui/*",
+  "projectId": "your-project-id"
+}
 ```
 
-## Step 3: Configure TypeScript
+Find your project ID in your Subframe app URL: `app.subframe.com/projects/{projectId}`
+
+## Step 4: Configure TypeScript
 
 Add path aliases to `tsconfig.json`:
 
@@ -81,18 +64,11 @@ Add path aliases to `tsconfig.json`:
 }
 ```
 
-This lets you import components like: `import { Button } from "@/ui/Button"`
-
-## Step 4: Get your theme configuration
+## Step 5: Get your theme configuration
 
 ### For Tailwind v3
 
-1. Go to your Subframe project
-2. Open any page in Code mode
-3. Look for the Tailwind configuration in the generated code
-4. Copy the theme object
-
-Create `src/ui/tailwind.config.js`:
+Copy your theme from Subframe's Code mode and create `src/ui/tailwind.config.js`:
 
 ```js src/ui/tailwind.config.js
 module.exports = {
@@ -123,7 +99,7 @@ module.exports = {
 
 ### For Tailwind v4
 
-Create `src/ui/theme.css`:
+Copy your theme from Subframe and create `src/ui/theme.css`:
 
 ```css src/ui/theme.css
 @import "tailwindcss";
@@ -131,16 +107,11 @@ Create `src/ui/theme.css`:
 @theme {
   --color-brand-50: #...;
   --color-brand-100: #...;
-  /* ... other custom properties from your theme */
-
-  --font-family-sans: Inter, sans-serif;
-  /* ... other theme tokens */
+  /* ... other custom properties */
 }
 ```
 
-Get these values from your Subframe project's theme settings.
-
-## Step 5: Configure Tailwind in your project
+## Step 6: Configure Tailwind in your project
 
 ### For Tailwind v3
 
@@ -172,57 +143,17 @@ Import the theme in your global CSS file:
 @import "../ui/theme.css";
 ```
 
-## Step 6: Get component code
+## Step 7: Sync components
 
-Since you're not using the CLI, you'll manually copy component code:
+Run the sync command to download components:
 
-1. Open your Subframe project
-2. Navigate to the Components tab
-3. Select a component
-4. Click **Code** to view the generated code
-5. Copy the entire component code
-6. Create a file in `src/ui/components/[ComponentName].tsx`
-7. Paste the code
-
-Repeat for each component you need.
-
-### Component file structure
-
-Each component file will look like:
-
-```tsx src/ui/components/Button.tsx
-"use client"
-
-import React from "react"
-import * as SubframeCore from "@subframe/core"
-
-export interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
-  variant?: "brand-primary" | "brand-secondary" | "neutral" | "destructive"
-  size?: "small" | "medium" | "large"
-  icon?: SubframeCore.IconName
-  children?: string
-}
-
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  function Button(
-    { variant = "brand-primary", size = "medium", icon, children, className, ...otherProps },
-    ref
-  ) {
-    return (
-      <button
-        className={/* Tailwind classes */}
-        ref={ref}
-        {...otherProps}
-      >
-        {icon && <SubframeCore.Icon name={icon} />}
-        {children}
-      </button>
-    )
-  }
-)
+```bash
+npx @subframe/cli@latest sync --all
 ```
 
-## Step 7: Import fonts (if needed)
+The CLI reads your `.subframe` directory settings and populates your project with component code.
+
+## Step 8: Import fonts (if needed)
 
 If your theme uses custom fonts, add them to your HTML:
 
@@ -254,91 +185,19 @@ Add to your `index.html`:
 </head>
 ```
 
-## Step 8: Verify installation
+## Step 9: Verify installation
 
 Test that everything works:
 
 ```tsx src/App.tsx
-import { Button } from "@/ui/components/Button"
+import { Button } from "@/ui/Button"
 
 export default function App() {
-  return (
-    <div>
-      <Button variant="brand-primary" size="medium">
-        Click me
-      </Button>
-    </div>
-  )
+  return <Button>Click me</Button>
 }
 ```
 
-Start your dev server and verify:
-- Button renders correctly
-- Tailwind styles apply
-- Theme colors work
-- TypeScript types are available
-
-## Updating components
-
-Without the CLI, you'll update components manually:
-
-1. Open Subframe and view the updated component code
-2. Copy the new code
-3. Replace the existing file in `src/ui/components/`
-4. Test that nothing broke
-
-This is tedious, which is why the CLI is recommended. Consider these alternatives:
-
-**Option A: Create a sync script**
-```json package.json
-{
-  "scripts": {
-    "update-button": "# Manual process - update Button.tsx"
-  }
-}
-```
-
-**Option B: Track versions**
-Add comments to component files noting which Subframe version they're from:
-```tsx
-// Subframe component synced on 2024-01-15
-// @subframe/sync-disable
-```
-
-This helps you know when components are stale.
-
-## Maintaining manual installations
-
-### Keep theme in sync
-
-When you update your theme in Subframe:
-
-1. Copy the new theme configuration
-2. Update `src/ui/tailwind.config.js` or `src/ui/theme.css`
-3. Restart your dev server
-
-### Track component changes
-
-Create a checklist of components you use:
-
-```markdown
-# Subframe Components
-
-- [x] Button - Last updated: 2024-01-15
-- [x] TextField - Last updated: 2024-01-15
-- [ ] Card - Needs update
-- [x] Alert - Last updated: 2024-01-10
-```
-
-### Consider migrating to CLI
-
-Once your initial setup is stable, consider switching to the CLI:
-
-1. Keep your manually installed components
-2. Run `npx @subframe/cli init`
-3. Let it configure your project
-4. Test that everything still works
-5. Delete old manual files if CLI installation works
+Start your dev server and verify the button renders with styling.
 
 ## Troubleshooting
 
@@ -378,20 +237,3 @@ If TypeScript errors appear:
 3. Make sure `tsconfig.json` includes component files
 4. Restart TypeScript server in your editor
 
-## When to use the CLI instead
-
-Switch to the CLI if you:
-
-- Update components frequently
-- Work on a team (consistent setup)
-- Want automatic theme updates
-- Need to sync multiple components
-- Want to avoid manual maintenance
-
-The CLI handles all these steps automatically and keeps everything in sync.
-
-## Learn more
-
-- [Existing Project Installation](/installation/existing-project) - CLI installation guide
-- [Tailwind Configuration](/develop/tailwind-config) - Understand Tailwind setup
-- [Syncing Components](/develop/syncing-components) - How CLI sync works

@@ -1,29 +1,27 @@
 ---
 title: Install in existing codebase
-description: Add Subframe to your existing React + Tailwind project.
+description: Add Subframe to your existing React project
 ---
 
-You can add Subframe to any existing project that uses TypeScript, React, and Tailwind CSS. The CLI will configure your project automatically, syncing components and theme tokens to your codebase.
+Add Subframe to any existing TypeScript, React, and Tailwind CSS project. The CLI configures your project automatically, syncing components and theme tokens.
 
 <Note>
-Subframe works with any framework that uses TypeScript, React, and Tailwind CSS.
+Subframe works with any framework using TypeScript, React, and Tailwind CSS.
 </Note>
 
 ## Prerequisites
 
-Before installing Subframe, make sure your project has:
+Your project needs:
 
 - **TypeScript** — Subframe components are fully typed
-- **React** (version 16.8 or higher) — Hooks support required
-- **Tailwind CSS** (v3 or v4) — For styling components
+- **React** (16.8+) — Hooks support required
+- **Tailwind CSS** (v3 or v4) — For component styling
 
-Subframe works with Next.js, Vite, Astro, Remix, and any other React framework.
+Works with Next.js, Vite, Astro, Remix, and other React frameworks.
 
-## Installation steps
+## Install
 
-### Run the init command
-
-Run the following command in the root of your repository:
+Run the init command in your repository root:
 
 <CodeGroup>
   ```bash npm
@@ -40,24 +38,21 @@ Run the following command in the root of your repository:
   ```
 </CodeGroup>
 
-### Authenticate with your access token
+### Authenticate
 
-The CLI will prompt you to authenticate. Visit the URL shown and copy your access token:
+Paste your access token from [app.subframe.com/cli/auth](https://app.subframe.com/cli/auth):
 
 ```
 > No existing credentials found.
 > To get new credentials, please visit the following URL in your web browser:
 > https://app.subframe.com/cli/auth
 
-> You will need to login then enter the provided credentials below.
 ? Access token ›
 ```
 
-Paste your access token and press Enter.
+### Configure
 
-### Configure your installation
-
-Answer a few questions to configure Subframe. Press Enter to accept the defaults:
+Answer configuration questions. Press Enter for defaults:
 
 ```
 Where should the Subframe components be synced to? › ./src
@@ -68,15 +63,11 @@ Would you like to install dependencies? › (Y/n)
 Would you like to start the dev server? › (Y/n)
 ```
 
-The CLI will:
-- Sync components to your specified directory
-- Configure your Tailwind config with theme tokens
-- Install required dependencies
-- Optionally sync all components and start your dev server
+The CLI syncs components, configures Tailwind with theme tokens, installs dependencies, and optionally starts your dev server.
 
-## Verify your installation
+## Verify installation
 
-Test that Subframe is working by importing a component in your code:
+Test that Subframe works:
 
 ```tsx App.tsx
 import { Button } from "@/ui/Button";
@@ -86,65 +77,46 @@ export default function App() {
 }
 ```
 
-If the button renders with proper styling, you're all set!
+If the button renders with styling, you're set!
 
 ## Framework-specific guidance
 
-Some frameworks require additional configuration. Refer to the guide for your framework if you encounter issues:
+Some frameworks need additional configuration. Check your framework guide if you encounter issues:
 
 <CardGroup cols={2}>
-  <Card
-    title="Next.js"
-    href="/installation/framework-guides/nextjs"
-  />
-  <Card
-    title="Vite"
-    href="/installation/framework-guides/vite"
-  />
-  <Card
-    title="Astro"
-    href="/installation/framework-guides/astro"
-  />
-  <Card
-    title="Remix"
-    href="/installation/framework-guides/remix"
-  />
-  <Card
-    title="Monorepo"
-    href="/installation/framework-guides/monorepo"
-  />
-  <Card
-    title="Manual Installation"
-    href="/installation/framework-guides/manual"
-  />
+  <Card title="Next.js" href="/installation/framework-guides/nextjs" />
+  <Card title="Vite" href="/installation/framework-guides/vite" />
+  <Card title="Astro" href="/installation/framework-guides/astro" />
+  <Card title="Monorepo" href="/installation/framework-guides/monorepo" />
+  <Card title="Manual Installation" href="/installation/framework-guides/manual" />
 </CardGroup>
 
-## Troubleshooting
+## Common issues
 
-### Tailwind styles not applying
+### Styles not applying
 
-If your components render but don't have proper styling:
+If components render without styling:
 
-1. Verify your Tailwind config includes the Subframe theme preset
-2. Make sure your content paths include the Subframe component directory
-3. Check that Tailwind is processing your CSS correctly
+1. Verify Tailwind config includes Subframe theme preset
+2. Check content paths include Subframe component directory
+3. Ensure Tailwind processes your CSS correctly
 
-See [Tailwind config](/develop/tailwind-config) for more details.
+See [Tailwind config](/developing/tailwind-config) for details.
 
-### Component import errors
+### Import errors
 
 If you get import errors:
 
-1. Check that the alias in your `tsconfig.json` matches the one you configured during setup
-2. Verify components synced correctly by checking your component directory
-3. Try running `npx @subframe/cli sync --all` to re-sync components
+1. Check `tsconfig.json` alias matches your configuration
+2. Verify components synced by checking your component directory
+3. Run `npx @subframe/cli sync --all` to re-sync
 
 ### TypeScript errors
 
-If you see TypeScript errors in Subframe components:
+If you see TypeScript errors in components:
 
-1. Make sure your project uses TypeScript (not JavaScript)
+1. Ensure your project uses TypeScript (not JavaScript)
 2. Verify `@types/react` is installed
-3. Check that your `tsconfig.json` includes the component directory
+3. Check `tsconfig.json` includes the component directory
 
-For additional help, refer to the [Manual installation guide](/installation/framework-guides/manual) or join our [Slack Community](https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ).
+For more help, see [Manual installation guide](/installation/framework-guides/manual) or join [Slack Community](https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ).

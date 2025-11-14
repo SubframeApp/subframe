@@ -1,15 +1,15 @@
 ---
 title: Next.js
-description: Install and configure Subframe in your Next.js application.
+description: Install Subframe in your Next.js app
 ---
 
 <Note>
-This guide assumes you already have a Next.js project with Tailwind CSS configured. If you haven't set up Next.js or Tailwind yet, follow the [Next.js](https://nextjs.org/docs/app/getting-started/installation) and [Tailwind CSS](https://v3.tailwindcss.com/docs/installation/using-postcss) installation guides first.
+This guide assumes you have a Next.js project with Tailwind CSS. If not, follow [Next.js](https://nextjs.org/docs/app/getting-started/installation) and [Tailwind CSS](https://v3.tailwindcss.com/docs/installation/using-postcss) setup first.
 </Note>
 
 ## Installation
 
-Run the following command in the root of your repository to install Subframe and configure your project:
+Run the init command in your repository root:
 
 <CodeGroup>
   ```bash npm
@@ -26,15 +26,15 @@ Run the following command in the root of your repository to install Subframe and
   ```
 </CodeGroup>
 
-The CLI will automatically detect that you're using Next.js and configure everything appropriately.
+The CLI detects Next.js and configures everything automatically.
 
 ## App Router (Next.js 13+)
 
-If you're using the App Router, Subframe components work seamlessly with both client and server components.
+Subframe components work with both client and server components.
 
 ### Client components
 
-Most Subframe components require client-side interactivity and should use the `"use client"` directive:
+Most Subframe components need client-side interactivity:
 
 ```tsx app/page.tsx
 "use client";
@@ -52,7 +52,7 @@ export default function Page() {
 
 ### Server components
 
-Some Subframe components (like layout primitives) can be used in server components if they don't need interactivity:
+Layout primitives without interactivity work in server components:
 
 ```tsx app/layout.tsx
 import { Container } from "@/ui/Container";
@@ -70,7 +70,7 @@ export default function RootLayout({ children }) {
 
 ## Pages Router (Next.js 12 and earlier)
 
-If you're using the Pages Router, import and use Subframe components in your pages:
+Import and use components in your pages:
 
 ```tsx pages/index.tsx
 import { Button } from "@/ui/Button";
@@ -82,7 +82,7 @@ export default function Home() {
 
 ## Navigation with Next.js Link
 
-Use Next.js's `Link` component for navigation instead of HTML anchor tags:
+Use Next.js `Link` for navigation:
 
 ```tsx
 import Link from "next/link";
@@ -99,7 +99,7 @@ export default function Page() {
 
 ## Image optimization
 
-To use Next.js's optimized `next/image` component with Subframe, pass it to image slots:
+Use `next/image` with Subframe image slots:
 
 ```tsx
 import Image from "next/image";
@@ -123,6 +123,4 @@ export default function Page() {
 }
 ```
 
-## Troubleshooting
-
-If you run into issues with the installation, refer to the [Manual installation guide](/installation/framework-guides/manual) for all the steps needed to get Subframe working in your codebase.
+For troubleshooting, see the [Manual installation guide](/installation/framework-guides/manual).

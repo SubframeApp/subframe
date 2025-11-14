@@ -1,15 +1,15 @@
 ---
 title: Astro
-description: Install and configure Subframe in your Astro application.
+description: Install Subframe in your Astro app
 ---
 
 <Note>
-This guide assumes you already have an Astro project with React and Tailwind CSS configured. If you haven't set those up yet, follow the [Astro](https://docs.astro.build/en/install-and-setup/#install-from-the-cli-wizard), [Astro React](https://docs.astro.build/en/guides/integrations-guide/react/), and [Tailwind CSS](https://v3.tailwindcss.com/docs/installation/using-postcss) installation guides first.
+This guide assumes you have an Astro project with React and Tailwind CSS. If not, follow [Astro](https://docs.astro.build/en/install-and-setup/#install-from-the-cli-wizard), [Astro React](https://docs.astro.build/en/guides/integrations-guide/react/), and [Tailwind CSS](https://v3.tailwindcss.com/docs/installation/using-postcss) setup first.
 </Note>
 
 ## Installation
 
-Run the following command in the root of your repository to install Subframe and configure your project:
+Run the init command in your repository root:
 
 <CodeGroup>
   ```bash npm
@@ -28,7 +28,7 @@ Run the following command in the root of your repository to install Subframe and
 
 ## Configure import aliases
 
-Update your `tsconfig.json` to configure TypeScript path aliases:
+Update `tsconfig.json` to configure TypeScript path aliases:
 
 ```json tsconfig.json {3-8}
 {
@@ -64,13 +64,13 @@ Update your `tsconfig.json` to configure TypeScript path aliases:
 }
 ```
 
-## Using Subframe components in Astro
+## Use components in Astro
 
-Astro uses an island architecture where React components need explicit client directives to be interactive.
+Astro uses island architecture where React components need explicit client directives for interactivity.
 
 ### Client directives
 
-Most Subframe components require interactivity and should use the `client:load` directive:
+Most Subframe components need interactivity—use `client:load`:
 
 ```astro src/pages/index.astro
 ---
@@ -80,7 +80,7 @@ import { Button } from "@/ui/Button";
 <Button client:load>Click me</Button>
 ```
 
-For components that should only load when visible, use `client:visible`:
+For components that load when visible, use `client:visible`:
 
 ```astro
 ---
@@ -94,7 +94,7 @@ import { Card } from "@/ui/Card";
 
 ### Static components
 
-Layout primitives that don't require interactivity can be used without client directives:
+Layout primitives without interactivity don't need client directives:
 
 ```astro
 ---
@@ -106,6 +106,4 @@ import { Container } from "@/ui/Container";
 </Container>
 ```
 
-## Troubleshooting
-
-If you run into issues with the installation, refer to the [Manual installation guide](/installation/framework-guides/manual) for all the steps needed to get Subframe working in your codebase.
+For troubleshooting, see the [Manual installation guide](/installation/framework-guides/manual).
