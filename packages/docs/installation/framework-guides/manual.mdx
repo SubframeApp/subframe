@@ -201,7 +201,8 @@ Start your dev server and verify the button renders with styling.
 
 ## Troubleshooting
 
-### Import errors
+<AccordionGroup>
+<Accordion title="Import errors">
 
 If imports don't resolve:
 
@@ -210,7 +211,8 @@ If imports don't resolve:
 3. Restart your TypeScript server
 4. Check that files exist at the expected paths
 
-### Styles not applying
+</Accordion>
+<Accordion title="Styles not applying">
 
 If Tailwind styles don't work:
 
@@ -219,7 +221,8 @@ If Tailwind styles don't work:
 3. Make sure `@tailwindcss/container-queries` is installed
 4. Clear build cache and restart dev server
 
-### Component errors
+</Accordion>
+<Accordion title="Component errors">
 
 If components have runtime errors:
 
@@ -228,7 +231,8 @@ If components have runtime errors:
 3. Make sure all imports are correct
 4. Look for missing dependencies in component code
 
-### Type errors
+</Accordion>
+<Accordion title="Type errors">
 
 If TypeScript errors appear:
 
@@ -236,4 +240,7 @@ If TypeScript errors appear:
 2. Verify React types are installed: `@types/react`
 3. Make sure `tsconfig.json` includes component files
 4. Restart TypeScript server in your editor
+
+</Accordion>
+</AccordionGroup>
 
