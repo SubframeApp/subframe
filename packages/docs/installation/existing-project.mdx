@@ -84,16 +84,27 @@ If the button renders with styling, you're set!
 Some frameworks need additional configuration. Check your framework guide if you encounter issues:
 
 <CardGroup cols={2}>
-  <Card title="Next.js" href="/installation/framework-guides/nextjs" />
-  <Card title="Vite" href="/installation/framework-guides/vite" />
-  <Card title="Astro" href="/installation/framework-guides/astro" />
-  <Card title="Monorepo" href="/installation/framework-guides/monorepo" />
-  <Card title="Manual Installation" href="/installation/framework-guides/manual" />
+  <Card title="Next.js" icon="N" href="/installation/framework-guides/nextjs">
+    Install Subframe in your Next.js app
+  </Card>
+  <Card title="Vite" icon="bolt" href="/installation/framework-guides/vite">
+    Install Subframe in your Vite + React app
+  </Card>
+  <Card title="Astro" icon="rocket" href="/installation/framework-guides/astro">
+    Install Subframe in your Astro app
+  </Card>
+  <Card title="Monorepo" icon="folder-tree" href="/installation/framework-guides/monorepo">
+    Install Subframe in monorepo setups
+  </Card>
+  <Card title="Manual installation" icon="wrench" href="/installation/framework-guides/manual">
+    Install Subframe without the CLI
+  </Card>
 </CardGroup>
 
 ## Common issues
 
-### Styles not applying
+<AccordionGroup>
+<Accordion title="Styles not applying">
 
 If components render without styling:
 
@@ -103,7 +114,8 @@ If components render without styling:
 
 See [Tailwind config](/developing/tailwind-config) for details.
 
-### Import errors
+</Accordion>
+<Accordion title="Import errors">
 
 If you get import errors:
 
@@ -111,12 +123,16 @@ If you get import errors:
 2. Verify components synced by checking your component directory
 3. Run `npx @subframe/cli sync --all` to re-sync
 
-### TypeScript errors
+</Accordion>
+<Accordion title="TypeScript errors">
 
 If you see TypeScript errors in components:
 
 1. Ensure your project uses TypeScript (not JavaScript)
 2. Verify `@types/react` is installed
 3. Check `tsconfig.json` includes the component directory
+
+</Accordion>
+</AccordionGroup>
 
 For more help, see [Manual installation guide](/installation/framework-guides/manual) or join [Slack Community](https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ).
