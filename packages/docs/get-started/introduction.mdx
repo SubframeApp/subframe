@@ -3,7 +3,7 @@ title: Introduction
 description: Design UI and export React + Tailwind code
 ---
 
-Subframe is a visual design tool that exports production-ready React + Tailwind code. Design with drag-and-drop, use AI to generate pages, and sync components to your codebase—design is the medium, code is the material.
+Subframe is a visual way to build software. Design UI with drag-and-drop, generate pages with AI, and export production-ready React + Tailwind code. Components sync to your codebase, pages export as copy/paste code—everything lives locally for development.
 
 <Frame caption="Learn Subframe in four minutes with designer cofounder Filip.">
   <iframe
@@ -21,27 +21,35 @@ Subframe is a visual design tool that exports production-ready React + Tailwind 
 
 ## Who uses Subframe?
 
-**Designers** create production-ready UI without handoffs. The visual editor feels familiar, but what you build is real React code that syncs to your codebase.
+**Designers** create production-ready UI without handoffs. The visual editor feels familiar, but what you build is real React code that engineers use.
 
-**Developers** skip pixel-pushing and focus on business logic. Components sync automatically from Subframe—design changes update your code via CLI.
+**Developers** skip pixel-pushing and focus on business logic. Components sync from Subframe to code via CLI—design updates don't break your work.
 
-**Product builders** go from idea to working prototype in minutes. Generate designs with AI, then export to Cursor, Bolt, or Replit to add logic.
+**Design engineers** work across both contexts. Design components visually, export pages as code, then integrate with business logic locally.
+
+**Founders and product builders** go from idea to working prototype in minutes. Generate designs with AI, then export to Cursor or Claude Code to add functionality.
 
 ## How it works
 
-Subframe is both a full design tool and your source of truth for production code. When you design, you're working with real React components—not mockups.
+Subframe generates code programmatically—no LLMs translating your designs. You work with real React components, not design artifacts. What you see is what renders in the browser.
 
-Components sync one-way to your codebase via CLI. Change the design, run `sync`, your code updates. Pages export as React you copy and paste. Your theme syncs as Tailwind tokens. Everything lives locally in your codebase for further development.
+**Components sync bidirectionally.** Your design system components are the source of truth. Run `npx @subframe/cli sync` to push updates to your codebase. Props, variants, slots, TypeScript types—all synced automatically.
+
+**Pages export as copy/paste code.** Generate pages with AI, refine in the editor, then export React + Tailwind code. Paste into your project and add business logic locally. No reverse sync—developers own the integration.
+
+**Themes sync as Tailwind config.** Colors, typography, spacing, and shadows export as Tailwind tokens. Your theme works across both Subframe and your codebase.
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Subframe editor showing a component being designed on the canvas with code preview panel displaying the corresponding React and Tailwind code" />
 
 ## What makes it different
 
-**Visual editing meets production code** — Drag-and-drop editor using flexbox layouts and responsive design. Everything exports as clean React + Tailwind, not AI-generated code.
+**Design-first, code-native** — Not a design tool that produces artifacts. A visual way to build software where the design is the medium and code is the material. Everything you make works in the browser.
 
-**AI that learns your design system** — Generate pages from prompts or images. AI uses your theme and components to stay on-brand. Mix and match variations or refine in the editor.
+**AI as creative partner** — Generate multiple design variations, not one-shot generations. AI learns from your theme, components, existing pages, and system prompts. You curate and remix—AI helps you explore faster.
 
-**True design system sync** — Components you design are the components engineers use. Props, variants, slots, TypeScript types—synced to your codebase as the single source of truth.
+**Context builds personalization** — The more you design in Subframe, the smarter it gets. Your components train the AI. System prompts embed product context and design guidelines. Each page adds to the AI's understanding.
+
+**Real components, not mockups** — Subframe comes with a component library built on Radix and Headless UI. Every component is actual React code. Storybook-style documentation shows all states and props.
 
 ## Learn more
 

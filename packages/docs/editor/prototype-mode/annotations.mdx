@@ -5,6 +5,10 @@ description: Add instructions to guide AI prototype generation.
 
 Annotations tell AI how elements should behave. Click an element and describe what it does—AI generates the code to make it work.
 
+**Design is the best prompt.** Your visual design already embeds functionality context—subscribe buttons, search boxes, navigation links. Annotations add the missing piece: what happens when users interact.
+
+**Annotations persist as code comments.** When you regenerate prototypes, annotations ensure consistent results. LLMs become a programming language where prompts are embedded in the design itself.
+
 ## Adding annotations
 
 1. Switch to Prototype Mode
@@ -19,21 +23,28 @@ The annotation appears as a numbered marker on the element.
 **Navigation:**
 - "Navigate to /pricing page"
 - "Go back to home"
-- "Open product details"
+- "Open product details in new page"
 
 **State changes:**
-- "Toggle mobile menu"
-- "Show password"
-- "Expand accordion"
+- "Toggle mobile menu visibility"
+- "Show password when clicked"
+- "Expand accordion section"
 
 **Form interactions:**
 - "Submit form and show success message"
-- "Validate email format"
-- "Clear all inputs"
+- "Validate email format on submit"
+- "Clear all inputs when reset is clicked"
+
+**Working app logic:**
+- "Build a working interactive time zone tracker using current time and date"
+- "Create subtle gradient based on current time of day"
+- "Search every city and time zone database"
+- "Animate cards when adding new time zones"
 
 **Conditional logic:**
 - "Show error if email is invalid"
-- "Disable button if form is incomplete"
+- "Disable submit button while form is empty"
+- "Display loading state during API call"
 
 ## Managing annotations
 

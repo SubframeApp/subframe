@@ -11,7 +11,11 @@ Your Subframe project contains your theme, components, and pages. Each project i
 
 ## Components
 
-Reusable UI elements that sync from Subframe to your codebase. The components you design are the same components engineers use in production—design once, use everywhere.
+Reusable UI elements that sync bidirectionally between Subframe and your codebase. Components are your design system source of truth—design once, sync everywhere.
+
+**Two-way sync:** Run `npx @subframe/cli sync` to push component changes to your code. Props, variants, slots, and TypeScript types update automatically. Subframe owns the design, you own the integration.
+
+**Built-in library:** Subframe includes components built on Radix and Headless UI. Every component is real React code with full documentation. Use them as-is or create custom components.
 
 <video autoPlay muted loop playsInline className="w-full" src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/view-component-documentation-ygcEi4y47JotWdboZUunSHbkxdpYrh.webm" />
 
@@ -19,7 +23,11 @@ Reusable UI elements that sync from Subframe to your codebase. The components yo
 
 ## Pages
 
-Individual screens you design with components. Pages export as React code you copy and paste—add your business logic locally in your codebase.
+Individual screens you design with components. Pages export as React code you copy and paste into your project—one-way export, no reverse sync.
+
+**Copy/paste workflow:** Generate pages with AI or build manually, then export code. Paste into your project and add business logic. Developers own the page after export—no syncing back to Subframe.
+
+**Best for integration:** Pages let you mix Subframe designs with custom code, API calls, state management, and routing. Components stay synced, pages stay flexible.
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The editor showing a page being designed with components on the canvas" />
 
@@ -41,7 +49,15 @@ One-way sync from Subframe to your codebase. Components sync via CLI—changes i
 
 ## Ask AI
 
-Generate designs from text prompts or images. AI learns from your designs to create on-brand pages using your theme and components—everything stays editable.
+Generate designs from text prompts or images. AI learns from your designs to create on-brand pages using your theme and components—you curate and remix variations.
+
+**Context hierarchy:** AI personalization builds from multiple layers:
+- **Theme** — Colors, typography, spacing define your visual language
+- **Components** — Your design system becomes AI's building blocks
+- **System prompts** — Embed product context, design guidelines, brand voice
+- **Existing pages** — Each page you create trains the AI further
+
+The more you build in Subframe, the smarter your AI becomes. Everything generated stays fully editable.
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Ask AI panel with a prompt and multiple design variations generated" />
 
@@ -49,7 +65,13 @@ Generate designs from text prompts or images. AI learns from your designs to cre
 
 ## Prototypes
 
-Interactive prototypes with working navigation and logic. Describe behaviors in natural language—AI generates interactions without writing code.
+Interactive prototypes with working navigation and logic. Add annotations to your design—comments become prompts that drive behavior. Design is the best prompt.
+
+**Annotations-based workflow:** After designing, add comments describing interactions. AI generates working prototypes that match your design exactly. No chat required—annotations capture your intent directly on the design.
+
+**Design-as-prompt:** Your visual design already describes functionality. Buttons, forms, navigation—all context for the AI. Annotations add the "what happens when" layer.
+
+**Rebuild anytime:** Annotations persist as inline code comments. Update your design, regenerate the prototype, and get the same results. LLMs become the new programming language.
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Prototype mode showing a page with annotations and AI chat panel for adding interactions" />
 
@@ -57,7 +79,13 @@ Interactive prototypes with working navigation and logic. Describe behaviors in 
 
 ## MCP server
 
-Connect AI coding tools like Claude Code and Cursor to your Subframe projects. AI assistants fetch components and pages directly—no manual copying needed.
+Connect AI coding tools like Claude Code and Cursor to your Subframe projects. AI assistants fetch components and pages directly—paste Subframe URLs into prompts and the MCP server handles everything.
+
+**Available tool calls:** MCP server provides tools to get project info, component metadata, page code, and theme configuration. Your designs become the best context for your AI coding assistant.
+
+**Multi-page context:** Paste multiple Subframe URLs to give AI assistant access to entire flows. Better than copying code manually—AI sees relationships between pages and components.
+
+**Preserves design integrity:** AI fetches exact Subframe code, then adds business logic on top. Your design stays perfect while you focus on functionality.
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Configuration file showing MCP server setup with Subframe access token" />
 
