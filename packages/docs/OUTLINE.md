@@ -5,26 +5,26 @@
 **Order:** Matches docs.json navigation structure
 
 This outline shows the complete documentation structure with:
-- Title and description from each article's frontmatter
-- URL path
+- Title as H1 for each article
+- Description and URL path
 - Full heading hierarchy (H2 and H3)
 
 ---
 
-## /get-started/introduction
+# Introduction
 
-**Title:** Introduction
 **Description:** Design UI and export React + Tailwind code
+**URL:** /get-started/introduction
 
 ## Who uses Subframe?
 ## How it works
 ## What makes it different
 ## Learn more
 
-## /get-started/quickstart
+# Quickstart
 
-**Title:** Quickstart
 **Description:** Create your first design and export to code
+**URL:** /get-started/quickstart
 
 ## Sign up
 ## Create your page
@@ -39,10 +39,10 @@ This outline shows the complete documentation structure with:
 ### Use the code
 ## Learn more
 
-## /get-started/concepts
+# Concepts
 
-**Title:** Concepts
 **Description:** Core concepts for designing and building
+**URL:** /get-started/concepts
 
 ## Projects
 ## Components
@@ -53,16 +53,16 @@ This outline shows the complete documentation structure with:
 ## Prototypes
 ## MCP server
 
-## /get-started/faq
+# FAQ
 
-**Title:** FAQ
 **Description:** Frequently asked questions about Subframe
+**URL:** /get-started/faq
 
 
-## /installation/new-project
+# Set up new project
 
-**Title:** Set up new project
 **Description:** Start a new project with optimized templates
+**URL:** /installation/new-project
 
 ## Prerequisites
 ## Create project
@@ -72,10 +72,10 @@ This outline shows the complete documentation structure with:
 ## What gets installed
 ## Next steps
 
-## /installation/existing-project
+# Install in existing codebase
 
-**Title:** Install in existing codebase
 **Description:** Add Subframe to your existing React project
+**URL:** /installation/existing-project
 
 ## Prerequisites
 ## Install
@@ -85,10 +85,10 @@ This outline shows the complete documentation structure with:
 ## Framework-specific guidance
 ## Common issues
 
-## /installation/framework-guides/nextjs
+# Next.js
 
-**Title:** Next.js
 **Description:** Install Subframe in your Next.js app
+**URL:** /installation/framework-guides/nextjs
 
 ## Installation
 ## App Router (Next.js 13+)
@@ -98,10 +98,10 @@ This outline shows the complete documentation structure with:
 ## Navigation with Next.js Link
 ## Image optimization
 
-## /installation/framework-guides/vite
+# Vite
 
-**Title:** Vite
 **Description:** Install Subframe in your Vite + React app
+**URL:** /installation/framework-guides/vite
 
 ## Installation
 ## Configure import aliases
@@ -109,10 +109,10 @@ This outline shows the complete documentation structure with:
 ### Update vite.config.ts
 ## Use components
 
-## /installation/framework-guides/astro
+# Astro
 
-**Title:** Astro
 **Description:** Install Subframe in your Astro app
+**URL:** /installation/framework-guides/astro
 
 ## Installation
 ## Configure import aliases
@@ -120,10 +120,10 @@ This outline shows the complete documentation structure with:
 ### Client directives
 ### Static components
 
-## /installation/framework-guides/monorepo
+# Monorepo
 
-**Title:** Monorepo
 **Description:** Install Subframe in monorepo setups
+**URL:** /installation/framework-guides/monorepo
 
 ## Installation strategies
 ### Shared UI package (recommended)
@@ -135,10 +135,10 @@ This outline shows the complete documentation structure with:
 ### 4. Install in apps
 ### 5. Configure Tailwind in apps
 
-## /installation/framework-guides/manual
+# Custom setup
 
-**Title:** Custom setup
 **Description:** Install Subframe without the CLI
+**URL:** /installation/framework-guides/manual
 
 ## Step 1: Install dependencies
 ## Step 2: Create directory structure
@@ -157,10 +157,10 @@ This outline shows the complete documentation structure with:
 ## Step 9: Verify installation
 ## Troubleshooting
 
-## /developing/mcp-server
+# MCP server
 
-**Title:** MCP server
 **Description:** Connect AI coding tools to your Subframe projects
+**URL:** /developing/mcp-server
 
 ## Installation
 ## Using the MCP server
@@ -169,10 +169,10 @@ This outline shows the complete documentation structure with:
 ### Example prompts
 ## Troubleshooting
 
-## /developing/syncing-components
+# Syncing components
 
-**Title:** Syncing components
 **Description:** Keep components in sync with the CLI
+**URL:** /developing/syncing-components
 
 ## Running sync
 ### Sync specific components
@@ -180,10 +180,10 @@ This outline shows the complete documentation structure with:
 ## When to sync
 ## Preventing overwrites
 
-## /developing/exporting-code
+# Exporting code
 
-**Title:** Exporting code
 **Description:** Copy page code from Subframe to your codebase
+**URL:** /developing/exporting-code
 
 ## Code generation
 ## Getting code
@@ -194,18 +194,18 @@ This outline shows the complete documentation structure with:
 ## Updating designs
 ## Learn more
 
-## /developing/adding-business-logic
+# Adding business logic
 
-**Title:** Adding business logic
 **Description:** Integrate state management, API calls, and event handlers into your Subframe-exported code.
+**URL:** /developing/adding-business-logic
 
 ## Example 1: Magic link login form
 ## Example 2: Interactive track cards
 
-## /developing/tailwind-config
+# Tailwind configuration
 
-**Title:** Tailwind configuration
 **Description:** How Subframe extends your Tailwind config
+**URL:** /developing/tailwind-config
 
 ## How it works
 ## Using theme tokens
@@ -217,10 +217,10 @@ This outline shows the complete documentation structure with:
 ## Common issues
 ## Learn more
 
-## /developing/auth-tokens
+# Auth tokens
 
-**Title:** Auth tokens
 **Description:** Generate API tokens for CLI and MCP access
+**URL:** /developing/auth-tokens
 
 ## Creating a token
 ### First-time CLI setup
@@ -231,10 +231,10 @@ This outline shows the complete documentation structure with:
 ## Troubleshooting
 ## Learn more
 
-## /developing/disabling-sync
+# Disabling sync
 
-**Title:** Disabling sync
 **Description:** Prevent CLI from overwriting customized components
+**URL:** /developing/disabling-sync
 
 ## When to disable sync
 ## Try wrapper components first
@@ -247,10 +247,10 @@ This outline shows the complete documentation structure with:
 ## Troubleshooting
 ## Learn more
 
-## /theme/overview
+# Theme overview
 
-**Title:** Theme overview
 **Description:** Understand Subframe's theme system built on design tokens and Tailwind CSS.
+**URL:** /theme/overview
 
 ## What are design tokens?
 ## Token categories
@@ -258,10 +258,10 @@ This outline shows the complete documentation structure with:
 ## Accessing your theme
 ## Next steps
 
-## /theme/customizing-theme
+# Customizing theme
 
-**Title:** Customizing theme
 **Description:** Modify colors, typography, and other design tokens to match your brand.
+**URL:** /theme/customizing-theme
 
 ## Accessing theme settings
 ## Quick theme updates
@@ -276,10 +276,10 @@ This outline shows the complete documentation structure with:
 ### Reference existing tokens
 ### Test across components
 
-## /theme/importing-tokens
+# Importing tokens
 
-**Title:** Importing tokens
 **Description:** Import design tokens from Figma or other design systems into Subframe.
+**URL:** /theme/importing-tokens
 
 ## Overview
 ### Why Import Tokens?
@@ -314,10 +314,10 @@ This outline shows the complete documentation structure with:
 ### Token Conflicts
 ### Missing Tokens
 
-## /theme/dark-mode
+# Dark mode
 
-**Title:** Dark mode
 **Description:** Implement dark mode in your codebase using CSS variables and Tailwind's dark mode support.
+**URL:** /theme/dark-mode
 
 ## Prerequisites
 ## How it works
@@ -334,10 +334,10 @@ This outline shows the complete documentation structure with:
 ### Prevent flash of unstyled content
 ## Troubleshooting
 
-## /components/overview
+# Components overview
 
-**Title:** Components overview
 **Description:** Build and maintain your design system visually with React + Tailwind components.
+**URL:** /components/overview
 
 ## Base components
 ## Building your design system
@@ -346,10 +346,10 @@ This outline shows the complete documentation structure with:
 ## Syncing to code
 ## Next steps
 
-## /components/creating-components
+# Creating components
 
-**Title:** Creating components
 **Description:** Build custom components visually for your design system.
+**URL:** /components/creating-components
 
 ## Creating from existing design
 ### AI-powered property suggestions
@@ -363,10 +363,10 @@ This outline shows the complete documentation structure with:
 ## Editing components
 ## Learn more
 
-## /components/using-components
+# Using components
 
-**Title:** Using components
 **Description:** Add and configure components in Subframe, then use them in your React code.
+**URL:** /components/using-components
 
 ## Adding components
 ## Component instances
@@ -383,20 +383,20 @@ This outline shows the complete documentation structure with:
 ## Troubleshooting
 ## Learn more
 
-## /components/props-and-slots
+# Props and slots
 
-**Title:** Props and slots
 **Description:** Understand when to use props vs slots for customizing Subframe components.
+**URL:** /components/props-and-slots
 
 ## When to use each
 ## Example: Props vs slots
 ## Creating props and slots
 ## Learn more
 
-## /editor/overview
+# Editor overview
 
-**Title:** Editor overview
 **Description:** Learn the Subframe editor interface and navigate between editing modes.
+**URL:** /editor/overview
 
 ## Editor modes
 ## Interface layout
@@ -408,10 +408,10 @@ This outline shows the complete documentation structure with:
 ## Collaboration
 ## Learn more
 
-## /editor/ask-ai/prompt-to-design
+# Prompt to design
 
-**Title:** Prompt to design
 **Description:** Generate complete page designs from text descriptions using AI.
+**URL:** /editor/ask-ai/prompt-to-design
 
 ## How it works
 ## Accessing Ask AI
@@ -433,10 +433,10 @@ This outline shows the complete documentation structure with:
 ## Tips for better results
 ## Limitations
 
-## /editor/ask-ai/image-to-design
+# Image to design
 
-**Title:** Image to design
 **Description:** Upload images or screenshots and generate matching Subframe designs with AI.
+**URL:** /editor/ask-ai/image-to-design
 
 ## How it works
 ## Uploading images
@@ -447,10 +447,10 @@ This outline shows the complete documentation structure with:
 ## Limitations
 ## Learn more
 
-## /editor/ask-ai/inline-ask-ai
+# Inline Ask AI
 
-**Title:** Inline Ask AI
 **Description:** Make targeted edits to selected elements using AI without leaving Design Mode.
+**URL:** /editor/ask-ai/inline-ask-ai
 
 ## How to use it
 ## Example edits
@@ -459,10 +459,10 @@ This outline shows the complete documentation structure with:
 ## Limitations
 ## Learn more
 
-## /editor/ask-ai/remix-pages
+# Remix pages
 
-**Title:** Remix pages
 **Description:** Use AI to create variations and remixes of existing page designs.
+**URL:** /editor/ask-ai/remix-pages
 
 ## How remixing works
 ## Example remix prompts
@@ -471,10 +471,10 @@ This outline shows the complete documentation structure with:
 ## Limitations
 ## Learn more
 
-## /editor/ask-ai/personalizing-ai
+# Personalizing AI
 
-**Title:** Personalizing AI
 **Description:** Customize how AI generates designs by adding company information and design preferences.
+**URL:** /editor/ask-ai/personalizing-ai
 
 ## What AI personalization does
 ## Setting up personalization
@@ -484,10 +484,10 @@ This outline shows the complete documentation structure with:
 ## Personalization per project
 ## Learn more
 
-## /editor/design-mode/page-editor
+# Page Editor
 
-**Title:** Page Editor
 **Description:** Design production-ready interfaces in a responsive, flex-based editor.
+**URL:** /editor/design-mode/page-editor
 
 ## How the page editor works
 ## Editor interface
@@ -499,10 +499,10 @@ This outline shows the complete documentation structure with:
 ## Breakpoints
 ## Learn more
 
-## /editor/design-mode/add-elements
+# Add elements
 
-**Title:** Add elements
 **Description:** Insert components, primitives, and layouts into your designs.
+**URL:** /editor/design-mode/add-elements
 
 ## Insert panel
 ## Quick insert
@@ -519,10 +519,10 @@ This outline shows the complete documentation structure with:
 ## Element hierarchy
 ## Learn more
 
-## /editor/design-mode/layers
+# Layers
 
-**Title:** Layers
 **Description:** Navigate and organize the element hierarchy.
+**URL:** /editor/design-mode/layers
 
 ## Opening the Layers panel
 ## Navigating the hierarchy
@@ -533,10 +533,10 @@ This outline shows the complete documentation structure with:
 ## Searching layers
 ## Learn more
 
-## /editor/design-mode/inspector
+# Inspector
 
-**Title:** Inspector
 **Description:** Configure element properties in the right sidebar.
+**URL:** /editor/design-mode/inspector
 
 ## Opening the Inspector
 ## Inspector sections
@@ -553,10 +553,10 @@ This outline shows the complete documentation structure with:
 ## Multi-selection
 ## Learn more
 
-## /editor/design-mode/responsive-design
+# Responsive design
 
-**Title:** Responsive design
 **Description:** Design for mobile and desktop breakpoints.
+**URL:** /editor/design-mode/responsive-design
 
 ## Breakpoints
 ## Switching breakpoints
@@ -567,10 +567,10 @@ This outline shows the complete documentation structure with:
 ## Best practices
 ## Learn more
 
-## /editor/design-mode/page-layouts
+# Page layouts
 
-**Title:** Page layouts
 **Description:** Apply navigation and modal layouts to your pages.
+**URL:** /editor/design-mode/page-layouts
 
 ## Layout types
 ## Setting the page layout
@@ -581,10 +581,10 @@ This outline shows the complete documentation structure with:
 ## Layout inheritance
 ## Learn more
 
-## /editor/design-mode/preview
+# Preview
 
-**Title:** Preview
 **Description:** Preview your designs and test interactions.
+**URL:** /editor/design-mode/preview
 
 ## Opening preview
 ## Testing responsive design
@@ -592,10 +592,10 @@ This outline shows the complete documentation structure with:
 ## What preview shows
 ## Learn more
 
-## /editor/design-mode/actions-menu
+# Actions menu
 
-**Title:** Actions menu
 **Description:** Quick access to element actions with the slash command.
+**URL:** /editor/design-mode/actions-menu
 
 ## Opening the Actions menu
 ## Using the menu
@@ -611,10 +611,10 @@ This outline shows the complete documentation structure with:
 ## Multi-selection
 ## Learn more
 
-## /editor/design-mode/custom-css
+# Custom Tailwind CSS
 
-**Title:** Custom Tailwind CSS
 **Description:** Add custom Tailwind utility classes to elements.
+**URL:** /editor/design-mode/custom-css
 
 ## Adding custom classes
 ## Removing custom classes
@@ -629,20 +629,20 @@ This outline shows the complete documentation structure with:
 ## Limitations
 ## Learn more
 
-## /editor/prototype-mode/overview
+# Prototype mode overview
 
-**Title:** Prototype mode overview
 **Description:** Create interactive prototypes with AI-powered code generation.
+**URL:** /editor/prototype-mode/overview
 
 ## How it works
 ## What you can prototype
 ## Switch to Prototype Mode
 ## Learn more
 
-## /editor/prototype-mode/annotations
+# Annotations
 
-**Title:** Annotations
 **Description:** Add instructions to guide AI prototype generation.
+**URL:** /editor/prototype-mode/annotations
 
 ## Adding annotations
 ## Example annotations
@@ -650,10 +650,10 @@ This outline shows the complete documentation structure with:
 ## Writing good annotations
 ## Learn more
 
-## /editor/prototype-mode/chat-with-ai
+# Chat with AI
 
-**Title:** Chat with AI
 **Description:** Converse with AI to build and refine your prototype.
+**URL:** /editor/prototype-mode/chat-with-ai
 
 ## Starting the conversation
 ## Refining your prototype
@@ -661,10 +661,10 @@ This outline shows the complete documentation structure with:
 ## Best practices
 ## Learn more
 
-## /editor/prototype-mode/updating-designs
+# Updating designs
 
-**Title:** Updating designs
 **Description:** Rebuild prototypes when designs change.
+**URL:** /editor/prototype-mode/updating-designs
 
 ## When to update
 ## Regenerating the prototype
@@ -673,10 +673,10 @@ This outline shows the complete documentation structure with:
 ## Testing after updates
 ## Learn more
 
-## /editor/prototype-mode/view-prototype-code
+# View prototype code
 
-**Title:** View prototype code
 **Description:** Inspect and export the generated prototype code.
+**URL:** /editor/prototype-mode/view-prototype-code
 
 ## Viewing the code
 ## Code structure
@@ -684,10 +684,10 @@ This outline shows the complete documentation structure with:
 ## Limitations
 ## Learn more
 
-## /editor/prototype-mode/sharing-prototypes
+# Sharing prototypes
 
-**Title:** Sharing prototypes
 **Description:** Share interactive prototypes with your team or stakeholders.
+**URL:** /editor/prototype-mode/sharing-prototypes
 
 ## Generating a share link
 ## What viewers see
@@ -695,10 +695,10 @@ This outline shows the complete documentation structure with:
 ## Disabling sharing
 ## Learn more
 
-## /editor/code-mode/inspecting-code
+# Inspecting code
 
-**Title:** Inspecting code
 **Description:** View and copy generated code in multiple formats from Code Mode.
+**URL:** /editor/code-mode/inspecting-code
 
 ## Opening Code Mode
 ## Inspect tab
@@ -712,10 +712,10 @@ This outline shows the complete documentation structure with:
 ## Settings
 ## Learn more
 
-## /editor/code-mode/export-preferences
+# Installation
 
-**Title:** Installation
 **Description:** Set up Subframe in your project using CLI, Cursor, Claude, or Replit.
+**URL:** /editor/code-mode/export-preferences
 
 ## Manual setup
 ## Cursor MCP server
@@ -724,10 +724,10 @@ This outline shows the complete documentation structure with:
 ## MCP server benefits
 ## Learn more
 
-## /editor/code-mode/export-prompts
+# Export prompts
 
-**Title:** Export prompts
 **Description:** Pre-written prompts for common Subframe integration tasks.
+**URL:** /editor/code-mode/export-prompts
 
 ## Available prompts
 ### 1. Sync all components in current page
@@ -739,10 +739,10 @@ This outline shows the complete documentation structure with:
 ## MCP server requirement
 ## Learn more
 
-## /admin/inviting-team-members
+# Inviting team members
 
-**Title:** Inviting team members
 **Description:** Add collaborators to your Subframe team and manage invitations.
+**URL:** /admin/inviting-team-members
 
 ## Sending invitations
 ## Who can invite
@@ -753,10 +753,10 @@ This outline shows the complete documentation structure with:
 ## Limitations
 ## Learn more
 
-## /admin/roles-and-permissions
+# Roles and permissions
 
-**Title:** Roles and permissions
 **Description:** Understand what each team role can access and modify in Subframe.
+**URL:** /admin/roles-and-permissions
 
 ## Available roles
 ## Permission breakdown
@@ -773,10 +773,10 @@ This outline shows the complete documentation structure with:
 ### Code export
 ## Learn more
 
-## /admin/pricing-and-plans
+# Pricing and plans
 
-**Title:** Pricing and plans
 **Description:** Understand Subframe's subscription tiers and features.
+**URL:** /admin/pricing-and-plans
 
 ## Available plans
 ## Plan comparison
@@ -798,10 +798,10 @@ This outline shows the complete documentation structure with:
 ## Student and educator discounts
 ## Learn more
 
-## /admin/managing-projects
+# Managing projects
 
-**Title:** Managing projects
 **Description:** Create, organize, and delete projects in your workspace.
+**URL:** /admin/managing-projects
 
 ## Creating projects
 ### New blank project
@@ -830,10 +830,10 @@ This outline shows the complete documentation structure with:
 ### Cannot move between teams
 ## Learn more
 
-## /admin/auth-tokens
+# Auth tokens
 
-**Title:** Auth tokens
 **Description:** Understand how auth tokens work for your team members.
+**URL:** /admin/auth-tokens
 
 ## How tokens work for teams
 ### Personal tokens
@@ -848,10 +848,10 @@ This outline shows the complete documentation structure with:
 ### Role changes
 ## Learn more
 
-## /admin/sso/okta
+# Okta SSO
 
-**Title:** Okta SSO
 **Description:** Set up Okta single sign-on for your team.
+**URL:** /admin/sso/okta
 
 ## How SSO works
 ## Prerequisites
