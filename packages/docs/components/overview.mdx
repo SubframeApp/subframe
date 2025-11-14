@@ -3,59 +3,59 @@ title: Components overview
 description: Build and maintain your design system visually with React + Tailwind components.
 ---
 
-Subframe lets you create custom component libraries using React + Tailwind—entirely visually. Build a design system from scratch, match an existing one for high-fidelity prototyping, or start with Subframe's base components and customize from there.
+Create custom component libraries using React + Tailwind through a visual editor. Build a design system from scratch, match an existing one for prototyping, or customize Subframe's base components.
 
-Your component library becomes the single source of truth. Designers own and evolve the system in Subframe, engineers sync the generated code to production. Changes flow one way: design to code.
+Your component library is the source of truth. Designers own and evolve the system in Subframe, engineers sync generated code to production. Changes flow one way: design to code.
 
 ## Base components
 
-Every Subframe project starts with a base component library—buttons, inputs, cards, navigation, overlays, and more. These components are built on [Radix UI](https://www.radix-ui.com/) and [Headless UI](https://headlessui.com/), providing accessible, production-ready primitives.
+Every Subframe project starts with base components—buttons, inputs, cards, navigation, overlays. Components are built on [Radix UI](https://www.radix-ui.com/) and [Headless UI](https://headlessui.com/), providing accessible primitives.
 
-**Built by Subframe** components are yours to customize. Change colors, modify layouts, add variants, adjust spacing—they're the foundation you build on, not a locked template.
+**Built by Subframe** components are yours to customize. Change colors, modify layouts, add variants, adjust spacing—foundation you build on, not a locked template.
 
-Use them as-is for rapid prototyping, or customize them to match your brand and design system requirements.
+Use as-is for rapid prototyping, or customize to match your brand and design system.
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The component library showing categories of base components including Actions, Form inputs, Layout, Navigation, Feedback, and Data display" />
 
 ## Building your design system
 
-Subframe is built for creating production component libraries visually:
+Subframe creates production component libraries visually:
 
-**Customize base components** - Modify existing components to match your design system. Change the Button component's variants, add new TextField patterns, adjust Card layouts—all visually, no code required.
+**Customize base components** - Modify existing components to match your design system. Change Button variants, add TextField patterns, adjust Card layouts—all visual, no code.
 
-**Create custom components** - Build new components from scratch for your specific needs. Design once, reuse everywhere. Changes sync automatically to all instances and to your codebase.
+**Create custom components** - Build new components from scratch for specific needs. Design once, reuse everywhere. Changes sync to all instances and codebase.
 
-**Define variants and states** - Create size variants (sm, md, lg), style variants (primary, secondary, destructive), and interaction states (hover, pressed, focused, disabled). All generated as type-safe React props.
+**Define variants and states** - Create size variants (sm, md, lg), style variants (primary, secondary, destructive), and interaction states (hover, pressed, focused, disabled). Generated as type-safe React props.
 
-**Add props and slots** - Configure components with simple props (text, numbers, booleans) or flexible slots for complex composition. Export as TypeScript interfaces with full autocomplete.
+**Add props and slots** - Configure components with simple props (text, numbers, booleans) or flexible slots for complex composition. Export as TypeScript interfaces with autocomplete.
 
-## Single source of truth
+## Design to code workflow
 
-Your Subframe component library is the authoritative source for your design system:
+Your Subframe component library is authoritative:
 
-**Designers control the system** - Make changes in Subframe's visual editor without touching code. Update colors, refine spacing, add new variants—changes propagate automatically.
+**Designers control the system** - Make changes in visual editor without touching code. Update colors, refine spacing, add variants—changes propagate automatically.
 
-**Engineers sync to production** - Run `npx @subframe/cli sync` to update component code in your codebase. Components export as TypeScript React code with Tailwind styling, ready to use.
+**Engineers sync to production** - Run `npx @subframe/cli sync` to update component code in your codebase. Components export as TypeScript React code with Tailwind styling.
 
-**One-way sync** - Changes flow from Subframe to code. Engineers wrap components with business logic but never edit the generated files directly. This keeps design and code in sync.
+**One-way sync** - Changes flow from Subframe to code. Engineers wrap components with business logic but don't edit generated files. This keeps design and code in sync.
 
-**Team collaboration** - Designers iterate in Subframe, engineers integrate in their codebase. No handoff friction, no drift between design and implementation.
+**Team collaboration** - Designers iterate in Subframe, engineers integrate in codebase. No handoff friction, no drift between design and implementation.
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Diagram showing design changes in Subframe flowing to code via CLI sync, with engineers wrapping components for business logic" />
 
 ## Component anatomy
 
-Components in Subframe have several key features:
+Components have several key features:
 
-**Props** - Simple values like text, colors, or icons that configure component instances. Props export as TypeScript interface properties with type safety and autocomplete.
+**Props** - Simple values like text, colors, or icons that configure instances. Props export as TypeScript interface properties with type safety and autocomplete.
 
-**Slots** - Placeholders for React children that enable component composition. Pass any React element into a slot—buttons, images, custom components, or complex trees.
+**Slots** - Placeholders for React children that enable composition. Pass any React element into a slot—buttons, images, custom components, or complex trees.
 
-**Variants** - Pre-configured versions of a component like size options (small, medium, large) or style variations (primary, secondary, ghost). Switch variants from a dropdown instead of setting individual properties.
+**Variants** - Pre-configured versions like size options (small, medium, large) or style variations (primary, secondary, ghost). Switch variants from dropdown instead of setting individual properties.
 
 **States** - Visual changes based on interaction: hover, pressed, focused, disabled. Design each state visually and they export as CSS pseudo-classes.
 
-For detailed guidance on when to use each, see [Props and Slots](/components/props-and-slots).
+For detailed guidance, see [Props and Slots](/components/props-and-slots).
 
 ## Syncing to code
 
@@ -67,7 +67,7 @@ When you run `npx @subframe/cli sync`, Subframe generates TypeScript React compo
 - Forward refs, event handlers, and React composition patterns
 - Responsive design with mobile overrides
 
-Components sync one-way from Subframe to your codebase. Changes in Subframe overwrite generated files, so wrap components in your own files for business logic instead of editing directly.
+Components sync one-way from Subframe to codebase. Changes in Subframe overwrite generated files, so wrap components in your own files for business logic instead of editing directly.
 
 ```tsx Button.tsx (generated by Subframe)
 import * as React from "react"
@@ -93,20 +93,20 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 )
 ```
 
-For more on syncing, see [Syncing Components](/develop/syncing-components).
+For more on syncing, see [Syncing Components](/developing/syncing-components).
 
 ## Importing existing systems
 
 Subframe supports multiple ways to bring existing design systems into the platform:
 
-**Import from code (coming soon)** - Import existing React + Tailwind components from your codebase into Subframe for high-fidelity design and prototyping. Reach out to support@subframe.com for early access.
+**Import from code (coming soon)** - Import existing React + Tailwind components from your codebase for high-fidelity design and prototyping. Reach out to support@subframe.com for early access.
 
-**Import theme tokens** - Import color palettes, typography scales, and spacing systems from Figma or other design tools. Your theme tokens apply automatically to all components.
+**Import theme tokens** - Import color palettes, typography scales, and spacing systems from Figma or other tools. Theme tokens apply to all components.
 
-**Recreate visually** - Use Subframe's visual editor to rebuild components that match your existing system. Faster than you'd expect, and you get a design system designers can maintain.
+**Recreate visually** - Use visual editor to rebuild components that match your existing system. Faster than expected, and designers can maintain the system.
 
 <Note>
-Direct Figma component import is not currently supported, but we're working on it. In the meantime, you can import theme tokens and rebuild components visually.
+Direct Figma component import is not currently supported. Import theme tokens and rebuild components visually.
 </Note>
 
 ## Next steps
@@ -121,7 +121,7 @@ Direct Figma component import is not currently supported, but we're working on i
   <Card title="Props and Slots" icon="puzzle-piece" href="/components/props-and-slots">
     Understand component customization patterns
   </Card>
-  <Card title="Syncing Components" icon="arrows-rotate" href="/develop/syncing-components">
+  <Card title="Syncing Components" icon="arrows-rotate" href="/developing/syncing-components">
     Keep your codebase in sync with design changes
   </Card>
 </CardGroup>

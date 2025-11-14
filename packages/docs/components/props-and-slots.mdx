@@ -3,10 +3,10 @@ title: Props and slots
 description: Understand when to use props vs slots for customizing Subframe components.
 ---
 
-In Subframe, you can customize components using two primary methods: **props** and **slots**.
+Customize components using **props** and **slots**.
 
-- **Props** — Ideal for customizing simple, static content such as text, image URLs, numbers, or other basic data types.
-- **Slots** — Provide greater flexibility by allowing you to insert arbitrary React nodes directly into components. Slots utilize the [React composition pattern](https://felixgerschau.com/react-component-composition/), offering more control and interactivity while avoiding prop drilling.
+- **Props** — Simple values like text, image URLs, numbers, or booleans
+- **Slots** — React nodes for composition, enabling event handlers and custom components
 
 ## When to use each
 
@@ -16,7 +16,7 @@ Use **slots** when you require dynamic content or need access to specific subcom
 
 ## Comparing props and slots
 
-Let's compare two implementations of a `TrackCard` component from the [Adding business logic](/develop/adding-business-logic#example-2-interactive-track-cards) guide.
+Compare two implementations of a `TrackCard` component from the [Adding business logic](/developing/adding-business-logic#example-2-interactive-track-cards) guide.
 
 <CodeGroup>
 
@@ -90,9 +90,9 @@ export default TrackCardWithSlotsExample
 
 </CodeGroup>
 
-With **props only**, we're limited to passing simple values. We can't attach event handlers to the favorite button or use Next.js's optimized `Image` component.
+With **props only**, you pass simple values. Event handlers and framework-specific components aren't accessible.
 
-With **slots**, we have full control. We can pass custom event handlers, use framework-specific components, and access all the props we need.
+With **slots**, you pass custom event handlers, framework-specific components, and access subcomponent props.
 
 ## Benefits of slots
 
@@ -104,9 +104,9 @@ Slots expose the full API of nested components, including event handlers like `o
 
 Use framework-specific components like Next.js's `Image` or custom wrappers. Slots accept any React node, so you can integrate with your existing component library seamlessly.
 
-### Full flexibility
+### React composition
 
-Pass any React element, including complex components with their own state and logic. Slots support the full power of React composition.
+Pass any React element, including complex components with state and logic. Slots support React composition patterns.
 
 <Tip>
 Subcomponents help clarify intended usage by explicitly exposing slots and relevant props to the consumer of a component. The `<TrackCardWithSlots.FavoriteButton />` subcomponent is a good example of this in the code above.
