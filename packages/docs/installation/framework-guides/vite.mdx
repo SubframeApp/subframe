@@ -1,15 +1,15 @@
 ---
 title: Vite
-description: Install and configure Subframe in your Vite + React application.
+description: Install Subframe in your Vite + React app
 ---
 
 <Note>
-This guide assumes you already have a Vite project with React and Tailwind CSS configured. If you haven't set those up yet, follow the [Vite](https://vite.dev/guide/#scaffolding-your-first-vite-project) and [Tailwind CSS](https://v3.tailwindcss.com/docs/installation/using-postcss) installation guides first.
+This guide assumes you have a Vite project with React and Tailwind CSS. If not, follow [Vite](https://vite.dev/guide/#scaffolding-your-first-vite-project) and [Tailwind CSS](https://v3.tailwindcss.com/docs/installation/using-postcss) setup first.
 </Note>
 
 ## Installation
 
-Run the following command in the root of your repository to install Subframe and configure your project:
+Run the init command in your repository root:
 
 <CodeGroup>
   ```bash npm
@@ -28,11 +28,11 @@ Run the following command in the root of your repository to install Subframe and
 
 ## Configure import aliases
 
-After installation, you need to configure Vite to resolve import aliases properly.
+After installation, configure Vite to resolve import aliases.
 
 ### Update tsconfig.app.json
 
-Configure the `compilerOptions` in your `tsconfig.app.json` file so TypeScript understands your import aliases:
+Configure `compilerOptions` so TypeScript understands import aliases:
 
 ```json tsconfig.app.json {3-8}
 {
@@ -71,7 +71,7 @@ Configure the `compilerOptions` in your `tsconfig.app.json` file so TypeScript u
 
 ### Update vite.config.ts
 
-Install the Node types package and update your Vite config to resolve paths:
+Install Node types and update Vite config to resolve paths:
 
 ```bash
 npm install -D @types/node
@@ -94,9 +94,9 @@ export default defineConfig({
 })
 ```
 
-## Using Subframe components
+## Use components
 
-Now you can import and use Subframe components in your Vite app:
+Import and use Subframe components:
 
 ```tsx src/App.tsx
 import { Button } from "@/ui/Button";
@@ -106,6 +106,4 @@ export default function App() {
 }
 ```
 
-## Troubleshooting
-
-If you run into issues with the installation, refer to the [Manual installation guide](/installation/framework-guides/manual) for all the steps needed to get Subframe working in your codebase.
+For troubleshooting, see the [Manual installation guide](/installation/framework-guides/manual).
