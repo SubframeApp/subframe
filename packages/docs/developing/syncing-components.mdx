@@ -3,12 +3,16 @@ title: Syncing components
 description: Keep components in sync with the CLI
 ---
 
-Syncing creates a local copy of your Subframe components that stays in sync with your designs. When you update components in Subframe, run the sync command to pull the latest code.
+Syncing creates a local copy of your Subframe components that stays in sync with your designs. Components are your design system source of truth—they sync bidirectionally via CLI.
+
+**Components sync, pages don't.** This is the fundamental workflow distinction:
+- **Components** = Run `sync` command to update code when designs change
+- **Pages** = Copy/paste code once, then add business logic locally (no syncing)
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Terminal showing the Subframe CLI sync command running with output displaying synced components like Button, TextField, and Card with success checkmarks" className="w-full" />
 
 <Note>
-Sync goes one way from Subframe to your codebase. Local changes to component files get overwritten on the next sync.
+Sync goes one way from Subframe to your codebase. Local changes to component files get overwritten on the next sync. Use wrapper components for custom logic.
 </Note>
 
 ## Running sync
