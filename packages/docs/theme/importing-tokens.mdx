@@ -3,108 +3,89 @@ title: Importing tokens
 description: Import design tokens from Figma or other design systems into Subframe.
 ---
 
-## Overview
+Import design tokens from existing design systems to match your brand. Subframe supports CSS variable import for quick token migration.
 
-### Why Import Tokens?
+## Importing CSS variables
 
-[Bring existing design system]
+The fastest way to import tokens is via CSS variables:
 
-### Supported Sources
+1. Copy CSS variables from your design system (Figma variables export, storybook, or existing codebase)
+2. Navigate to **Components > Theme** in Subframe
+3. Click **Import CSS variables**
+4. Paste your CSS variables
+5. Review the imported tokens
+6. Click **Import** to apply
 
-[Figma, JSON, etc.]
+### Supported CSS variable format
+
+Subframe accepts standard CSS custom properties:
+
+```css
+:root {
+  --color-brand-primary: #3B82F6;
+  --color-background: #FFFFFF;
+  --font-family-sans: 'Inter', sans-serif;
+  --spacing-4: 16px;
+  --border-radius-md: 8px;
+}
+```
+
+Token names convert to Subframe's naming convention automatically. For example, `--color-brand-primary` becomes `brand-primary` in your color tokens.
 
 ## Importing from Figma
 
-### Prerequisites
+Export Figma variables as CSS using Figma plugins or manual export:
 
-[Figma file with tokens]
+1. In Figma, use a plugin to export variables as CSS (e.g., "Figma Tokens")
+2. Copy the generated CSS variables
+3. Use the CSS variable import feature in Subframe
+4. Adjust any token mappings as needed
 
-### Import Process
+<Note>
+Figma variable export requires a plugin. Look for "CSS Variables Export" or "Design Tokens" plugins in the Figma community.
+</Note>
 
-[Step-by-step]
+## After importing
 
-### Availability
+**Review imported tokens** - Check that colors, fonts, and spacing match your expectations. Some conversions may need manual adjustment.
 
-[Limited beta feature]
+**Test across components** - Browse your component library to verify imported tokens work correctly with base components.
 
-### Requesting Access
+**Sync to code** - Run `npx @subframe/cli sync --all` to update your codebase with imported theme tokens.
 
-[Contact support@subframe.com]
+## Best practices
 
-## Token Format
+**Clean up token names** - After import, rename tokens to match Subframe conventions if needed.
 
-### Color Tokens
+**Reference relationships** - Ensure semantic tokens (like `color-error`) reference base tokens correctly.
 
-[Format and structure]
-
-### Typography Tokens
-
-[Font properties]
-
-### Spacing Tokens
-
-[Spacing values]
-
-### Other Tokens
-
-[Borders, shadows, etc.]
-
-## Mapping Tokens
-
-### Automatic Mapping
-
-[How Subframe maps tokens]
-
-### Manual Adjustments
-
-[Fix conflicts or mismatches]
-
-### Token Naming
-
-[Conventions for imported tokens]
-
-## After Importing
-
-### Review Imported Tokens
-
-[Verify all tokens]
-
-### Test Components
-
-[Check component rendering]
-
-### Adjust as Needed
-
-[Fine-tune values]
-
-## Maintaining Sync
-
-### Re-importing Updates
-
-[Keep design system in sync]
-
-### Version Control
-
-[Track token changes]
-
-## Best Practices
-
-### Clean Token Structure
-
-[Organized naming]
-
-### Test Before Import
-
-[Verify token values]
-
-### Document Sources
-
-[Where tokens came from]
+**Document sources** - Note where tokens came from for future reference when syncing updates.
 
 ## Troubleshooting
 
-### Import Failures
+<AccordionGroup>
+<Accordion title="Import fails with format error">
 
-### Token Conflicts
+Verify your CSS variables use standard syntax:
+- Must start with `--`
+- Use valid CSS values (hex colors, px/rem units, font names)
+- No JavaScript or preprocessor syntax
 
-### Missing Tokens
+</Accordion>
+<Accordion title="Tokens don't map correctly">
+
+Some token names may not auto-map to Subframe categories:
+- Manually reassign tokens in the theme editor
+- Use semantic naming for better auto-detection
+- Check that color values are hex codes or rgb/hsl
+
+</Accordion>
+<Accordion title="Fonts don't load">
+
+For custom fonts:
+- Ensure font files are accessible
+- Add font imports to your project
+- Google Fonts work automatically when specified by name
+
+</Accordion>
+</AccordionGroup>

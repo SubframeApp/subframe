@@ -3,7 +3,9 @@ title: MCP server
 description: Connect AI coding tools to your Subframe projects
 ---
 
-The Subframe MCP server connects AI assistants like Claude Code and Cursor to your Subframe projects. AI fetches components, pages, and themes without manual code copying.
+The Subframe MCP server connects AI assistants like Claude Code and Cursor to your Subframe projects. Paste Subframe URLs into prompts and the MCP server fetches components, pages, and theme data automatically.
+
+Your designs become the best context for AI—no manual code copying, no outdated snippets. The AI sees your actual design system and generates code that matches your components.
 
 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/docs/getting-started/intro) is a standard for connecting AI assistants to external data sources. A separate Subframe Docs MCP server provides access to documentation.
 
@@ -129,28 +131,48 @@ To get the latest version of components, run `npx @subframe/cli@latest sync` to 
 
 <AccordionGroup>
 
-<Accordion title="Implement a new page">
+<Accordion title="Implement a new page with business logic">
 
 ```text
 Create a new page using the Subframe page at
 https://app.subframe.com/PROJECT_ID/design/DESIGN_ID/edit
 
-Wire up relevant app logic (API calls, hooks, routing).
+Add a signup form with:
+- Email validation
+- Supabase authentication
+- Error handling
+- Loading states
 Keep it consistent with existing project conventions.
 ```
 
 </Accordion>
-<Accordion title="Update an existing page">
+<Accordion title="Multi-page flow with context">
+
+```text
+Implement this entire user onboarding flow:
+
+1. Welcome page: https://app.subframe.com/PROJECT_ID/design/WELCOME_ID/edit
+2. Profile setup: https://app.subframe.com/PROJECT_ID/design/PROFILE_ID/edit
+3. Preferences: https://app.subframe.com/PROJECT_ID/design/PREFERENCES_ID/edit
+
+Add routing between pages, shared state, and API integration.
+```
+
+The AI fetches all three pages and understands the relationships between them.
+
+</Accordion>
+<Accordion title="Update existing page, preserve logic">
 
 ```text
 Update the existing page to match the Subframe design at
 https://app.subframe.com/PROJECT_ID/design/DESIGN_ID/edit
 
-Preserve all existing functionality unless the new design requires changes.
+Preserve all existing functionality, API calls, and state management.
+Only update the UI to match the new design.
 ```
 
 </Accordion>
-<Accordion title="Fetch a component">
+<Accordion title="Fetch specific component">
 
 ```text
 Get the Button component from Subframe and use it in this file
@@ -164,10 +186,10 @@ Show me all components in my Subframe project
 ```
 
 </Accordion>
-<Accordion title="Get the theme">
+<Accordion title="Get theme configuration">
 
 ```text
-Get my Subframe theme configuration
+Get my Subframe theme configuration and show me the color tokens
 ```
 
 </Accordion>

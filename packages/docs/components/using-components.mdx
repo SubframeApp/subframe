@@ -153,7 +153,7 @@ The default slot uses `children`. See [Props and Slots](/components/props-and-sl
 
 ### Wrapper components
 
-Wrap Subframe components with custom logic:
+Wrap Subframe components with custom logic instead of modifying generated files. Wrappers keep components synced while adding functionality.
 
 ```tsx LoginButton.tsx
 'use client'
@@ -182,6 +182,10 @@ export function LoginButton() {
   )
 }
 ```
+
+<Tip>
+Wrapper components are the recommended pattern when you need to add business logic. This keeps generated Subframe files untouched and prevents conflicts during sync.
+</Tip>
 
 For more examples, see [Adding Business Logic](/developing/adding-business-logic).
 
