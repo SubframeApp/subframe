@@ -12,12 +12,20 @@ The fastest way to create a component is from elements you've already designed.
 1. Select the elements (<kbd>Shift</kbd> + click or drag to select)
 2. Right-click → **Create component**
 3. Name your component (use PascalCase: ProductCard, FeatureSection, UserAvatar)
-4. Review and configure suggested properties
+4. Review AI-suggested properties
 5. Click **Create**
 
-Subframe analyzes your selection and suggests properties based on text, icons, and images it finds. Toggle properties on or off, rename them to match your terminology, then create.
+### AI-powered property suggestions
 
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The create component dialog showing suggested properties with toggle switches" />
+Subframe analyzes your selection and automatically suggests properties based on content it detects:
+
+- **Text elements** become text props (titles, descriptions, labels)
+- **Icons** become icon props with current icon as default
+- **Images** become image props
+
+Toggle suggested properties on or off in the creation dialog. Rename properties to match your terminology—these become your component's prop names in code.
+
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The create component dialog showing AI-suggested properties with toggle switches for detected text, icon, and image elements, with rename fields for each property" />
 
 ## Creating from scratch
 
@@ -63,14 +71,9 @@ To style variant options, select the enum value from the dropdown in the compone
 
 States define how components look during interaction. Add states from the States dropdown in the component editor:
 
-**Hover** - Mouse over the component
-**Pressed** - Active/pressed state
-**Focused** - Keyboard focus (important for accessibility)
-**Disabled** - Component is not interactive
-
-Select a state, apply styling, and it exports as CSS pseudo-classes (`:hover`, `:active`, `:focus-visible`, `[disabled]`).
-
-Always design focus states for accessibility—they're required for keyboard navigation.
+**Hover** - Mouse over the component `:hover`
+**Pressed** - Active/pressed state `:active`
+**Focused** - Keyboard focus (important for accessibility) `:focus-visible`
 
 ## Slots
 
@@ -136,7 +139,7 @@ export const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
 
 ## Editing components
 
-To edit an existing component:
+Edit any component—base or custom—the same way:
 
 1. Go to **Components** tab (top nav)
 2. Select your component
@@ -145,7 +148,7 @@ To edit an existing component:
 
 Or right-click any instance → **Edit component** to open the editor.
 
-Changes you make update all instances across all pages immediately.
+Base components from Subframe are fully editable. Change colors, layouts, variants, states—they work identically to custom components. Changes you make update all instances across all pages immediately.
 
 ## Learn more
 
