@@ -1,36 +1,13 @@
 ---
 title: Using components
-description: Add and configure components in your designs and understand how to use them in code.
+description: Add and configure components in Subframe, then use them in your React code.
 ---
 
-Add components to the canvas, configure their properties, and export as React code.
+Add components to the canvas, configure instances in Subframe, then import and use them in your React application.
 
 ## Adding components
 
-### From the component library
-
-1. Click **Components** in the left sidebar
-2. Browse or search for a component
-3. Drag it onto the canvas
-4. Position where needed
-
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Subframe editor showing the component library open on the left with the Button component being dragged onto the canvas in the center, with a blue highlight indicating where it will be placed" />
-
-### Using the command palette
-
-Press <kbd>Cmd</kbd> + <kbd>K</kbd> (or <kbd>Ctrl</kbd> + <kbd>K</kbd> on Windows):
-
-1. Type the component name
-2. Press <kbd>Enter</kbd> to insert
-3. Component appears at cursor position
-
-### With Ask AI
-
-Ask AI can add components when generating designs:
-
-> "Add a Button component with the text 'Sign up' below the email field"
-
-AI understands your component library and uses appropriate components.
+Add components from the component library, command palette, or Ask AI. For detailed instructions, see [Add Elements](/editor/design-mode/add-elements#components).
 
 ## Component instances
 
@@ -126,11 +103,11 @@ Every component has built-in documentation.
 
 Interactive examples show common use cases. Click **View code** to see implementation and copy to clipboard.
 
-## Using components in code
+## Using in code
 
-After syncing with CLI, use components in your React application.
+After syncing with `npx @subframe/cli sync`, components are ready to use in your React application.
 
-### Importing components
+### Importing
 
 Import using the alias configured during installation:
 
@@ -140,67 +117,39 @@ import { TextField } from "@/ui/TextField"
 import { Alert } from "@/ui/Alert"
 ```
 
-Import path matches your CLI configuration (typically `@/ui` or `@/components`).
+### Props and events
 
-### Passing props
-
-Use like any React component:
+Use components like any React component:
 
 ```tsx
 <Button
   variant="brand-primary"
   size="medium"
   icon="FeatherCheck"
->
-  Submit
-</Button>
-```
-
-All props are TypeScript-typed with autocomplete and type checking.
-
-### Event handlers
-
-Subframe components forward standard React props to their root element:
-
-```tsx
-<Button
   onClick={() => handleSubmit()}
-  onMouseEnter={() => console.log('hover')}
   disabled={isLoading}
 >
   Submit
 </Button>
 ```
 
-No need to modify components to add event handlers.
+All props are TypeScript-typed. Subframe components forward standard React props like `onClick` and `disabled` to their root element.
 
-### Using slots
+### Slots
 
-Components with slots accept React elements as props:
+Components with slots accept React elements:
 
 ```tsx
 <Alert
   icon="FeatherInfo"
   title="Update available"
-  description="A new version is ready to install."
-  actions={
-    <Button onClick={() => install()}>
-      Install now
-    </Button>
-  }
-/>
+  actions={<Button onClick={() => install()}>Install now</Button>}
+>
+  A new version is ready to install.
+</Alert>
 ```
 
-The default slot uses `children` prop:
-
-```tsx
-<Card title="Product">
-  <Image src="/product.jpg" />
-  <Text>Product description goes here</Text>
-</Card>
-```
-
-For more on slots, see [Props and Slots](/components/props-and-slots).
+The default slot uses `children`. See [Props and Slots](/components/props-and-slots) for details.
 
 ### Wrapper components
 
@@ -214,7 +163,7 @@ import { Button } from '@/ui/Button'
 export function LoginButton() {
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleLogin = async () => {
+  async function handleLogin() {
     setIsLoading(true)
     try {
       await loginUser()
@@ -227,10 +176,7 @@ export function LoginButton() {
   }
 
   return (
-    <Button
-      onClick={handleLogin}
-      disabled={isLoading}
-    >
+    <Button onClick={handleLogin} disabled={isLoading}>
       {isLoading ? 'Logging in...' : 'Log in'}
     </Button>
   )
@@ -239,77 +185,42 @@ export function LoginButton() {
 
 For more examples, see [Adding Business Logic](/developing/adding-business-logic).
 
-### TypeScript types
-
-All components export TypeScript interfaces:
-
-```tsx
-import { Button, type ButtonProps } from '@/ui/Button'
-
-interface CustomButtonProps extends ButtonProps {
-  analyticsEvent?: string
-}
-
-export function CustomButton({ analyticsEvent, ...props }: CustomButtonProps) {
-  return (
-    <Button
-      onClick={() => {
-        if (analyticsEvent) trackEvent(analyticsEvent)
-        props.onClick?.()
-      }}
-      {...props}
-    />
-  )
-}
-```
-
 ## Troubleshooting
 
 <AccordionGroup>
-<Accordion title="Component not rendering">
-
-If component doesn't appear in your app:
-
-1. Sync components: `npx @subframe/cli sync --all`
-2. Check import path matches configuration
-3. Restart dev server after syncing
-4. Check for TypeScript errors in IDE
-
-</Accordion>
-<Accordion title="Props not working">
-
-If props don't work:
-
-1. Check component documentation for correct prop name
-2. Verify prop value is valid (check TypeScript types)
-3. Use latest synced version
-4. Sync again: `npx @subframe/cli sync ComponentName`
-
-</Accordion>
-<Accordion title="Styles not applying">
-
-If custom styles don't work:
-
-1. Use `className` prop to add custom classes
-2. Check Tailwind config includes Subframe theme
-3. Verify import order in CSS files
-4. Use browser DevTools to inspect rendered HTML
-
-</Accordion>
 <Accordion title="Instance not updating">
 
 If instance doesn't reflect component changes:
 
-1. Check if property overridden (purple indicators)
+1. Check if properties are overridden (purple indicators in Inspector)
 2. Reset overrides to get latest component styles
-3. If detached, replace with new instance
+3. If detached, instance won't update—replace with new instance
+
+</Accordion>
+<Accordion title="Component not rendering in app">
+
+If component doesn't appear in your React app:
+
+1. Sync components: `npx @subframe/cli sync --all`
+2. Check import path matches CLI configuration
+3. Restart dev server after syncing
+4. Check for TypeScript errors in IDE
+
+</Accordion>
+<Accordion title="Props not working in code">
+
+If props don't work:
+
+1. Check component documentation for correct prop name
+2. Verify prop value matches TypeScript types
+3. Sync again: `npx @subframe/cli sync ComponentName`
 
 </Accordion>
 </AccordionGroup>
 
 ## Learn more
 
-- [Component Overview](/components/overview) - Understand the component system
 - [Creating Components](/components/creating-components) - Build custom components
-- [Props and Slots](/components/props-and-slots) - Master component composition
+- [Props and Slots](/components/props-and-slots) - Understand customization patterns
 - [Syncing Components](/developing/syncing-components) - Keep code in sync with designs
+- [Adding Business Logic](/developing/adding-business-logic) - Wrap components with custom logic
