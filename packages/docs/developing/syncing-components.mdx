@@ -1,19 +1,19 @@
 ---
 title: Syncing components
-description: Keep your codebase in sync with Subframe components using the CLI.
+description: Keep components in sync with the CLI
 ---
 
-To use Subframe components in your app, you need to sync them to your codebase. This creates a local copy of the code for your components that stays in sync with your designs in Subframe.
+Syncing creates a local copy of your Subframe components that stays in sync with your designs. When you update components in Subframe, run the sync command to pull the latest code.
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Terminal showing the Subframe CLI sync command running with output displaying synced components like Button, TextField, and Card with success checkmarks" className="w-full" />
 
 <Note>
-**Sync goes one way** from Subframe to your codebase. This means that if you make changes to a Subframe component's code in your codebase, those changes will be overwritten the next time you sync.
+Sync goes one way from Subframe to your codebase. Local changes to component files get overwritten on the next sync.
 </Note>
 
-## Running the sync command
+## Running sync
 
-Make sure to first [install Subframe](/installation/existing-project). To sync the code for all of your components to your codebase, run the following command:
+Make sure to first [install Subframe](/installation/existing-project). Sync all components with:
 
 <CodeGroup>
   ```bash npm
@@ -32,7 +32,7 @@ Make sure to first [install Subframe](/installation/existing-project). To sync t
 
 ### Sync specific components
 
-You can also sync only specific components by providing their names as arguments:
+Provide component names as arguments:
 
 <CodeGroup>
   ```bash npm
@@ -51,8 +51,6 @@ You can also sync only specific components by providing their names as arguments
 
 ### Command options
 
-The sync command accepts several options:
-
 ```
 Arguments:
   components                   the components to sync
@@ -64,7 +62,7 @@ Options:
   -h, --help                   display help for command
 ```
 
-For example, to sync all components and automatically install dependencies:
+Sync all components and install dependencies:
 
 ```bash
 npx @subframe/cli@latest sync --all --install
@@ -72,33 +70,27 @@ npx @subframe/cli@latest sync --all --install
 
 ## When to sync
 
-You should sync your components whenever you:
+Sync your components whenever you:
 
-- **Create new components** in Subframe that you want to use in your codebase
-- **Modify existing components** in Subframe (change styles, add variants, update props)
+- **Create new components** in Subframe to use in your codebase
+- **Modify existing components** (change styles, add variants, update props)
 - **Pull changes** from teammates who updated components
 - **Update your theme** (colors, typography, spacing)
+- **Add new variants** or props to components
+- **Fix bugs** in component implementations
 
-Sync is fast and safe—it only updates the files that changed, so you can run it as often as you need.
+Sync only updates files that changed. Run it as often as needed.
 
-## Disabling sync
+After syncing, restart your dev server to see changes:
 
-If you make changes to a Subframe component's code in your codebase, those changes will be overwritten the next time you sync. To prevent your changes from being overwritten, you can disable syncing for that component by adding `// @subframe/sync-disable` anywhere in the component file:
-
-```tsx src/ui/Accordion.tsx {1}
-// @subframe/sync-disable
-
-"use client";
-/*
- * Documentation:
- * Accordion — https://app.subframe.com/library?component=Accordion_d2e81e20-863a-4027-826a-991d8910efd9
- */
-
-...
+```bash
+npm run dev
 ```
 
-<Warning>
-Disabling sync should be used as a last resort when you need to change the core behavior of a component.
-</Warning>
+## Preventing overwrites
 
-See our best practices for when to [disable sync](/develop/disabling-sync).
+If you need to modify a component file directly, add `// @subframe/sync-disable` to prevent overwrites. See [Disabling sync](/developing/disabling-sync) for details and best practices.
+
+<Warning>
+Disabling sync should be a last resort. Use wrapper components or composition patterns when possible.
+</Warning>
