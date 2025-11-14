@@ -3,113 +3,70 @@ title: Props and slots
 description: Understand when to use props vs slots for customizing Subframe components.
 ---
 
-Customize components using **props** and **slots**.
+Components accept two types of customization: **props** and **slots**.
 
-- **Props** — Simple values like text, image URLs, numbers, or booleans
-- **Slots** — React nodes for composition, enabling event handlers and custom components
+**Props** are simple values—text, numbers, booleans, icons, images. Configure props in the Inspector panel when using components. In code, pass props like any React component.
+
+**Slots** are placeholders for React children. They enable composition—nesting components inside other components. Designers define slots and add default content. Developers fill slots with custom components, event handlers, and framework-specific elements.
 
 ## When to use each
 
-Use **props** for straightforward, static content updates like titles, labels, image URLs, and simple data.
+Use **props** for content that changes per instance: titles, labels, colors, icons, image URLs.
 
-Use **slots** when you require dynamic content or need access to specific subcomponent properties like event handlers (`onClick`, `onChange`) or attributes (`alt`, `src`).
+Use **slots** when you need:
+- Event handlers on subcomponents (`onClick`, `onChange`)
+- Framework-specific components (Next.js `Image`, custom wrappers)
+- Complex nested content with its own state and logic
 
-## Comparing props and slots
+## Example: Props vs slots
 
-Compare two implementations of a `TrackCard` component from the [Adding business logic](/developing/adding-business-logic#example-2-interactive-track-cards) guide.
+A `TrackCard` component with only props accepts simple values but can't expose event handlers or framework components:
 
-<CodeGroup>
-
-```tsx src/components/TrackCard.tsx (with only props) [expandable]
-"use client"
-import { TrackCardWithProps } from "@/ui/components/TrackCardWithProps"
-
-function TrackCardWithPropsExample() {
-  const [isFavorite, setIsFavorite] = useState<boolean>(false)
-
-  function handleFavoriteClick() {
-    setIsFavorite((prev) => !prev)
-  }
-
-  const favoriteIcon = isFavorite ? "FeatherHeartOff" : "FeatherHeart"
-
-  return (
-    <TrackCardWithProps
-      title="The Less I Know The Better"
-      artist="Tame Impala"
-      length="3:38"
-      genre="Disco"
-      // We can only pass a static image URL here and no alt text,
-      // since the props for the underlying <img /> are not exposed
-      image="/covers/tame_impala-currents.jpg"
-      // We have no way to add an onClick handler or an icon to our
-      // FavoriteButton here, since it's events are not exposed
-    />
-  )
-}
-
-export default TrackCardWithPropsExample
+```tsx
+<TrackCard
+  title="The Less I Know The Better"
+  artist="Tame Impala"
+  image="/covers/tame_impala.jpg"  // Static URL only, no Next.js Image
+  // No way to add onClick to favorite button
+/>
 ```
 
-```tsx src/components/TrackCard.tsx (with slots) [expandable]
-"use client"
-import { TrackCardWithSlots } from "@/ui/components/TrackCardWithSlots"
-import Image from "next/image"
+The same component with slots exposes subcomponents and accepts React elements:
 
-function TrackCardWithSlotsExample() {
-  const [isFavorite, setIsFavorite] = useState<boolean>(false)
-
-  function handleFavoriteClick() {
-    setIsFavorite((prev) => !prev)
-  }
-
-  const favoriteIcon = isFavorite ? "FeatherHeartOff" : "FeatherHeart"
-
-  return (
-    <TrackCardWithSlots
-      title="The Less I Know The Better"
-      artist="Tame Impala"
-      length="3:38"
-      // We can pass in an onClick handler
-      // and icon to the FavoriteButton here,
-      // since it's props are now exposed
-      favoriteButtonSlot={<TrackCardWithSlots.FavoriteButton icon={favoriteIcon} onClick={handleFavoriteClick} />}
-      imageSlot={
-        // We can pass an arbitrary React node here
-        // such as Next's <Image /> component,
-        // allowing us to optimize images and add alt text
-        <Image src="/covers/tame_impala-currents.jpg" alt="Tame Impala Currents Cover Art" fill={true} />
-      }
-      genre="Disco"
+```tsx
+<TrackCard
+  title="The Less I Know The Better"
+  artist="Tame Impala"
+  favoriteButton={
+    <TrackCard.FavoriteButton
+      icon={isFavorite ? "FeatherHeartOff" : "FeatherHeart"}
+      onClick={() => setIsFavorite(!isFavorite)}
     />
-  )
-}
-
-export default TrackCardWithSlotsExample
+  }
+  image={
+    <Image
+      src="/covers/tame_impala.jpg"
+      alt="Tame Impala Currents Cover"
+      fill
+    />
+  }
+/>
 ```
 
-</CodeGroup>
+Slots enable event handlers, Next.js optimized images, and full control over nested components.
 
-With **props only**, you pass simple values. Event handlers and framework-specific components aren't accessible.
+## Creating props and slots
 
-With **slots**, you pass custom event handlers, framework-specific components, and access subcomponent props.
+Add props and slots when creating or editing components. See [Creating Components](/components/creating-components) for detailed instructions.
 
-## Benefits of slots
+**Props:** Select an element → Inspector panel → **+ Add property** → Choose type (Text, Boolean, Enum, Icon, Image, Number)
 
-### Access to subcomponent props
+**Slots:** Select a Stack → Right-click → **Add slot** → Name the slot → Add default content
 
-Slots expose the full API of nested components, including event handlers like `onClick`, `onChange`, and `onSubmit`. This lets you add interactivity without modifying the synced component.
+Slots export as React props that accept JSX. Props export as TypeScript interface properties.
 
-### Framework integration
+## Learn more
 
-Use framework-specific components like Next.js's `Image` or custom wrappers. Slots accept any React node, so you can integrate with your existing component library seamlessly.
-
-### React composition
-
-Pass any React element, including complex components with state and logic. Slots support React composition patterns.
-
-<Tip>
-Subcomponents help clarify intended usage by explicitly exposing slots and relevant props to the consumer of a component. The `<TrackCardWithSlots.FavoriteButton />` subcomponent is a good example of this in the code above.
-</Tip>
-
-When using subcomponents, you can expose all necessary props and slots while ensuring that the component is easy to use and understand.
+- [Creating Components](/components/creating-components) - Build components with props and slots
+- [Using Components](/components/using-components) - Configure instances and use in code
+- [Adding Business Logic](/developing/adding-business-logic) - Wrap components with custom logic

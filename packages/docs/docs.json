@@ -88,8 +88,8 @@
         "group": "Components",
         "pages": [
           "components/overview",
-          "components/using-components",
           "components/creating-components",
+          "components/using-components",
           "components/props-and-slots"
         ]
       },
