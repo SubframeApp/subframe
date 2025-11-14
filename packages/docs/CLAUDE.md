@@ -100,6 +100,7 @@ Subframe serves designers (visual editing, AI design) and engineers (code export
 - H3: Subsections (use sparingly, 0-3 per H2)
 - No deeper nesting
 - Avoid generic sections like "Best Practices", "Getting Started", "Troubleshooting" unless substantial (50+ lines)
+- **Troubleshooting/Common Issues sections**: Always use `<AccordionGroup>` with `<Accordion>` components for better scannability and progressive disclosure
 
 **Sentence structure:**
 - Average length: 8-12 words
@@ -237,6 +238,29 @@ Don't use multiple callouts in a row or for obvious information.
   </Tab>
 </Tabs>
 ```
+
+**Accordions - for troubleshooting and FAQs:**
+```markdown
+<AccordionGroup>
+<Accordion title="Authentication failed">
+
+Check that you copied the entire token without spaces. Verify it hasn't been revoked.
+
+</Accordion>
+<Accordion title="Connection errors">
+
+Verify the URL is correct. Check your internet connection.
+
+</Accordion>
+</AccordionGroup>
+```
+
+Use accordions for:
+- Troubleshooting sections (required)
+- Common issues sections (required)
+- FAQ-style content
+- Multiple independent solutions to problems
+- Progressive disclosure of detailed solutions
 
 ## Content patterns
 

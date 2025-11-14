@@ -1,87 +1,119 @@
 ---
 title: Exporting code
-description: Export page designs as React + Tailwind code through manual copy-paste.
+description: Copy page code from Subframe to your codebase
 ---
 
-Pages in Subframe use a copy-paste workflow instead of automatic syncing. This gives you the flexibility to refactor and add business logic without worrying about your changes being overwritten.
+Subframe generates production-ready React + Tailwind code programmatically—no AI, no approximations. Get code via the Code panel for precise control, or use the MCP server to implement designs with AI agents.
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Animated demonstration showing a user clicking the Code button in the Subframe editor, viewing the generated React code with syntax highlighting, clicking Copy, and pasting it into a code editor" />
 
-## Why copy-paste for pages?
+## Code generation
 
-Unlike components, pages often need significant customization after export:
+Everything in Subframe is code—not screenshots or design specs. The Code panel shows programmatically generated code that matches your design pixel-perfect.
 
-- **State management** — Add React state for forms, modals, and interactive features
-- **API integration** — Connect to your backend for data fetching
-- **Business logic** — Implement validation, authentication, and complex workflows
-- **Routing** — Integrate with your framework's routing system
+Generated code is deterministic. The same design always produces identical code with clean TypeScript, semantic HTML, and optimized Tailwind classes.
 
-Because pages require this level of customization, Subframe doesn't automatically sync them. You export the code once, then own it completely.
+Subframe provides a sandbox for "design with code" without managing build tools or deployment. Designers see exactly what ships. Developers copy working code, not interpreted mockups.
 
 <Note>
-**Components sync automatically** via the CLI, but **pages are always copy-pasted**. This separation keeps your component library in sync while giving you full control over page-level code.
+Components sync automatically via the CLI. Pages are exported manually (copy-paste or MCP). This separation keeps your component library in sync while giving you full control over page-level code.
 </Note>
 
-## How to export page code
+## Getting code
 
-### Open Code Mode
+### MCP server (recommended)
 
-Click the **Code** button in the top-right of the editor to switch from Design Mode to Code Mode.
+The [MCP server](/developing/mcp-server) connects AI coding assistants like Claude Code and Cursor to your Subframe projects:
 
-### Review the generated code
+```text
+Implement the dashboard at https://app.subframe.com/PROJECT_ID/design/DESIGN_ID
+```
 
-Code Mode shows you the complete React + Tailwind code for your page:
+AI fetches the design and implements it with routing, state management, and API integration.
 
-1. **Installation snippet** — Command to sync any components used on the page
-2. **Import list** — All component imports needed
-3. **Generated code** — Complete React component with TypeScript types
+Use this for complete pages with business logic, especially in existing codebases.
 
-You can select individual elements on the canvas to see code snippets for just that selection instead of the full page.
+### Code panel
 
-### Copy the code
+The [Code panel](/editor/code-mode/inspecting-code) shows generated code for any element or page. Select elements to see code for specific sections instead of the full page.
 
-Click **Copy code** to copy the entire page component to your clipboard.
+Use this to inspect components, debug layouts, or control exactly what code gets copied.
 
-### Paste into your project
+## Exporting pages
 
-Create a new file in your project and paste the code:
+Pages need customization after export:
+
+- **State management** - React hooks for forms, modals, loading states
+- **API integration** - Data fetching, mutations, error handling
+- **Business logic** - Validation, authentication, authorization
+- **Routing** - Next.js, React Router, or framework integration
+- **Dynamic content** - Real data replacing design placeholders
+
+Subframe doesn't automatically sync pages because you own the code after export. Add any logic you need without worrying about overwrites.
+
+| | Components | Pages |
+|---|---|---|
+| **Workflow** | Sync automatically via CLI | Export manually |
+| **Customization** | Minimal (use as-is or wrap) | Extensive (add logic, data, routing) |
+| **Updates** | Pull latest with `sync` command | Re-export selectively when design changes |
+| **Ownership** | Subframe maintains the code | You own and modify the code |
+
+## Using Code panel
+
+Click **Code** in the top-right to switch to Code Mode. The Code panel shows:
+
+1. **Installation snippet** - Command to sync components used on the page
+2. **Import list** - All component imports needed
+3. **Generated code** - Complete React component with TypeScript types
+
+Select individual elements on the canvas to inspect code for just that selection. Useful for understanding layouts, debugging spacing, or copying single sections.
+
+Click **Copy code** to copy the entire page component:
 
 ```tsx src/pages/Dashboard.tsx
 // Pasted from Subframe
 import { Button } from "@/ui/Button";
 import { Card } from "@/ui/Card";
+import { StatCard } from "@/ui/StatCard";
 
 export default function Dashboard() {
   return (
-    <div className="flex flex-col gap-4">
-      {/* Your page content */}
+    <div className="flex h-full w-full flex-col items-start gap-6 bg-default-background px-6 py-6">
+      <div className="flex w-full items-center gap-4">
+        <span className="text-heading-1 font-heading-1 text-default-font">
+          Dashboard
+        </span>
+      </div>
+      <div className="grid w-full grid-cols-3 gap-4">
+        {/* Replace with real data */}
+        <StatCard label="Revenue" value="$45,231" />
+        <StatCard label="Users" value="1,234" />
+        <StatCard label="Growth" value="+12%" />
+      </div>
     </div>
   );
 }
 ```
 
-### Add your business logic
+Now add your application logic. See [Adding business logic](/developing/adding-business-logic) for detailed examples.
 
-Now customize the page with your application logic. Most users refactor the code, add custom business logic, and hook it up to their APIs. This code is all yours to customize!
+## Updating designs
 
-For detailed examples, see [Adding business logic](/develop/adding-business-logic).
+Finalize designs in Subframe before exporting. Once you've added business logic, merging design updates requires care.
 
-## What if I change the design after exporting?
+When designs change, choose the approach that fits:
 
-You'll need to re-export just the parts that have changed. To make this easier, select specific elements on the canvas—the Code panel will show just the code for your selection.
+**Selective re-export** - Copy just the changed section from Subframe, replace that part of your file. Works well for isolated UI changes like button styling or spacing adjustments.
 
-In practice, most Subframe users do all design iterations in Subframe and rarely re-export older pages. For small changes, some find it easier to just make the changes in code.
+**MCP re-implementation** - Ask the AI agent to update the implementation to match the new design while preserving your business logic.
 
-## Best practices
+**Manual edits** - Update code directly for small changes. Often faster than re-exporting for color or spacing tweaks.
 
-### Complete your design first
+Always commit before making design-driven changes. This makes diffs reviewable and changes reversible.
 
-Try to finalize your design in Subframe before exporting to minimize the need for re-exports. Once you've added business logic to a page, merging design updates becomes more complex.
+## Learn more
 
-### Export selectively
-
-When you need to update part of a page, select just that section before opening Code Mode. This gives you a focused code snippet that's easier to integrate.
-
-### Use version control
-
-Always commit your code before re-exporting and merging updates. This makes it easy to see what changed and revert if needed.
+- [Inspecting Code](/editor/code-mode/inspecting-code) - How to use Code Mode and the Code panel
+- [MCP Server](/developing/mcp-server) - Implement designs with AI agents
+- [Adding Business Logic](/developing/adding-business-logic) - Integrate state, APIs, and handlers
+- [Syncing Components](/developing/syncing-components) - Keep your component library in sync

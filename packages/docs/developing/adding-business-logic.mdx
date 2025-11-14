@@ -3,9 +3,9 @@ title: Adding business logic
 description: Integrate state management, API calls, and event handlers into your Subframe-exported code.
 ---
 
-A core principle behind Subframe's code export is that business logic—like making API calls or managing React state—belongs in code, not in a design tool. Subframe exports clean UI code without business logic, leaving you free to integrate it however you want.
+Subframe exports clean UI code without business logic. State management, API calls, and event handlers belong in your codebase, not a design tool.
 
-This guide shows you how to add state management, API calls, and event handlers to your Subframe designs.
+This guide shows how to add interactivity to exported Subframe designs.
 
 <Tip>
 We've made a [CodeSandbox](https://codesandbox.io/p/devbox/subframe-spoofy-rw5wrj) project for the examples below so you can play around with the code.
@@ -17,12 +17,12 @@ Let's build a simple magic link login form. This is what we want the end result 
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="A login form with a text input labeled 'Email' and a button labeled 'Send Magic Link' with a send icon, styled with a clean modern design" />
 
-We've finished [copying the page code](/develop/exporting-code) from Subframe, so now let's add some basic functionality.
+After [copying the page code](/developing/exporting-code) from Subframe, add basic functionality:
 
-1. We add a fake fetch function that simulates a network request and a `handleSubmit` function that handles the form submission.
-2. We also want to update our Button to show that we're currently submitting the form, so we'll maintain a `submitting` state variable and pass it to the Button in the `disabled` and `loading` props.
+1. Add a fake fetch function that simulates a network request and a `handleSubmit` function for form submission.
+2. Add a `submitting` state variable and pass it to the Button in the `disabled` and `loading` props to show loading state.
 
-You can see the changes we made in the highlighted lines below:
+The highlighted lines show the changes:
 
 <CodeGroup>
 
@@ -125,24 +125,24 @@ export default App
 
 </CodeGroup>
 
-We now have an interactive login form with proper loading states!
+The login form now has interactive states and loading feedback.
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Animated demonstration of the login form in action: user types an email address, clicks the Send Magic Link button which shows a loading spinner, then completes successfully" />
 
 ## Example 2: Interactive track cards
 
-Now we want to build a feature where we show users their most-listened-to tracks of the past week and allow them to favorite tracks so they can easily find them later.
+This example shows a feature that displays most-listened-to tracks from the past week with favoriting functionality.
 
-When adding business logic to Subframe-designed components, we recommend not editing the generated code inside the `src/ui/` directory directly, but instead [wrapping the component](/develop/disabling-sync#wrapping-dumb-components-recommended).
+When adding business logic to Subframe components, [wrap the component](/developing/disabling-sync#try-wrapper-components-first) instead of editing generated code in `src/ui/` directly.
 
-We built a `TrackCard` component and `FavoriteTracks` page in Subframe and brought them to our codebase:
+Start with a `TrackCard` component and `FavoriteTracks` page designed in Subframe:
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="A page showing three music track cards in a row, each displaying an album cover, track title, artist name, track length, genre tag, and a heart-shaped favorite button" />
 
-Now we'll add the functionality to be able to favorite tracks:
+Add favoriting functionality:
 
-1. We'll wrap the original `TrackCard` component with a new component that will manage the simple business logic.
-2. We'll use this wrapper component in our `FavoriteTracks` page which manages the data, the `favorite` state, and provides the onClick handlers.
+1. Wrap the original `TrackCard` component with a new component that manages the business logic.
+2. Use this wrapper component in the `FavoriteTracks` page to manage data, favorite state, and onClick handlers.
 
 <CodeGroup>
 
@@ -265,8 +265,8 @@ export default FavoriteTracks
 
 </CodeGroup>
 
-And we're done! The end result looks like this:
+The final result:
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Animated demonstration of the track cards: user clicks the heart icon on different tracks to toggle their favorite status, with the heart icon filling and unfilling accordingly" />
 
-You may have noticed that we're using slots for our image and favorite button. We'll cover the reasons for this in [Props and slots](/develop/props-and-slots).
+This example uses slots for the image and favorite button. See [Props and slots](/components/props-and-slots) for more details.
