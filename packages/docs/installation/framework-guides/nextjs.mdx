@@ -1,0 +1,128 @@
+---
+title: Next.js
+description: Install and configure Subframe in your Next.js application.
+---
+
+<Note>
+This guide assumes you already have a Next.js project with Tailwind CSS configured. If you haven't set up Next.js or Tailwind yet, follow the [Next.js](https://nextjs.org/docs/app/getting-started/installation) and [Tailwind CSS](https://v3.tailwindcss.com/docs/installation/using-postcss) installation guides first.
+</Note>
+
+## Installation
+
+Run the following command in the root of your repository to install Subframe and configure your project:
+
+<CodeGroup>
+  ```bash npm
+  npx @subframe/cli@latest init
+  ```
+  ```bash yarn
+  yarn dlx @subframe/cli@latest init
+  ```
+  ```bash pnpm
+  pnpx @subframe/cli@latest init
+  ```
+  ```bash bun
+  bunx --bun @subframe/cli@latest init
+  ```
+</CodeGroup>
+
+The CLI will automatically detect that you're using Next.js and configure everything appropriately.
+
+## App Router (Next.js 13+)
+
+If you're using the App Router, Subframe components work seamlessly with both client and server components.
+
+### Client components
+
+Most Subframe components require client-side interactivity and should use the `"use client"` directive:
+
+```tsx app/page.tsx
+"use client";
+
+import { Button } from "@/ui/Button";
+
+export default function Page() {
+  return (
+    <Button onClick={() => console.log("clicked")}>
+      Click me
+    </Button>
+  );
+}
+```
+
+### Server components
+
+Some Subframe components (like layout primitives) can be used in server components if they don't need interactivity:
+
+```tsx app/layout.tsx
+import { Container } from "@/ui/Container";
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        <Container>{children}</Container>
+      </body>
+    </html>
+  );
+}
+```
+
+## Pages Router (Next.js 12 and earlier)
+
+If you're using the Pages Router, import and use Subframe components in your pages:
+
+```tsx pages/index.tsx
+import { Button } from "@/ui/Button";
+
+export default function Home() {
+  return <Button>Click me</Button>;
+}
+```
+
+## Navigation with Next.js Link
+
+Use Next.js's `Link` component for navigation instead of HTML anchor tags:
+
+```tsx
+import Link from "next/link";
+import { Button } from "@/ui/Button";
+
+export default function Page() {
+  return (
+    <Link href="/about">
+      <Button>Go to About</Button>
+    </Link>
+  );
+}
+```
+
+## Image optimization
+
+To use Next.js's optimized `next/image` component with Subframe, pass it to image slots:
+
+```tsx
+import Image from "next/image";
+import { Card } from "@/ui/Card";
+
+export default function Page() {
+  return (
+    <Card
+      image={
+        <Image
+          src="/hero.jpg"
+          alt="Hero image"
+          width={800}
+          height={600}
+        />
+      }
+    >
+      Card content
+    </Card>
+  );
+}
+```
+
+## Troubleshooting
+
+If you run into issues with the installation, refer to the [Manual installation guide](/installation/framework-guides/manual) for all the steps needed to get Subframe working in your codebase.

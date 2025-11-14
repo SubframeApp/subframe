@@ -1,0 +1,111 @@
+---
+title: Astro
+description: Install and configure Subframe in your Astro application.
+---
+
+<Note>
+This guide assumes you already have an Astro project with React and Tailwind CSS configured. If you haven't set those up yet, follow the [Astro](https://docs.astro.build/en/install-and-setup/#install-from-the-cli-wizard), [Astro React](https://docs.astro.build/en/guides/integrations-guide/react/), and [Tailwind CSS](https://v3.tailwindcss.com/docs/installation/using-postcss) installation guides first.
+</Note>
+
+## Installation
+
+Run the following command in the root of your repository to install Subframe and configure your project:
+
+<CodeGroup>
+  ```bash npm
+  npx @subframe/cli@latest init
+  ```
+  ```bash yarn
+  yarn dlx @subframe/cli@latest init
+  ```
+  ```bash pnpm
+  pnpx @subframe/cli@latest init
+  ```
+  ```bash bun
+  bunx @subframe/cli@latest init
+  ```
+</CodeGroup>
+
+## Configure import aliases
+
+Update your `tsconfig.json` to configure TypeScript path aliases:
+
+```json tsconfig.json {3-8}
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["src"]
+}
+```
+
+## Using Subframe components in Astro
+
+Astro uses an island architecture where React components need explicit client directives to be interactive.
+
+### Client directives
+
+Most Subframe components require interactivity and should use the `client:load` directive:
+
+```astro src/pages/index.astro
+---
+import { Button } from "@/ui/Button";
+---
+
+<Button client:load>Click me</Button>
+```
+
+For components that should only load when visible, use `client:visible`:
+
+```astro
+---
+import { Card } from "@/ui/Card";
+---
+
+<Card client:visible>
+  This card loads when scrolled into view
+</Card>
+```
+
+### Static components
+
+Layout primitives that don't require interactivity can be used without client directives:
+
+```astro
+---
+import { Container } from "@/ui/Container";
+---
+
+<Container>
+  <h1>Welcome to my site</h1>
+</Container>
+```
+
+## Troubleshooting
+
+If you run into issues with the installation, refer to the [Manual installation guide](/installation/framework-guides/manual) for all the steps needed to get Subframe working in your codebase.

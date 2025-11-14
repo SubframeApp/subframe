@@ -1,0 +1,61 @@
+---
+title: Best practices for exporting code
+description: Guide for integrating Subframe designs into codebases
+---
+
+## Overview
+
+Subframe employs a copy-paste workflow rather than hosted solutions. Three key principles:
+
+1. **Components vs. Pages:** Components are synced, pages are copy / pasted. Components serve as the design system source of truth via CLI synchronization, while pages require manual copying due to business logic needs.
+
+2. **Flexibility:** Teams shouldn't worry about "correct" usage—if it saves time, you're using it right. Not everything must exist in Subframe.
+
+3. **Source Code Access:** The platform provides complete source code built on open-source libraries like Radix, available as SubframeCore on GitHub. This prevents vendor lock-in and enables custom workarounds.
+
+## Adding Business Logic
+
+### Key Principle
+
+Business logic...belongs in code, not a design tool. Subframe omits application logic from exports, handling only UI interactions like accordion animations.
+
+### For Pages
+
+1. Open the Code tab (top-right)
+2. Copy/paste CLI commands for component syncing
+3. Copy/paste complete page code
+4. Refactor and add business logic as needed
+
+### For Components
+
+**Recommended Approach:** Wrap components with business logic in new wrapper components. Subframe components forward props to root elements, allowing onClick handlers and other React properties without breaking synchronization.
+
+**Alternative:** Disable sync by adding `// @subframe/sync-disable` at file top, though subsequent changes require manual syncing.
+
+## Code Example
+
+```typescript
+import * as SubframeCore from "@subframe/core";
+import React from "react";
+import { Button } from "./subframe/components/Button";
+
+interface CustomButtonProps
+  extends React.ComponentProps<typeof SubframeCore.Button.Root> {
+  // Add your custom props here
+}
+
+const CustomButton = React.forwardRef<
+  HTMLElement,
+  CustomButtonProps
+>(function CustomButton({ children, ...otherProps }: CustomButtonProps, ref) {
+  // Add your business logic here
+
+  return (
+    <Button ref={ref as any} {...otherProps}>
+      {children}
+    </Button>
+  );
+});
+
+export { CustomButton };
+```

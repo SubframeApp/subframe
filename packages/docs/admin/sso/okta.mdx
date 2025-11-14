@@ -1,0 +1,189 @@
+---
+title: Okta SSO
+description: Set up Okta single sign-on for your team.
+---
+
+Single sign-on (SSO) with Okta lets your team use their existing Okta credentials to access Subframe. When enabled, team members sign in through your organization's Okta portal instead of creating separate Subframe passwords.
+
+<Note>
+SSO is available on the Custom plan. Contact [sales@subframe.com](mailto:sales@subframe.com) to enable SSO for your team.
+</Note>
+
+## How SSO works
+
+Once SSO is configured:
+
+1. Team members go to [app.subframe.com](https://app.subframe.com)
+2. Click **Continue with SSO**
+3. Enter their work email
+4. Get redirected to your Okta sign-in page
+5. Sign in with Okta credentials
+6. Automatically redirected back to Subframe
+
+First-time users are automatically added to your team. You can optionally enforce SSO-only access, which blocks password-based logins for your domain.
+
+## Prerequisites
+
+**Custom plan** - SSO requires a Custom plan subscription. Reach out to sales to upgrade.
+
+**Okta administrator access** - You'll need admin permissions in Okta to create and configure the Subframe application.
+
+**Email domain** - Your team must use a consistent email domain (e.g., `@yourcompany.com`). SSO matches users by their email domain.
+
+## Configuration steps
+
+SSO configuration requires coordination between Subframe and your Okta administrator. Contact [support@subframe.com](mailto:support@subframe.com) to begin setup.
+
+### 1. Request SSO setup
+
+Email [support@subframe.com](mailto:support@subframe.com) with:
+- Your team name in Subframe
+- The email domain you want to use for SSO (e.g., `@yourcompany.com`)
+- Whether you want to enforce SSO-only login (block passwords)
+- Your preferred Okta configuration method (SAML metadata URL or manual)
+
+### 2. Configure Okta application
+
+Your Okta admin will create a new SAML 2.0 application:
+
+**In Okta:**
+1. Navigate to **Applications > Applications**
+2. Click **Create App Integration**
+3. Select **SAML 2.0** and click **Next**
+4. Name the app "Subframe"
+5. Subframe support will provide:
+   - **Single sign on URL** (ACS URL)
+   - **Audience URI** (Entity ID)
+6. Click **Next** and complete the wizard
+
+**Get metadata:**
+- Copy the SAML metadata URL from the Okta app
+- Or download the metadata XML file
+- Send this to Subframe support
+
+### 3. Subframe configures SSO provider
+
+Subframe support will:
+- Create an SSO provider in your Subframe account
+- Link your team to the Okta SSO provider
+- Configure domain matching for your email domain
+- Optionally enable SSO-only enforcement
+
+Setup typically takes 1-2 business days.
+
+### 4. Test SSO login
+
+Once configured, test the integration:
+
+1. Open an incognito/private browser window
+2. Go to [app.subframe.com](https://app.subframe.com)
+3. Click **Continue with SSO**
+4. Enter your work email
+5. Complete Okta authentication
+6. Verify you land on the Subframe dashboard
+
+<Warning>
+Test SSO before enabling SSO-only enforcement. If SSO doesn't work and enforcement is enabled, your team won't be able to sign in.
+</Warning>
+
+## User provisioning
+
+### Automatic team joining
+
+When a user signs in with SSO for the first time:
+- They're automatically added to your Subframe team
+- First SSO user becomes an Admin
+- Subsequent users become Editors by default
+
+### Pre-inviting users
+
+You can invite users before they sign in with SSO:
+
+1. Navigate to **Team Settings**
+2. Click **Invite team member**
+3. Enter their email address (must match SSO domain)
+4. Select their role (Admin, Editor, or Viewer)
+5. Click **Send invitation**
+
+When they sign in with SSO, they'll get the pre-assigned role instead of the default Editor role.
+
+## SSO-only enforcement
+
+SSO-only enforcement blocks password-based logins for your domain. When enabled:
+- Users with your email domain must use SSO
+- Password logins are rejected with: "This organization requires single sign-on."
+- Google OAuth is also blocked for your domain
+- Users without SSO credentials cannot access the team
+
+**To enable SSO-only enforcement**, email [support@subframe.com](mailto:support@subframe.com) after verifying SSO works correctly.
+
+## Managing SSO users
+
+### Role assignment
+
+SSO users get roles based on:
+1. **Pre-invited** - If invited before first login, they get the invited role
+2. **First user** - First person to sign in becomes Admin
+3. **Default** - All other users become Editors
+
+Change roles anytime in **Team Settings** by clicking the role dropdown next to their name.
+
+### Removing users
+
+To remove an SSO user:
+1. Navigate to **Team Settings**
+2. Find the user in the team member list
+3. Click their role and select **Inactive**
+
+Inactive users cannot sign in, even with valid Okta credentials. Their Subframe access is revoked but their Okta account remains active.
+
+## Troubleshooting
+
+### "This organization requires single sign-on"
+
+This error appears when:
+- SSO-only enforcement is enabled for your domain
+- You're trying to sign in with email/password or Google OAuth
+
+**Solution:** Use the **Continue with SSO** button and enter your work email.
+
+### "No SSO provider found"
+
+This error means Subframe can't find an SSO configuration for your email domain.
+
+**Solution:**
+1. Verify you entered the correct email
+2. Check that your email domain matches the configured SSO domain
+3. Contact [support@subframe.com](mailto:support@subframe.com) to verify configuration
+
+### Redirect to Okta fails
+
+If you're not redirected to Okta after entering your email:
+
+1. Check browser console for errors
+2. Verify your email domain is correct
+3. Try a different browser
+4. Contact [support@subframe.com](mailto:support@subframe.com)
+
+### User lands on wrong team
+
+If an SSO user joins the wrong team:
+- Each SSO provider is linked to one team
+- Users automatically join the team linked to their SSO provider
+- Contact support if the team linkage is incorrect
+
+## Limitations
+
+**One team per SSO provider** - Each Okta SSO configuration links to one Subframe team. If you need multiple teams with the same domain, contact support.
+
+**No SCIM provisioning** - Subframe doesn't support automatic user provisioning via SCIM. Users are created on first sign-in (JIT provisioning).
+
+**No role mapping** - Okta groups and roles don't automatically map to Subframe roles. You must manually assign roles in Subframe.
+
+**Domain-based only** - SSO matches users by email domain, not Okta groups or other attributes.
+
+## Learn more
+
+- [Roles and Permissions](/admin/roles-and-permissions) - Understand SSO user roles
+- [Inviting Team Members](/admin/inviting-team-members) - Pre-invite SSO users with specific roles
+- [Pricing and Plans](/admin/pricing-and-plans) - SSO availability on Custom plan

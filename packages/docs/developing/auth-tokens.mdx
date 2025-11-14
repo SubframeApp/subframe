@@ -1,0 +1,202 @@
+---
+title: Auth tokens
+description: Generate and manage API tokens for CLI authentication and MCP server access.
+---
+
+Access tokens let the Subframe CLI and MCP server authenticate with your account to sync components and fetch designs. You generate them once in the Subframe app, then use them in your local environment.
+
+## What auth tokens do
+
+Auth tokens authenticate your local tools with your Subframe account. When you run CLI commands like `npx @subframe/cli sync` or configure the MCP server, these tokens verify you have permission to access your projects and components.
+
+Each token is tied to your account and has the same permissions you do. If you can access a project in Subframe, your token can too.
+
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Subframe CLI settings page showing an active access token with creation date, last used timestamp, and a Revoke button next to it" />
+
+## Creating an auth token
+
+### Get your token
+
+1. Go to [app.subframe.com/cli/auth](https://app.subframe.com/cli/auth)
+2. Click **Generate new token**
+3. Copy the token immediately—it's only shown once
+
+<Warning>
+Save your token somewhere secure. Once you leave this page, you can't view the token again. You'll need to generate a new one if you lose it.
+</Warning>
+
+The token looks like a long random string: `sfr_abc123xyz...`
+
+### First-time CLI setup
+
+If you haven't authenticated yet, the CLI will prompt you for a token when you run:
+
+```bash
+npx @subframe/cli init
+```
+
+Paste your token when prompted. The CLI saves it locally so you don't need to enter it again.
+
+## Using auth tokens
+
+### CLI authentication
+
+After initial setup, the CLI uses your saved token automatically for all commands:
+
+```bash
+# Sync all components
+npx @subframe/cli sync --all
+
+# Sync specific component
+npx @subframe/cli sync Button
+
+# Check CLI status
+npx @subframe/cli status
+```
+
+The CLI stores your token in your home directory. You don't need to provide it manually unless you're setting up a new machine or using environment variables.
+
+### MCP server configuration
+
+For AI coding tools that support MCP, add your token to the configuration file:
+
+<CodeGroup>
+```json Claude Code
+{
+  "mcpServers": {
+    "subframe": {
+      "command": "npx",
+      "args": ["-y", "@subframe/mcp-server"],
+      "env": {
+        "SUBFRAME_ACCESS_TOKEN": "your-token-here"
+      }
+    }
+  }
+}
+```
+
+```json Cline
+{
+  "subframe": {
+    "command": "npx",
+    "args": ["-y", "@subframe/mcp-server"],
+    "env": {
+      "SUBFRAME_ACCESS_TOKEN": "your-token-here"
+    }
+  }
+}
+```
+</CodeGroup>
+
+Replace `your-token-here` with your actual token. For more details, see [MCP Server](/develop/mcp-server).
+
+### Environment variables
+
+You can also provide tokens via environment variables instead of configuration files:
+
+```bash
+export SUBFRAME_ACCESS_TOKEN=your-token-here
+npx @subframe/cli sync --all
+```
+
+This approach works well in CI/CD pipelines or when you want to avoid storing tokens in config files.
+
+## Managing tokens
+
+### Viewing active tokens
+
+Visit [app.subframe.com/cli/auth](https://app.subframe.com/cli/auth) to see all your active tokens. For each token, you'll see:
+
+- **Creation date** - When you generated the token
+- **Last used** - When it was last used to authenticate
+- **Revoke button** - Delete the token immediately
+
+### Revoking tokens
+
+Click **Revoke** next to any token to delete it immediately. All tools using that token will stop working until you generate and configure a new one.
+
+Revoke tokens when:
+- You no longer need them
+- A token may have been exposed or compromised
+- You're cleaning up old development environments
+
+### Rotating tokens
+
+To rotate a token:
+
+1. Generate a new token at [app.subframe.com/cli/auth](https://app.subframe.com/cli/auth)
+2. Update your CLI configuration or environment variables
+3. Update MCP server configuration files
+4. Test that everything works with the new token
+5. Revoke the old token
+
+## Security best practices
+
+### Keep tokens private
+
+Auth tokens grant full access to your Subframe projects. Treat them like passwords:
+
+- Never commit tokens to version control
+- Don't share tokens in chat, email, or public forums
+- Use environment variables or secure secret storage
+- Revoke tokens immediately if they're exposed
+
+### Use environment variables
+
+Instead of hardcoding tokens in files:
+
+```bash
+# Good - environment variable
+export SUBFRAME_ACCESS_TOKEN=sfr_abc123xyz
+
+# Bad - committed to git
+SUBFRAME_ACCESS_TOKEN=sfr_abc123xyz  # Don't do this
+```
+
+Add `.env` files to your `.gitignore` to prevent accidental commits.
+
+### Rotate regularly
+
+Generate new tokens periodically and revoke old ones. This limits the impact if a token is compromised without your knowledge.
+
+### Use separate tokens
+
+If you use Subframe in multiple environments (personal projects, work, CI/CD), generate separate tokens for each. This way you can revoke one without affecting the others.
+
+## Troubleshooting
+
+### Authentication failed
+
+If you see authentication errors:
+
+1. Check that you copied the entire token without extra spaces
+2. Verify the token hasn't been revoked at [app.subframe.com/cli/auth](https://app.subframe.com/cli/auth)
+3. Generate a fresh token and try again
+
+### CLI not finding token
+
+If the CLI can't find your token:
+
+```bash
+# Re-authenticate
+npx @subframe/cli init
+
+# Or set environment variable
+export SUBFRAME_ACCESS_TOKEN=your-token-here
+```
+
+### MCP server not working
+
+If the MCP server can't authenticate:
+
+1. Check your MCP configuration file for typos
+2. Verify the token is in the `env` section
+3. Restart your AI coding tool after updating the config
+4. Check the tool's logs for specific error messages
+
+For more MCP troubleshooting, see [MCP Server](/develop/mcp-server#troubleshooting).
+
+## Learn more
+
+- [Syncing components](/develop/syncing-components) - Use the CLI to keep components in sync
+- [MCP Server](/develop/mcp-server) - Connect AI coding tools to Subframe
