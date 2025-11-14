@@ -1,60 +1,64 @@
 ---
 title: Concepts
-description: Core concepts for designing and building with Subframe.
+description: Core concepts for designing and building
 ---
-
-Understanding these key concepts will help you work effectively in Subframe and integrate designs with your codebase.
 
 ## Projects
 
-Workspaces that contain your theme, components, and pages. Each project maintains its own design system—use separate projects for different clients or products.
+Your Subframe project contains your theme, components, and pages. Each project is an independent design system—the source of truth for your product UI.
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Project Switcher dropdown showing a list of projects with a New project button" />
 
-## [Components](/components/overview)
+## Components
 
-Reusable UI building blocks that sync from design to code. Design a button once, use it everywhere—updates in Subframe automatically sync to your codebase.
+Reusable UI elements that sync from Subframe to your codebase. The components you design are the same components engineers use in production—design once, use everywhere.
 
 <video autoPlay muted loop playsInline className="w-full" src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/view-component-documentation-ygcEi4y47JotWdboZUunSHbkxdpYrh.webm" />
 
+[Learn about components →](/components/overview)
+
 ## Pages
 
-Individual screens you design in the editor. Pages use components to build complete interfaces—copy the code when ready and add your business logic.
+Individual screens you design with components. Pages export as React code you copy and paste—add your business logic locally in your codebase.
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The editor showing a page being designed with components on the canvas" />
 
-## [Theme](/theme/overview)
+## Theme
 
-Design tokens for colors, typography, spacing, and more. Your theme applies to all components and exports as Tailwind configuration for consistent styling.
+Design tokens for colors, typography, spacing, shadows, and borders. Your theme syncs as Tailwind configuration, ensuring consistent styling across your design system.
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The theme panel showing color tokens, typography settings, and spacing scale" />
 
-## Flows
+[Customize your theme →](/theme/overview)
 
-Groups of related pages organized by feature area, status, or user journey. Use flows to keep large projects organized and navigable.
+## Syncing
 
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Pages panel with pages organized into flows like Onboarding and Dashboard" />
-
-## [Prototype](/editor/prototype-mode/overview)
-
-AI-powered interactive prototypes with working navigation and interactions. Describe behaviors with natural language—AI generates the logic without code.
-
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Prototype mode showing a page with annotations and AI chat panel for adding interactions" />
-
-## [Syncing](/develop/syncing-components)
-
-One-way sync from Subframe to your codebase using the CLI. Run `npx @subframe/cli sync` to update component code—changes in Subframe overwrite generated files.
+One-way sync from Subframe to your codebase. Components sync via CLI—changes in Subframe overwrite generated files. All code lives locally for further development.
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Terminal showing the sync command running and components being updated" />
 
-## [Ask AI](/editor/ask-ai/prompt-to-design)
+[How syncing works →](/developing/syncing-components)
 
-Generate designs from text descriptions. Describe what you want to build and AI creates pages using your theme and components—refine with follow-up prompts.
+## Ask AI
+
+Generate designs from text prompts or images. AI learns from your designs to create on-brand pages using your theme and components—everything stays editable.
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Ask AI panel with a prompt and multiple design variations generated" />
 
-## [MCP Server](/develop/mcp-server)
+[Use Ask AI →](/editor/ask-ai/prompt-to-design)
 
-Connect AI coding tools like Claude Code and Cursor to your Subframe projects. AI assistants can fetch components and pages directly without manual copying.
+## Prototypes
+
+Interactive prototypes with working navigation and logic. Describe behaviors in natural language—AI generates interactions without writing code.
+
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Prototype mode showing a page with annotations and AI chat panel for adding interactions" />
+
+[Build prototypes →](/editor/prototype-mode/overview)
+
+## MCP server
+
+Connect AI coding tools like Claude Code and Cursor to your Subframe projects. AI assistants fetch components and pages directly—no manual copying needed.
 
 <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Configuration file showing MCP server setup with Subframe access token" />
+
+[Set up MCP →](/developing/mcp-server)

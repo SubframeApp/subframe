@@ -1,86 +1,100 @@
 ---
 title: Quickstart
-description: Get up and running with Subframe in minutes—create your first design and export it to code.
+description: Create your first design and export to code
 ---
 
-This guide walks you through creating your first design in Subframe and exporting it to code. You'll go from zero to a working page in under 10 minutes.
+Create your first design in Subframe and export it as React + Tailwind code. You'll go from zero to working code in 10 minutes.
 
-## What you'll build
-
-By the end of this guide, you'll have:
-- A Subframe account and project
-- A designed page using AI or templates
-- The page exported as React + Tailwind code
-- Everything running in your local development environment
-
-## Create your first design
-
-### Sign up and create a project
+## Sign up
 
 1. Go to [app.subframe.com](https://app.subframe.com) and sign up
-2. After signing in, you'll automatically get a default project
-3. Click **New page** to start designing
+2. You'll get a default project with pre-built components and a theme preset
+3. Click **New page** to start
 
-Your project comes with a complete component library—buttons, inputs, cards, navigation, and more. You'll use these to build your page.
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Subframe dashboard showing a new project with the component library in the left sidebar and a blank canvas" />
 
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Subframe dashboard showing a new project with the default component library visible in the left sidebar and a blank canvas in the center" />
+## Create your page
 
-### Design with AI
+When you create a page, you can prompt AI, choose a template, or start from scratch.
 
-The fastest way to get started is using Ask AI to generate a design:
+### Generate with AI
 
-1. Click **Ask AI** in the top-right corner (or press <kbd>Cmd</kbd> + <kbd>K</kbd>)
+Ask AI generates multiple design variations using your theme and components.
+
+1. Press <kbd>Cmd</kbd> + <kbd>K</kbd> to open Ask AI
 2. Describe what you want to build:
 
-> "Create a landing page hero section with a headline about building UIs faster, a subtitle, an email input, and a 'Get Started' button"
+> "Create a landing page hero with a headline about building UIs faster, subtitle, email input, and Get Started button"
 
-3. Click **Generate** and wait a few seconds
-4. Choose your favorite variation and click **Apply**
+3. Choose your favorite variation and click **Apply**
 
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Ask AI panel showing a text prompt and four generated design variations for a landing page hero section with different layouts and styles" />
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Ask AI panel showing a text prompt and four generated design variations for a landing page hero section" />
 
-The AI generates real, editable components using your theme. You can now switch to Design Mode to make adjustments.
+The AI learns from your designs to stay on-brand. Everything it generates is editable in Design Mode.
 
-### Or start from a template
+### Or use templates
 
-Prefer to start with a pre-made design?
+1. Click **+** in the Pages panel
+2. Select a template
+3. Customize it in Design Mode
 
-1. Click the **+** button in the Pages panel
-2. Browse the template gallery
-3. Select a template that's close to what you need
-4. Customize it in Design Mode
+### Customize in Design Mode
 
-Templates are fully customizable—change colors, text, spacing, and layout to match your vision.
+Switch to Design Mode to edit your page with a familiar design tool interface.
 
-### Make it yours
+- Drag components from the Insert panel on the left
+- Double-click text to edit
+- Select elements to edit properties in the Inspector panel on the right
+- Right-click for contextual edits
 
-Switch to **Design Mode** to edit your page:
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Subframe editor in Design Mode with a hero section being edited and the Inspector panel showing spacing controls" />
 
-- **Add components** from the left sidebar by dragging them onto the canvas
-- **Edit text** by double-clicking any text element
-- **Adjust spacing** by selecting a Stack and changing the gap
-- **Change colors** by selecting an element and using the color picker
-- **Add your logo** by dragging an image element onto the canvas
+<Tip>
+Subframe uses a responsive page editor, not an infinite canvas. Your UI looks exactly as it will in the browser.
+</Tip>
 
-Everything is built with real components that will export as production-ready code.
+## Build with AI coding tools
 
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Subframe editor in Design Mode showing a hero section being edited, with the Inspector panel open on the right displaying color, spacing, and typography controls" />
+The fastest way to build is connecting AI coding tools like Cursor or Claude Code to Subframe via MCP. Your AI assistant can fetch components and pages directly—no copying and pasting.
 
-## Export to code
+### Set up MCP server
 
-Now let's get your design into code.
+Get your access token from [app.subframe.com/cli/auth](https://app.subframe.com/cli/auth), then add Subframe to your AI tool:
 
-### View the code
+<CodeGroup>
+  ```bash Claude Code
+  claude mcp add subframe
+  ```
+  ```bash Cursor
+  # Add to Cursor settings
+  ```
+</CodeGroup>
 
-1. Click **Code** in the top-right to open Code Mode
-2. You'll see the complete React + Tailwind code for your page
-3. The code includes all imports, TypeScript types, and styling
+The MCP server connects your AI assistant to your Subframe project. Now you can ask your AI to fetch components and build features using your design system.
 
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Code Mode showing TypeScript React code on the left with proper syntax highlighting and a live preview of the page on the right" />
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="AI coding tool interface showing a prompt asking for Subframe components with the MCP server fetching the code automatically" />
 
-### Set up your project
+For complete setup instructions, see [MCP Server](/developing/mcp-server).
 
-Before you can use the code, you need to install Subframe in your project. If you don't have a project yet, create one:
+### Build with your AI assistant
+
+Once connected, prompt your AI tool to build features:
+
+> "Get the Hero component from Subframe and add a signup form with email validation"
+
+Your AI assistant fetches the code, adds business logic, and integrates it into your app.
+
+## Or manually copy code
+
+You can also inspect and copy code directly from Subframe.
+
+Click **Code** in the top toolbar to see the React + Tailwind code for your page. Inspect specific elements or copy the entire page.
+
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Code Mode showing TypeScript React code on the left and live preview on the right" />
+
+### Install CLI
+
+Run this in your project:
 
 <CodeGroup>
   ```bash npm
@@ -97,22 +111,13 @@ Before you can use the code, you need to install Subframe in your project. If yo
   ```
 </CodeGroup>
 
-The CLI will walk you through setup:
-1. Choose your framework (Next.js, Vite, or Astro)
-2. Authenticate with your access token from [app.subframe.com/cli/auth](https://app.subframe.com/cli/auth)
-3. Configure where to sync components (default: `./src/ui`)
-4. Let it sync your components and configure Tailwind
+The CLI installs Subframe in about 2 minutes—syncs components, configures Tailwind with your theme.
 
-This takes about 2 minutes. Once it's done, you'll have all your Subframe components in your codebase.
+### Use the code
 
-### Copy and use your code
-
-Back in Code Mode:
-
-1. Click **Copy code**
-2. Create a new file in your project (e.g., `src/pages/Hero.tsx`)
-3. Paste the code
-4. Import it in your app:
+1. Click **Copy code** in Code Mode
+2. Paste into a file: `src/pages/Hero.tsx`
+3. Import and use it:
 
 ```tsx src/App.tsx
 import Hero from './pages/Hero'
@@ -122,69 +127,8 @@ export default function App() {
 }
 ```
 
-Start your dev server and you'll see your design running as real code.
+## Learn more
 
-### Add interactivity
-
-The exported code is a static UI. Add your business logic:
-
-```tsx src/pages/Hero.tsx
-'use client'
-import { useState } from 'react'
-import { Button } from '@/ui/Button'
-import { TextField } from '@/ui/TextField'
-
-export default function Hero() {
-  const [email, setEmail] = useState('')
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    // Add your signup logic here
-    console.log('Signing up:', email)
-  }
-
-  return (
-    <form onSubmit={handleSubmit}>
-      {/* Your Subframe design */}
-      <TextField.Input
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Enter your email"
-      />
-      <Button type="submit">Get Started</Button>
-    </form>
-  )
-}
-```
-
-For more details, see [Adding business logic](/develop/adding-business-logic).
-
-## Next steps
-
-You've created a design and exported it to code. Here's what to explore next:
-
-### Learn the workflow
-
-- [Syncing components](/develop/syncing-components) — Keep your component library in sync
-- [Component props and slots](/develop/props-and-slots) — Customize components in code
-- [Responsive design](/editor/design-mode/responsive-design) — Design for mobile
-
-### Explore AI features
-
-- [Prompt to Design](/editor/ask-ai/prompt-to-design) — Generate full pages from descriptions
-- [Image to Design](/editor/ask-ai/image-to-design) — Turn screenshots into working UI
-- [Inline Ask AI](/editor/ask-ai/inline-ask-ai) — Edit elements with AI
-
-### Master the editor
-
-- [Add Elements](/editor/design-mode/add-elements) — Structure your designs with Stacks
-- [Using components](/components/using-components) — Work with the component library
-- [Customizing your theme](/theme/customizing-theme) — Match your brand
-
-### Join the community
-
-- [Slack Community](https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ) — Get help and share what you build
-- [YouTube Channel](https://youtube.com/@subframe) — Watch tutorials and demos
-- [GitHub](https://github.com/subframe7536/subframe-core) — Report issues and contribute
-
-You're ready to build. Start designing, export your code, and ship faster.
+- [MCP Server](/developing/mcp-server) — Connect AI coding tools to Subframe
+- [Adding business logic](/developing/adding-business-logic) — Integrate with your app
+- [Syncing components](/developing/syncing-components) — Keep your design system in sync
