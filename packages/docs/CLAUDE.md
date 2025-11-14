@@ -19,7 +19,7 @@
 
 Subframe serves designers (visual editing, AI design) and engineers (code export, CLI, integration) simultaneously. Documentation must be:
 
-- **Concise**: 10-25 word explanations for concepts (Cursor-style brevity)
+- **Concise**: 10-25 word explanations for concepts
 - **Action-oriented**: Focus on what users do, not abstract theory
 - **Accurate**: Verify every feature against codebase implementation
 - **Practical**: Use realistic examples, never generic placeholders
@@ -28,8 +28,8 @@ Subframe serves designers (visual editing, AI design) and engineers (code export
 
 **Utility-first documentation:**
 - Open immediately with solutions, not preamble
-- End when problem-solving completes—no forced conclusions
-- Document just enough for user success—not too much, not too little
+- End when problem-solving completes, no forced conclusions
+- Document just enough for user success–not too much, not too little
 
 **Task-oriented content:**
 - Most articles enable a specific outcome with verb-based titles: "Create," "Customize," "Design," "Ship"
@@ -42,7 +42,8 @@ Subframe serves designers (visual editing, AI design) and engineers (code export
 - Exception: Feature-focused articles and overview/hub pages
 
 **Layered complexity:**
-- Beginners get 5-minute wins; experts access advanced configurations
+- Beginners get 5-minute wins; experts access advanced knowledge; everyone learns best-practices
+- The mental model should be clear and consistent across all articles
 - No single article tries to serve all audiences
 
 **Content types:**
@@ -126,7 +127,7 @@ Subframe serves designers (visual editing, AI design) and engineers (code export
 - Prerequisites section when dependencies exist
 - No preambles or historical context
 - End when information completes—no forced conclusions
-- Include "Learn more" section with 2-3 related links
+- Include "Learn more" or "Next steps" section with 2-4 related links using CardGroup (see below)
 
 **Frontmatter (required):**
 ```yaml
@@ -171,6 +172,7 @@ export function Button({ variant = "primary", size = "md" }: ButtonProps) {
 - Imports
 - Full component structure
 - TypeScript types
+- Expandable code blocks for long examples
 
 **Lists:**
 - Dash-style for features/options
@@ -294,6 +296,7 @@ Focus on mechanics and flexibility, not specific design choices:
 
 Sparse but purposeful (2-5 internal links per article), contextual placement:
 
+**Inline links:**
 ```markdown
 ✓ For more on slots, see [Props and Slots](/components/props-and-slots)
 ✓ Components sync one-way (see [Syncing Components](/develop/syncing-components))
@@ -301,6 +304,26 @@ Sparse but purposeful (2-5 internal links per article), contextual placement:
 ✗ See also: Props and Slots, Syncing Components, Theme Overview
 ✗ Related articles: [long list of links]
 ```
+
+**Learn more / Next steps sections - use CardGroup:**
+```markdown
+## Learn more
+
+<CardGroup cols={2}>
+  <Card title="Creating components" icon="plus" href="/components/creating-components">
+    Build custom components visually for your design system
+  </Card>
+  <Card title="Props and slots" icon="puzzle-piece" href="/components/props-and-slots">
+    Understand when to use props vs slots for customizing Subframe components
+  </Card>
+</CardGroup>
+```
+
+**IMPORTANT:** Card titles and descriptions **must exactly match** the linked article's frontmatter:
+- Card `title` must match article's `title` field (including capitalization)
+- Card description must match article's `description` field
+- Use 2-4 cards with `cols={2}` for even grid layout
+- Icons are optional (from [Font Awesome](https://fontawesome.com/icons))
 
 ## Terminology and verbiage
 

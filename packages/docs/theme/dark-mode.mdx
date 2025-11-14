@@ -327,18 +327,27 @@ Set the theme before React hydrates to prevent flashing:
 =======
 ## Troubleshooting
 
-### Colors not switching
+<AccordionGroup>
+<Accordion title="Colors not switching">
 
 Ensure you're:
 1. Adding the `dark` class to `<html>`, not a child element
 2. Using CSS variable-based colors in your components
 3. Configuring Tailwind with `darkMode: "selector"` (v3) or the custom variant (v4)
 
-### Flash on page load
+</Accordion>
+<Accordion title="Flash on page load">
 
-Add the theme script before React hydrates (see "Prevent flash" above).
+Add the theme script before React hydrates (see "Prevent flash" section above).
 
-### Styles not applying
+</Accordion>
+<Accordion title="Styles not applying">
 
 Verify your `variables.css` is imported before Tailwind and that the path is correct.
+<<<<<<< HEAD
 >>>>>>> 46db3f4 (rebase)
+=======
+
+</Accordion>
+</AccordionGroup>
+>>>>>>> 9d85cbd (accordions and card groups)
