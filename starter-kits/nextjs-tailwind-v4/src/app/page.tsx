@@ -1,41 +1,66 @@
-import Image from "next/image"
-
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-8">
-      <Image src="subframe-logo.svg" width={112} height={20} alt="Subframe logo" />
-
-      <div className="flex flex-col gap-1 mt-20">
-        <div className="relative mx-auto max-w-4xl gap-12 px-6 lg:px-8">
-          <h1 className="text-4xl text-center font-semibold tracking-tight sm:text-6xl sm:leading-[4.25rem]">
-            Welcome to your Subframe Next.js Starter Kit
-          </h1>
-        </div>
-        <div className="relative mx-auto max-w-2xl gap-12 px-6 lg:px-8">
-          <div className="mt-6 text-lg text-base sm:text-lg text-center max-w-">
-            Use this project to kickstart Subframe. It includes configuration files, dependencies you will need, and a
-            clean slate for getting started.
+    <div className="flex h-full w-full flex-col items-center justify-center gap-6 bg-[#f5f5f5ff] px-12 py-12">
+      <div className="flex w-full max-w-[448px] flex-col items-start gap-8">
+        <img
+          className="w-12 flex-none"
+          src="https://res.cloudinary.com/subframe/image/upload/v1711417507/shared/y2rsnhq3mex4auk54aye.png"
+        />
+        <div className="flex max-w-[384px] flex-col items-start gap-2">
+          <div className="flex items-start gap-2">
+            <span className="font-['Inter'] text-[32px] font-[400] leading-[36px] tracking-tighter text-[#242424ff]">
+              Welcome to Subframe
+            </span>
+            <div className="flex h-6 items-center gap-1 rounded-full px-2 bg-gradient-to-b from-[#5C5C5C] to-[#242424]">
+              <span className="font-['Inter'] text-[12px] font-[500] leading-[16px] text-white">
+                Next.js
+              </span>
+            </div>
           </div>
+          <span className="whitespace-pre-wrap font-['Inter'] text-[16px] font-[400] leading-[24px] text-[#737373ff]">
+            {
+              "Start building your app by syncing components & exporting code from Subframe."
+            }
+          </span>
         </div>
+        <div className="flex items-start gap-2">
+          <a
+            href="https://app.subframe.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-start gap-2 rounded-[6px] bg-[#171717ff] px-3 py-2"
+          >
+            <span className="whitespace-nowrap font-['Inter'] text-[14px] font-[500] leading-[20px] tracking-tight text-white">
+              Open Subframe
+            </span>
+          </a>
+          <a
+            href="https://docs.subframe.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-start gap-2 rounded-[6px] bg-[#e6e6e6ff] px-3 py-2"
+          >
+            <span className="whitespace-nowrap font-['Inter'] text-[14px] font-[500] leading-[20px] tracking-tight text-[#171717ff]">
+              View documentation
+            </span>
+          </a>
+          <a
+            href="https://docs.subframe.com/developing/mcp-server"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-start gap-2 rounded-[6px] bg-[#e6e6e6ff] px-3 py-2"
+          >
+            <span className="whitespace-nowrap font-['Inter'] text-[14px] font-[500] leading-[20px] tracking-tight text-[#171717ff]">
+              Install MCP
+            </span>
+          </a>
+        </div>
+        <span className="whitespace-pre-wrap font-['Inter'] text-[12px] font-[400] leading-[16px] text-[#737373ff]">
+          {
+            "Hint: replace this page with code copied from Subframe to see your design."
+          }
+        </span>
       </div>
-
-      <div className="flex gap-2 max-w-md mt-12 gap-4">
-        <a
-          className="rounded-lg bg-slate-950 text-white px-4 py-2 text-center"
-          href="https://docs.subframe.com/installation"
-          target="_blank"
-        >
-          Install Subframe
-        </a>
-
-        <a
-          className="rounded-lg text-slate-950 px-4 py-2 text-center border border-slate-300"
-          href="https://www.loom.com/embed/6b6a31569e1540d7a69a18b8620bf51a"
-          target="_blank"
-        >
-          See how it works
-        </a>
-      </div>
-    </main>
-  )
+    </div>
+  );
 }
