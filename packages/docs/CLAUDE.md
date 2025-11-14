@@ -14,6 +14,7 @@
 - Config: docs.json for navigation, theme, settings
 - Components: Mintlify components (Note, Warning, Tip, CodeGroup, Tabs, Card, etc.)
 - Directory structure mirrors docs.json navigation
+- **OUTLINE.md:** Complete docs structure reference; used as initial reference when writing new content; keep in sync with articles when making changes to docs
 
 ## Core philosophy
 
@@ -395,6 +396,7 @@ Split articles when:
 - Create a new branch when no clear branch exists for changes
 - Commit frequently throughout development
 - NEVER skip or disable pre-commit hooks
+- **Update OUTLINE.md** when documentation structure changes
 
 ## References
 
