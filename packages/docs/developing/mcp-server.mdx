@@ -1,34 +1,32 @@
 ---
 title: MCP server
+description: Connect AI coding tools to your Subframe projects
 ---
 
-The Subframe MCP server lets AI coding assistants like Claude Code and Cursor access your Subframe designs directly. Instead of copying code manually, AI can fetch components, pages, and themes from your projects automatically. A separate Subframe Docs MCP server provides access to Subframe documentation.
+The Subframe MCP server connects AI assistants like Claude Code and Cursor to your Subframe projects. AI fetches components, pages, and themes without manual code copying.
 
-[Model Context Protocol (MCP)](https://modelcontextprotocol.io/docs/getting-started/intro) is a standard that lets AI assistants connect to external data sources.
+[Model Context Protocol (MCP)](https://modelcontextprotocol.io/docs/getting-started/intro) is a standard for connecting AI assistants to external data sources. A separate Subframe Docs MCP server provides access to documentation.
 
 ## Installation
 
-The easiest way to set up the Subframe MCP server is right from Subframe:
+The easiest way to install is from Subframe:
+
 1. Open a page in Subframe
 2. Open Code mode in the top right
-3. Click the Installation tab in the code panel
-4. Follow the instructions for Cursor or Claude Code
+3. Click the Installation tab
+4. Follow instructions for Cursor or Claude Code
 
-To install the Subframe MCP manually, you'll need an authentication token:
-
-1. Navigate to https://app.subframe.com/settings/tokens
-2. Generate a new token and copy it
-
+For manual installation, get an authentication token at [app.subframe.com/settings/tokens](https://app.subframe.com/settings/tokens).
 
 <Tabs>
 <Tab title="Cursor">
 
 <Steps>
 <Step title="One-click install (recommended)">
-Click the "Add to Cursor" button in the Code Mode Installation tab in Subframe. This automatically configures Cursor with your MCP servers.
+Click **Add to Cursor** in the Code Mode Installation tab to configure Cursor with your MCP servers.
 </Step>
 <Step title="Manual configuration">
-Add this to your Cursor MCP configuration file (`~/.cursor/mcp.json`):
+Add to your Cursor MCP configuration (`~/.cursor/mcp.json`):
 
 ```json
 {
@@ -45,16 +43,13 @@ Add this to your Cursor MCP configuration file (`~/.cursor/mcp.json`):
   }
 }
 ```
-
 </Step>
 <Step title="Verify installation">
 Ask Cursor "What tools do you have available?" to verify MCP servers are connected.
 </Step>
 </Steps>
 
-This adds two MCP servers:
-- `subframe` - Access your Subframe projects
-- `subframe-docs` - Access Subframe documentation
+This adds two servers: `subframe` for your projects and `subframe-docs` for documentation.
 
 </Tab>
 <Tab title="Claude Code">
@@ -66,16 +61,12 @@ This adds two MCP servers:
 claude mcp add --transport http subframe https://mcp.subframe.com/mcp \
   --header "Authorization: Bearer YOUR_AUTH_TOKEN"
 ```
-
-This adds the `subframe` server for accessing your Subframe projects and code.
 </Step>
-<Step title="Install the Subframe Docs MCP server (optional)">
+<Step title="Install Subframe Docs MCP (optional)">
 
 ```bash
 claude mcp add --transport http subframe-docs https://docs.subframe.com/mcp
 ```
-
-This adds the `subframe-docs` server for accessing Subframe documentation.
 </Step>
 </Steps>
 
@@ -83,34 +74,32 @@ This adds the `subframe-docs` server for accessing Subframe documentation.
 <Tab title="Other MCP clients">
 
 <Steps>
-<Step title="Configure the Subframe MCP Server">
-Configure your MCP client to connect to the Subframe MCP server:
+<Step title="Configure Subframe MCP Server">
+Configure your MCP client:
 
 - **URL:** `https://mcp.subframe.com/mcp`
 - **Transport:** HTTP
-- **Authentication:** Bearer token in header
+- **Authentication:** Bearer token
 - **Header:** `Authorization: Bearer YOUR_AUTH_TOKEN`
-
 </Step>
-<Step title="Configure the Subframe Docs MCP Server (optional)">
-Optionally add the Subframe Docs MCP server for documentation access:
+<Step title="Configure Subframe Docs MCP (optional)">
+Optionally add documentation access:
 
 - **URL:** `https://docs.subframe.com/mcp`
 - **Transport:** HTTP
 - **Authentication:** None required
 </Step>
 <Step title="Verify installation">
-Restart your MCP client, then verify the MCP servers are available in your AI assistant.
+Restart your MCP client and verify servers are available.
 </Step>
 </Steps>
 
 </Tab>
 </Tabs>
 
-
 ## Using the MCP server
 
-Once configured, your AI assistant can access Subframe automatically when you prompt or paste an MCP link to a page from the Code panel.
+Your AI assistant accesses Subframe when you prompt with an MCP link from the Code panel.
 
 ### Available tools
 
@@ -118,71 +107,49 @@ Once configured, your AI assistant can access Subframe automatically when you pr
 |------|-------------|-----------------|---------|
 | `list_components` | Lists all components in your project | `projectId` (optional) | Array of components with `id`, `name`, `url` |
 | `list_pages` | Lists all pages in your project | `projectId` (optional) | Array of pages with `id`, `name`, `url` |
-| `get_component_info` | Gets the code and metadata for a component | `id`, `name`, or `url`<br/>`projectId` (optional) | `id`, `name`, `files` |
-| `get_page_info` | Gets the code for a page | `id`, `name`, or `url`<br/>`projectId` (optional) | `id`, `name`, `files` |
-| `get_theme` | Generates the Tailwind theme for the project | `projectId` (optional)<br/>`cssType` (optional) | `theme` config |
+| `get_component_info` | Gets code and metadata for a component | `id`, `name`, or `url`<br/>`projectId` (optional) | `id`, `name`, `files` |
+| `get_page_info` | Gets code for a page | `id`, `name`, or `url`<br/>`projectId` (optional) | `id`, `name`, `files` |
+| `get_theme` | Generates Tailwind theme for the project | `projectId` (optional)<br/>`cssType` (optional) | `theme` config |
 
-If `projectId` is not specified, the tool will use the first project you have access to.
+If `projectId` is not specified, the tool uses the first project you have access to.
 
 ### Prompt with MCP link
 
-When prompting we recommend using the MCP link found in the Code Inspect panel for a page.
+Use the MCP link from the Code Inspect panel:
 
 ```text
 Implement the design at https://app.subframe.com/design/...
 ```
 
-<Note>To get the latest version of components in your project, run `npx @subframe/cli@latest sync` to [sync components](/developing/syncing-components).</Note>
-
+<Note>
+To get the latest version of components, run `npx @subframe/cli@latest sync` to [sync components](/developing/syncing-components).
+</Note>
 
 ### Example prompts
 
 <AccordionGroup>
 
-<Accordion title="Implement a new page from a design">
+<Accordion title="Implement a new page">
 
 ```text
 Create a new page using the Subframe page at
-https://app.subframe.com/PROJECT_ID/design/DESIGN_ID/edit as reference.
+https://app.subframe.com/PROJECT_ID/design/DESIGN_ID/edit
 
-Wire up relevant app logic (API calls, hooks, routing) where applicable. 
+Wire up relevant app logic (API calls, hooks, routing).
 Keep it consistent with existing project conventions.
 ```
 
 </Accordion>
-<Accordion title="Update an existing page with a new design">
+<Accordion title="Update an existing page">
 
 ```text
 Update the existing page to match the Subframe design at
-https://app.subframe.com/PROJECT_ID/design/DESIGN_ID/edit.
+https://app.subframe.com/PROJECT_ID/design/DESIGN_ID/edit
 
-Preserve all existing functionality unless the new design requires a change.
+Preserve all existing functionality unless the new design requires changes.
 ```
 
 </Accordion>
-<Accordion title="Add accessibility tags in code">
-
-```text
-Review the Subframe design at
-https://app.subframe.com/PROJECT_ID/design/DESIGN_ID/edit and add proper
-accessibility attributes to the existing page.
-
-Add ARIA labels, roles, and descriptions, and proper semantic HTML throughout.
-```
-
-</Accordion>
-<Accordion title="Migrate to Subframe's design system">
-
-```text
-Migrate the components on the existing page to use Subframe components instead
-of the old components.
-
-Get all components in my Subframe project and preserve all existing
-functionality unless the new design requires a change.
-```
-
-</Accordion>
-
 <Accordion title="Fetch a component">
 
 ```text
@@ -224,19 +191,9 @@ Generate a new token at [app.subframe.com/settings/tokens](https://app.subframe.
 Make sure your AI tool:
 - Has MCP support enabled
 - Has the Subframe server in its MCP configuration
-- Has been restarted after adding the configuration
+- Has been restarted after adding configuration
 
 Check your tool's logs for MCP-related errors.
-
-</Accordion>
-<Accordion title="Component or page not found">
-
-Use `list_components` or `list_pages` to see what's available.
-
-Verify:
-- The component/page exists in your Subframe project
-- The name or URL matches exactly
-- You have access to the project
 
 </Accordion>
 <Accordion title="Connection errors">
@@ -244,8 +201,7 @@ Verify:
 If the MCP server is unreachable:
 - Check your internet connection
 - Verify the URL is `https://mcp.subframe.com/mcp`
-- Reach out to the Subframe team for support
+- Contact Subframe support if issues persist
 
 </Accordion>
 </AccordionGroup>
-

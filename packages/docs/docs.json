@@ -64,12 +64,12 @@
         "group": "Develop with Subframe",
         "pages": [
           "developing/mcp-server",
-          "developing/auth-tokens",
           "developing/syncing-components",
           "developing/exporting-code",
           "developing/adding-business-logic",
-          "developing/disabling-sync",
-          "developing/tailwind-config"
+          "developing/tailwind-config",
+          "developing/auth-tokens",
+          "developing/disabling-sync"
         ]
       },
       {
