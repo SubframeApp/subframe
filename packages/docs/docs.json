@@ -125,9 +125,9 @@
             "group": "Prototype mode",
             "pages": [
               "editor/prototype-mode/overview",
+              "editor/prototype-mode/managing-designs",
               "editor/prototype-mode/annotations",
               "editor/prototype-mode/chat-with-ai",
-              "editor/prototype-mode/updating-designs",
               "editor/prototype-mode/view-prototype-code",
               "editor/prototype-mode/sharing-prototypes"
             ]

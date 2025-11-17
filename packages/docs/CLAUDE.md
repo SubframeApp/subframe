@@ -389,6 +389,30 @@ Split articles when:
 - Different skill levels (basic vs advanced)
 - Clear workflow separation
 
+## Maintaining OUTLINE.md
+
+**IMPORTANT:** Keep OUTLINE.md in sync when making documentation changes.
+
+### When to update
+
+Update OUTLINE.md when you:
+- Add/remove articles
+- Change article titles or descriptions (frontmatter)
+- Modify heading structure (H2/H3)
+- Reorder navigation in docs.json
+
+### How to update
+
+From the docs directory, run:
+
+```bash
+./scripts/generate-outline.sh > OUTLINE.md
+```
+
+The script regenerates the complete outline in the correct format with all 56 articles matching docs.json order.
+
+**Rule:** Never commit documentation structure changes without updating OUTLINE.md.
+
 ## Git workflow
 
 - NEVER use --no-verify when committing
@@ -396,7 +420,6 @@ Split articles when:
 - Create a new branch when no clear branch exists for changes
 - Commit frequently throughout development
 - NEVER skip or disable pre-commit hooks
-- **Update OUTLINE.md** when documentation structure changes
 
 ## References
 

@@ -3,41 +3,110 @@ title: Sharing prototypes
 description: Share interactive prototypes with your team or stakeholders.
 ---
 
-Share your prototype with anyone via a public link. They can interact with it in their browser without a Subframe account.
+Share prototypes via public link. Anyone with the link can interact in their browser—no Subframe account required.
 
-## Generating a share link
+## Enabling sharing
 
-1. Click **Share** in the top toolbar
-2. Enable **Public preview link**
-3. Copy the link
+1. Switch to Prototype Mode (<kbd>3</kbd>)
+2. Find **Share** section in right panel
+3. Toggle **Enable public sharing**
+4. Click **Copy link**
 
-Anyone with the link can view and interact with your prototype. The link stays active as long as your project exists.
+Link stays active while sharing is enabled and project exists.
+
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Prototype Mode interface showing the Share section with an Enable public sharing toggle switch and a Copy link button below it" />
 
 ## What viewers see
 
-Viewers get the full interactive prototype:
-- Click buttons and navigate pages
-- Test forms and interactions
-- View responsive behavior at different screen sizes
-- Experience the prototype exactly as you designed it
+Full interactive experience:
+- Click buttons, fill forms, navigate pages
+- Live Sandpack preview with real React code
+- Responsive behavior at all screen sizes
+- All pages in the flow
+- Always shows latest version
 
-They cannot edit the design or see your Subframe project.
+Viewers cannot see your Subframe project, source code, annotations, or conversation history.
+
+## Permissions
+
+- **Owners and editors** can enable/disable sharing
+- **Viewers** cannot toggle sharing (hidden)
+- Each flow has independent shareable link
 
 ## Updating shared prototypes
 
-When you update your prototype and regenerate it, the share link automatically shows the latest version. No need to send a new link.
+Changes apply automatically:
+
+1. Edit designs or annotations
+2. Click **Apply** to regenerate
+3. Link shows new version immediately
+
+Viewers see latest version on refresh. No need to send new link.
 
 ## Disabling sharing
 
-Toggle off **Public preview link** in the share settings to disable the link. Anyone trying to access it will see an error.
+Toggle off **Enable public sharing**. Link stops working immediately.
+
+## Use cases
+
+Share working prototypes for:
+- Stakeholder demos and client presentations
+- User testing and feedback
+- Team design reviews
+- Investor presentations
+- Documentation and wikis
+- Async collaboration
+
+## Security
+
+<Warning>
+Public links are accessible to anyone. Don't share sensitive or confidential designs publicly.
+</Warning>
+
+Links have:
+- No authentication required
+- No expiration (active until disabled)
+- No analytics on views
+- No password protection
+
+For private sharing, invite team members to your project instead.
+
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="Can't enable sharing">
+
+- Verify you have a generated prototype (not just annotations)
+- Check your project role (Viewers cannot enable)
+- Try regenerating the prototype
+
+</Accordion>
+<Accordion title="Link shows error for viewers">
+
+- Verify sharing is still enabled
+- Check prototype and project still exist
+- Try disabling and re-enabling for new link
+
+</Accordion>
+<Accordion title="Viewers see old version">
+
+- Have viewers hard refresh (<kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>)
+- Verify regeneration completed successfully
+- Wait a few seconds for CDN update
+
+</Accordion>
+</AccordionGroup>
 
 ## Learn more
 
 <CardGroup cols={2}>
-  <Card title="Preview" icon="eye" href="/editor/design-mode/preview">
-    Preview your designs and test interactions.
+  <Card title="Chat with AI" icon="comments" href="/editor/prototype-mode/chat-with-ai">
+    Converse with AI to build and refine your prototype.
   </Card>
-  <Card title="Annotations" icon="comment-dots" href="/editor/prototype-mode/annotations">
-    Add instructions to guide AI prototype generation.
+  <Card title="View prototype code" icon="code" href="/editor/prototype-mode/view-prototype-code">
+    Inspect and export the generated prototype code.
+  </Card>
+  <Card title="Inviting team members" icon="user-plus" href="/admin/inviting-team-members">
+    Add team members to your project for private collaboration.
   </Card>
 </CardGroup>
