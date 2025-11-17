@@ -136,8 +136,7 @@
             "group": "Code mode",
             "pages": [
               "editor/code-mode/inspecting-code",
-              "editor/code-mode/export-preferences",
-              "editor/code-mode/export-prompts"
+              "editor/code-mode/example-prompts"
             ]
           }
         ]
