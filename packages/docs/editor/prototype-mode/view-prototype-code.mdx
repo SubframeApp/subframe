@@ -3,62 +3,134 @@ title: View prototype code
 description: Inspect and export the generated prototype code.
 ---
 
-View the code AI generated for your prototype. This helps you understand how interactions work and prepare for production implementation.
+View the React code powering your prototype. Inspect files, review implementation, and download as a Vite project.
 
-## Viewing the code
+## Viewing code
 
-Click **View Code** in Prototype Mode. The code panel shows the React component with your prototype logic.
+Each prototype version has a code icon:
 
-The generated code includes:
-- React state hooks for managing UI state
-- Event handlers for button clicks and form submissions
-- Conditional rendering for show/hide logic
-- Navigation logic for page transitions
+1. Switch to **Conversation** view in right panel
+2. Find the prototype version to inspect
+3. Click the code icon (`</>`) on that message
+4. Code viewer appears with file tree and syntax highlighting
 
-## Code structure
+View code for any version, not just the latest. Compare implementations across iterations.
 
-AI generates clean, readable React code using hooks:
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Prototype Mode code viewer showing a file tree on the left with folders for designs, ui, and root files, and syntax-highlighted TypeScript code on the right" />
 
-```tsx
-const [isMenuOpen, setIsMenuOpen] = useState(false);
-const [email, setEmail] = useState('');
+## File structure
 
-const handleSubmit = () => {
-  // Form submission logic
-};
+Organized as a Vite React project:
+
+**Root files:**
+- `App.tsx` — Main app with routing
+- `index.tsx` — React render entry
+- `package.json` — Dependencies
+- `load-assets.ts` — Tailwind CDN
+- `fonts.ts` — Google Fonts
+- `styles.css` — Global styles
+
+**designs/ folder:**
+- One file per page (`HomePage.tsx`, `PricingPage.tsx`)
+- `ANNOTATIONS.md` — All annotations for AI reference
+- Each page includes embedded annotation comments
+
+**ui/ folder:**
+- Your design system components from Subframe
+- Read-only, updates when you sync components
+
+**external/ folder (BYOC only):**
+- Wrapper components for external dependencies
+- `tsconfig.json` with path mappings
+
+## Annotation embedding
+
+Annotations persist as code comments:
+
+```tsx designs/LoginPage.tsx
+export default function LoginPage() {
+  // ANNOTATION: Submit form and show success message
+  const handleSubmit = async () => {
+    // Implementation here
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {/* ... */}
+    </form>
+  )
+}
 ```
 
-Each annotation becomes an event handler or state change in the code.
+## Downloading code
 
-## Using prototype code
+Click **Download** to save as ZIP:
 
-**Learning** - See how AI implemented your annotations
+1. Extract the ZIP file
+2. Run `npm install && npm run dev`
+3. Edit locally in your code editor
 
-**Reference** - Copy patterns for your production code
+<Note>
+The ui/ folder contains component snapshots at download time. For latest versions, sync components in your main project.
+</Note>
 
-**Export** - Use as a starting point for development
+## Use cases
 
-The code is production-ready React + Tailwind, but you'll likely want to add:
-- API integration
-- Error handling
-- Loading states
-- Real data sources
+- **Test interactions** before production implementation
+- **Share demos** with stakeholders
+- **Start features** using code as foundation
+- **Learn implementations** to see how AI solved problems
+- **Extract logic** for state management or handlers
 
 ## Limitations
 
-Prototype code is meant for testing interactions, not production. It:
-- Uses mock data instead of real APIs
-- Has simplified error handling
-- May not include all edge cases
-- Focuses on UI behavior over business logic
+Prototypes are for demonstration, not production:
+
+- Uses Tailwind CDN, not production build
+- Simple routing, not React Router
+- Mock data, no real APIs
+- Sandpack browser-only execution
+- Frontend code only
+
+For production, use [MCP server](/developing/mcp-server) to integrate Subframe designs with your full app.
+
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="Downloaded code won't run">
+
+1. Run `npm install` first
+2. Check Node version (requires 16+)
+3. Try `npm run dev`
+4. Check console for missing dependencies
+
+</Accordion>
+<Accordion title="Missing files in download">
+
+- Reload page and try again
+- Verify prototype generated successfully
+- Try different browser
+
+</Accordion>
+<Accordion title="Can't edit code">
+
+Code viewer is read-only. To modify:
+- Download the project and edit locally
+- Or use chat to have AI make changes
+
+</Accordion>
+</AccordionGroup>
 
 ## Learn more
 
 <CardGroup cols={2}>
-  <Card title="Exporting code" icon="download" href="/developing/exporting-code">
-    Copy page code from Subframe to your codebase
-  </Card>
   <Card title="Chat with AI" icon="comments" href="/editor/prototype-mode/chat-with-ai">
     Converse with AI to build and refine your prototype.
+  </Card>
+  <Card title="Sharing prototypes" icon="share" href="/editor/prototype-mode/sharing-prototypes">
+    Share interactive prototypes with your team or stakeholders.
+  </Card>
+  <Card title="MCP server" icon="plug" href="/developing/mcp-server">
+    Connect AI coding tools to your Subframe projects
   </Card>
 </CardGroup>
