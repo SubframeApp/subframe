@@ -3,72 +3,154 @@ title: Annotations
 description: Add instructions to guide AI prototype generation.
 ---
 
-Annotations tell AI how elements should behave. Click an element and describe what it does—AI generates the code to make it work.
+Annotations tell AI how elements behave. Click an element, describe what it does, and AI generates the code.
 
-**Design is the best prompt.** Your visual design already embeds functionality context—subscribe buttons, search boxes, navigation links. Annotations add the missing piece: what happens when users interact.
-
-**Annotations persist as code comments.** When you regenerate prototypes, annotations ensure consistent results. LLMs become a programming language where prompts are embedded in the design itself.
+Your visual design embeds functionality context—buttons, forms, navigation. Annotations add the "what happens when" layer. They persist as code comments, ensuring consistent results across regenerations.
 
 ## Adding annotations
 
-1. Switch to Prototype Mode
-2. Click any element on the canvas
-3. Type what it should do in the annotation field
-4. Press Enter to save
+Click **Annotate** in the chat bar to enter annotation mode.
 
-The annotation appears as a numbered marker on the element.
+1. Click any element on the canvas
+2. Type what it should do in the annotation card
+3. Press <kbd>Cmd</kbd> + <kbd>Enter</kbd> to save
 
-## Example annotations
+Blue dots mark annotated elements. Hover to see annotations.
 
-**Navigation:**
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Subframe canvas showing several elements with blue annotation dots, with one annotation card open on the left showing the text 'Navigate to pricing page' with edit and delete options" />
+
+### Annotations inspector
+
+View all annotations in the right panel:
+
+1. Switch to **Annotations** tab
+2. See all pages with their annotations
+3. Click an annotation to navigate to that element
+4. Drag pages to reorder
+
+## Writing effective annotations
+
+<AccordionGroup>
+<Accordion title="Navigation">
+
 - "Navigate to /pricing page"
-- "Go back to home"
+- "Go back to home page when clicked"
 - "Open product details in new page"
 
-**State changes:**
+**Best practice:** Be specific about destination
+- ✓ "Navigate to pricing page and scroll to Pro tier"
+- ✗ "Go to next page"
+
+</Accordion>
+
+<Accordion title="State changes">
+
 - "Toggle mobile menu visibility"
-- "Show password when clicked"
-- "Expand accordion section"
+- "Show password when eye icon is clicked"
+- "Expand accordion section on click"
 
-**Form interactions:**
+**Best practice:** Describe complete interactions
+- ✓ "Toggle menu and trap focus inside when open"
+- ✗ "Toggle menu"
+
+</Accordion>
+
+<Accordion title="Form interactions">
+
 - "Submit form and show success message"
-- "Validate email format on submit"
-- "Clear all inputs when reset is clicked"
+- "Validate email format before submitting"
+- "Clear all inputs when reset button is clicked"
 
-**Working app logic:**
-- "Build a working interactive time zone tracker using current time and date"
-- "Create subtle gradient based on current time of day"
-- "Search every city and time zone database"
+**Best practice:** Include validation and outcomes
+- ✓ "Submit form, validate fields, show error if invalid, success if valid"
+- ✗ "Handle submit"
+
+</Accordion>
+
+<Accordion title="Conditional logic">
+
+- "Show error message if email is invalid"
+- "Disable submit button while form is empty"
+- "Display loading spinner during API call"
+
+**Best practice:** Include conditions clearly
+- ✓ "Disable submit button while form is empty or invalid"
+- ✗ "Disable button sometimes"
+
+</Accordion>
+
+<Accordion title="Working app logic">
+
+- "Build interactive time zone tracker using current time and date"
+- "Search city database when user types"
 - "Animate cards when adding new time zones"
 
-**Conditional logic:**
-- "Show error if email is invalid"
-- "Disable submit button while form is empty"
-- "Display loading state during API call"
+**Best practice:** Reference data sources
+- ✓ "Search cities database using time zone API"
+- ✗ "Make it searchable"
 
-## Managing annotations
+</Accordion>
 
-**Edit** - Click an annotation marker to modify the text
+<Accordion title="Component attachments">
 
-**Delete** - Click the X next to an annotation to remove it
+Paste Subframe component URLs into annotations for AI reference:
 
-**View all** - The annotation panel on the right lists all annotations in order
+1. Copy component link from Components tab
+2. Paste into annotation field
+3. Preview appears showing the component
+4. AI uses it when generating code
 
-## Writing good annotations
+**Example:** "Use this CardList component to display search results"
 
-**Be specific** - "Navigate to pricing page" is clearer than "go to next page"
+</Accordion>
+</AccordionGroup>
 
-**Describe outcomes** - "Show success toast" not just "handle submit"
+**General best practice:** One action per annotation—split complex behaviors across multiple elements.
 
-**Include conditions** - "Disable submit button while form is empty"
+## How annotations become code
 
-**One action per annotation** - Split complex behaviors into multiple annotations
+When generating prototypes, AI:
+
+1. Creates `designs/ANNOTATIONS.md` with all annotations organized by page
+2. Embeds annotations as comments in generated code files
+3. Uses annotation context to implement interactions
+
+Example generated code:
+```tsx designs/PricingPage.tsx
+export default function PricingPage() {
+  // ANNOTATION: Navigate to signup page when clicked
+  const handleGetStarted = () => {
+    // Implementation here
+  }
+
+  return (
+    <Button onClick={handleGetStarted}>
+      Get Started
+    </Button>
+  )
+}
+```
+
+## When to use annotations vs chat
+
+**Use annotations for:**
+- Core interactions you're defining
+- Element-specific behavior
+- Instructions that should persist across rebuilds
+
+**Use chat for:**
+- Bug fixes in existing prototypes
+- Changes affecting multiple elements
+- Complex logic hard to describe per-element
 
 ## Learn more
 
 <CardGroup cols={2}>
   <Card title="Chat with AI" icon="comments" href="/editor/prototype-mode/chat-with-ai">
     Converse with AI to build and refine your prototype.
+  </Card>
+  <Card title="Updating designs" icon="rotate" href="/editor/prototype-mode/updating-designs">
+    Rebuild prototypes when designs change.
   </Card>
   <Card title="View prototype code" icon="code" href="/editor/prototype-mode/view-prototype-code">
     Inspect and export the generated prototype code.

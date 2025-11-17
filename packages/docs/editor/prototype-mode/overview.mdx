@@ -1,50 +1,51 @@
 ---
-title: Prototype mode overview
+title: Overview
 description: Create interactive prototypes with AI-powered code generation.
 ---
 
-Prototype Mode turns your static designs into interactive prototypes using AI. Add annotations to your design—comments become prompts that drive behavior. Design is the best prompt.
+Prototypes are real web apps built from your page designs. AI generates front-end React code, synced with your design system. Annotate elements as inline prompts, then chat to continuously iterate.
 
-## How it works
+<video autoPlay muted loop playsInline className="w-full" src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" />
 
-**Design-first approach:** Your visual design already describes functionality. Buttons, forms, navigation—all context for AI. Annotations add the "what happens when" layer.
+## Quick start
 
-**Annotations over chat:** After designing, add comments describing interactions directly on elements. AI generates working prototypes that match your design exactly. No chat required for basic interactions—annotations capture your intent on the design itself.
+1. **Design your screens** — Build all pages for your flow in Design Mode. Include different states (loading, error, empty).
+2. **Organize into flow** — Drag pages into a flow folder. Each flow = one prototype.
+3. **Add annotations** — Click elements, describe interactions. Press <kbd>Cmd</kbd> + <kbd>Enter</kbd> to save.
+4. **Generate prototype** — Type your first message in chat. AI creates working React code (15-60 seconds).
+5. **Iterate and refine** — Use chat to fix bugs, add features. Design changes sync via **Apply** button.
 
-1. **Design your screens** - Build UI in Design Mode or generate with AI
-2. **Add annotations** - Click elements and describe what they should do ("Navigate to pricing page", "Toggle menu")
-3. **Generate prototype** - AI creates working code that powers your interactions
-4. **Test immediately** - Click through your prototype to verify behavior
-5. **Use chat for refinements** - Complex logic or bug fixes work better in chat
+<Warning>
+Design updates don't sync back from prototypes to pages. Always make visual changes in Design Mode, then apply to prototype.
+</Warning>
 
-Prototypes run in the browser with real interactions—no external tools needed.
+## What makes prototypes different
 
-## What you can prototype
+**Real React code, not mockups:** Prototypes run as functional Vite projects. Test interactions instantly via Sandpack browser preview.
 
-**Navigation** - Link buttons to other pages in your project
+**Design system synced:** Uses your actual Subframe components. Theme and component changes flow through automatically.
 
-**State changes** - Toggle visibility, update text, change styles
+**Annotations as inline prompts:** Click any element, describe what it does. AI embeds instructions as code comments, ensuring consistent behavior across regenerations.
 
-**Form interactions** - Handle input validation and submission
+**Flow-based organization:** Each flow (folder of pages) has one independent prototype. All pages in the flow are included as context.
 
-**Conditional logic** - Show/hide elements based on conditions
+**Version controlled:** Every generation creates a versioned snapshot. Restore any previous version instantly.
 
-**Data display** - Mock API responses and dynamic content
 
-## Switch to Prototype Mode
-
-Click the **Prototype** tab at the top of the editor or press <kbd>3</kbd>. Your design appears with an annotation panel on the right.
 
 ## Learn more
 
 <CardGroup cols={2}>
+  <Card title="Managing designs" icon="folder-tree" href="/editor/prototype-mode/managing-designs">
+    Organize page designs to build better prototypes.
+  </Card>
   <Card title="Annotations" icon="comment-dots" href="/editor/prototype-mode/annotations">
     Add instructions to guide AI prototype generation.
   </Card>
   <Card title="Chat with AI" icon="comments" href="/editor/prototype-mode/chat-with-ai">
     Converse with AI to build and refine your prototype.
   </Card>
-  <Card title="Sharing prototypes" icon="share" href="/editor/prototype-mode/sharing-prototypes">
-    Share interactive prototypes with your team or stakeholders.
+  <Card title="View prototype code" icon="code" href="/editor/prototype-mode/view-prototype-code">
+    Inspect and export the generated prototype code.
   </Card>
 </CardGroup>
