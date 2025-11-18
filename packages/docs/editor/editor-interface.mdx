@@ -3,7 +3,7 @@ title: Editor interface
 description: Learn the Subframe editor interface and navigate between editing modes.
 ---
 
-The Subframe editor is where you design pages, build components, and export production-ready code. Switch between four modes—Design, Ask AI, Prototype, and Code—depending on your task.
+The Subframe editor is where you design pages, build components, and export production-ready code. Switch between four modes—Ask AI, Design, Prototype, and Code—depending on your task. The editor uses a flex-based layout system that matches how web interfaces actually work, ensuring designs export as clean, production-ready React code.
 
 ## Editor modes
 
@@ -19,49 +19,112 @@ Switch modes using the mode selector buttons at the top of the editor.
   <Card title="Prototype Mode" icon="play">
     Add interactions and annotations to designs. Share clickable prototypes with your team. No code required.
   </Card>
-
   <Card title="Code Mode" icon="code">
     View generated React + Tailwind code. Copy components, adjust export settings, or export to AI coding tools like Cursor.
   </Card>
 </CardGroup>
 
-## Editor interface
+## Editor layout
 
-Toggle the editor panels with <kbd>Cmd</kbd> <kbd>\\</kbd>.
+The editor consists of three main areas: left panel, canvas (center), and Inspector (right panel).
 
-### Page canvas
+### Left panel
 
-The canvas is your design surface. Add elements, arrange layouts, and preview your design at different breakpoints.
+Toggle left panel buttons with <kbd>Cmd</kbd> + <kbd>\\</kbd>. Click icon buttons to open panels:
 
-### Navigation panel (left sidebar)
+**Pages** — Switch between pages and flows in your project. Navigate to different designs or subcomponents when editing components.
 
-**Navigation** – Easily switch between pages and flows, or subcomponents when in the component editor.
+**Layers** — View and organize the element hierarchy for the current page. Select, reorder, or group elements. Shows the complete component tree.
 
-**Layers** - View and organize the element hierarchy for the current page. Select, reorder, or group elements.
+**Insert** — Browse and insert components and snippets. Search or drag elements onto the canvas. Switches between snippet and component libraries.
 
-**Insert** - Browse and insert components and snippets. Search or drag components onto the canvas.
+### Canvas (center)
 
-### Inspector (right sidebar)
+Your design surface where elements appear at their actual rendered size. The canvas shows exactly how your design will look at the current breakpoint (desktop or mobile).
 
-The inspector shows properties, styling options, and component-specific properties. Changes here update the canvas in real-time.
+**Navigation shortcuts:**
+- **Pan** — Hold <kbd>Space</kbd> and drag to move around
+- **Zoom in/out** — Click +/- buttons in bottom toolbar
+- **Reset zoom** — Click zoom percentage to return to 100%
 
+Unlike infinite canvas tools, Subframe uses flexbox for layout (not absolute positioning). Elements flow and arrange using Stacks, resize responsively, and adapt to different screen sizes automatically.
+
+### Inspector (right panel)
+
+Context-aware properties panel that changes based on editor mode and selected element. Shows layout, styling, typography, and component-specific settings. Changes update the canvas in real-time.
+
+**Content by mode:**
+- **Design mode** — Layout, sizing, colors, backgrounds, borders, shadows, padding, overflow, and component properties
+- **Code mode** — Three tabs: Inspect (view code), Installation (setup instructions), Prompts (MCP links for AI tools)
+- **Ask AI mode** — AI generation settings and context
+- **Prototype mode** — Interaction and annotation settings
+
+## Breakpoints and responsive design
+
+Switch between desktop (default) and mobile views using the device selector in the Inspector panel.
+
+**Desktop view (default)** — Design for desktop and tablet screens. Elements use their base flex properties.
+
+**Mobile view (768px)** — Add mobile-specific overrides for properties that need different values on small screens. Elements automatically resize and reflow based on flex layout.
+
+Design for desktop first. Then add mobile overrides only where needed. The same element responds to both breakpoints without duplicate versions.
+
+## Flex-based layout system
+
+Subframe uses flexbox exclusively—no absolute positioning. This matches how production React components work.
+
+**Stack containers** — Primary layout tool. Stacks arrange children vertically, horizontally, or with wrapping. Direction, spacing, and alignment match CSS flexbox exactly.
+
+**Responsive sizing** — Set width/height to "fill" (elements expand) or "hug" (elements shrink to content). Changes apply automatically across breakpoints.
+
+**Why this matters** — Designs are production-ready from the start. No converting positions to flexbox, no broken responsive behavior, no surprises in exported code. AI can generate working interfaces because the editor uses the same layout system as React.
+
+## Keyboard shortcuts
+
+Press <kbd>/</kbd> to open the actions menu with all available shortcuts.
+
+**Common shortcuts:**
+- <kbd>Cmd</kbd> + <kbd>K</kbd> — Open Ask AI
+- <kbd>Cmd</kbd> + <kbd>\\</kbd> — Toggle left panel visibility
+- <kbd>Cmd</kbd> + <kbd>G</kbd> — Group selected elements
+- <kbd>Cmd</kbd> + <kbd>D</kbd> — Duplicate element
+- <kbd>Cmd</kbd> + <kbd>Z</kbd> / <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd> — Undo/Redo
+
+**Quick styling:**
+- <kbd>f</kbd> — Edit text styles
+- <kbd>c</kbd> — Edit color
+- <kbd>g</kbd> — Edit background
+- <kbd>b</kbd> — Edit border
+- <kbd>o</kbd> — Edit shadow
+
+**Layout:**
+- <kbd>d</kbd> <kbd>v</kbd> — Vertical stack
+- <kbd>d</kbd> <kbd>h</kbd> — Horizontal stack
+- <kbd>d</kbd> <kbd>w</kbd> — Wrap
+
+**Sizing:**
+- <kbd>w</kbd> <kbd>f</kbd> / <kbd>w</kbd> <kbd>h</kbd> — Width: fill/hug
+- <kbd>h</kbd> <kbd>f</kbd> / <kbd>h</kbd> <kbd>h</kbd> — Height: fill/hug
 
 ## Collaboration
 
-Multiple team members can edit simultaneously. See who's viewing or editing the current page with avatars in the top nav. 
+Multiple team members can edit simultaneously. See who's viewing or editing with avatars in the top navigation.
 
-Invite team members or share view-only links by clicking **Share** in the top nav.
+Click **Share** in the top navigation to invite team members or create view-only links. Set roles (viewer/editor) and toggle public preview access.
 
 ## Learn more
 
 <CardGroup cols={2}>
-  <Card title="Page Editor" icon="pen-to-square" href="/editor/design-mode/page-editor">
-    Design production-ready interfaces in a responsive, flex-based editor.
-  </Card>
   <Card title="Add elements" icon="plus" href="/editor/design-mode/add-elements">
     Insert components, primitives, and layouts into your designs.
   </Card>
-  <Card title="Actions menu" icon="keyboard" href="/editor/design-mode/actions-menu">
-    Quick access to element actions with the slash command.
+  <Card title="Layers" icon="list" href="/editor/design-mode/layers">
+    Navigate and organize the element hierarchy.
+  </Card>
+  <Card title="Inspector" icon="sidebar" href="/editor/design-mode/inspector">
+    Configure properties and styling for selected elements.
+  </Card>
+  <Card title="Responsive design" icon="mobile" href="/editor/design-mode/responsive-design">
+    Design for mobile and desktop breakpoints.
   </Card>
 </CardGroup>
