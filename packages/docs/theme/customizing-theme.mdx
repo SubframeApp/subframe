@@ -3,83 +3,130 @@ title: Customizing theme
 description: Modify colors, typography, and other design tokens to match your brand.
 ---
 
-Customize your theme to align with your brand identity. The theming system applies across all design system components and styles in your project.
+Your theme is the foundation of your design system—design tokens that define colors, typography, borders, corners, and shadows across your entire project. Design tokens are reusable values that create consistency. Update a token once, and every component using it updates automatically.
 
-## Accessing theme settings
+Your theme exports as Tailwind CSS configuration. When you sync components, Subframe generates `tailwind.config.js` or `theme.css` with all your tokens. Components use standard Tailwind classes like `text-brand-primary`—values come from your Subframe theme.
 
-To edit your theme:
+## Accessing your theme
 
-1. Click the **Components** tab in the top navigation
-2. Select **Theme** from the left sidebar
-3. The theme editor shows all your design tokens organized by category
+Navigate to theme settings:
 
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Subframe interface showing the Components tab selected in the top navigation, with Theme highlighted in the left sidebar, and the theme editor panel open on the right" />
+1. Click **Theme** tab in the top navigation
+2. Theme editor shows five sections: Colors, Typography, Borders, Corners, Shadows
 
-## Quick theme updates
+All changes save automatically and apply immediately to components.
 
-For fast customization, use the **Edit theme** button to apply pre-selected theme colors and styles. These options provide professionally designed color palettes that you can apply instantly.
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Subframe interface showing the Components tab selected in the top navigation, with Theme highlighted in the left sidebar, and the theme editor panel showing Colors, Typography, Borders, Corners, and Shadows sections" />
 
-1. Click **Edit theme** in the theme editor
-2. Browse available theme styles
-3. Select one—changes apply automatically to your entire project
+## Quick styles
 
-## AI-assisted theming
+Apply professionally designed themes instantly with **Edit theme** button:
 
-Use AI to generate custom themes from prompts:
+1. Click **Edit theme** in Colors section
+2. Browse 10 preset styles (Linear, Google, Stripe, Spotify, VS Code, etc.)
+3. Select a style to apply brand colors, fonts, and corner radius
+4. Toggle between Light and Dark variants
+5. Customize individual sections after applying
 
-1. Open Ask AI (<kbd>Cmd</kbd> + <kbd>K</kbd>)
-2. Describe your desired theme:
-   > "Create a cool retro theme with warm grays, soft gradients, and subtle shadows"
-3. AI generates a theme matching your description
-4. Apply and refine as needed
+Each preset configures:
+- Brand and neutral color palettes
+- Semantic colors (error, success, warning)
+- Typography (heading and body fonts with weights)
+- Corner radius preset (none, small, medium, large)
 
-AI theming works with both theme-only updates and page designs. You can ask AI to update your theme and current page simultaneously.
+## Ask AI to generate theme
 
-## Customizing color tokens
+Use Ask AI to generate custom themes when existing presets don't match your vision. Press <kbd>Cmd</kbd> + <kbd>K</kbd> and describe your desired theme. AI modifies colors, typography, shadows, and corner radius based on your description.
 
-### Editing existing colors
+**What AI modifies:**
+- Brand and neutral color palettes
+- Typography (heading fonts with weights from Google Fonts)
+- Shadow stacking and elevation
+- Border radius values
 
-Click any color token to open the color picker. Changes save automatically and apply to all components using that token.
+**How it works:**
+1. Press <kbd>Cmd</kbd> + <kbd>K</kbd> to open Ask AI
+2. Describe your desired theme: "Create a modern dark theme with purple accents" or "Apply Stripe's design style"
+3. AI generates modified theme configuration
+4. Review and manually apply the proposed changes
 
-Your theme includes several color palettes:
+AI theme generation affects your entire project. Use sparingly for major theme updates. For minor adjustments, manually edit individual tokens.
 
-- **Brand colors** — Your primary brand color in shades from 50 to 900
-- **Neutral colors** — Grays for text, borders, and backgrounds
-- **Semantic colors** — Error (red), Warning (yellow), Success (green)
-- **Utility colors** — Default font, background, and border colors
+## Colors
 
-### Creating custom color tokens
+Subframe organizes colors into two types: **palettes** and **individual color tokens**.
 
-Add new color tokens for specific use cases:
+### Palettes vs individual tokens
 
-1. Navigate to **Components > Theme**
-2. Click the **+** button near existing color tokens
-3. Name your token (use descriptive names like `accent-purple` or `surface-elevated`)
-4. Set the value by entering a hex code or referencing an existing token
+**Color palettes** are collections of related color shades based on Tailwind presets:
+- Contain 10 shades numbered 50-900 (50 lightest, 900 darkest)
+- Shades maintain mathematical relationships for consistency
+- Cannot reference other tokens (no aliases)
+- Default palettes (Brand, Neutral, Error, Success, Warning) can be renamed but not deleted
+- Custom palettes can be created, imported to, and deleted
+
+**Individual color tokens** are standalone semantic colors:
+- Used for specific UI purposes (Brand Primary, Default Font, Subtext Color, etc.)
+- Can reference other tokens as aliases (e.g., Brand Primary → Brand 700)
+- Can be created with custom names
+- Default individual tokens cannot be deleted
+
+Use palettes for color scales that need consistent relationships. Use individual tokens for semantic colors that might reference palette shades.
+
+### Editing palettes
+
+Click the palette icon to swap entire palette:
+
+1. Click palette icon next to palette name
+2. Select from Tailwind color presets
+3. Palette updates all shades instantly
+
+Brand palette offers 18 color options. Neutral palette offers 5 gray variations (Slate, Gray, Zinc, Neutral, Stone).
+
+### Editing individual tokens
+
+Click any color token to open color picker. Changes save automatically and apply to all components using that token.
+
+### Creating custom palettes and tokens
+
+**New palette:**
+1. Click **New palette** button
+2. Name your palette
+3. Add color tokens to palette
+4. Import CSS variables (see [Importing tokens](/theme/importing-tokens))
+
+**New individual token:**
+1. Click **+** button in individual tokens section
+2. Name your token (use descriptive names like `accent-purple`)
+3. Set color value via color picker
 
 <Warning>
-When you delete a custom token, all references to it convert to the hex code value. This breaks the connection to your theme, so components won't update when you change colors.
+Deleting a custom token converts all references to hex values. This breaks theme connection—components won't update when you change colors.
 </Warning>
 
-## Typography tokens
+## Typography
 
-Customize fonts, sizes, and text styles:
+Configure fonts and weights in **Edit theme** dialog or Typography section:
 
-**Font families** — Choose from Google Fonts or use custom fonts. Subframe handles font loading automatically.
+**Heading font** — Select from 10+ Google Fonts (Inter, Geist, Outfit, etc.). Adjust weight slider (300-800).
 
-**Font sizes** — Adjust heading and body text sizes. Each size includes line height, font weight, and letter spacing.
+**Body font** — Currently shares same font as heading. Independent body font coming soon.
 
-**Text styles** — Modify the complete style for headings (heading-1, heading-2, heading-3), body text, captions, and code.
+**Font shuffle** — Click **Shuffle** to randomly select fonts by category: Rounded, Geometric, Humanist, Monospace.
 
-Changes to typography tokens update all text throughout your project.
+Typography tokens (Heading 1-3, Body, Caption, Code) auto-update when you change font settings.
 
-## Spacing, borders, and shadows
+## Borders, corners, shadows
 
-**Spacing** — Includes Tailwind's default spacing scale (0-96) plus any custom values you add. Use these for padding, margins, and gaps.
+**Borders** — Default border width (1px, 2px, 3px). Adjust in Borders section.
 
-**Border radius** — Define corner roundness with presets: sm (4px), md (8px), lg (12px), or full (fully rounded).
+**Corners** — Four presets in **Edit theme**:
+- None (0px all sizes)
+- Small (2px/4px/8px for sm/md/lg)
+- Medium (4px/8px/12px)
+- Large (8px/16px/24px)
 
-**Shadows** — Choose from elevation presets: sm, md, lg, and overlay. Each shadow preset can include multiple layers for complex effects.
+**Shadows** — Five elevation presets: sm, md, lg, overlay, default. Each preset editable with multiple shadow layers.
 
 ## Syncing theme changes to code
 
@@ -91,16 +138,27 @@ npx @subframe/cli sync --all
 
 This updates your `tailwind.config.js` or `theme.css` file with the new token values. All components in your codebase will automatically use the updated theme.
 
+## Limitations
+
+**Spacing not configurable** - Spacing tokens (padding, margins, gaps) use Tailwind defaults. Custom spacing values not supported.
+
+**Shared heading/body font** - Both use same font currently. Independent body font selection coming soon.
+
 ## Best practices
 
-### Use semantic names
+**Use semantic names** - Name custom tokens based on purpose, not appearance. Use `accent-color` instead of `purple-500`.
 
-Name custom tokens based on their purpose, not their appearance. Use `accent-color` instead of `purple-500`, so you can change the color later without renaming.
+**Test across components** - After significant changes, review components for proper contrast and appearance.
 
-### Reference existing tokens
+**Use palettes over individual tokens** - Palettes maintain relationships between shades automatically.
 
-When creating new tokens, reference existing ones when possible. This maintains relationships between colors and makes theme-wide updates easier.
+## Learn more
 
-### Test across components
-
-After making significant theme changes, review your components to ensure everything looks correct. Some color combinations may need adjustment for proper contrast.
+<CardGroup cols={2}>
+  <Card title="Importing tokens" icon="download" href="/theme/importing-tokens">
+    Import design tokens from Figma or other design systems into Subframe.
+  </Card>
+  <Card title="Dark mode" icon="moon" href="/theme/dark-mode">
+    Implement dark mode in your codebase using CSS variables and Tailwind's dark mode support.
+  </Card>
+</CardGroup>
