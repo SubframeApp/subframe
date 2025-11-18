@@ -1,133 +1,103 @@
 ---
 title: Quickstart
-description: Create your first design and export to code
+description: Create your first design and export to code in <10 mins
 ---
 
-Create your first design in Subframe and export it as React + Tailwind code. You'll go from zero to working code in 10 minutes.
+## Create your project
 
-## Sign up
+1. Sign up at [subframe.com](https://subframe.com) to create your first project.
+2. Configure your theme with quick presets or customize later in the Theme page.
+3. Select a default navigation style for your app.
 
-1. Go to [app.subframe.com](https://app.subframe.com) and sign up
-2. You'll get a default project with a complete component library and theme
-3. All components are real React code built on Radix and Headless UI
-4. Click **New page** to start
 
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Subframe dashboard showing a new project with the component library in the left sidebar and a blank canvas" />
+## Design your first page
 
-## Create your page
+You can create a new page with AI, select a template, or start from scratch.
 
-When you create a page, you can prompt AI, choose a template, or start from scratch.
+<Steps>
+  <Step title="Prompt with AI">
+    Ask AI generates multiple design variations using your theme and components.
 
-### Generate with AI
+    1. Go to https://app.subframe.com/design/new to open the new page dialog.
+    2. Type a prompt for the page you want to design.
+    3. Submit your prompt to open the page editor in Ask AI mode and wait for designs to generate.
+    4. Select a variation to preview. Click **Apply design** to add your chosen design to the current page.
+    
+    <Tip>Mix and match elements from different variations by dragging to the page from the preview.</Tip>
+  </Step>
 
-Ask AI generates multiple design variations using your theme and components. You explore, curate, and remix—not one-shot generation.
+  <Step title="Edit in Design Mode">
+    Switch to Design Mode to refine your page in the responsive page editor.
 
-1. Press <kbd>Cmd</kbd> + <kbd>K</kbd> to open Ask AI
-2. Describe what you want to build:
+    - Drag-and-drop elements on the page to rearrange.
+    - Select an element and click the **+** Insert buttons to add new elements.
+    - Edit styles and properties in the Inspector panel on the right.
+    - Right-click or press <kbd>/</kbd> for contextual edits to a selected element.
+  </Step>
+</Steps>
 
-> "Create a landing page hero with a headline about building UIs faster, subtitle, email input, and Get Started button"
+## Set up your codebase
 
-3. Review all variations—mix and match elements you like
-4. Click **Apply** to add your chosen design to the canvas
+Next, we'll create a new project using the Subframe Vite starter kit to implement your design.
 
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Ask AI panel showing a text prompt and four generated design variations for a landing page hero section" />
 
-AI uses your theme and existing components to stay on-brand. The more pages you create, the smarter it gets. Everything generated is fully editable in Design Mode.
+### Build with Subframe MCP
 
-### Or use templates
 
-1. Click **+** in the Pages panel
-2. Select a template
-3. Customize it in Design Mode
+<Steps>
+  <Step title="Install the MCP server">
+    Switch to **Code** > **Installation** to view Cursor or Claude Code instructions specific to your project.
 
-### Customize in Design Mode
+    Go to https://app.subframe.com/cli/auth to generate your auth token.
 
-Switch to Design Mode to edit your page with a familiar design tool interface.
+  </Step>
 
-- Drag components from the Insert panel on the left
-- Double-click text to edit
-- Select elements to edit properties in the Inspector panel on the right
-- Right-click for contextual edits
+  <Step title="Create a new project">
+    Open a new folder and copy the installation prompt in **Code** > **Installation** for Cursor or Claude Code.
+  </Step>
 
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Subframe editor in Design Mode with a hero section being edited and the Inspector panel showing spacing controls" />
+  <Step title="Prompt to implement your design">
+    Switch to **Code** > **Inspect** and copy the MCP link from Subframe to prompt your AI:
 
-<Tip>
-Subframe uses a responsive page editor, not an infinite canvas. Your UI looks exactly as it will in the browser.
-</Tip>
+    > "Implement the design from this Subframe page [YOUR_PAGE_URL]"
 
-## Build with AI coding tools
+    AI fetches the code via MCP and adds business logic.
+  </Step>
 
-The fastest way to build is connecting AI coding tools like Cursor or Claude Code to Subframe via MCP. Your AI assistant can fetch components and pages directly—paste Subframe URLs and the MCP server handles the rest.
+  <Step title="Start your development server">
+    ```bash
+    npm install
+    npm run dev
+    ```
 
-### Set up MCP server
+    Open `localhost:3000`—your page renders exactly as designed.
+  </Step>
+</Steps>
 
-Get your access token from [app.subframe.com/cli/auth](https://app.subframe.com/cli/auth), then add Subframe to your AI tool:
+### Or manually copy code
 
-<CodeGroup>
-  ```bash Claude Code
-  claude mcp add subframe
-  ```
-  ```bash Cursor
-  # Add to Cursor settings
-  ```
-</CodeGroup>
+<Steps>
+  <Step title="Create a new Vite project with CLI">
+      ```bash npm
+      npx @subframe/cli@latest init --dir ./src/ui --alias '@/ui/*' --install --tailwind --sync --template vite
+      ```
+  </Step>
 
-The MCP server provides tool calls to fetch project information, components, pages, and theme data. Your designs become the best context for AI—no manual copying needed.
+  <Step title="Copy your page code">
+    1. Switch to **Code** > **Inspect** to view React & Tailwind CSS code for your page.
+    2. Click the copy icon in the code viewer.
+    3. Paste into `src/pages/App.tsx`
+  </Step>
 
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="AI coding tool interface showing a prompt asking for Subframe components with the MCP server fetching the code automatically" />
+  <Step title="Start development">
+    ```bash
+    npm install
+    npm run dev
+    ```
 
-For complete setup instructions, see [MCP Server](/developing/mcp-server).
-
-### Build with your AI assistant
-
-Once connected, copy page or component URLs from Subframe and paste into prompts:
-
-> "Use this Subframe page [paste URL] and add a signup form with email validation and Supabase auth"
-
-Your AI assistant fetches the code via MCP, integrates it into your project, and adds business logic. The design stays perfect while you focus on functionality.
-
-## Or manually copy code
-
-You can also inspect and copy code directly from Subframe.
-
-Click **Code** in the top toolbar to see the React + Tailwind code for your page. Inspect specific elements or copy the entire page.
-
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Code Mode showing TypeScript React code on the left and live preview on the right" />
-
-### Install CLI
-
-Run this in your project:
-
-<CodeGroup>
-  ```bash npm
-  npx @subframe/cli@latest init
-  ```
-  ```bash yarn
-  yarn dlx @subframe/cli@latest init
-  ```
-  ```bash pnpm
-  pnpx @subframe/cli@latest init
-  ```
-  ```bash bun
-  bunx @subframe/cli@latest init
-  ```
-</CodeGroup>
-
-The CLI installs Subframe in about 2 minutes—syncs components, configures Tailwind with your theme.
-
-### Use the code
-
-1. Click **Copy code** in Code Mode
-2. Paste into a file: `src/pages/Hero.tsx`
-3. Import and use it:
-
-```tsx src/App.tsx
-import Hero from './pages/Hero'
-
-export default function App() {
-  return <Hero />
-}
-```
+    Open `localhost:3000`—your page renders exactly as designed.
+  </Step>
+</Steps>
 
 ## Learn more
 
