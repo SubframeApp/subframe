@@ -109,7 +109,7 @@
           {
             "group": "Design mode",
             "pages": [
-              "editor/design-mode/page-editor",
+              "editor/design-mode/working-with-stacks",
               "editor/design-mode/add-elements",
               "editor/design-mode/layers",
               "editor/design-mode/inspector",
