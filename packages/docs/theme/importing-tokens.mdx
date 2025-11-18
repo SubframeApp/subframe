@@ -3,89 +3,93 @@ title: Importing tokens
 description: Import design tokens from Figma or other design systems into Subframe.
 ---
 
-Import design tokens from existing design systems to match your brand. Subframe supports CSS variable import for quick token migration.
+Import color tokens from existing design systems to match your brand. Subframe supports CSS variable import for colors only—typography, spacing, borders, and shadows must be configured manually.
 
-## Importing CSS variables
+## Importing color tokens
 
-The fastest way to import tokens is via CSS variables:
+Import colors to individual palettes or non-palette tokens:
 
-1. Copy CSS variables from your design system (Figma variables export, storybook, or existing codebase)
-2. Navigate to **Components > Theme** in Subframe
-3. Click **Import CSS variables**
-4. Paste your CSS variables
-5. Review the imported tokens
-6. Click **Import** to apply
-
-### Supported CSS variable format
-
-Subframe accepts standard CSS custom properties:
-
-```css
-:root {
-  --color-brand-primary: #3B82F6;
-  --color-background: #FFFFFF;
-  --font-family-sans: 'Inter', sans-serif;
-  --spacing-4: 16px;
-  --border-radius-md: 8px;
-}
-```
-
-Token names convert to Subframe's naming convention automatically. For example, `--color-brand-primary` becomes `brand-primary` in your color tokens.
-
-## Importing from Figma
-
-Export Figma variables as CSS using Figma plugins or manual export:
-
-1. In Figma, use a plugin to export variables as CSS (e.g., "Figma Tokens")
-2. Copy the generated CSS variables
-3. Use the CSS variable import feature in Subframe
-4. Adjust any token mappings as needed
+1. Navigate to **Components > Theme** in Subframe
+2. Find the Colors section
+3. Click **Import** (for non-palette colors) or click the import icon on a custom palette
+4. Paste CSS variables in the dialog
+5. Review and edit token names and values
+6. Click **Import**
 
 <Note>
-Figma variable export requires a plugin. Look for "CSS Variables Export" or "Design Tokens" plugins in the Figma community.
+Default palettes (like Brand and Neutral) don't support import. Create a new custom palette first, then import to it.
 </Note>
+
+## Supported CSS format
+
+Paste CSS color variables, one per line:
+
+```css
+--color-token-name-100: #eeeeee;
+--color-token-name-200: #dddddd;
+--color-token-name-300: #cccccc;
+```
+
+Subframe parses CSS variables with this format:
+- Must start with `--`
+- Color value must be valid (hex, rgb, hsl)
+- Semicolons optional
+
+Variable names auto-convert to Title Case. `--color-brand-primary` becomes "Color Brand Primary".
+
+## Import workflow
+
+**Step 1: Paste variables** - Dialog shows textarea with example format. Paste your CSS variables.
+
+**Step 2: Review and edit** - For each detected token:
+- Edit palette name (applies to all tokens in import)
+- Edit individual token names
+- Adjust color values via color picker
+
+**Step 3: Import** - Click **Import** to add tokens. They appear immediately in your theme.
+
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Import color tokens dialog showing the preview step with editable palette name, token names, and color values for multiple imported tokens" />
+
+## Limitations
+
+**Colors only** - Import works for color tokens. Typography, spacing, borders, and shadows require manual configuration.
+
+**Valid colors required** - Non-color CSS variables are ignored during parsing.
+
+**No Figma integration** - Export Figma variables to CSS using a plugin first, then paste into Subframe.
 
 ## After importing
 
-**Review imported tokens** - Check that colors, fonts, and spacing match your expectations. Some conversions may need manual adjustment.
+**Sync to code** - Run `npx @subframe/cli sync --all` to update `tailwind.config.js` or `theme.css` with imported colors.
 
-**Test across components** - Browse your component library to verify imported tokens work correctly with base components.
-
-**Sync to code** - Run `npx @subframe/cli sync --all` to update your codebase with imported theme tokens.
-
-## Best practices
-
-**Clean up token names** - After import, rename tokens to match Subframe conventions if needed.
-
-**Reference relationships** - Ensure semantic tokens (like `color-error`) reference base tokens correctly.
-
-**Document sources** - Note where tokens came from for future reference when syncing updates.
+**Test across components** - Check that imported colors work with your components and have proper contrast.
 
 ## Troubleshooting
 
 <AccordionGroup>
-<Accordion title="Import fails with format error">
+<Accordion title="No color tokens detected">
 
-Verify your CSS variables use standard syntax:
-- Must start with `--`
-- Use valid CSS values (hex colors, px/rem units, font names)
-- No JavaScript or preprocessor syntax
-
-</Accordion>
-<Accordion title="Tokens don't map correctly">
-
-Some token names may not auto-map to Subframe categories:
-- Manually reassign tokens in the theme editor
-- Use semantic naming for better auto-detection
-- Check that color values are hex codes or rgb/hsl
+If import shows zero tokens:
+- Verify CSS variables start with `--`
+- Check color values are valid hex, rgb, or hsl
+- Ensure proper format: `--name: value;` or `--name: value`
+- Remove JavaScript syntax or preprocessor variables
 
 </Accordion>
-<Accordion title="Fonts don't load">
+<Accordion title="Can't import to palette">
 
-For custom fonts:
-- Ensure font files are accessible
-- Add font imports to your project
-- Google Fonts work automatically when specified by name
+Import button only appears on custom palettes:
+- Default palettes (Brand, Neutral) don't support import
+- Click **New palette** to create a custom palette
+- Then use the import icon on that palette
+
+</Accordion>
+<Accordion title="Palette name or token names empty">
+
+Import requires all names to be filled:
+- Edit palette name in the preview step
+- Edit individual token names that are blank
+- Click **Import** once all fields are valid
 
 </Accordion>
 </AccordionGroup>
