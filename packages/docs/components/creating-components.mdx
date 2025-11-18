@@ -3,10 +3,18 @@ title: Creating components
 description: Build custom components visually for your design system.
 ---
 
-Build reusable patterns specific to your product with custom components. They sync to code, support props and slots, and update automatically across all instances.
+Build production component libraries visually using React + Tailwind. Every Subframe project starts with base components—buttons, inputs, cards, navigation, overlays—built on [Radix UI](https://www.radix-ui.com/) and [Headless UI](https://headlessui.com/). Customize base components or create custom components from scratch. All components sync to code with full type safety.
+
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The component library showing categories of base components including Actions, Form inputs, Layout, Navigation, Feedback, and Data display" />
+
+## Design-to-code workflow
+
+Designers control the design system in Subframe's visual editor. Engineers sync components to production with `npx @subframe/cli sync`. Components export as TypeScript React code with Tailwind styling. Changes flow one way: from Subframe to code.
+
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Diagram showing design changes in Subframe flowing to code via CLI sync, with engineers wrapping components for business logic" />
 
 <Note>
-AI doesn't create or update components directly. Component creation is manual—either from existing page designs or from scratch. Best practice: generate pages with AI, then create components from repeated patterns.
+AI doesn't create or update components directly. Component creation is manual—from existing page designs or from scratch. Best practice: generate pages with AI, then create components from repeated patterns.
 </Note>
 
 ## Creating from existing design
@@ -141,7 +149,7 @@ export const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
 )
 ```
 
-## Editing components
+## Editing and customizing components
 
 Edit any component—base or custom—the same way:
 
@@ -152,7 +160,7 @@ Edit any component—base or custom—the same way:
 
 Or right-click any instance → **Edit component** to open the editor.
 
-Base components from Subframe are fully editable. Change colors, layouts, variants, states—they work identically to custom components. Changes you make update all instances across all pages immediately.
+Base components from Subframe are fully customizable. Change colors, modify layouts, add variants, adjust spacing—base and custom components have identical editing capabilities. All changes update instances across all pages immediately.
 
 ## Learn more
 
