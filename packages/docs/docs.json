@@ -87,7 +87,6 @@
       {
         "group": "Components",
         "pages": [
-          "components/overview",
           "components/creating-components",
           "components/using-components",
           "components/props-and-slots"
@@ -96,7 +95,7 @@
       {
         "group": "Editor",
         "pages": [
-          "editor/overview",
+          "editor/editor-interface",
           {
             "group": "Ask AI",
             "pages": [
