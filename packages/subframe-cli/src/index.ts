@@ -2,6 +2,7 @@ import { program } from "@commander-js/extra-typings"
 import packageJson from "../package.json"
 import { isDev } from "./common"
 import { initCommand } from "./init"
+import { pushComponentCommand } from "./push-component"
 import { syncCommand } from "./sync"
 
 program.version(packageJson.version).description("Subframe CLI")
@@ -12,6 +13,7 @@ if (isDev) {
 
 program.addCommand(initCommand)
 program.addCommand(syncCommand)
+program.addCommand(pushComponentCommand)
 
 process.env.NODE_ENV = isDev ? "development" : "production"
 program.parseAsync(process.argv)
