@@ -77,6 +77,7 @@
         "pages": [
           "theme/customizing-theme",
           "theme/importing-tokens",
+          "theme/adding-custom-fonts",
           "theme/dark-mode"
         ]
       },
