@@ -18,15 +18,13 @@ Enter the email address and select a role:
 
 Click **Send invitation**. The recipient receives an email invitation with a link to join your team.
 
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The invite team member dialog showing an email input field and role selector dropdown with Admin, Editor, and Viewer options" />
-
 ## Who can invite
 
 Your role determines who you can invite:
 
-**Admin** - Can invite Admins, Editors, and Viewers
-**Editor** - Can invite Editors and Viewers
-**Viewer** - Cannot invite anyone
+- **Admin** - Can invite Admins, Editors, and Viewers
+- **Editor** - Can invite Editors and Viewers
+- **Viewer** - Cannot invite anyone
 
 ## Invitation status
 
@@ -38,21 +36,7 @@ Once someone accepts, they appear as an active team member with their avatar, na
 
 All team members see and work on the same projects. There are no project-level permissions—if you're on the team, you have access to all projects based on your role.
 
-**Admins and Editors:**
-- View, edit, and create components
-- Design and edit pages
-- Export code
-- Use AI features
-- Create and delete projects
-- View version history
-
-**Viewers:**
-- View designs and components
-- No editing or export capabilities
-- Cannot use AI features
-- Cannot create or delete projects
-
-For detailed permissions, see [Roles and Permissions](/admin/roles-and-permissions).
+For detailed permissions by role, see [Roles and Permissions](/admin/roles-and-permissions).
 
 ## Accepting invitations
 
@@ -70,15 +54,33 @@ Adding Editors or Admins increases your monthly cost on the Pro plan ($29 per ed
 
 Your billing updates automatically when team members join or when you change their roles.
 
-## Limitations
+## Troubleshooting
 
-**One team per account** - You can only be on one team at a time. Accepting a new invitation removes you from your current team.
+<AccordionGroup>
+<Accordion title="Invitation not received">
 
-**No guest access** - There's no way to share individual projects without adding someone to your full team.
+Check the recipient's spam folder. Verify the email address is correct. Resend the invitation from Team Settings by canceling and re-inviting.
 
-**All projects shared** - Team members see all projects. You cannot restrict access to specific projects.
+</Accordion>
+<Accordion title="Can't invite admins">
+
+Only Admins can invite other Admins. Editors can only invite Editors and Viewers. Ask an existing Admin to send the invitation.
+
+</Accordion>
+<Accordion title="User joined wrong team">
+
+Each user can only be on one team. If they accepted the wrong invitation, they need to leave the current team and accept a new invitation from the correct team.
+
+</Accordion>
+</AccordionGroup>
 
 ## Learn more
 
-- [Roles and Permissions](/admin/roles-and-permissions) - Understand what each role can do
-- [Pricing and Plans](/admin/pricing-and-plans) - How team size affects billing
+<CardGroup cols={2}>
+  <Card title="Roles and permissions" href="/admin/roles-and-permissions">
+    Understand what each team role can access and modify in Subframe.
+  </Card>
+  <Card title="Pricing and plans" href="/admin/pricing-and-plans">
+    Understand Subframe's subscription tiers and features.
+  </Card>
+</CardGroup>
