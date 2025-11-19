@@ -89,6 +89,7 @@
         "pages": [
           "components/creating-components",
           "components/using-components",
+          "components/importing-components",
           "components/props-and-slots"
         ]
       },

@@ -3,175 +3,191 @@ title: Creating components
 description: Build custom components visually for your design system.
 ---
 
-Build production component libraries visually using React + Tailwind. Every Subframe project starts with base components—buttons, inputs, cards, navigation, overlays—built on [Radix UI](https://www.radix-ui.com/) and [Headless UI](https://headlessui.com/). Customize base components or create custom components from scratch. All components sync to code with full type safety.
-
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The component library showing categories of base components including Actions, Form inputs, Layout, Navigation, Feedback, and Data display" />
+Build production UI component libraries visually using React + Tailwind CSS. Every Subframe project starts with base components built using [subframe/core](https://github.com/SubframeApp/subframe) – and open-source wrapper around [Radix UI](https://radix-ui.com/).
 
 ## Design-to-code workflow
 
-Designers control the design system in Subframe's visual editor. Engineers sync components to production with `npx @subframe/cli sync`. Components export as TypeScript React code with Tailwind styling. Changes flow one way: from Subframe to code.
+Designers maintain the component library in Subframe. Engineers sync components to production with `npx @subframe/cli sync`. Components export as TypeScript React code with Tailwind styling. Changes flow one way: from Subframe to code.
 
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Diagram showing design changes in Subframe flowing to code via CLI sync, with engineers wrapping components for business logic" />
+## Base vs custom components
+
+**Base components** include built-in interactivity and accessibility:
+- **Select, Dropdown Menu** — State management for open/closed, selection
+- **Accordion** — Collapsible state, keyboard navigation
+- **Checkbox, Switch, Radio Group** — Checked state, form integration
+- **Slider** — Range value handling, thumb positioning
+- **Toggle Group** — Selection state management
+
+**Custom components** are visual-only without built-in logic. Add business logic in your codebase after syncing—event handlers, API calls, state management.
 
 <Note>
-AI doesn't create or update components directly. Component creation is manual—from existing page designs or from scratch. Best practice: generate pages with AI, then create components from repeated patterns.
+Ask AI doesn't create or update components directly. Create components manually from scratch, from a page, or by remixing existing components.
 </Note>
 
-## Creating from existing design
+## Creating components
 
-The fastest way to create a component is from elements you've already designed.
-
-1. Select the elements (<kbd>Shift</kbd> + click or drag to select)
-2. Right-click → **Create component**
-3. Name your component (use PascalCase: ProductCard, FeatureSection, UserAvatar)
-4. Review AI-suggested properties
-5. Click **Create**
-
-### AI-powered property suggestions
-
-Subframe analyzes your selection and automatically suggests properties based on content it detects:
-
-- **Text elements** become text props (titles, descriptions, labels)
-- **Icons** become icon props with current icon as default
-- **Images** become image props
-
-Toggle suggested properties on or off in the creation dialog. Rename properties to match your terminology—these become your component's prop names in code.
-
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The create component dialog showing AI-suggested properties with toggle switches for detected text, icon, and image elements, with rename fields for each property" />
-
-## Creating from scratch
-
-Start with a blank component for full control:
+### From the Components page
 
 1. Navigate to **Components** tab (top nav)
 2. Click **+ New component**
-3. Name your component
-4. Build your component structure with stacks, text, icons, and other elements
-5. Add properties as needed
+3. Choose creation method:
+   - **Remix** — Duplicate an existing base component as starting point
+   - **New blank component** — Start from scratch
+4. Name your component (use PascalCase: ProductCard, UserAvatar)
 
-Use a Stack as your root element—it provides flexible layout and works well as a component container.
+Remixing is useful for creating variations of base components while preserving their structure and properties.
+
+### From an existing design
+
+Create components directly from elements on a page:
+
+1. Right-click an element or press <kbd>/</kbd> → **Create component**
+2. Name your component
+3. Review AI-suggested properties—edit these later in the component editor
+4. Click **Create**
+
+Subframe analyzes your selection and suggests properties based on detected content: Text, Icon, Image, Slot. Toggle suggestions on or off and rename as needed.
 
 ## Adding properties
 
-Properties make your component configurable. Add them by selecting an element and clicking **+ Add property** in the Inspector panel.
+Properties make your component configurable. Select an element and click **+ Add property** in the Inspector.
 
 **Property types:**
-
-- **Text** - Editable text content (titles, labels, descriptions)
-- **Boolean** - Show/hide toggles
-- **Enum** - Dropdown choices (variants like size or style)
-- **Icon** - Icon selection from icon libraries
-- **Image** - Image URLs or uploads
-- **Number** - Numeric values
-- **Slot** - Flexible content areas for React children
+- **Text** — Editable text content (titles, labels)
+- **Boolean** — True/false toggle
+- **Variant** — Enum choices (size, style options)
+- **Icon** — Icon selection from libraries
+- **Image** — Image URLs or uploads
+- **Number** — Numeric values
+- **Slot** — Flexible areas for React children
 
 Each property exports as a TypeScript prop with full type safety.
 
 ## Variants
 
-Variants are pre-configured versions of your component created using enum properties. Common patterns:
+Variants are pre-configured versions using enum properties. Common patterns:
 
-**Size variants** - Create a "size" enum property with options: small, medium, large. For each option, adjust padding, font size, and spacing.
+**Size variants** — Create "size" enum with small, medium, large. Adjust padding, font size, spacing per option.
 
-**Style variants** - Create a "variant" enum property with options: primary, secondary, destructive. For each option, change colors and visual styling.
+**Style variants** — Create "variant" enum with primary, secondary, destructive. Change colors and styling per option.
 
-**Layout variants** - Create a "layout" enum property with options: horizontal, vertical. For each option, adjust Stack direction and arrangement.
-
-To style variant options, select the enum value from the dropdown in the component editor, then apply styles—those styles only apply to that variant.
+To style variants: select the enum value from dropdown, apply styles—those styles only apply to that variant.
 
 ## States
 
-States define how components look during interaction. Add states from the States dropdown in the component editor:
+States define appearance during interaction. Add from the States dropdown:
 
-**Hover** - Mouse over the component `:hover`
-**Pressed** - Active/pressed state `:active`
-**Focused** - Keyboard focus (important for accessibility) `:focus-visible`
+- **Hover** — Mouse over (`:hover`)
+- **Pressed** — Active/clicked (`:active`)
+- **Focused** — Keyboard focus (`:focus-visible`)
 
-## Slots
+## Subcomponents
 
-Slots enable component composition by accepting React children. To create a slot:
+Subcomponents are child components scoped to a parent. They export as compound components in code (e.g., `Card.Header`, `Card.Footer`).
 
-1. Select a Stack in your component
-2. Right-click → **Add slot**
-3. Name the slot (e.g., "actions", "header", "content")
-4. Add default content that appears when the slot is empty
+### Creating subcomponents
 
-Slots export as props that accept JSX:
+1. Open your component in the editor
+2. Click the component name dropdown in the left panel
+3. Click **+ Add subcomponent**
+4. Name your subcomponent
+5. Build the subcomponent structure
+
+### Common examples
+
+- **Card** with Header, Body, Footer subcomponents
+- **List** with Item subcomponent
+- **Table** with Header, Row, Cell subcomponents
+- **Accordion** with Trigger, Content subcomponents
+
+### Using in code
+
+Subcomponents export as properties on the parent component:
 
 ```tsx
-<Card
-  title="Product"
-  actions={<Button>Buy now</Button>}
->
-  <ProductImage />
-  <ProductDescription />
+<Card>
+  <Card.Header>Title</Card.Header>
+  <Card.Body>Content here</Card.Body>
+  <Card.Footer>
+    <Button>Action</Button>
+  </Card.Footer>
 </Card>
 ```
 
-For guidance on when to use slots vs props, see [Props and Slots](/components/props-and-slots).
+Subcomponents can be reordered via drag-and-drop in the component dropdown. Some base component subcomponents cannot be deleted as they're required for functionality.
 
-## Component structure
+## Slots
 
-**Use Stacks for layout** - Start with a Stack as root and use nested Stacks to organize elements. Stacks provide flexible flexbox layout.
+Slots accept React children for component composition. Create slots by selecting a Stack, right-clicking → **Add slot**, and naming it (e.g., "actions", "header").
 
-**Name your layers** - Give elements descriptive names in the Layers panel: "icon-wrapper", "title-text", "action-button". This makes components easier to maintain.
+For guidance on when to use slots vs props, see [Props and slots](/components/props-and-slots).
 
-**Keep components focused** - A component should do one thing well. If it's getting complex, break it into multiple components.
+## Previewing components
+
+Preview your component in a sandbox to test properties and variants:
+
+1. Click **Preview** in the top navigation
+2. Adjust property values in the Inspector panel
+3. Test different variant combinations
+4. Check responsive behavior
+
+The preview renders your component with live property controls. Press <kbd>Esc</kbd> to exit preview mode.
 
 ## Saving and syncing
 
-Components auto-save as you work. Once saved, your component appears in the component library under "Custom" and can be used in any page.
+Components auto-save as you work. Saved components appear in the library under "Custom" for use in any page.
 
-To sync components to your codebase:
+Sync to your codebase:
 
 ```bash
 npx @subframe/cli sync --all
 ```
 
-Your component exports as TypeScript React code with full type safety:
+Components export as TypeScript React with full type safety:
 
 ```tsx ProductCard.tsx
 import * as React from "react"
 
 export interface ProductCardProps {
   title: string
-  description: string
   price: string
-  image: string
   size?: "small" | "medium" | "large"
   variant?: "default" | "featured"
 }
 
 export const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
   function ProductCard({ size = "medium", variant = "default", ...props }, ref) {
-    // Generated component implementation
+    // Generated implementation
   }
 )
 ```
 
-## Editing and customizing components
+## Editing components
 
-Edit any component—base or custom—the same way:
+Edit any component—base or custom:
 
-1. Go to **Components** tab (top nav)
+1. Go to **Components** tab
 2. Select your component
-3. Make changes in the component editor
+3. Make changes in the editor
 4. All instances update automatically
 
-Or right-click any instance → **Edit component** to open the editor.
+Or right-click any instance → **Edit component**.
 
-Base components from Subframe are fully customizable. Change colors, modify layouts, add variants, adjust spacing—base and custom components have identical editing capabilities. All changes update instances across all pages immediately.
+Base components are fully customizable. Change colors, layouts, variants, spacing—all changes update instances across pages immediately.
 
 ## Learn more
 
 <CardGroup cols={2}>
-  <Card title="Props and slots" icon="puzzle-piece" href="/components/props-and-slots">
-    Understand when to use props vs slots for customizing Subframe components
+  <Card title="Props and slots" href="/components/props-and-slots">
+    Understand when to use props vs slots for customizing Subframe components.
   </Card>
-  <Card title="Using components" icon="mouse-pointer" href="/components/using-components">
-    Add and configure components in Subframe, then use them in your React code
+  <Card title="Using components" href="/components/using-components">
+    Add and configure components in Subframe, then use them in your React code.
   </Card>
-  <Card title="Syncing components" icon="arrows-rotate" href="/developing/syncing-components">
-    Keep components in sync with the CLI
+  <Card title="Importing components" href="/components/importing-components">
+    Import components from other projects or external code.
+  </Card>
+  <Card title="Syncing components" href="/developing/syncing-components">
+    Keep components in sync with the CLI.
   </Card>
 </CardGroup>
