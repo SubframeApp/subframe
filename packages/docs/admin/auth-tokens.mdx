@@ -51,7 +51,7 @@ No admin action is needed—role and team changes automatically invalidate affec
 
 ## Managing your own tokens
 
-If you need to create or manage your own tokens for CLI or MCP server access, see the complete guide at [Auth Tokens](/develop/auth-tokens).
+If you need to create or manage your own tokens for CLI or MCP server access, see the complete guide at [Auth Tokens](/developing/auth-tokens).
 
 That article covers:
 - Creating and using tokens
@@ -84,9 +84,33 @@ When downgrading someone from Editor to Viewer:
 2. Their tokens become invalid automatically
 3. They'll need to delete local CLI configuration manually
 
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="Team member's token stopped working">
+
+Check if their role changed to Viewer or Inactive. Role changes automatically invalidate tokens. They need Editor or Admin role to use tokens.
+
+</Accordion>
+<Accordion title="Can't revoke someone else's token">
+
+Tokens are personal—only the owner can revoke them. To invalidate a user's tokens, change their role to Inactive or remove them from the team.
+
+</Accordion>
+<Accordion title="User can't create tokens">
+
+Only Editors and Admins can create tokens. Viewers don't have CLI or code export access. Upgrade their role in Team Settings.
+
+</Accordion>
+</AccordionGroup>
+
 ## Learn more
 
-- [Auth Tokens (Developer Guide)](/develop/auth-tokens) - Create and manage your own tokens
-- [Roles and Permissions](/admin/roles-and-permissions) - Who can create and use tokens
-- [MCP Server](/develop/mcp-server) - Use tokens with AI coding tools
-- [Syncing Components](/develop/syncing-components) - Use tokens with the CLI
+<CardGroup cols={2}>
+  <Card title="Auth tokens" href="/developing/auth-tokens">
+    Create and manage your personal authentication tokens.
+  </Card>
+  <Card title="Roles and permissions" href="/admin/roles-and-permissions">
+    Understand what each team role can access and modify in Subframe.
+  </Card>
+</CardGroup>

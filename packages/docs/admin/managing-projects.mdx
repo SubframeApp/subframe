@@ -3,7 +3,7 @@ title: Managing projects
 description: Create, organize, and delete projects in your workspace.
 ---
 
-Learn how to create, organize, rename, and delete projects in Subframe. Projects are isolated workspaces where you manage your design system components, pages, and design tokens independently.
+Projects are isolated workspaces where you manage your design system components, pages, and design tokens independently.
 
 ## Creating projects
 
@@ -94,7 +94,7 @@ Deleting a project is permanent and cannot be undone. All pages, components, des
 
 If you delete the project you're currently working in, you're automatically moved to another project in your team. If you delete your last project, you're signed out.
 
-## Project settings
+## Managing projects
 
 ### Accessing project settings
 
@@ -116,13 +116,7 @@ Each project stores:
 - **Updated date** - When the project was last modified
 - **Unique ID** - A system identifier used for sharing and exports
 
-## Project access and permissions
-
-### Shared with all team members
-
-All projects in your workspace are shared with everyone on your team. There are no project-level permissions—anyone with access to your team can view and edit all projects based on their role.
-
-### Role-based access
+### Project access and permissions
 
 Your ability to create and manage projects depends on your team role:
 
@@ -139,52 +133,43 @@ Your ability to create and manage projects depends on your team role:
 
 For more details, see [Roles and Permissions](/admin/roles-and-permissions).
 
-## Project organization
+### Project organization
 
-### What you cannot do across projects
+All projects in your workspace are shared with everyone on your team. Common ways to organize multiple projects include:
 
-- **No moving content between projects** - You must duplicate projects or manually recreate content
-- **No shared components across projects** - Components exist only within their project
-- **No shared design tokens** - Each project has its own design system
+- **By product vs. website** – Seperate your product UI from your website or landing page designs
+- **By client** - One project per client or product
+- **By team** - Use one project as your main design system, then allow each team member to duplicate
 
-### How to organize projects
+<Note>Projects belong to the team that created them. You cannot transfer a project to another team. If you need to move a project, contact support@subframe.com</Note>
 
-Since projects are independent:
+## Troubleshooting
 
-- **Create separate projects by client** - One project per client or product
-- **Create a design system project** - Use one project as your main design system, then duplicate it for variations
-- **Use naming conventions** - Prefix project names with dates, client names, or status (e.g., "2024-Acme-Website", "Internal-UI-Kit")
+<AccordionGroup>
+<Accordion title="Can't create new projects">
 
-## Project limitations
+Check your plan limits. Free plans allow 1 project, Pro allows 3. Upgrade your plan or delete existing projects to create new ones.
 
-### Free plan
+</Accordion>
+<Accordion title="Can't delete a project">
 
-- **Maximum 1 project** - Free accounts can have only one project
-- Create additional projects by upgrading to Pro or Team plan
+Only Admins and Editors can delete projects. Viewers have read-only access. Check your role in Team Settings.
 
-### Pro plan
+</Accordion>
+<Accordion title="Need to transfer a project">
 
-- **Unlimited projects** - Create as many projects as you need
-- Access to all project management features
+Projects cannot be transferred between teams. Contact [support@subframe.com](mailto:support@subframe.com) for assistance.
 
-### Team plan
-
-- **Unlimited projects** - Create as many projects as you need
-- Access to all project management features
-- Shared across all team members
-
-### Cannot move between teams
-
-Projects belong to the team that created them. You cannot transfer a project to another team. If you need to move a project:
-
-1. Duplicate the project in the current team
-2. Switch to the other team
-3. Duplicate again in the new team's workspace
-
-For more details on plan limits, see [Pricing and Plans](/admin/pricing-and-plans).
+</Accordion>
+</AccordionGroup>
 
 ## Learn more
 
-- [Roles and Permissions](/admin/roles-and-permissions) - Understand what each role can do
-- [Pricing and Plans](/admin/pricing-and-plans) - How many projects you can create
-- [Inviting Team Members](/admin/inviting-team-members) - Add collaborators to your team
+<CardGroup cols={2}>
+  <Card title="Roles and permissions" href="/admin/roles-and-permissions">
+    Understand what each team role can access and modify in Subframe.
+  </Card>
+  <Card title="Pricing and plans" href="/admin/pricing-and-plans">
+    Understand Subframe's subscription tiers and features.
+  </Card>
+</CardGroup>

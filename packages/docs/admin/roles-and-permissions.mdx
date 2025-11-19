@@ -5,84 +5,46 @@ description: Understand what each team role can access and modify in Subframe.
 
 Subframe uses role-based access control to manage what team members can do. Every team member has one of four roles: Admin, Editor, Viewer, or Inactive.
 
-## Available roles
-
-**Admin** - Full access to everything. Admins manage team members, billing, and have complete design and code access. First person to create a team automatically becomes an Admin.
-
-**Editor** - Full design and development access. Editors can create, edit, and delete projects, export code, and use AI features. They cannot manage team settings or billing.
-
-**Viewer** - Read-only access. Viewers can see designs but cannot edit, export code, or use AI features. Perfect for stakeholders who need visibility without editing capabilities.
-
-**Inactive** - No access. Inactive members cannot sign in or access the team. Use this to temporarily remove access without deleting the team member entirely.
+<CardGroup cols={2}>
+  <Card title="Admin" icon="crown">
+    Full access to everything. Admins manage team members, billing, and have complete design and code access. First person to create a team automatically becomes an Admin.
+  </Card>
+  <Card title="Editor" icon="pen">
+    Full design and development access. Editors can create, edit, and delete projects, export code, and use AI features. They cannot manage team settings or billing.
+  </Card>
+  <Card title="Viewer" icon="eye">
+    Read-only access. Viewers can see designs but cannot edit, export code, or use AI features. Perfect for stakeholders who need visibility without editing capabilities.
+  </Card>
+  <Card title="Inactive" icon="user-slash">
+    No access. Inactive members cannot sign in or access the team. Use this to temporarily remove access without deleting the team member entirely.
+  </Card>
+</CardGroup>
 
 ## Permission breakdown
 
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Table showing a detailed comparison of permissions across Admin, Editor, Viewer, and Inactive roles with checkmarks and crosses indicating what each role can do" />
-
-### Design and code access
-
-**Admins and Editors:**
-- View, edit, and create components
-- Design and edit pages
-- Export code in any format
-- Use AI features (prompt-to-design, image-to-design, inline Ask AI)
-- View version history
-- Create and delete projects
-
-**Viewers:**
-- View designs and components only
-- Cannot edit anything
-- Cannot export code
-- Cannot use AI features
-- Cannot view version history
-- Cannot create or delete projects
-
-**Inactive:**
-- No access to any features
-- Cannot sign in
-
-### Team management
-
-**Admins:**
-- Invite Admins, Editors, and Viewers
-- Change any team member's role
-- Remove team members
-- Manage billing and subscription
-- Access team settings
-
-**Editors:**
-- Invite Editors and Viewers (cannot invite Admins)
-- Cannot change roles or remove team members
-- Cannot access billing or team settings
-
-**Viewers:**
-- Cannot invite anyone
-- Cannot manage team members
-- Cannot access team settings
-
-**Inactive:**
-- No team management access
-
-### Billing access
-
-Only Admins can view and manage billing. This includes:
-- Updating payment methods
-- Changing subscription plans
-- Viewing invoices
-- Managing billing contacts
-- Canceling subscriptions
-
-Editors and Viewers cannot see any billing information.
-
-## Permission enforcement
+| Permission | Admin | Editor | Viewer | Inactive |
+|---|---|---|---|---|
+| **Design and code** |||||
+| View designs and components | ✓ | ✓ | ✓ | – |
+| Edit and create components | ✓ | ✓ | – | – |
+| Design and edit pages | ✓ | ✓ | – | – |
+| Export code | ✓ | ✓ | – | – |
+| Use AI features | ✓ | ✓ | – | – |
+| View version history | ✓ | ✓ | – | – |
+| Create and delete projects | ✓ | ✓ | – | – |
+| **Team management** |||||
+| Invite Admins | ✓ | – | – | – |
+| Invite Editors and Viewers | ✓ | ✓ | – | – |
+| Change roles | ✓ | – | – | – |
+| Remove team members | ✓ | – | – | – |
+| Access team settings | ✓ | – | – | – |
+| **Billing** |||||
+| View and manage billing | ✓ | – | – | – |
+| Update payment methods | ✓ | – | – | – |
+| Change subscription plans | ✓ | – | – | – |
 
 When you attempt an action your role doesn't allow, Subframe shows a dialog explaining the restriction:
-
-**For Viewers** - "You are in view-only mode. You can view designs but cannot make edits or view code. Contact your team admin to request access."
-
-**When viewing version history** - Editors and Admins can view but not edit. "Exit version history to make edits. You can view designs and code but cannot make edits."
-
-These restrictions apply across the entire application—in the editor, project settings, and team settings.
+> "You are in view-only mode. You can view designs but cannot make edits or view code. Contact your team admin to request access."
 
 ## Changing roles
 
@@ -116,38 +78,47 @@ When you create a new Subframe team, you're automatically assigned the Admin rol
 
 When inviting new members through email, they default to the Editor role unless you explicitly choose a different role during invitation.
 
-## Role restrictions by feature
+## Role restrictions
 
 ### AI features
 
-Only Admins and Editors can use AI features like:
-- Prompt-to-design
-- Image-to-design
-- Inline Ask AI
-- Remix pages
-- Chat with AI in Prototype mode
-
-Viewers cannot access any AI features. If your team doesn't have AI enabled (based on your plan), these features are unavailable to everyone.
+Only Admins and Editors can use AI features like Ask AI and Prototyping. Viewers cannot access any AI features.
 
 ### Version history
 
 Admins and Editors can view version history. While viewing a historical version, you can see designs and code but cannot make edits until you exit version history.
 
-Viewers cannot access version history at all.
-
 ### Code export
 
-Only Admins and Editors can export code. Viewers can see designs but cannot access Code mode or export components.
+Only Admins and Editors can export code. Viewers can see sync components and view designs but cannot access Code mode.
 
-Export formats available to Admins and Editors:
-- Copy component code
-- Export to Cursor
-- Export to Bolt
-- Export to Replit
-- Export to Lovable
-- Sync via CLI
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="Can't access a feature">
+
+Check your role in Team Settings. Viewers cannot edit, export code, or use AI features. Ask an Admin to upgrade your role if needed.
+
+</Accordion>
+<Accordion title="Can't change someone's role">
+
+Only Admins can change roles. Editors cannot modify team member permissions. Contact your team Admin.
+
+</Accordion>
+<Accordion title="Billing didn't update after role change">
+
+Role changes affect the next billing cycle, not immediately. View upcoming charges in the Stripe billing portal.
+
+</Accordion>
+</AccordionGroup>
 
 ## Learn more
 
-- [Inviting Team Members](/admin/inviting-team-members) - Add people to your team
-- [Pricing and Plans](/admin/pricing-and-plans) - Understand billing for each role
+<CardGroup cols={2}>
+  <Card title="Inviting team members" href="/admin/inviting-team-members">
+    Add collaborators to your Subframe team and manage invitations.
+  </Card>
+  <Card title="Pricing and plans" href="/admin/pricing-and-plans">
+    Understand Subframe's subscription tiers and features.
+  </Card>
+</CardGroup>
