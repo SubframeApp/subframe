@@ -81,6 +81,16 @@ export interface UpdateImportAliasResponse {
   success: true
 }
 
+export interface PushComponentRequest {
+  componentName: string
+  componentFile: string
+}
+
+export interface PushComponentResponse {
+  success: true
+  componentName: string
+}
+
 export interface SyncProjectRequest {
   truncatedProjectId?: TruncatedProjectId
   components: string[]
