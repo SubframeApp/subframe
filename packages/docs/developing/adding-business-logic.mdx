@@ -15,7 +15,7 @@ We've made a [CodeSandbox](https://codesandbox.io/p/devbox/subframe-spoofy-rw5wr
 
 Let's build a simple magic link login form. This is what we want the end result to look like:
 
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="A login form with a text input labeled 'Email' and a button labeled 'Send Magic Link' with a send icon, styled with a clean modern design" />
+<img src="/images/adding-business-logic/form-example-1.png" alt="A login form with a text input labeled 'Email' and a button labeled 'Send Magic Link' with a send icon, styled with a clean modern design" className="w-full" />
 
 After [copying the page code](/developing/exporting-code) from Subframe, add basic functionality:
 
@@ -127,7 +127,14 @@ export default App
 
 The login form now has interactive states and loading feedback.
 
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Animated demonstration of the login form in action: user types an email address, clicks the Send Magic Link button which shows a loading spinner, then completes successfully" />
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  className="w-full"
+  src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/form-example-2-IzeEyBCMx6a6qIDJr9D0OzvXYOd5Qu.webm"
+/>
 
 ## Example 2: Interactive track cards
 
@@ -137,7 +144,7 @@ When adding business logic to Subframe components, [wrap the component](/develop
 
 Start with a `TrackCard` component and `FavoriteTracks` page designed in Subframe:
 
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="A page showing three music track cards in a row, each displaying an album cover, track title, artist name, track length, genre tag, and a heart-shaped favorite button" />
+<img src="/images/adding-business-logic/component-example-page.png" alt="A page showing three music track cards in a row, each displaying an album cover, track title, artist name, track length, genre tag, and a heart-shaped favorite button" className="w-full" />
 
 Add favoriting functionality:
 
@@ -267,6 +274,13 @@ export default FavoriteTracks
 
 The final result:
 
-<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Animated demonstration of the track cards: user clicks the heart icon on different tracks to toggle their favorite status, with the heart icon filling and unfilling accordingly" />
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  className="w-full aspect-video"
+  src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/component-example-2-ZRPtwOWlu7m9aaOgLi7ASo4FwRNaIj.webm"
+/>
 
 This example uses slots for the image and favorite button. See [Props and slots](/components/props-and-slots) for more details.
