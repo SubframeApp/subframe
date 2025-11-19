@@ -1,5 +1,5 @@
 ---
-title: Editor interface
+title: Editor overview
 description: Learn the Subframe editor interface and navigate between editing modes.
 ---
 
@@ -10,16 +10,16 @@ The Subframe editor is where you design pages, build components, and export prod
 Switch modes using the mode selector buttons at the top of the editor.
 
 <CardGroup cols={2}>
-  <Card title="Ask AI" icon="wand-magic-sparkles">
+  <Card title="Ask AI" icon="book">
     Generate designs from text prompts or images. AI creates pages and components based on your descriptions. Useful for rapid prototyping or getting started.
   </Card>
-  <Card title="Design Mode" icon="pen-to-square">
+  <Card title="Design Mode" icon="book">
     Visual editing for layouts, components, and styling. Add elements, adjust properties, and build your design system. Most of your work happens here.
   </Card>
-  <Card title="Prototype Mode" icon="play">
+  <Card title="Prototype Mode" icon="book">
     Add interactions and annotations to designs. Share clickable prototypes with your team. No code required.
   </Card>
-  <Card title="Code Mode" icon="code">
+  <Card title="Code Mode" icon="book">
     View generated React + Tailwind code. Copy components, adjust export settings, or export to AI coding tools like Cursor.
   </Card>
 </CardGroup>
@@ -79,33 +79,6 @@ Subframe uses flexbox exclusively—no absolute positioning. This matches how pr
 
 **Why this matters** — Designs are production-ready from the start. No converting positions to flexbox, no broken responsive behavior, no surprises in exported code. AI can generate working interfaces because the editor uses the same layout system as React.
 
-## Keyboard shortcuts
-
-Press <kbd>/</kbd> to open the actions menu with all available shortcuts.
-
-**Common shortcuts:**
-- <kbd>Cmd</kbd> + <kbd>K</kbd> — Open Ask AI
-- <kbd>Cmd</kbd> + <kbd>\\</kbd> — Toggle left panel visibility
-- <kbd>Cmd</kbd> + <kbd>G</kbd> — Group selected elements
-- <kbd>Cmd</kbd> + <kbd>D</kbd> — Duplicate element
-- <kbd>Cmd</kbd> + <kbd>Z</kbd> / <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd> — Undo/Redo
-
-**Quick styling:**
-- <kbd>f</kbd> — Edit text styles
-- <kbd>c</kbd> — Edit color
-- <kbd>g</kbd> — Edit background
-- <kbd>b</kbd> — Edit border
-- <kbd>o</kbd> — Edit shadow
-
-**Layout:**
-- <kbd>d</kbd> <kbd>v</kbd> — Vertical stack
-- <kbd>d</kbd> <kbd>h</kbd> — Horizontal stack
-- <kbd>d</kbd> <kbd>w</kbd> — Wrap
-
-**Sizing:**
-- <kbd>w</kbd> <kbd>f</kbd> / <kbd>w</kbd> <kbd>h</kbd> — Width: fill/hug
-- <kbd>h</kbd> <kbd>f</kbd> / <kbd>h</kbd> <kbd>h</kbd> — Height: fill/hug
-
 ## Collaboration
 
 Multiple team members can edit simultaneously. See who's viewing or editing with avatars in the top navigation.
@@ -115,16 +88,16 @@ Click **Share** in the top navigation to invite team members or create view-only
 ## Learn more
 
 <CardGroup cols={2}>
-  <Card title="Add elements" icon="plus" href="/editor/design-mode/add-elements">
+  <Card title="Add elements" icon="book" href="/editor/design-mode/add-elements">
     Insert components, primitives, and layouts into your designs.
   </Card>
-  <Card title="Layers" icon="list" href="/editor/design-mode/layers">
+  <Card title="Layers" icon="book" href="/editor/design-mode/layers">
     Navigate and organize the element hierarchy.
   </Card>
-  <Card title="Inspector" icon="sidebar" href="/editor/design-mode/inspector">
+  <Card title="Inspector" icon="book" href="/editor/design-mode/inspector">
     Configure properties and styling for selected elements.
   </Card>
-  <Card title="Responsive design" icon="mobile" href="/editor/design-mode/responsive-design">
+  <Card title="Responsive design" icon="book" href="/editor/design-mode/responsive-design">
     Design for mobile and desktop breakpoints.
   </Card>
 </CardGroup>
