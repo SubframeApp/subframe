@@ -8,12 +8,6 @@
     "dark": "#111111"
   },
   "favicon": "/favicon.png",
-  "fonts": {
-    "heading": {
-      "family": "Inter",
-      "weight": 400
-    }
-  },
   "navigation": {
     "global": {
       "anchors": [
