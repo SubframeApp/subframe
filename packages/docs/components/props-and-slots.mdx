@@ -9,18 +9,6 @@ Components accept two types of customization: **props** and **slots**.
 
 **Slots** are placeholders for React children. They enable composition—nesting components inside other components. Designers define slots and add default content. Developers fill slots with custom components, event handlers, and framework-specific elements.
 
-## Component anatomy
-
-Components consist of four main elements:
-
-**Props** — Simple values like text, colors, or icons that configure instances.
-
-**Slots** — Placeholders for React children that enable composition.
-
-**Variants** — Pre-configured versions like size options (sm, md, lg) or style variations (primary, secondary, destructive).
-
-**States** — Visual changes based on interaction: hover, pressed, focused, disabled.
-
 ## When to use each
 
 Use **props** for content that changes per instance: titles, labels, colors, icons, image URLs.
@@ -50,7 +38,7 @@ The same component with slots exposes subcomponents and accepts React elements:
   title="The Less I Know The Better"
   artist="Tame Impala"
   favoriteButton={
-    <TrackCard.FavoriteButton
+    <IconButton
       icon={isFavorite ? "FeatherHeartOff" : "FeatherHeart"}
       onClick={() => setIsFavorite(!isFavorite)}
     />
@@ -80,13 +68,13 @@ Slots export as React props that accept JSX. Props export as TypeScript interfac
 ## Learn more
 
 <CardGroup cols={2}>
-  <Card title="Creating components" icon="plus" href="/components/creating-components">
-    Build custom components visually for your design system
+  <Card title="Creating components" href="/components/creating-components">
+    Build custom components visually for your design system.
   </Card>
-  <Card title="Using components" icon="mouse-pointer" href="/components/using-components">
-    Add and configure components in Subframe, then use them in your React code
+  <Card title="Using components" href="/components/using-components">
+    Add and configure components in Subframe, then use them in your React code.
   </Card>
-  <Card title="Adding business logic" icon="code" href="/developing/adding-business-logic">
-    Integrate state management, API calls, and event handlers into your Subframe-exported code
+  <Card title="Adding business logic" href="/developing/adding-business-logic">
+    Integrate state management, API calls, and event handlers into your Subframe-exported code.
   </Card>
 </CardGroup>
