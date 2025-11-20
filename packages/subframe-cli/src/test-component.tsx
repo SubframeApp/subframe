@@ -84,7 +84,7 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(function
         </SubframeCore.IconWrapper>
       ) : null}
       <div
-        className={SubframeUtils.twClassNames("hidden h-4 w-4 flex-none items-center justify-center gap-2", {
+        className={SubframeUtils.twClassNames("hidden flex-none items-center justify-center gap-2", {
           flex: loading,
           "h-3 w-3 flex-none": size === "small",
         })}
@@ -105,9 +105,9 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(function
         {loadingText ? (
           <span
             className={SubframeUtils.twClassNames(
-              "whitespace-nowrap text-body-bold font-body-bold text-white group-disabled/3b777358:text-neutral-400",
+              "whitespace-nowrap hidden text-body-bold font-body-bold text-white group-disabled/3b777358:text-neutral-400",
               {
-                hidden: loading,
+                inline: loading,
                 "text-caption-bold font-caption-bold": size === "small",
                 "text-body-bold font-body-bold": size === "large",
                 "text-error-700": variant === "destructive-tertiary" || variant === "destructive-secondary",
@@ -124,7 +124,7 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(function
       {children ? (
         <span
           className={SubframeUtils.twClassNames(
-            "whitespace-nowrap text-body-bold font-body-bold text-green-600 group-disabled/3b777358:text-neutral-400",
+            "whitespace-nowrap text-body-bold font-body-bold text-brand-primary group-disabled/3b777358:text-neutral-400",
             {
               hidden: loading,
               "text-caption-bold font-caption-bold": size === "small",
