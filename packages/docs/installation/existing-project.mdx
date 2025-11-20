@@ -3,21 +3,15 @@ title: Install in existing codebase
 description: Add Subframe to your existing React project
 ---
 
-Add Subframe to any existing TypeScript, React, and Tailwind CSS project. The CLI configures your project automatically, syncing components and theme tokens.
-
-<Note>
-Subframe works with any framework using TypeScript, React, and Tailwind CSS.
-</Note>
+Subframe works with any framework using TypeScript, React, and Tailwind CSS. The CLI configures your project automatically to sync your components and theme.
 
 ## Prerequisites
-
-Your project needs:
 
 - **TypeScript** — Subframe components are fully typed
 - **React** (16.8+) — Hooks support required
 - **Tailwind CSS** (v3 or v4) — For component styling
 
-Works with Next.js, Vite, Astro, Remix, and other React frameworks.
+<Note>Subframe works with Next.js, Vite, Astro, Remix, and other React frameworks.</Note>
 
 ## Install
 
@@ -79,28 +73,6 @@ export default function App() {
 
 If the button renders with styling, you're set!
 
-## Framework-specific guidance
-
-Some frameworks need additional configuration. Check your framework guide if you encounter issues:
-
-<CardGroup cols={2}>
-  <Card title="Next.js" icon="book" href="/installation/framework-guides/nextjs">
-    Install Subframe in your Next.js app
-  </Card>
-  <Card title="Vite" icon="book" href="/installation/framework-guides/vite">
-    Install Subframe in your Vite + React app
-  </Card>
-  <Card title="Astro" icon="book" href="/installation/framework-guides/astro">
-    Install Subframe in your Astro app
-  </Card>
-  <Card title="Monorepo" icon="book" href="/installation/framework-guides/monorepo">
-    Install Subframe in monorepo setups
-  </Card>
-  <Card title="Manual installation" icon="book" href="/installation/framework-guides/manual">
-    Install Subframe without the CLI
-  </Card>
-</CardGroup>
-
 ## Common issues
 
 <AccordionGroup>
@@ -135,4 +107,24 @@ If you see TypeScript errors in components:
 </Accordion>
 </AccordionGroup>
 
-For more help, see [Manual installation guide](/installation/framework-guides/manual) or join [Slack Community](https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ).
+## Framework-specific guidance
+
+Some frameworks need additional configuration, check out the following guides:
+
+<CardGroup cols={2}>  <Card title="Next.js" href="/installation/framework-guides/nextjs">
+    Install Subframe in your Next.js app
+  </Card>
+  <Card title="Vite" href="/installation/framework-guides/vite">
+    Install Subframe in your Vite app
+  </Card>
+  <Card title="Astro" href="/installation/framework-guides/astro">
+    Install Subframe in your Astro app
+  </Card>
+  <Card title="Monorepo" href="/installation/framework-guides/monorepo">
+    Install Subframe in monorepo setups
+  </Card>
+  <Card title="Custom setup" href="/installation/framework-guides/manual">
+    Install Subframe without the CLI
+  </Card>
+</CardGroup>
+
