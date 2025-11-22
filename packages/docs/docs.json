@@ -56,7 +56,7 @@
       },
       {
         "group": "Design with Subframe",
-        "pages": ["designing/adding-elements", "designing/using-ai-to-design", "designing/personalizing-ai"]
+        "pages": ["designing/adding-elements", "designing/using-ai-to-design", "designing/personalizing-ai", "designing/version-history"]
       },
       {
         "group": "Prototype with Subframe",
