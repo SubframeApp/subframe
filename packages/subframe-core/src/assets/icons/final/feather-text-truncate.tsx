@@ -1,0 +1,29 @@
+import * as React from "react"
+import { IconWrapper } from "../../../components/icon-wrapper"
+const SvgFeatherTextTruncate = React.forwardRef(function SvgFeatherTextTruncate(
+  props: React.HTMLAttributes<HTMLSpanElement>,
+  ref: React.Ref<HTMLSpanElement>,
+) {
+  return (
+    <IconWrapper ref={ref} {...props}>
+      {
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1em"
+          height="1em"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" />
+          <path d="M19 20C19.5523 20 20 19.5523 20 19C20 18.4477 19.5523 18 19 18C18.4477 18 18 18.4477 18 19C18 19.5523 18.4477 20 19 20Z" />
+          <path d="M5 20C5.55228 20 6 19.5523 6 19C6 18.4477 5.55228 18 5 18C4.44772 18 4 18.4477 4 19C4 19.5523 4.44772 20 5 20Z" />
+        </svg>
+      }
+    </IconWrapper>
+  )
+})
+export default SvgFeatherTextTruncate

@@ -56,7 +56,7 @@ export const PieChart = React.forwardRef<HTMLDivElement, PieChartProps>(function
 ) {
   return (
     <ChartContextProvider categories={data.map((obj) => obj[index] as string)} colors={colors} dark={dark}>
-      <AutoSizedChartWrapper ref={ref} {...otherProps}>
+      <AutoSizedChartWrapper ref={ref} className={className} {...otherProps}>
         {({ height, width }) => (
           <RechartsPieChart data={data} height={height} width={width} margin={margin}>
             {tooltip}
