@@ -17,12 +17,30 @@ interface CodeGenFileIconMetadata {
 
 export type CodeGenFileMetadata = CodeGenFileUnknownMetadata | CodeGenFileDefinitionMetadata | CodeGenFileIconMetadata
 
-export interface CodeGenFile {
+export type CodeGenErrorType = "format"
+
+export interface CodeGenError {
+  type: CodeGenErrorType
+  message: string
+}
+
+interface CodeGenFileBase {
   fileType: "css" | "tsx" | "ts" | "js"
   fileName: string
-  contents: string
   metadata: CodeGenFileMetadata
 }
+
+export interface CodeGenFileError extends CodeGenFileBase {
+  contents: null
+  rawContents: string
+  error: CodeGenError
+}
+
+export interface CodeGenFileValid extends CodeGenFileBase {
+  contents: string
+}
+
+export type CodeGenFile = CodeGenFileError | CodeGenFileValid
 
 export const CODE_GEN_CSS_TYPE_OPTIONS = ["tailwind", "tailwind-v4", "scss-with-modules"] as const
 export type CodeGenCSSType = (typeof CODE_GEN_CSS_TYPE_OPTIONS)[number]
@@ -45,7 +63,7 @@ export interface InitProjectRequest {
 }
 
 export interface InitProjectResponse {
-  styleFile: CodeGenFile
+  styleFile: CodeGenFileValid
   cssType: CodeGenCSSType
   oldImportAlias?: string
   projectInfo: {
@@ -75,8 +93,8 @@ export interface SyncProjectResponse {
     file: CodeGenFile
     folderName: string
   }>
-  otherFiles: CodeGenFile[]
-  errorComponents: string[]
+  otherFiles: CodeGenFileValid[]
+  missingComponents: string[]
   projectInfo: {
     truncatedProjectId: TruncatedProjectId
     name: string
