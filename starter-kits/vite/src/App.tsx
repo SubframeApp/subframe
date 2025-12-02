@@ -12,15 +12,11 @@ export default function Home() {
               Welcome to Subframe
             </span>
             <div className="flex h-6 items-center gap-1 rounded-full px-2 bg-gradient-to-b from-[#5C5C5C] to-[#242424]">
-              <span className="font-['Inter'] text-[12px] font-[500] leading-[16px] text-white">
-                Vite
-              </span>
+              <span className="font-['Inter'] text-[12px] font-[500] leading-[16px] text-white">Vite</span>
             </div>
           </div>
           <span className="whitespace-pre-wrap font-['Inter'] text-[16px] font-[400] leading-[24px] text-[#737373ff]">
-            {
-              "Start building your app by syncing components & exporting code from Subframe."
-            }
+            {"Start building your app by syncing components & exporting code from Subframe."}
           </span>
         </div>
         <div className="flex items-start gap-2">
@@ -56,11 +52,9 @@ export default function Home() {
           </a>
         </div>
         <span className="whitespace-pre-wrap font-['Inter'] text-[12px] font-[400] leading-[16px] text-[#737373ff]">
-          {
-            "Hint: replace this page with code copied from Subframe to see your design."
-          }
+          {"Hint: replace this page with code copied from Subframe to see your design."}
         </span>
       </div>
     </div>
-  );
+  )
 }
