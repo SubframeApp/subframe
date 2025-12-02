@@ -56,7 +56,12 @@
       },
       {
         "group": "Design with Subframe",
-        "pages": ["designing/adding-elements", "designing/using-ai-to-design", "designing/personalizing-ai", "designing/version-history"]
+        "pages": [
+          "designing/adding-elements",
+          "designing/using-ai-to-design",
+          "designing/personalizing-ai",
+          "designing/version-history"
+        ]
       },
       {
         "group": "Prototype with Subframe",
@@ -109,6 +114,11 @@
   "seo": {
     "metatags": {
       "og:image": "https://www.subframe.com/images/subframe-social-media.png"
+    }
+  },
+  "integrations": {
+    "segment": {
+      "key": "5nOHRiT81iSqK2WHigNEoNZWMG2JcfOq"
     }
   }
 }
