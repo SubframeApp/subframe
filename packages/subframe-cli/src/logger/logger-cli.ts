@@ -1,9 +1,5 @@
-import { makeNodeLogger } from "shared/logger/logger-node"
-import type { TypedLogger } from "shared/logger/types"
-import type { WithRequired } from "shared/type-helpers"
-
-// Note: This is not a secret and fine being hardcoded in the source code.
-const ANONYMOUS_CLI_USER_ID = "ANONYMOUS_CLI_USER-db6a3ec1-756a-4931-acdd-ec29f531603c" as const
+import { ANONYMOUS_CLI_USER_ID } from "shared/logger/constants"
+import { makeNodeLogger, NodeLogger } from "shared/logger/logger-node"
 
 type CLITrackEventType = {
   type: "cli:starter-kit_cloned"
@@ -11,11 +7,28 @@ type CLITrackEventType = {
   cssType: "tailwind" | "tailwind-v4"
 }
 
-export type CLILogger = WithRequired<
-  TypedLogger<CLITrackEventType>,
-  "trackEventAndFlush" | "trackWarningAndFlush" | "logExceptionAndFlush"
->
+export type CLILogger = NodeLogger<CLITrackEventType> & {
+  trackWarningAndFlush: (...params: Parameters<CLILogger["trackWarning"]>) => Promise<void>
+  trackEventAndFlush: (...params: Parameters<CLILogger["trackEvent"]>) => Promise<void>
+}
 
 export function makeCLILogger(): CLILogger {
-  return makeNodeLogger<CLITrackEventType>({ userId: ANONYMOUS_CLI_USER_ID, teamId: null })
+  const nodeLogger = makeNodeLogger<CLITrackEventType>({ userId: ANONYMOUS_CLI_USER_ID, teamId: null })
+
+  return {
+    identify: nodeLogger.identify,
+    trackEvent: nodeLogger.trackEvent,
+    trackWarning: nodeLogger.trackWarning,
+    trackPageView: nodeLogger.trackPageView,
+    logException: nodeLogger.logException,
+    flush: nodeLogger.flush,
+    trackWarningAndFlush: async (...params: Parameters<CLILogger["trackWarning"]>) => {
+      nodeLogger.trackWarning(...params)
+      await nodeLogger.flush()
+    },
+    trackEventAndFlush: async (...params: Parameters<CLILogger["trackEvent"]>) => {
+      nodeLogger.trackEvent(...params)
+      await nodeLogger.flush()
+    },
+  }
 }

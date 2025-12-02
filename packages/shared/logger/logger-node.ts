@@ -1,16 +1,15 @@
 import { Analytics } from "@segment/analytics-node"
 import { WithRequired } from "../type-helpers"
-import { BaseEvent, EXCEPTION_EVENT_NAME, TypedLogger } from "./types"
+import { SEGMENT_GROUP_KEY } from "./constants"
+import { isAnonymousUserId } from "./helpers"
+import { BaseEvent, EXCEPTION_EVENT_NAME, IdentifyArgs, TypedLogger } from "./types"
 
 function shouldEnableLogger() {
   // disable in dev
   return process.env.NODE_ENV === "production"
 }
 
-type NodeLogger<T extends BaseEvent = BaseEvent> = WithRequired<
-  TypedLogger<T>,
-  "trackEventAndFlush" | "trackWarningAndFlush" | "logExceptionAndFlush"
->
+export type NodeLogger<T extends BaseEvent = BaseEvent> = WithRequired<TypedLogger<T>, "flush">
 
 export function makeNodeLogger<T extends BaseEvent = BaseEvent>({
   userId,
@@ -19,15 +18,16 @@ export function makeNodeLogger<T extends BaseEvent = BaseEvent>({
   userId: string
   teamId: number | null
 }): NodeLogger<T> {
+  /**
+   * Local variables
+   */
   let segmentAnalytics: Analytics | null = null
   let currentUserId: string | null = null
-  let currentGroupId: string | null = null
+  let currentGroupDetails: { $groups: { [SEGMENT_GROUP_KEY]: string } } | null = null
 
-  function identify({ user: { userId }, group }: { user: { userId: string }; group: { groupId: string } | null }) {
-    currentUserId = userId
-    currentGroupId = group?.groupId ?? null
-  }
-
+  /**
+   * Init
+   */
   if (shouldEnableLogger()) {
     segmentAnalytics = new Analytics({
       writeKey: process.env.SEGMENT_WRITE_KEY ?? "",
@@ -35,6 +35,35 @@ export function makeNodeLogger<T extends BaseEvent = BaseEvent>({
     }).on("error", console.error)
 
     identify({ user: { userId }, group: teamId !== null ? { groupId: String(teamId) } : null })
+  }
+
+  /**
+   * Main functions
+   */
+  function identify({ user, group }: IdentifyArgs) {
+    currentUserId = user.userId
+    currentGroupDetails = group ? { $groups: { [SEGMENT_GROUP_KEY]: group.groupId } } : null
+
+    if (!shouldEnableLogger()) {
+      return
+    }
+
+    // ignore anonymous users; nothing to identify
+    if (isAnonymousUserId(user.userId)) {
+      return
+    }
+
+    segmentAnalytics!.identify({
+      userId: user.userId,
+      traits: { ...user.additionalData },
+    })
+    if (group) {
+      segmentAnalytics!.group({
+        userId: user.userId,
+        groupId: group.groupId,
+        traits: { ...group.additionalData },
+      })
+    }
   }
 
   async function flush(): Promise<void> {
@@ -46,17 +75,7 @@ export function makeNodeLogger<T extends BaseEvent = BaseEvent>({
     return segmentAnalytics!.flush()
   }
 
-  function trackEventRaw({
-    userId,
-    groupId,
-    event,
-    additionalData = {},
-  }: {
-    userId: string | null
-    groupId: string | null
-    event: string
-    additionalData?: object
-  }): Promise<void> {
+  function trackEventRaw({ event, additionalData = {} }: { event: string; additionalData?: object }): Promise<void> {
     return new Promise((resolve) => {
       if (!shouldEnableLogger()) {
         console.log("[Track Event]", event, additionalData)
@@ -66,10 +85,10 @@ export function makeNodeLogger<T extends BaseEvent = BaseEvent>({
 
       segmentAnalytics!.track(
         {
-          userId: userId || "",
+          userId: currentUserId || "",
           event,
           // Posthog requires specifying the group on all Segment events: https://posthog.com/docs/libraries/segment
-          properties: { ...additionalData, ...(groupId !== null ? { $groups: { groupId } } : {}) },
+          properties: { ...additionalData, ...currentGroupDetails },
         },
         () => resolve(),
       )
@@ -78,18 +97,11 @@ export function makeNodeLogger<T extends BaseEvent = BaseEvent>({
 
   function trackEvent(event: T): Promise<void> {
     const { type, ...additionalData } = event
-    return trackEventRaw({ userId: currentUserId, groupId: currentGroupId, event: type, additionalData })
-  }
-
-  async function trackEventAndFlush(event: T) {
-    await trackEvent(event)
-    await flush()
+    return trackEventRaw({ event: type, additionalData })
   }
 
   function trackWarning(event: string, additionalData: { [key: string]: string | number | boolean } = {}) {
     return trackEventRaw({
-      userId: currentUserId,
-      groupId: currentGroupId,
       event: `[Warning]: ${event}`,
       additionalData: {
         ...additionalData,
@@ -99,22 +111,12 @@ export function makeNodeLogger<T extends BaseEvent = BaseEvent>({
     })
   }
 
-  async function trackWarningAndFlush(
-    event: string,
-    additionalData: { [key: string]: string | number | boolean } = {},
-  ) {
-    await trackWarning(event, additionalData)
-    await flush()
-  }
-
   function trackPageView() {
     throw new Error("trackPage not implemented on server side")
   }
 
   function logException(error: Error, additionalData: { [key: string]: string | number | boolean } = {}) {
     return trackEventRaw({
-      userId: currentUserId,
-      groupId: currentGroupId,
       event: EXCEPTION_EVENT_NAME,
       additionalData: {
         ...additionalData,
@@ -129,19 +131,12 @@ export function makeNodeLogger<T extends BaseEvent = BaseEvent>({
     })
   }
 
-  async function logExceptionAndFlush(error: Error, additionalData: { [key: string]: string | number | boolean } = {}) {
-    await logException(error, additionalData)
-    await flush()
-  }
-
   return {
     identify,
     trackEvent,
-    trackEventAndFlush,
     trackWarning,
-    trackWarningAndFlush,
     trackPageView,
     logException,
-    logExceptionAndFlush,
+    flush,
   }
 }

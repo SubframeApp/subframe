@@ -73,7 +73,7 @@ export const initCommand = new Command()
 
 initCommand.action(async (opts) => {
   const cliLogger = makeCLILogger()
-
+  
   try {
     const { projectPath, didCreateNewProject, styleInfo } = await prepareProject(cliLogger, opts)
 
