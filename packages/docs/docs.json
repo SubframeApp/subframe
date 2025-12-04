@@ -37,11 +37,18 @@
       {
         "group": "Get started",
         "pages": [
-          "introduction",
+          "get-started/introduction",
+          "get-started/quickstart",
+          "get-started/concepts",
+          "get-started/faq"
+        ]
+      },
+      {
+        "group": "Installation",
+        "pages": [
           "installation",
           "theme",
           "fonts",
-          "faq",
           {
             "group": "Framework guides",
             "pages": [
