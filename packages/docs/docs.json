@@ -8,6 +8,9 @@
     "dark": "#111111"
   },
   "favicon": "/favicon.png",
+  "icons": {
+    "library": "lucide"
+  },
   "navigation": {
     "global": {
       "anchors": [
