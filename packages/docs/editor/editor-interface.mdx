@@ -3,24 +3,24 @@ title: Editor overview
 description: Learn the Subframe editor interface and navigate between editing modes.
 ---
 
-The Subframe editor is where you design pages, build components, and export production-ready code. Switch between four modes—Ask AI, Design, Prototype, and Code—depending on your task. The editor uses a flex-based layout system that matches how web interfaces actually work, ensuring designs export as clean, production-ready React code.
+The Subframe editor is where you design pages, build components, and export production-ready code. Switch between four modes—Ask AI, Design, Prototype, and Code—depending on your task.
 
 ## Editor modes
 
 Switch modes using the mode selector buttons at the top of the editor.
 
 <CardGroup cols={2}>
-  <Card title="Ask AI" icon="book">
-    Generate designs from text prompts or images. AI creates pages and components based on your descriptions. Useful for rapid prototyping or getting started.
+  <Card title="Ask AI" icon="sparkle">
+    Generate new pages and variations from text prompts or images.
   </Card>
-  <Card title="Design Mode" icon="book">
-    Visual editing for layouts, components, and styling. Add elements, adjust properties, and build your design system. Most of your work happens here.
+  <Card title="Design Mode" icon="square-mouse-pointer">
+    Edit visually with drag-and-drop, responsive canvas, and layers & properties.
   </Card>
-  <Card title="Prototype Mode" icon="book">
-    Add interactions and annotations to designs. Share clickable prototypes with your team. No code required.
+  <Card title="Prototype Mode" icon="mouse-pointer-click">
+    Build interactive prototypes from your designs by annotating and chatting with AI
   </Card>
-  <Card title="Code Mode" icon="book">
-    View generated React + Tailwind code. Copy components, adjust export settings, or export to AI coding tools like Cursor.
+  <Card title="Code Mode" icon="code">
+    View code, set up MCP server, and export to AI coding tools like Cursor.
   </Card>
 </CardGroup>
 
@@ -42,11 +42,6 @@ Toggle left panel buttons with <kbd>Cmd</kbd> + <kbd>\\</kbd>. Click icon button
 
 Your design surface where elements appear at their actual rendered size. The canvas shows exactly how your design will look at the current breakpoint (desktop or mobile).
 
-**Navigation shortcuts:**
-- **Pan** — Hold <kbd>Space</kbd> and drag to move around
-- **Zoom in/out** — Click +/- buttons in bottom toolbar
-- **Reset zoom** — Click zoom percentage to return to 100%
-
 Unlike infinite canvas tools, Subframe uses flexbox for layout (not absolute positioning). Elements flow and arrange using Stacks, resize responsively, and adapt to different screen sizes automatically.
 
 ### Inspector (right panel)
@@ -67,7 +62,7 @@ Switch between desktop (default) and mobile views using the device selector in t
 
 **Mobile view (768px)** — Add mobile-specific overrides for properties that need different values on small screens. Elements automatically resize and reflow based on flex layout.
 
-Design for desktop first. Then add mobile overrides only where needed. The same element responds to both breakpoints without duplicate versions.
+Design for desktop first. Then add mobile overrides only where needed.
 
 ## Flex-based layout system
 
