@@ -1,0 +1,92 @@
+---
+title: Auth tokens
+description: Understand how auth tokens work for your team members.
+---
+
+Auth tokens let team members authenticate the Subframe CLI and MCP server with their accounts. Each user creates and manages their own tokens—there are no team-level tokens or admin controls for other users' tokens.
+
+## How tokens work for teams
+
+### Personal tokens
+
+Every auth token is personal. Users create tokens for themselves at [app.subframe.com/cli/auth](https://app.subframe.com/cli/auth). When a user creates a token, it's tied to their account and inherits their team permissions.
+
+**Admins cannot:**
+- View other team members' tokens
+- Revoke tokens for other users
+- Create tokens on behalf of someone else
+
+**Token permissions:**
+- Tokens inherit the user's role and team access
+- If you change a user's role from Editor to Viewer, their existing tokens stop working
+- If you remove someone from the team, all their tokens become invalid immediately
+
+### Who can create tokens
+
+**Editors and Admins** - Can create tokens to use with CLI and MCP server
+
+**Viewers** - Cannot create tokens (no CLI or code export access)
+
+This matches the role-based permissions for code access and syncing. For details on role permissions, see [Roles and Permissions](/admin/roles-and-permissions).
+
+## Token security
+
+### User responsibility
+
+Since tokens are personal, each team member is responsible for:
+- Keeping their tokens secure
+- Revoking tokens they no longer need
+- Not sharing tokens with others
+- Following security best practices
+
+### When tokens stop working
+
+Tokens automatically become invalid when:
+- The user revokes the token
+- The user's role changes to Viewer or Inactive
+- The user is removed from the team
+- The user's account is deleted
+
+No admin action is needed—role and team changes automatically invalidate affected tokens.
+
+## Managing your own tokens
+
+If you need to create or manage your own tokens for CLI or MCP server access, see the complete guide at [Auth Tokens](/develop/auth-tokens).
+
+That article covers:
+- Creating and using tokens
+- CLI and MCP server configuration
+- Viewing and revoking tokens
+- Security best practices
+- Troubleshooting authentication
+
+## Team best practices
+
+### Educate team members
+
+Make sure your team knows:
+- Where to create tokens: [app.subframe.com/cli/auth](https://app.subframe.com/cli/auth)
+- Never commit tokens to version control
+- Revoke tokens when leaving a project or changing machines
+- Use environment variables instead of hardcoding tokens
+
+### Offboarding
+
+When removing team members:
+1. Change their role to Inactive or remove them from the team
+2. Their tokens stop working immediately
+3. No additional cleanup needed
+
+### Role changes
+
+When downgrading someone from Editor to Viewer:
+1. Change their role in **Team Settings**
+2. Their tokens become invalid automatically
+3. They'll need to delete local CLI configuration manually
+
+## Learn more
+
+- [Auth Tokens (Developer Guide)](/develop/auth-tokens) - Create and manage your own tokens
+- [Roles and Permissions](/admin/roles-and-permissions) - Who can create and use tokens
+- [MCP Server](/develop/mcp-server) - Use tokens with AI coding tools
+- [Syncing Components](/develop/syncing-components) - Use tokens with the CLI

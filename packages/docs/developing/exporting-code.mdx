@@ -1,0 +1,87 @@
+---
+title: Exporting code
+description: Export page designs as React + Tailwind code through manual copy-paste.
+---
+
+Pages in Subframe use a copy-paste workflow instead of automatic syncing. This gives you the flexibility to refactor and add business logic without worrying about your changes being overwritten.
+
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Animated demonstration showing a user clicking the Code button in the Subframe editor, viewing the generated React code with syntax highlighting, clicking Copy, and pasting it into a code editor" />
+
+## Why copy-paste for pages?
+
+Unlike components, pages often need significant customization after export:
+
+- **State management** — Add React state for forms, modals, and interactive features
+- **API integration** — Connect to your backend for data fetching
+- **Business logic** — Implement validation, authentication, and complex workflows
+- **Routing** — Integrate with your framework's routing system
+
+Because pages require this level of customization, Subframe doesn't automatically sync them. You export the code once, then own it completely.
+
+<Note>
+**Components sync automatically** via the CLI, but **pages are always copy-pasted**. This separation keeps your component library in sync while giving you full control over page-level code.
+</Note>
+
+## How to export page code
+
+### Open Code Mode
+
+Click the **Code** button in the top-right of the editor to switch from Design Mode to Code Mode.
+
+### Review the generated code
+
+Code Mode shows you the complete React + Tailwind code for your page:
+
+1. **Installation snippet** — Command to sync any components used on the page
+2. **Import list** — All component imports needed
+3. **Generated code** — Complete React component with TypeScript types
+
+You can select individual elements on the canvas to see code snippets for just that selection instead of the full page.
+
+### Copy the code
+
+Click **Copy code** to copy the entire page component to your clipboard.
+
+### Paste into your project
+
+Create a new file in your project and paste the code:
+
+```tsx src/pages/Dashboard.tsx
+// Pasted from Subframe
+import { Button } from "@/ui/Button";
+import { Card } from "@/ui/Card";
+
+export default function Dashboard() {
+  return (
+    <div className="flex flex-col gap-4">
+      {/* Your page content */}
+    </div>
+  );
+}
+```
+
+### Add your business logic
+
+Now customize the page with your application logic. Most users refactor the code, add custom business logic, and hook it up to their APIs. This code is all yours to customize!
+
+For detailed examples, see [Adding business logic](/develop/adding-business-logic).
+
+## What if I change the design after exporting?
+
+You'll need to re-export just the parts that have changed. To make this easier, select specific elements on the canvas—the Code panel will show just the code for your selection.
+
+In practice, most Subframe users do all design iterations in Subframe and rarely re-export older pages. For small changes, some find it easier to just make the changes in code.
+
+## Best practices
+
+### Complete your design first
+
+Try to finalize your design in Subframe before exporting to minimize the need for re-exports. Once you've added business logic to a page, merging design updates becomes more complex.
+
+### Export selectively
+
+When you need to update part of a page, select just that section before opening Code Mode. This gives you a focused code snippet that's easier to integrate.
+
+### Use version control
+
+Always commit your code before re-exporting and merging updates. This makes it easy to see what changed and revert if needed.

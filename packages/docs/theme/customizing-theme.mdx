@@ -1,0 +1,94 @@
+---
+title: Customizing theme
+description: Modify colors, typography, and other design tokens to match your brand.
+---
+
+Customize your theme to align with your brand identity. The theming system applies across all design system components and styles in your project.
+
+## Accessing theme settings
+
+To edit your theme:
+
+1. Click the **Components** tab in the top navigation
+2. Select **Theme** from the left sidebar
+3. The theme editor shows all your design tokens organized by category
+
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Subframe interface showing the Components tab selected in the top navigation, with Theme highlighted in the left sidebar, and the theme editor panel open on the right" />
+
+## Quick theme updates
+
+For fast customization, use the **Edit theme** button to apply pre-selected theme colors and styles. These options provide professionally designed color palettes that you can apply instantly.
+
+1. Click **Edit theme** in the theme editor
+2. Browse available theme styles
+3. Select one—changes apply automatically to your entire project
+
+## Customizing color tokens
+
+### Editing existing colors
+
+Click any color token to open the color picker. Changes save automatically and apply to all components using that token.
+
+Your theme includes several color palettes:
+
+- **Brand colors** — Your primary brand color in shades from 50 to 900
+- **Neutral colors** — Grays for text, borders, and backgrounds
+- **Semantic colors** — Error (red), Warning (yellow), Success (green)
+- **Utility colors** — Default font, background, and border colors
+
+### Creating custom color tokens
+
+Add new color tokens for specific use cases:
+
+1. Navigate to **Components > Theme**
+2. Click the **+** button near existing color tokens
+3. Name your token (use descriptive names like `accent-purple` or `surface-elevated`)
+4. Set the value by entering a hex code or referencing an existing token
+
+<Warning>
+When you delete a custom token, all references to it convert to the hex code value. This breaks the connection to your theme, so components won't update when you change colors.
+</Warning>
+
+## Typography tokens
+
+Customize fonts, sizes, and text styles:
+
+**Font families** — Choose from Google Fonts or use custom fonts. Subframe handles font loading automatically.
+
+**Font sizes** — Adjust heading and body text sizes. Each size includes line height, font weight, and letter spacing.
+
+**Text styles** — Modify the complete style for headings (heading-1, heading-2, heading-3), body text, captions, and code.
+
+Changes to typography tokens update all text throughout your project.
+
+## Spacing, borders, and shadows
+
+**Spacing** — Includes Tailwind's default spacing scale (0-96) plus any custom values you add. Use these for padding, margins, and gaps.
+
+**Border radius** — Define corner roundness with presets: sm (4px), md (8px), lg (12px), or full (fully rounded).
+
+**Shadows** — Choose from elevation presets: sm, md, lg, and overlay. Each shadow preset can include multiple layers for complex effects.
+
+## Syncing theme changes to code
+
+After updating your theme, sync the changes to your codebase:
+
+```bash
+npx @subframe/cli sync --all
+```
+
+This updates your `tailwind.config.js` or `theme.css` file with the new token values. All components in your codebase will automatically use the updated theme.
+
+## Best practices
+
+### Use semantic names
+
+Name custom tokens based on their purpose, not their appearance. Use `accent-color` instead of `purple-500`, so you can change the color later without renaming.
+
+### Reference existing tokens
+
+When creating new tokens, reference existing ones when possible. This maintains relationships between colors and makes theme-wide updates easier.
+
+### Test across components
+
+After making significant theme changes, review your components to ensure everything looks correct. Some color combinations may need adjustment for proper contrast.

@@ -1,0 +1,81 @@
+---
+title: Page layouts
+description: Apply navigation and modal layouts to your pages.
+---
+
+Page layouts wrap your page content with headers, sidebars, modals, or drawers. Choose a layout type in the page settings to control how your page appears in the application.
+
+## Layout types
+
+**Default** - Standard page with optional header and sidebar navigation. Use this for most pages in your app.
+
+**Dialog** - Page displays as a centered modal dialog with a backdrop. The dialog can be closed by clicking the backdrop or a close button.
+
+**Drawer** - Page slides in from the side as a drawer/sheet. Useful for forms, filters, or secondary navigation.
+
+**No Layout** - Blank canvas with no wrapper. Gives you full control over the page structure. Use this for landing pages or custom layouts.
+
+## Setting the page layout
+
+1. Click the page settings icon in the top toolbar
+2. Find the **Layout** dropdown
+3. Select your layout type
+4. The canvas updates to preview your choice
+
+## Default layout
+
+The Default layout includes slots for:
+- **Header** - Top navigation with logo, links, and actions
+- **Sidebar** - Side navigation or contextual content
+- **Footer** - Bottom content and links
+
+Add navigation components to these slots in the page settings. These components persist across all pages using the Default layout.
+
+**Configure the default layout:**
+1. Select the Default layout type
+2. Click **Edit Layout** in page settings
+3. Drag header, sidebar, or footer components into the layout slots
+4. Configure each component's props
+
+## Dialog layout
+
+Dialog layouts center your page content in a modal with a backdrop.
+
+**Dialog properties:**
+- **Width** - Set the dialog width (small, medium, large, or custom)
+- **Close on backdrop click** - Whether clicking the backdrop dismisses the dialog
+- **Show close button** - Display an X button to close
+
+Use Dialog layouts for confirmation screens, settings panels, or focused workflows.
+
+## Drawer layout
+
+Drawer layouts slide your page in from the side.
+
+**Drawer properties:**
+- **Position** - Left or right side of the screen
+- **Width** - Set the drawer width
+- **Close on backdrop click** - Whether clicking outside closes the drawer
+
+Use Drawer layouts for filters, navigation menus, or supplementary content.
+
+## No Layout
+
+No Layout gives you a blank canvas. Build custom layouts with Stacks and containers without any wrapper.
+
+Use this for:
+- Landing pages with custom navigation
+- Marketing pages with unique layouts
+- Pages that need full control over the viewport
+
+## Layout inheritance
+
+All pages in a project can share the same layout configuration. When you update the Default layout's header or sidebar, the changes apply to all pages using that layout.
+
+Create custom layout variants by defining different header or sidebar components and swapping them in page settings.
+
+## Learn more
+
+- [Add Elements](/editor/design-mode/add-elements) - Build navigation components
+- [Creating Components](/components/creating-components) - Make reusable headers and sidebars
+- [Preview](/editor/design-mode/preview) - Test page layouts in action

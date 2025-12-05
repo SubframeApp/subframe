@@ -1,0 +1,409 @@
+---
+title: Using components
+description: Add and configure components in your designs and understand how to use them in code.
+---
+
+Components are how you build designs in Subframe. You add them to the canvas, configure their properties, and they export as React code. This guide covers everything from adding components to using them in your codebase.
+
+## Adding components to your design
+
+### From the component library
+
+1. Click the **Components** tab in the left sidebar to open the component library
+2. Browse or search for the component you need
+3. Drag the component onto the canvas
+4. Position it where you want
+
+The component appears as an instance you can configure and style.
+
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Subframe editor showing the component library open on the left with the Button component being dragged onto the canvas in the center, with a blue highlight indicating where it will be placed" />
+
+### Using the command palette
+
+Press <kbd>Cmd</kbd> + <kbd>K</kbd> (or <kbd>Ctrl</kbd> + <kbd>K</kbd> on Windows) to open the command palette:
+
+1. Type the component name (e.g., "Button")
+2. Press <kbd>Enter</kbd> to insert it
+3. The component appears at your cursor position
+
+This is faster than dragging when you know exactly what you need.
+
+### With Ask AI
+
+Ask AI can add components for you when generating designs:
+
+> "Add a Button component with the text 'Sign up' below the email field"
+
+AI understands your component library and uses the right components automatically.
+
+## Component instances
+
+When you add a component to your canvas, you're creating an **instance** of that component. Think of the component as a blueprint and the instance as a specific use of that blueprint.
+
+### What instances are
+
+An instance is a copy of a component that you can configure independently. Change the text, icon, or color of one instance without affecting others. But when the underlying component changes—like a bug fix or style update—all instances update automatically.
+
+For example:
+- The **Button component** defines how buttons look and behave
+- Each **Button instance** on your page can have different text and colors
+- If you update the Button component's hover state, all instances get the new hover behavior
+
+### Instance properties
+
+Each instance has properties you can configure in the Inspector panel:
+
+- **Text content** - Button labels, headings, descriptions
+- **Icons** - Choose from icon libraries
+- **Variants** - Switch between size, color, or style options
+- **Boolean toggles** - Show/hide elements, enable/disable states
+- **Images** - Upload or link to images
+- **Slots** - Custom content areas
+
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Inspector panel on the right showing a Button instance selected with properties including variant dropdown set to brand-primary, size dropdown set to medium, icon picker, and text field containing Get started" />
+
+## Configuring components
+
+Select a component instance to see its properties in the Inspector panel on the right.
+
+### Text properties
+
+Click into text fields to edit content:
+
+```
+Label: "Get Started"
+```
+
+Text exports as the component's children or as a named prop.
+
+### Variant properties
+
+Use dropdowns to switch between pre-configured variants:
+
+```
+Variant: brand-primary
+Size: medium
+```
+
+Variants bundle multiple style properties together.
+
+### Boolean properties
+
+Toggle switches enable or disable features:
+
+```
+[✓] Disabled
+[ ] Full width
+[✓] Show icon
+```
+
+These control visibility and behavior.
+
+### Icon properties
+
+Click the icon picker to search and select icons:
+
+```
+Icon: FeatherPlus
+```
+
+Subframe supports multiple icon libraries including Feather Icons, Lucide, and Font Awesome.
+
+### Slot properties
+
+For slots (flexible content areas), click **Edit slot contents** to customize what appears:
+
+```tsx
+actions slot:
+  <Button>Cancel</Button>
+  <Button>Confirm</Button>
+```
+
+Slots let you nest components inside other components.
+
+### Image properties
+
+For image components, paste a URL or upload a file:
+
+```
+Image URL: https://example.com/photo.jpg
+```
+
+Images can be placeholders during design and real URLs in code.
+
+## Overriding instance styles
+
+Sometimes you need an instance to look different from the default component styling.
+
+### When to override
+
+Override styles when:
+- An instance needs a unique color or size
+- You're prototyping a one-off variation
+- The default styling doesn't work for a specific layout
+
+### How to override
+
+1. Select the component instance
+2. In the Inspector panel, modify any style property (colors, spacing, borders, etc.)
+3. Overridden properties show a **purple indicator** next to them
+
+Overrides are instance-specific. They don't affect other instances or the component definition.
+
+### Resetting overrides
+
+To remove an override and return to the component's default:
+
+1. Click the **purple indicator** next to the overridden property
+2. The instance reverts to the component's default value
+
+Or right-click the instance and select **Reset all overrides** to remove all customizations at once.
+
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The Inspector panel showing a Button instance with several properties that have purple indicators next to them, indicating they have been overridden from the component defaults" />
+
+## Detaching instances
+
+Detaching breaks the connection between an instance and its component. The instance becomes a regular group of elements you can edit freely.
+
+### When to detach
+
+Detach when:
+- You need to completely redesign this specific instance
+- The instance should never update with the component
+- You're creating a one-off design that won't be reused
+
+### How to detach
+
+1. Right-click the component instance
+2. Select **Detach instance**
+3. The instance becomes a group of elements
+
+### What happens after detaching
+
+- The instance no longer updates when the component changes
+- You can edit any internal element directly
+- The instance can't be re-attached to the component
+- It no longer has the component's props or variants
+
+<Warning>
+Detach sparingly. Detached instances lose the benefits of components—consistency, updates, and reusability. Consider using variants or overrides instead.
+</Warning>
+
+## Component documentation
+
+Every component has built-in documentation showing how to use it.
+
+### Viewing documentation
+
+1. Click the **Components** tab in the top navigation
+2. Select a component from the list
+3. View the documentation panel showing:
+   - **Props** with descriptions and types
+   - **Variants** with preview images
+   - **Examples** with code you can copy
+   - **Source code** for the React component
+
+<video autoPlay muted loop playsInline controls className="w-full" src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/view-component-documentation-ygcEi4y47JotWdboZUunSHbkxdpYrh.webm" />
+
+### Interactive examples
+
+Many components include interactive examples showing common use cases. Click **View code** on any example to see the implementation and copy it to your clipboard.
+
+## Using components in code
+
+After syncing components with the CLI, you can use them in your React application.
+
+### Importing components
+
+Import components using the alias you configured during installation:
+
+```tsx src/App.tsx
+import { Button } from "@/ui/Button"
+import { TextField } from "@/ui/TextField"
+import { Alert } from "@/ui/Alert"
+```
+
+The import path matches your CLI configuration (typically `@/ui` or `@/components`).
+
+### Passing props
+
+Use components like any React component. Pass props to configure them:
+
+```tsx
+<Button
+  variant="brand-primary"
+  size="medium"
+  icon="FeatherCheck"
+>
+  Submit
+</Button>
+```
+
+All props are typed with TypeScript, so you get autocomplete and type checking.
+
+### Event handlers
+
+All Subframe components forward standard React props to their root element:
+
+```tsx
+<Button
+  onClick={() => handleSubmit()}
+  onMouseEnter={() => console.log('hover')}
+  disabled={isLoading}
+>
+  Submit
+</Button>
+```
+
+You don't need to modify components to add event handlers.
+
+### Using slots
+
+Components with slots accept React elements as props:
+
+```tsx
+<Alert
+  icon="FeatherInfo"
+  title="Update available"
+  description="A new version is ready to install."
+  actions={
+    <Button onClick={() => install()}>
+      Install now
+    </Button>
+  }
+/>
+```
+
+The default slot uses the `children` prop:
+
+```tsx
+<Card title="Product">
+  <Image src="/product.jpg" />
+  <Text>Product description goes here</Text>
+</Card>
+```
+
+For more on slots, see [Props and Slots](/develop/props-and-slots).
+
+### Adding business logic
+
+Wrap Subframe components with your own logic:
+
+```tsx LoginButton.tsx
+'use client'
+import { useState } from 'react'
+import { Button } from '@/ui/Button'
+
+export function LoginButton() {
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleLogin = async () => {
+    setIsLoading(true)
+    try {
+      await loginUser()
+      redirect('/dashboard')
+    } catch (error) {
+      showError(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  return (
+    <Button
+      onClick={handleLogin}
+      disabled={isLoading}
+    >
+      {isLoading ? 'Logging in...' : 'Log in'}
+    </Button>
+  )
+}
+```
+
+For more examples, see [Adding Business Logic](/develop/adding-business-logic).
+
+### TypeScript types
+
+All components export TypeScript interfaces. Reference them when creating wrapper components:
+
+```tsx
+import { Button, type ButtonProps } from '@/ui/Button'
+
+interface CustomButtonProps extends ButtonProps {
+  analyticsEvent?: string
+}
+
+export function CustomButton({ analyticsEvent, ...props }: CustomButtonProps) {
+  return (
+    <Button
+      onClick={() => {
+        if (analyticsEvent) trackEvent(analyticsEvent)
+        props.onClick?.()
+      }}
+      {...props}
+    />
+  )
+}
+```
+
+## Best practices
+
+### Use instances, not detached elements
+
+Keep components as instances whenever possible. They stay up-to-date with component changes and maintain consistency across your design.
+
+### Configure with props first
+
+Before overriding styles, check if the component has props or variants that do what you need. This keeps your design cleaner and more maintainable.
+
+### Check documentation
+
+Before using a component, review its documentation to understand available props, variants, and common patterns. This saves time and prevents mistakes.
+
+### Sync regularly
+
+Run `npx @subframe/cli sync --all` regularly to keep your code in sync with design changes. This prevents drift between design and implementation.
+
+## Troubleshooting
+
+### Component not rendering
+
+If a component doesn't appear in your app:
+
+1. Verify you've synced components: `npx @subframe/cli sync --all`
+2. Check the import path matches your configuration
+3. Restart your dev server after syncing
+4. Look for TypeScript errors in your IDE
+
+### Props not working
+
+If props don't seem to do anything:
+
+1. Check the component documentation for the correct prop name
+2. Verify the prop value is valid (check TypeScript types)
+3. Make sure you're using the latest synced version
+4. Try syncing again: `npx @subframe/cli sync ComponentName`
+
+### Styles not applying
+
+If custom styles don't work:
+
+1. Use `className` prop to add custom classes
+2. Check that your Tailwind config includes Subframe's theme
+3. Verify import order in your CSS files
+4. Use browser DevTools to inspect the rendered HTML
+
+### Instance not updating
+
+If an instance doesn't reflect component changes:
+
+1. Check if the property has been overridden (look for purple indicators)
+2. Reset overrides to get the latest component styles
+3. If detached, the instance won't update—you'll need to replace it with a new instance
+
+## Learn more
+
+- [Component Overview](/components/overview) - Understand the component system
+- [Creating Components](/components/creating-components) - Build custom components
+- [Props and Slots](/develop/props-and-slots) - Master component composition
+- [Syncing Components](/develop/syncing-components) - Keep code in sync with designs

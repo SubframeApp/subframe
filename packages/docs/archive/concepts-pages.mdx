@@ -1,0 +1,66 @@
+---
+title: Pages
+description: Individual screens or views in your application that you design in the Subframe editor.
+---
+
+Each design you create in Subframe functions as a page—an individual screen or view in your application. Pages are where you combine components, add content, and design the actual interface your users will see.
+
+## Creating a new page
+
+To add a new page from the editor:
+
+1. Click the **Pages** tab in the left panel
+2. Click the **+** button
+3. Select a template or start from scratch
+
+![The Pages panel showing a list of pages with a "+" button at the top. Template options appear in a modal including "Blank page", "Dashboard", "Landing page", and "Settings page".]
+
+New pages appear at the top of your pages list. You can also **duplicate** existing pages by right-clicking any page and selecting duplicate—this creates a copy directly below the current page.
+
+## Managing your pages
+
+The **Pages** tab in the left panel gives you a complete view of all pages in your project. From here you can:
+
+- **Search** for pages by name
+- **Switch** between pages by clicking any page
+- **Reorder** pages by dragging the handles that appear on hover
+- **Organize** pages into flows for better structure
+
+![The Pages panel with multiple pages listed. Some pages are grouped under flow names like "Onboarding" and "Dashboard". Drag handles are visible on the left of each page name.]
+
+The order you set here determines how pages appear when you browse your full project.
+
+## Page structure
+
+### Page canvas
+
+The canvas is your design surface—an infinite workspace where you can add and arrange components. The canvas is responsive by default, showing a desktop view with a mobile breakpoint you can toggle to design for smaller screens.
+
+### Page layouts
+
+Pages can use different layout types that affect how they appear in your application:
+
+**Default layout** — A standard full-page view that takes up the entire viewport.
+
+**Dialog layout** — Centers the page content in a modal overlay with a backdrop. Use this for forms, confirmations, or focused interactions.
+
+**Drawer layout** — Slides the page content in from the side (left or right). Common for navigation menus or detail panels.
+
+You can change the page layout from the page settings in the top-right of the editor.
+
+## Exporting pages to code
+
+Unlike components, **pages are not synced automatically** to your codebase via the CLI. This is intentional—pages often require refactoring and business logic integration after export.
+
+Instead, you **copy and paste** page code from the editor directly into your project:
+
+1. Switch to **Code Mode** in the top-right
+2. Click **Copy code**
+3. Paste the code into your project file
+4. Add state management, API calls, and business logic as needed
+
+For more details, see [Exporting code](/develop/exporting-code) and [Adding business logic](/develop/adding-business-logic).
+
+<Note>
+Want to know why pages use copy-paste instead of sync? Check out [Best practices for exporting code](/archive/help-center/best-practices-for-exporting-code) for the full explanation.
+</Note>

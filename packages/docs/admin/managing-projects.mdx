@@ -1,0 +1,190 @@
+---
+title: Managing projects
+description: Create, organize, and delete projects in your workspace.
+---
+
+Learn how to create, organize, rename, and delete projects in Subframe. Projects are isolated workspaces where you manage your design system components, pages, and design tokens independently.
+
+## Creating projects
+
+### New blank project
+
+To create a new project:
+
+1. Click the project switcher in the top navigation (shows your current project name)
+2. Click **New project...** at the bottom of the project list
+3. Enter a project name
+4. Select **Blank project** to start fresh with a default design system
+5. Click **Create**
+
+Your new project opens immediately with a default theme and one blank page.
+
+### Duplicate from existing project
+
+To reuse components, pages, and design tokens from another project:
+
+1. Click the project switcher in the top navigation
+2. Click **New project...** at the bottom of the project list
+3. Enter a project name
+4. Select **Existing project**
+5. Choose the project to duplicate from the dropdown
+6. Click **Create**
+
+The new project contains copies of all components, pages, design tokens, and design system settings from the source project. You can edit the duplicated content independently.
+
+### What's in a new project
+
+Every new project includes:
+- A default color palette and typography tokens
+- Built-in component library starters
+- One blank page to begin designing
+- Default layout components for common patterns
+
+## Renaming projects
+
+To rename a project:
+
+1. Navigate to **Settings > Projects** (or click **Manage projects** in the project switcher)
+2. Find the project in the list
+3. Click the **Edit** icon (pencil) next to the project name
+4. Enter the new name
+5. Click **Save**
+
+<Warning>
+Renaming a project doesn't affect your shared project ID or any public links—those remain unchanged.
+</Warning>
+
+## Switching projects
+
+### Project switcher
+
+Click the project switcher (your current project name) at the top of the editor to open the project menu. You can:
+
+- **Search projects** - Type to filter the project list if you have many projects
+- **Switch projects** - Click a project to open it
+- **Create new project** - Click **New project...** to create directly from the menu
+- **Manage projects** - Click **Manage projects** to view all projects and edit them in bulk
+
+Switching projects preserves your current state in the previous project and loads the new project's state.
+
+### Syncing design system changes
+
+If you have a design system project and regular projects, you can sync changes from the design system:
+
+1. Open the project switcher
+2. Click **Sync project...**
+3. Follow the prompts to merge design system updates into your current project
+
+## Deleting projects
+
+### Deleting a project
+
+To delete a project:
+
+1. Navigate to **Settings > Projects** (or click **Manage projects** in the project switcher)
+2. Find the project in the list
+3. Click the **Delete** icon (trash) next to the project name
+4. Confirm the deletion in the dialog
+
+<Warning>
+Deleting a project is permanent and cannot be undone. All pages, components, design tokens, and project data are permanently erased. Make sure you have backups if needed.
+</Warning>
+
+### What happens when you delete the current project
+
+If you delete the project you're currently working in, you're automatically moved to another project in your team. If you delete your last project, you're signed out.
+
+## Project settings
+
+### Accessing project settings
+
+Click **Settings > Projects** to view and manage all your projects.
+
+In the projects list, you can:
+- **See all projects** at a glance
+- **Search projects** to find one quickly
+- **Edit project names** with the pencil icon
+- **Duplicate projects** with the copy icon
+- **Delete projects** with the trash icon
+- **View last updated date** for each project
+
+### Project metadata
+
+Each project stores:
+- **Name** - The display name you chose
+- **Created date** - When the project was created
+- **Updated date** - When the project was last modified
+- **Unique ID** - A system identifier used for sharing and exports
+
+## Project access and permissions
+
+### Shared with all team members
+
+All projects in your workspace are shared with everyone on your team. There are no project-level permissions—anyone with access to your team can view and edit all projects based on their role.
+
+### Role-based access
+
+Your ability to create and manage projects depends on your team role:
+
+**Admin and Editor:**
+- Create new projects
+- Rename projects
+- Duplicate projects
+- Delete projects
+- View all team projects
+
+**Viewer:**
+- View all team projects
+- Cannot create, rename, or delete projects
+
+For more details, see [Roles and Permissions](/admin/roles-and-permissions).
+
+## Project organization
+
+### What you cannot do across projects
+
+- **No moving content between projects** - You must duplicate projects or manually recreate content
+- **No shared components across projects** - Components exist only within their project
+- **No shared design tokens** - Each project has its own design system
+
+### How to organize projects
+
+Since projects are independent:
+
+- **Create separate projects by client** - One project per client or product
+- **Create a design system project** - Use one project as your main design system, then duplicate it for variations
+- **Use naming conventions** - Prefix project names with dates, client names, or status (e.g., "2024-Acme-Website", "Internal-UI-Kit")
+
+## Project limitations
+
+### Free plan
+
+- **Maximum 1 project** - Free accounts can have only one project
+- Create additional projects by upgrading to Pro or Team plan
+
+### Pro plan
+
+- **Unlimited projects** - Create as many projects as you need
+- Access to all project management features
+
+### Team plan
+
+- **Unlimited projects** - Create as many projects as you need
+- Access to all project management features
+- Shared across all team members
+
+### Cannot move between teams
+
+Projects belong to the team that created them. You cannot transfer a project to another team. If you need to move a project:
+
+1. Duplicate the project in the current team
+2. Switch to the other team
+3. Duplicate again in the new team's workspace
+
+For more details on plan limits, see [Pricing and Plans](/admin/pricing-and-plans).
+
+## Learn more
+
+- [Roles and Permissions](/admin/roles-and-permissions) - Understand what each role can do
+- [Pricing and Plans](/admin/pricing-and-plans) - How many projects you can create
+- [Inviting Team Members](/admin/inviting-team-members) - Add collaborators to your team
