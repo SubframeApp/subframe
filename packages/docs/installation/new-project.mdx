@@ -1,0 +1,130 @@
+---
+title: Set up new project
+description: Start a new project with Subframe using one of our optimized starter templates for Next.js, Vite, or Astro.
+---
+
+Starting a new project with Subframe is the fastest way to get up and running. Our starter templates come pre-configured with TypeScript, React, Tailwind CSS, and Subframe—everything you need to start building.
+
+## Prerequisites
+
+Before you begin, make sure you have:
+
+- **Node.js** (version 16 or higher)
+- A package manager: **npm**, **yarn**, **pnpm**, or **bun**
+- A **Subframe account** — [Sign up for free](https://app.subframe.com)
+
+## Create a new project
+
+Run the following command in your terminal to start the installation:
+
+<CodeGroup>
+  ```bash npm
+  npx @subframe/cli@latest init
+  ```
+  ```bash yarn
+  yarn dlx @subframe/cli@latest init
+  ```
+  ```bash pnpm
+  pnpx @subframe/cli@latest init
+  ```
+  ```bash bun
+  bunx @subframe/cli@latest init
+  ```
+</CodeGroup>
+
+The CLI will guide you through the setup process.
+
+### Choose a framework
+
+When prompted, select whether you want to start a new project or add Subframe to an existing one:
+
+```
+? Would you like to start a new project? › - Use arrow-keys. Return to submit.
+❯   Next.js
+    Vite
+    Astro
+```
+
+Each template is optimized to work seamlessly with Subframe:
+
+- **Next.js** — App Router setup with server and client components
+- **Vite** — Fast development with instant HMR
+- **Astro** — Content-focused sites with island architecture
+
+### Authenticate with your access token
+
+The CLI will prompt you to authenticate. Copy your access token from your browser:
+
+```
+> No existing credentials found.
+> To get new credentials, please visit the following URL in your web browser:
+> https://app.subframe.com/cli/auth
+
+> You will need to login then enter the provided credentials below.
+? Access token ›
+```
+
+Paste your access token and press Enter.
+
+### Configure your project
+
+You'll be asked a few configuration questions. You can press Enter to accept the defaults:
+
+```
+Where should the Subframe components be synced to? › ./src
+Configure an alias for the subframe component directory (e.g. @/ui) › @/ui/*
+Do you want Subframe to configure your Tailwind config? › (Y/n)
+Would you like to sync all of your Subframe components? › (Y/n)
+Would you like to install dependencies? › (Y/n)
+Would you like to start the dev server? › (Y/n)
+```
+
+The CLI will:
+- Create your project from the selected template
+- Sync your Subframe components to the specified directory
+- Configure Tailwind with your theme tokens
+- Install all dependencies
+- Optionally start the development server
+
+## What gets installed
+
+Your new project includes:
+
+**Subframe components** — All components from your project sync to the configured directory (default: `./src/ui/`).
+
+**Tailwind configuration** — Theme tokens (colors, typography, spacing) sync to your `tailwind.config.js` or `theme.css` depending on your Tailwind version.
+
+**Dependencies** — The CLI installs required packages including Radix UI primitives, Tailwind CSS, and other dependencies.
+
+**TypeScript configuration** — Your project is set up with TypeScript and includes all necessary type definitions.
+
+## Next steps
+
+Your project is ready! Here's what to do next:
+
+1. **Open the editor** — Visit [app.subframe.com](https://app.subframe.com) and start designing
+2. **Explore the template** — Look at the example pages and components included in your starter
+3. **Learn the workflow** — Check out [Syncing components](/develop/syncing-components) to understand how changes flow from Subframe to your codebase
+
+## Troubleshooting
+
+If you run into issues during installation, refer to the framework-specific guide for your project or the [Manual installation guide](/installation/framework-guides/manual) for detailed steps.
+
+<CardGroup cols={2}>
+  <Card
+    title="Next.js"
+    href="/installation/framework-guides/nextjs"
+  />
+  <Card
+    title="Vite"
+    href="/installation/framework-guides/vite"
+  />
+  <Card
+    title="Astro"
+    href="/installation/framework-guides/astro"
+  />
+  <Card
+    title="Manual Installation"
+    href="/installation/framework-guides/manual"
+  />
+</CardGroup>

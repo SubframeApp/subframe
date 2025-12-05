@@ -1,0 +1,48 @@
+---
+title: Using slots
+description: How to use slots to handle dynamic content and add business logic to components
+---
+
+## Overview
+
+Slots represent a powerful mechanism in Subframe for reusing React components while circumventing prop drilling. These allow developers to pass elements or components as properties, aligning with the React composition pattern approach.
+
+## When to Use Slots
+
+Implement slots for components that feature:
+- Dynamic content (e.g., social media cards displaying text, images, or video)
+- Interactive elements such as buttons
+
+## How Slots Export to Code
+
+Slots function similarly to React's `children` props. Here's an example:
+
+```tsx
+<Card
+  title="Product name"
+  callToAction={
+    <Button variant="brand-primary" onClick={...}>Add to cart</Button>
+  }
+>
+  <ProductImage />
+</Card>
+```
+
+Key points:
+- The `children` slot displays flexible content (ProductImage, video, text, etc.)
+- The `callToAction` slot enables customized buttons with event handlers without prop drilling
+
+## Creating a Slot
+
+Only stacks can function as slots. The creation process involves:
+
+1. Create a stack by grouping elements
+2. Select the stack
+3. Click the **+** button labeled **Slot** on the right panel
+4. Alternatively, right-click any stack and select **Add Slot**
+
+## Using a Slot
+
+1. Select the component containing a slot
+2. Click **Edit slot contents**
+3. Double-click slot contents for direct editing

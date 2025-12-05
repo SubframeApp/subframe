@@ -1,0 +1,46 @@
+---
+title: Adjust flex direction, spacing, and alignment
+description: Change the location of child elements relative to each other
+---
+
+## Overview
+
+Subframe leverages CSS flexbox for layout management. The platform translates CSS properties like `flex-direction` and `gap` into intuitive UI controls. A key principle: **most layout properties are updated from the parent, not the child.** For instance, spacing between elements requires selecting their parent container.
+
+## Change Direction
+
+Child elements within a stack can be arranged vertically or horizontally. To modify direction:
+
+1. Select the stack
+2. Click **Vertical / Horizontal** under **Layout** in the right sidebar
+
+## Allow Contents to Wrap
+
+When a stack contains more elements than available space permits, wrapping can be enabled to flow items to the next line.
+
+Steps to toggle wrapping:
+
+1. Select the stack
+2. Click **Layout > ...** to open the wrap menu
+3. Toggle **Wrap / No wrap**
+
+## Update Space Between Elements
+
+To adjust spacing between all stack elements:
+
+1. Select the stack
+2. Select a spacing size under **Layout > Space between children**
+3. Click **Space between children > ...** for advanced options including a **Fill** setting
+
+<Tip>
+Target specific element pairs by wrapping them in a separate stack.
+</Tip>
+
+## Update Alignment
+
+Both vertical and horizontal alignment can be customized. Select the stack, then choose your preferred alignment from the alignment selector.
+
+## Common Alignment Issues
+
+- Elements need wrapping in a stack to have individual alignment
+- Stacks require **Width > Fill** or **Height > Fill** to create space for alignment to take effect

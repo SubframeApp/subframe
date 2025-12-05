@@ -1,0 +1,67 @@
+---
+title: Components
+description: Reusable UI building blocks that can be customized with props, variants, and slots.
+---
+
+Components are reusable UI building blocks that you design once and use throughout your project. When you create or modify a component in Subframe, those changes sync automatically to your codebase—update the design, and the code updates too.
+
+## Types of components
+
+**Built-in components** — Subframe provides a library of pre-built components like buttons, inputs, cards, and navigation elements. These components follow design system best practices and are ready to use out of the box.
+
+**Custom components** — You can create your own components from scratch or by converting existing designs. Custom components work exactly like built-in ones—they sync to your codebase and can be reused across pages.
+
+**External components (BYOC)** — Bring Your Own Components from npm packages or your existing codebase. Import them into Subframe to use alongside built-in and custom components.
+
+<Note>
+This feature is in limited beta and not available for everyone. If you're interested in early access, reach out to support@subframe.com.
+</Note>
+
+## Component anatomy
+
+Components have several features that make them flexible and powerful:
+
+**Props** — Simple values like text, colors, or icons that customize component instances. For example, a button component might have props for label text, size, and color.
+
+**Variants** — Pre-configured versions of a component, like size options (small, medium, large) or style variations (primary, secondary, ghost).
+
+**States** — Visual changes based on user interaction, including hover, pressed, focused, and disabled states.
+
+**Slots** — Placeholders for React children that let you nest components inside each other. Slots enable composition patterns like adding an icon to a button or custom content in a card.
+
+![A component editor view showing a button component with the properties panel open. The panel displays props for "label", "size", and "variant", along with state tabs for Default, Hover, Pressed, and Disabled.]
+
+## Using components
+
+### Adding components to your design
+
+1. Click the **Components** tab in the left panel
+2. Search for or browse to find a component
+3. Drag the component onto your canvas
+
+Components appear as instances—copies linked to the original. Change the source component, and all instances update automatically.
+
+### Viewing component documentation
+
+To see what props a component accepts and how to use it in code:
+
+1. Navigate to the **Components** tab in the top navigation
+2. Select any component
+3. View the documentation panel showing React props, TypeScript interfaces, and code examples
+
+![The component documentation panel displaying a list of available props with their types (string, boolean, etc.), default values, and descriptions. Below the props list are interactive code examples.]
+
+All components accept standard React DOM props like `onClick` and `className` in addition to their custom props.
+
+## How components sync to code
+
+When you run `npx @subframe/cli sync`, Subframe exports your components as TypeScript React code. Each component becomes a `.tsx` file in your codebase with:
+
+- Full TypeScript types for props
+- Tailwind CSS classes for styling
+- Radix UI primitives for accessibility (when applicable)
+- Support for all React patterns like refs, children, and event handlers
+
+Components sync **one-way** from Subframe to your codebase. Changes made in Subframe overwrite the generated files, but you should never edit these files directly—wrap them in your own components instead.
+
+For more details, see [Syncing components](/develop/syncing-components) and [Adding business logic](/develop/adding-business-logic).
