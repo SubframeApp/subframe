@@ -1,12 +1,21 @@
 ---
+<<<<<<< HEAD
 title: Supporting dark mode
 ---
 
 Subframe doesn't currently support both light & dark mode per theme, but you can implement it in your codebase using CSS variables. This guide shows you how to set up dark mode using CSS variables and Tailwind's dark mode support.
+=======
+title: Dark mode
+description: Implement dark mode in your codebase using CSS variables and Tailwind's dark mode support.
+---
+
+Subframe doesn't have built-in dark mode support, but you can implement it in your codebase using CSS variables. This approach gives you full control over dark mode colors while keeping your Subframe theme as the source of truth for light mode.
+>>>>>>> 46db3f4 (rebase)
 
 ## Prerequisites
 
 Before setting up dark mode, ensure you have:
+<<<<<<< HEAD
 - [Installed Subframe](/installation) in your project
 - [Synced your components and theme](/developing/syncing-components) to your codebase
 
@@ -14,6 +23,17 @@ Before setting up dark mode, ensure you have:
 
 1. Configure Tailwind to use CSS variables instead of hardcoded colors
 2. Define light mode colors from your Subframe theme as CSS variables
+=======
+- [Installed Subframe](/installation/existing-project) in your project
+- [Synced your components and theme](/develop/syncing-components) to your codebase
+
+## How it works
+
+The strategy is to:
+
+1. Configure Tailwind to use CSS variables instead of hardcoded colors
+2. Define light mode colors (from your Subframe theme) as CSS variables
+>>>>>>> 46db3f4 (rebase)
 3. Define dark mode color overrides under an `html.dark` selector
 4. Toggle between modes by adding/removing the `dark` class on the HTML element
 
@@ -24,9 +44,13 @@ This keeps your Subframe workflow unchanged while enabling dark mode in your app
 <Tabs>
 <Tab title="Tailwind v3">
 
+<<<<<<< HEAD
 Modify your `tailwind.config.js` to use CSS variables. 
 
 <Note>Add `// @subframe/sync-disable` at the top to prevent Subframe from overwriting your changes.</Note>
+=======
+Modify your `tailwind.config.js` to use CSS variables. Add `// @subframe/sync-disable` at the top to prevent Subframe from overwriting your changes.
+>>>>>>> 46db3f4 (rebase)
 
 ```js tailwind.config.js {1, 3}
 // @subframe/sync-disable
@@ -59,7 +83,11 @@ module.exports = {
 ```
 
 <Note>
+<<<<<<< HEAD
 Find your theme configuration in the [Theme tab](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV3).
+=======
+Replace these with your actual Subframe theme colors. Find your theme configuration in the [Theme tab](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV3).
+>>>>>>> 46db3f4 (rebase)
 </Note>
 
 </Tab>
@@ -82,7 +110,11 @@ Modify your `theme.css` to use CSS variables and add the dark mode custom varian
 ```
 
 <Note>
+<<<<<<< HEAD
 Find your theme.css in the [Theme tab](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV4).
+=======
+Find your complete theme.css in the [Theme tab](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV4).
+>>>>>>> 46db3f4 (rebase)
 </Note>
 
 </Tab>
@@ -90,6 +122,7 @@ Find your theme.css in the [Theme tab](https://app.subframe.com/library?componen
 
 ## Step 2: Create CSS variables file
 
+<<<<<<< HEAD
 Create a `variables.css` file that defines CSS variables for both light and dark modes:
 
 ```css variables.css
@@ -97,6 +130,13 @@ Create a `variables.css` file that defines CSS variables for both light and dark
 /* Light mode */
 
 html {
+=======
+Create a `variables.css` file that defines your color values for both light and dark modes:
+
+```css variables.css
+html {
+  /* Light mode - from your Subframe theme */
+>>>>>>> 46db3f4 (rebase)
   --brand-50: rgb(250, 250, 250);
   --brand-100: rgb(245, 245, 245);
   /* ... rest of brand colors */
@@ -114,9 +154,14 @@ html {
   --default-background: rgb(252, 252, 252);
 }
 
+<<<<<<< HEAD
 /* Dark mode */
 
 html.dark {
+=======
+html.dark {
+  /* Dark mode - inverted scale */
+>>>>>>> 46db3f4 (rebase)
   --brand-50: rgb(23, 23, 23);
   --brand-100: rgb(38, 38, 38);
   /* ... inverted brand colors (light becomes dark) */
@@ -141,7 +186,11 @@ Dark mode colors typically invert the scale: light mode's `--brand-50` (lightest
 
 ## Step 3: Import variables globally
 
+<<<<<<< HEAD
 Import your `variables.css` in your global CSS file (typically `index.css`, `globals.css`, or `App.css` depending on framework):
+=======
+Import your `variables.css` in your global CSS file:
+>>>>>>> 46db3f4 (rebase)
 
 ```css globals.css
 @import "./variables.css";
@@ -226,8 +275,12 @@ export function ThemeToggle() {
 
 ## Best practices
 
+<<<<<<< HEAD
 <AccordionGroup>
 <Accordion title="Test both modes">
+=======
+### Test in both modes
+>>>>>>> 46db3f4 (rebase)
 
 Always test your application in both light and dark modes. Check for:
 - Sufficient contrast ratios (use browser DevTools)
@@ -235,8 +288,12 @@ Always test your application in both light and dark modes. Check for:
 - Visibility of borders and dividers
 - Proper styling of interactive states
 
+<<<<<<< HEAD
 </Accordion>
 <Accordion title="Respect system preferences">
+=======
+### Respect system preferences
+>>>>>>> 46db3f4 (rebase)
 
 Use the user's system preference as the default:
 
@@ -244,8 +301,12 @@ Use the user's system preference as the default:
 <ThemeProvider attribute="class" defaultTheme="system">
 ```
 
+<<<<<<< HEAD
 </Accordion>
 <Accordion title="Prevent flash of unstyled content">
+=======
+### Prevent flash of unstyled content
+>>>>>>> 46db3f4 (rebase)
 
 Set the theme before React hydrates to prevent flashing:
 
@@ -260,5 +321,24 @@ Set the theme before React hydrates to prevent flashing:
 }} />
 ```
 
+<<<<<<< HEAD
 </Accordion>
 </AccordionGroup>
+=======
+## Troubleshooting
+
+### Colors not switching
+
+Ensure you're:
+1. Adding the `dark` class to `<html>`, not a child element
+2. Using CSS variable-based colors in your components
+3. Configuring Tailwind with `darkMode: "selector"` (v3) or the custom variant (v4)
+
+### Flash on page load
+
+Add the theme script before React hydrates (see "Prevent flash" above).
+
+### Styles not applying
+
+Verify your `variables.css` is imported before Tailwind and that the path is correct.
+>>>>>>> 46db3f4 (rebase)

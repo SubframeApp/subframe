@@ -1,0 +1,39 @@
+---
+title: Responsive design for mobile breakpoints
+description: Implement mobile-responsive design using desktop and mobile breakpoints
+---
+
+## Overview
+
+The platform uses desktop-first responsive design starting at the Desktop breakpoint by default. Users access the Mobile breakpoint through the **Breakpoint** menu in the page editor's top-right corner.
+
+## Switching Breakpoints
+
+Users can toggle between Desktop and Mobile breakpoints from the Breakpoint menu in the top-right corner of the page editor.
+
+## Adding Mobile Overrides
+
+When editing at the Mobile breakpoint, designers can customize styling for mobile devices including:
+
+- Text styles
+- Colors
+- Sizing
+- Layout
+- Padding
+- Borders
+- Shadows
+- Visibility
+
+A purple override indicator marks modified styles, and a phone icon appears in the layers panel to track which elements have mobile-specific changes.
+
+## Resetting Mobile Overrides
+
+Individual styles can be reset by clicking their purple indicators, or all mobile styles for an element can be removed via right-click menu options.
+
+## Code Export Details
+
+The exported code uses the `mobile:` prefix for style overrides, applying to viewports under 767px wide through media queries. This generates responsive React and Tailwind code automatically.
+
+## Current Limitations
+
+Custom breakpoints aren't currently available. Users needing different breakpoint configurations should contact support@subframe.com.

@@ -1,0 +1,357 @@
+---
+title: Monorepo
+description: Install and configure Subframe in a monorepo with multiple apps and shared packages.
+---
+
+Subframe works in monorepos with Turborepo, Nx, Yarn Workspaces, pnpm workspaces, or npm workspaces. You can install Subframe per-app or create a shared UI package that multiple apps consume.
+
+## Installation strategies
+
+### Per-app installation (simpler)
+
+Install Subframe independently in each app. Each app gets its own component library and can use different Subframe projects.
+
+**Pros:**
+- Simple setup—run CLI in each app
+- Apps can use different design systems
+- No workspace configuration needed
+- Independent updates per app
+
+**Cons:**
+- Duplicate components across apps
+- More files to sync
+- No component sharing between apps
+
+### Shared UI package (recommended)
+
+Create a shared package that contains all Subframe components. Apps import from this shared package.
+
+**Pros:**
+- Single source of truth for UI
+- Share components across all apps
+- Sync once, use everywhere
+- Smaller app bundles
+
+**Cons:**
+- Initial workspace configuration
+- All apps must use same design system
+- Updates affect all apps simultaneously
+
+## Shared UI package setup
+
+This is the recommended approach for most monorepos.
+
+### 1. Create the shared package
+
+Create a new package in your monorepo:
+
+```bash
+# For Turborepo/pnpm workspaces
+mkdir -p packages/ui
+cd packages/ui
+npm init -y
+```
+
+Add to your workspace configuration:
+
+<CodeGroup>
+```json pnpm-workspace.yaml
+packages:
+  - "packages/*"
+  - "apps/*"
+```
+
+```json package.json (npm/yarn workspaces)
+{
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ]
+}
+```
+</CodeGroup>
+
+### 2. Initialize Subframe in the shared package
+
+Run the CLI from within your UI package:
+
+```bash
+cd packages/ui
+npx @subframe/cli@latest init
+```
+
+The CLI configures the package with:
+- Components synced to `./src` or `./ui` (you choose)
+- Tailwind configuration
+- TypeScript path aliases
+- `@subframe/core` dependency
+
+### 3. Configure the shared package
+
+Make it a proper workspace package:
+
+```json packages/ui/package.json
+{
+  "name": "@your-company/ui",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    "./*": "./src/*"
+  },
+  "dependencies": {
+    "@subframe/core": "latest",
+    "react": "^18.0.0",
+    "tailwindcss": "^3.0.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  }
+}
+```
+
+### 4. Export Tailwind config
+
+Other apps need access to your Tailwind preset:
+
+```js packages/ui/tailwind.config.js
+module.exports = {
+  theme: {
+    extend: {
+      // Your theme tokens from Subframe
+    }
+  }
+}
+```
+
+Then export it from package.json:
+
+```json packages/ui/package.json
+{
+  "exports": {
+    "./*": "./src/*",
+    "./tailwind.config": "./tailwind.config.js"
+  }
+}
+```
+
+### 5. Consume in apps
+
+Install the shared package in your apps:
+
+<CodeGroup>
+```json pnpm
+{
+  "dependencies": {
+    "@your-company/ui": "workspace:*"
+  }
+}
+```
+
+```json npm/yarn
+{
+  "dependencies": {
+    "@your-company/ui": "*"
+  }
+}
+```
+</CodeGroup>
+
+Import components in your apps:
+
+```tsx apps/web/src/App.tsx
+import { Button } from "@your-company/ui/Button"
+import { TextField } from "@your-company/ui/TextField"
+
+export function App() {
+  return (
+    <div>
+      <TextField.Root>
+        <TextField.Input placeholder="Email" />
+      </TextField.Root>
+      <Button>Submit</Button>
+    </div>
+  )
+}
+```
+
+### 6. Configure Tailwind in apps
+
+Each app's `tailwind.config.js` uses the shared preset:
+
+```js apps/web/tailwind.config.js
+module.exports = {
+  presets: [require("@your-company/ui/tailwind.config")],
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    // Scan the UI package for classes
+    "../../packages/ui/src/**/*.{js,jsx,ts,tsx}",
+  ],
+}
+```
+
+## Turborepo configuration
+
+For Turborepo, configure build dependencies:
+
+```json turbo.json
+{
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "@your-company/ui#build": {
+      "outputs": ["src/**"]
+    }
+  }
+}
+```
+
+The UI package doesn't need a build step—apps import TypeScript directly and compile it.
+
+## Nx configuration
+
+For Nx monorepos, configure project dependencies:
+
+```json packages/ui/project.json
+{
+  "name": "@your-company/ui",
+  "targets": {
+    "sync": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx @subframe/cli sync --all",
+        "cwd": "packages/ui"
+      }
+    }
+  }
+}
+```
+
+Run sync across workspace:
+
+```bash
+nx run @your-company/ui:sync
+```
+
+## TypeScript configuration
+
+### Shared UI package
+
+```json packages/ui/tsconfig.json
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "paths": {
+      "@/ui/*": ["./src/*"]
+    }
+  },
+  "include": ["src"]
+}
+```
+
+### Apps
+
+Reference the UI package in app tsconfig:
+
+```json apps/web/tsconfig.json
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@your-company/ui/*": ["../../packages/ui/src/*"]
+    }
+  },
+  "references": [
+    { "path": "../../packages/ui" }
+  ]
+}
+```
+
+## Syncing components
+
+Sync components from the UI package directory:
+
+```bash
+cd packages/ui
+npx @subframe/cli sync --all
+```
+
+Or create a workspace script:
+
+```json package.json (root)
+{
+  "scripts": {
+    "sync-ui": "cd packages/ui && npx @subframe/cli sync --all"
+  }
+}
+```
+
+Run from anywhere in the monorepo:
+
+```bash
+npm run sync-ui
+```
+
+## Per-app installation
+
+If you prefer independent installations:
+
+1. Run `npx @subframe/cli init` in each app directory
+2. Each app gets its own `.subframe/sync.json` configuration
+3. Sync components independently per app
+4. Apps can use different Subframe projects
+
+This works but creates duplicate code across apps. Use only if apps need truly independent design systems.
+
+## Troubleshooting
+
+### Import resolution errors
+
+If apps can't find UI package imports:
+
+1. Verify the package name matches in package.json and imports
+2. Check workspace configuration includes the packages directory
+3. Run package manager install: `pnpm install` or `npm install`
+4. Restart TypeScript server in your editor
+
+### Tailwind styles not applying
+
+If styles don't work in apps:
+
+1. Check `content` paths include the UI package: `../../packages/ui/src/**`
+2. Verify the preset is properly imported
+3. Make sure apps have Tailwind CSS imported
+4. Clear build cache and restart dev server
+
+### Build order issues
+
+If builds fail due to missing UI package:
+
+1. Ensure UI package is built before apps (Turborepo handles this)
+2. For custom build systems, set explicit dependency order
+3. UI package doesn't need compilation—it exports TypeScript directly
+
+### Type resolution
+
+If TypeScript can't find types:
+
+1. Check `tsconfig.json` paths configuration
+2. Verify `references` includes the UI package
+3. Make sure UI package has `tsconfig.json`
+4. Restart TypeScript server
+
+## Learn more
+
+- [Syncing Components](/develop/syncing-components) - Keep UI package updated
+- [Tailwind Configuration](/develop/tailwind-config) - Understand Tailwind setup
+- [Props and Slots](/components/props-and-slots) - Customize shared components

@@ -1,57 +1,286 @@
 ---
 title: Disabling sync
+description: Prevent the CLI from overwriting customized component code.
 ---
 
+By default, every component synced from Subframe updates automatically when you run `npx @subframe/cli sync`. If you've made local changes to a component file, those changes get overwritten by the latest version from Subframe.
+
+Sometimes you need to modify a component's core implementation in a way that can't be done through props or composition. Disabling sync prevents your local changes from being overwritten.
+
 <Warning>
-  Disabling sync should be used as a last resort when you need to change the core behavior of a component. It’s an
-  escape hatch if something about Subframe's generated code is preventing you from making the changes you need. If
-  that's the case, [let us
-  know!](https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ)
+Disabling sync should be a last resort. Once you disable sync for a component, it stops receiving updates from Subframe—including bug fixes, accessibility improvements, and new features. Only disable sync when wrapper components or composition patterns don't work for your use case.
 </Warning>
 
-### Wrapping "dumb" components (recommended)
+## When to disable sync
 
-Rather than disabling sync, we typicallly recommend creating a new component that wraps “dumb” components with business logic. All Subframe components will forward its props to its root React element, meaning you can always add onClick and other handlers as React props. By using this pattern, your components will never be out of sync with Subframe.
+Consider disabling sync when:
 
-For example, you can create a CustomButton like this:
+- You need to fundamentally change how a component renders
+- You're adding complex internal logic that can't be handled through props
+- You're integrating third-party libraries that require modifying the component structure
+- You've exhausted composition patterns and still can't achieve what you need
+
+## When NOT to disable sync
+
+Don't disable sync for these common scenarios—use composition instead:
+
+**Adding click handlers or event logic** - All Subframe components forward props to their root element:
 
 ```tsx
-import React from "react"
-import { Button } from "@/ui/components/Button"
-
-interface CustomButtonRootProps extends React.ComponentProps<typeof Button> {
-  className?: string
-}
-
-export const CustomButton = React.forwardRef<HTMLButtonElement, CustomButtonRootProps>(function CustomButtonRoot(
-  { className, ...otherProps }: CustomButtonRootProps,
-  ref,
-) {
-  /**
-   * Add any hooks or custom logic here
-   */
-
-  return (
-    <Button
-      className={className}
-      ref={ref}
-      onClick={() => {
-        // You can handle events here too
-      }}
-      {...otherProps}
-    />
-  )
-})
+// Don't disable sync for this
+<Button onClick={() => console.log('clicked')}>
+  Click me
+</Button>
 ```
 
-Sometimes your Subframe component has interactive elements like buttons or dynamic content. We recommend adding a slot for those scenarios. Read our [guide](/developing/props-and-slots) on slots and composition.
+**Adding custom styling** - Use the `className` prop:
 
-### Using @subframe/sync-disable
+```tsx
+// Don't disable sync for this
+<Button className="custom-class">
+  Styled button
+</Button>
+```
 
-If you've already tried using a wrapper component and still need to disable sync, you can add the following code to the top of your Subframe component file:
+**Complex business logic** - Wrap the component:
+
+```tsx
+// Don't disable sync for this
+<CustomButton userId={123}>
+  Submit
+</CustomButton>
+```
+
+For these cases, see [wrapper component patterns](#wrapper-components-recommended) below.
+
+## Wrapper components (recommended)
+
+Instead of disabling sync, create a new component that wraps the Subframe component with your custom logic. This pattern keeps your components in sync with Subframe while giving you full control over behavior.
+
+### Basic wrapper example
+
+```tsx CustomButton.tsx
+import React from "react"
+import { Button } from "@/ui/Button"
+
+interface CustomButtonProps extends React.ComponentProps<typeof Button> {
+  onAnalyticsClick?: () => void
+}
+
+export const CustomButton = React.forwardRef<HTMLButtonElement, CustomButtonProps>(
+  function CustomButton({ onAnalyticsClick, onClick, ...props }, ref) {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      // Custom logic before the original onClick
+      onAnalyticsClick?.()
+
+      // Call original onClick handler
+      onClick?.(e)
+    }
+
+    return <Button ref={ref} onClick={handleClick} {...props} />
+  }
+)
+```
+
+Now use your wrapper instead of the original component:
+
+```tsx
+<CustomButton
+  onAnalyticsClick={() => trackEvent('button_click')}
+  onClick={() => handleSubmit()}
+>
+  Submit form
+</CustomButton>
+```
+
+### Advanced wrapper with hooks
+
+For complex logic involving state or effects:
+
+```tsx ConfirmButton.tsx
+import React, { useState } from "react"
+import { Button } from "@/ui/Button"
+import { Dialog } from "@/ui/Dialog"
+
+interface ConfirmButtonProps extends React.ComponentProps<typeof Button> {
+  confirmMessage: string
+  onConfirm: () => void
+}
+
+export function ConfirmButton({
+  confirmMessage,
+  onConfirm,
+  children,
+  ...buttonProps
+}: ConfirmButtonProps) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleConfirm = () => {
+    onConfirm()
+    setIsOpen(false)
+  }
+
+  return (
+    <>
+      <Button {...buttonProps} onClick={() => setIsOpen(true)}>
+        {children}
+      </Button>
+
+      <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
+        <Dialog.Content>
+          <Dialog.Title>Confirm action</Dialog.Title>
+          <Dialog.Description>{confirmMessage}</Dialog.Description>
+          <Dialog.Actions>
+            <Button variant="neutral" onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={handleConfirm}>
+              Confirm
+            </Button>
+          </Dialog.Actions>
+        </Dialog.Content>
+      </Dialog>
+    </>
+  )
+}
+```
+
+Use it like this:
+
+```tsx
+<ConfirmButton
+  confirmMessage="Are you sure you want to delete this item?"
+  onConfirm={() => deleteItem()}
+  variant="destructive"
+>
+  Delete
+</ConfirmButton>
+```
+
+### When components have interactive elements
+
+If your Subframe component has buttons or other interactive elements inside it, use slots for customization:
+
+```tsx
+<Card
+  title="Product"
+  actions={
+    <Button onClick={() => addToCart()}>
+      Add to cart
+    </Button>
+  }
+>
+  <ProductImage />
+  <ProductDescription />
+</Card>
+```
+
+For more on slots, see [Props and Slots](/develop/props-and-slots).
+
+## Disabling sync with @subframe/sync-disable
+
+If you've tried wrapper components and composition patterns but still need to modify the component file directly, add this comment to the top of the file:
+
+```tsx Button.tsx
+// @subframe/sync-disable
+
+import * as SubframeCore from "@subframe/core"
+
+// Your modified component code...
+export function Button({ ...props }) {
+  // Custom implementation that differs from Subframe
+}
+```
+
+The next time you run `npx @subframe/cli sync`, this component will be skipped. Your local changes remain intact.
+
+### What happens after disabling
+
+- The component stops receiving updates from Subframe
+- Bug fixes and improvements to the component won't sync automatically
+- You're responsible for maintaining the component code
+- The component still works normally in your application
+- Other components continue syncing normally
+
+### Re-enabling sync
+
+To re-enable sync, remove the `// @subframe/sync-disable` comment. The next sync will overwrite your local changes with the latest version from Subframe.
+
+<Warning>
+Before re-enabling sync, save your custom changes somewhere if you need to preserve them. The sync will completely replace the file contents.
+</Warning>
+
+## Best practices
+
+### Document your reasoning
+
+Add comments explaining why you disabled sync:
 
 ```tsx
 // @subframe/sync-disable
+// Reason: Integrated with react-hook-form's Controller for complex validation
+// Last synced: 2025-01-15
+// Original version: v2.3.1
 ```
 
-This will prevent the changes in your component from being overwritten the next time you sync.
+This helps other developers (and future you) understand the decision.
+
+### Keep a list
+
+Track which components have sync disabled:
+
+```markdown SYNCED_COMPONENTS.md
+# Components with sync disabled
+
+- **Button** - Custom analytics integration
+- **TextField** - react-hook-form Controller wrapper
+- **Select** - Custom dropdown behavior for legacy API
+```
+
+### Regular reviews
+
+Periodically check if disabled components can be re-enabled:
+
+- Has Subframe added props or slots that solve your problem?
+- Can you refactor to use a wrapper component now?
+- Are there new composition patterns available?
+
+### Minimize modifications
+
+When you do disable sync, keep changes minimal. The more you deviate from the original, the harder it becomes to re-enable sync later.
+
+## Troubleshooting
+
+### Sync not disabling
+
+If sync continues overwriting your component:
+
+1. Verify the comment is exactly `// @subframe/sync-disable` (no typos)
+2. Make sure it's at the very top of the file (line 1 or 2)
+3. Check that you're editing the correct file in your configured components directory
+4. Run the sync command again to see if it reports skipping the component
+
+### Re-enabling overwrites changes
+
+This is expected behavior. If you need to preserve custom changes:
+
+1. Copy the file to a backup location
+2. Remove the `// @subframe/sync-disable` comment
+3. Run `npx @subframe/cli sync`
+4. Re-apply specific changes you need to keep
+5. Consider creating a wrapper component instead
+
+### Conflicts with team
+
+If you're on a team, communicate when disabling sync:
+
+- Add the component to shared documentation
+- Explain why it's necessary
+- Review alternatives with the team
+- Consider whether the change should be made in Subframe instead
+
+## Learn more
+
+- [Props and Slots](/develop/props-and-slots) - Use composition before disabling sync
+- [Syncing Components](/develop/syncing-components) - How the sync system works
+- [Adding Business Logic](/develop/adding-business-logic) - Practical wrapper examples

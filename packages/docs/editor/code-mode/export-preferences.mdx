@@ -1,0 +1,115 @@
+---
+title: Installation
+description: Set up Subframe in your project using CLI, Cursor, Claude, or Replit.
+---
+
+The Installation tab in Code Mode shows four methods to integrate Subframe into your project: Manual CLI setup, Cursor MCP server, Claude Code MCP server, or Replit export.
+
+## Manual setup
+
+**Step 1: Install Subframe in your project**
+
+Run the init command with your auth token:
+
+```bash
+npx subframe@latest init --auth-token YOUR_TOKEN
+```
+
+Get your auth token from [app.subframe.com/cli/auth](https://app.subframe.com/cli/auth).
+
+**Step 2: Follow framework-specific instructions**
+
+Choose your framework:
+- **Next.js** - App Router and Pages Router guides
+- **Vite** - React + Vite setup
+- **Monorepo** - Shared UI package pattern
+- **Other (manual)** - Manual installation steps
+
+Each opens the relevant documentation.
+
+## Cursor MCP server
+
+**Step 1: Install Subframe MCP server**
+
+Click **Add to Cursor** to automatically install via `cursor://` URL protocol, or click **Install manually** for documentation.
+
+**Step 2: Copy installation prompt**
+
+A pre-written prompt helps you set up Subframe:
+
+```
+For a new project, run:
+npx subframe@latest init --auth-token YOUR_TOKEN
+
+For an existing project, run:
+npx subframe@latest init --existing --auth-token YOUR_TOKEN
+
+Add Google Fonts to your HTML head: [font link tags]
+```
+
+Copy and paste this into Cursor.
+
+**Step 3: Start prompting with your design link**
+
+Click **Inspect code** to return to the Inspect tab, or **Example prompts** to see the Prompts tab.
+
+## Claude Code MCP server
+
+**Step 1: Install Subframe MCP server**
+
+Run this command in your terminal:
+
+```bash
+claude mcp add --transport http subframe https://mcp.subframe.com/mcp \
+  --header "Authorization: Bearer YOUR_TOKEN" && \
+claude mcp add --transport http subframe-docs https://docs.subframe.com/mcp
+```
+
+This installs two MCP servers:
+- `subframe` - Fetch design code
+- `subframe-docs` - Access Subframe documentation
+
+Or click **Install manually** for step-by-step instructions.
+
+**Step 2: Copy installation prompt**
+
+Same setup prompt as Cursor—copy and paste into Claude Code.
+
+**Step 3: Start prompting with your design link**
+
+Use the MCP link from the Inspect tab to reference your designs when prompting.
+
+## Export to Replit
+
+**Step 1: Create a Vite app in Replit**
+
+Click **Open Replit** to create a new Replit project using the Vite + React template.
+
+**Step 2: Copy setup prompt**
+
+A prompt includes:
+- Init command for Replit environment
+- Google Fonts setup
+- Important note: Don't modify Subframe code in `src/ui` folder
+
+**Step 3: Prompt Replit with your designs**
+
+Switch to the Inspect tab and use the Replit format to copy code snippets. Paste these into Replit Agent with instructions.
+
+## MCP server benefits
+
+When you install the Subframe MCP server in Cursor or Claude Code:
+
+**Direct design access** - AI can fetch your design code using the MCP link
+
+**Up-to-date code** - Always pulls the latest version from Subframe
+
+**Component awareness** - AI knows which components are available in your design system
+
+**Documentation access** - The docs MCP server provides context about Subframe features
+
+## Learn more
+
+- [Inspecting Code](/editor/code-mode/inspecting-code) - View code in different formats
+- [Export Prompts](/editor/code-mode/export-prompts) - Pre-written prompts for common tasks
+- [MCP Server](/develop/mcp-server) - Detailed MCP server documentation

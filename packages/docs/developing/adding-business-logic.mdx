@@ -1,23 +1,23 @@
 ---
 title: Adding business logic
+description: Integrate state management, API calls, and event handlers into your Subframe-exported code.
 ---
 
-A core principle behind Subframe’s code export flow is that business logic (like making an API call or managing React state) belongs in code, not a design tool. Thus, Subframe does not export any business logic, other than UI-specific interactions like animating an accordion open / close.
+A core principle behind Subframe's code export is that business logic—like making API calls or managing React state—belongs in code, not in a design tool. Subframe exports clean UI code without business logic, leaving you free to integrate it however you want.
 
-Let's consider a hypothetical music streaming app called Spoofy to demonstrate integrating business logic into Subframe pages and components.
+This guide shows you how to add state management, API calls, and event handlers to your Subframe designs.
 
 <Tip>
-  We've made a [CodeSandbox](https://codesandbox.io/p/devbox/subframe-spoofy-rw5wrj) project for the examples below so
-  you can play around with the code.
+We've made a [CodeSandbox](https://codesandbox.io/p/devbox/subframe-spoofy-rw5wrj) project for the examples below so you can play around with the code.
 </Tip>
 
-### Example 1 - Magic link login form
+## Example 1: Magic link login form
 
-For our example app, we'll build a simple magic link login form. This is what we want the end-result to look like:
+Let's build a simple magic link login form. This is what we want the end result to look like:
 
-<img src="/images/adding-business-logic/form-example-1.png" alt="Form Example 1" className="w-full" />
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="A login form with a text input labeled 'Email' and a button labeled 'Send Magic Link' with a send icon, styled with a clean modern design" />
 
-We've finished [copying the page code](/developing/copy-paste-pages) from Subframe, so now let's add some basic functionality.
+We've finished [copying the page code](/develop/exporting-code) from Subframe, so now let's add some basic functionality.
 
 1. We add a fake fetch function that simulates a network request and a `handleSubmit` function that handles the form submission.
 2. We also want to update our Button to show that we're currently submitting the form, so we'll maintain a `submitting` state variable and pass it to the Button in the `disabled` and `loading` props.
@@ -125,26 +125,19 @@ export default App
 
 </CodeGroup>
 
-We now have an interactive login form!
+We now have an interactive login form with proper loading states!
 
-<video
-  autoPlay
-  muted
-  loop
-  playsInline
-  className="w-full"
-  src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/form-example-2-IzeEyBCMx6a6qIDJr9D0OzvXYOd5Qu.webm"
-/>
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Animated demonstration of the login form in action: user types an email address, clicks the Send Magic Link button which shows a loading spinner, then completes successfully" />
 
-### Example 2 - Interactive track cards
+## Example 2: Interactive track cards
 
-We now want to build a feature where we show the user their most-listened-to tracks of the past week and allow them to favorite tracks so they can easily find them later.
+Now we want to build a feature where we show users their most-listened-to tracks of the past week and allow them to favorite tracks so they can easily find them later.
 
-When adding business logic to Subframe-designed components, we recommend not editing the generated code inside the `src/ui/` directory directly, but instead [wrapping the component](/developing/disabling-sync#wrapping-%E2%80%9Cdumb%E2%80%9D-components-recommended).
+When adding business logic to Subframe-designed components, we recommend not editing the generated code inside the `src/ui/` directory directly, but instead [wrapping the component](/develop/disabling-sync#wrapping-dumb-components-recommended).
 
 We built a `TrackCard` component and `FavoriteTracks` page in Subframe and brought them to our codebase:
 
-![Component Example Page](/images/adding-business-logic/component-example-page.png)
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="A page showing three music track cards in a row, each displaying an album cover, track title, artist name, track length, genre tag, and a heart-shaped favorite button" />
 
 Now we'll add the functionality to be able to favorite tracks:
 
@@ -274,13 +267,6 @@ export default FavoriteTracks
 
 And we're done! The end result looks like this:
 
-<video
-  autoPlay
-  muted
-  loop
-  playsInline
-  className="w-full aspect-video"
-  src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/component-example-2-ZRPtwOWlu7m9aaOgLi7ASo4FwRNaIj.webm"
-/>
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Animated demonstration of the track cards: user clicks the heart icon on different tracks to toggle their favorite status, with the heart icon filling and unfilling accordingly" />
 
-You may have noticed that we're using slots for our image and favorite button. We'll cover the reasons for this in [Props and slots](/developing/props-and-slots).
+You may have noticed that we're using slots for our image and favorite button. We'll cover the reasons for this in [Props and slots](/develop/props-and-slots).

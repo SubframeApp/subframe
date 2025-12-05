@@ -1,0 +1,54 @@
+---
+title: Creating custom components
+description: How to create a component from scratch
+---
+
+## Overview
+
+Components serve as reusable UI building blocks. Beyond Subframe's built-in design system components, users can develop custom components shared across design and code environments.
+
+<Note>
+Whenever you create new components, run the CLI command to sync your changes with your codebase.
+</Note>
+
+## Create a Component
+
+### From Existing Design
+
+The process involves:
+
+1. Selecting layers for inclusion
+2. Right-clicking the selection
+3. Choosing **Create component** from the dropdown
+4. Naming the component and selecting suggested properties
+5. Accessing the component editor for further refinement
+
+![Screenshot showing the Subframe editor with layers selected and the right-click context menu open, displaying the "Create component" option. The interface shows the layer panel on the left and properties panel on the right.]
+
+### From Scratch
+
+1. Navigate to the component library
+2. Click **+ New component**
+3. Subframe creates a blank component and opens the editor
+
+![Screenshot of the component library showing the "+ New component" button and an empty component editor canvas.]
+
+## Component Properties
+
+Properties enable:
+- Changing icons, text, or images
+- Creating component variants
+- Adding custom elements via slots
+
+### Suggested Properties
+
+When creating from existing layers, Subframe recommends properties. Users can rename properties using text fields and remove unnecessary ones via toggle switches.
+
+![GIF demonstrating the property configuration interface, showing how to rename properties in text fields and toggle switches to enable/disable suggested properties.]
+
+## Interaction States
+
+Supported states include:
+- Hover
+- Pressed
+- Focused

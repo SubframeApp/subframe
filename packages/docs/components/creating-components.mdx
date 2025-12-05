@@ -1,0 +1,166 @@
+---
+title: Creating components
+description: Build custom components visually for your design system.
+---
+
+Create custom components to build reusable patterns specific to your product. Components you create work exactly like base components—they sync to code, support props and slots, and update automatically across all instances.
+
+## Creating from existing design
+
+The fastest way to create a component is from elements you've already designed.
+
+1. Select the elements (<kbd>Shift</kbd> + click or drag to select)
+2. Right-click → **Create component**
+3. Name your component (use PascalCase: ProductCard, FeatureSection, UserAvatar)
+4. Review and configure suggested properties
+5. Click **Create**
+
+Subframe analyzes your selection and suggests properties based on text, icons, and images it finds. Toggle properties on or off, rename them to match your terminology, then create.
+
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="The create component dialog showing suggested properties with toggle switches" />
+
+## Creating from scratch
+
+Start with a blank component for full control:
+
+1. Navigate to **Components** tab (top nav)
+2. Click **+ New component**
+3. Name your component
+4. Build your component structure with stacks, text, icons, and other elements
+5. Add properties as needed
+
+Use a Stack as your root element—it provides flexible layout and works well as a component container.
+
+## Adding properties
+
+Properties make your component configurable. Add them by selecting an element and clicking **+ Add property** in the Inspector panel.
+
+**Property types:**
+
+- **Text** - Editable text content (titles, labels, descriptions)
+- **Boolean** - Show/hide toggles
+- **Enum** - Dropdown choices (variants like size or style)
+- **Icon** - Icon selection from icon libraries
+- **Image** - Image URLs or uploads
+- **Number** - Numeric values
+- **Slot** - Flexible content areas for React children
+
+Each property exports as a TypeScript prop with full type safety.
+
+## Variants
+
+Variants are pre-configured versions of your component created using enum properties. Common patterns:
+
+**Size variants** - Create a "size" enum property with options: small, medium, large. For each option, adjust padding, font size, and spacing.
+
+**Style variants** - Create a "variant" enum property with options: primary, secondary, destructive. For each option, change colors and visual styling.
+
+**Layout variants** - Create a "layout" enum property with options: horizontal, vertical. For each option, adjust Stack direction and arrangement.
+
+To style variant options, select the enum value from the dropdown in the component editor, then apply styles—those styles only apply to that variant.
+
+## States
+
+States define how components look during interaction. Add states from the States dropdown in the component editor:
+
+**Hover** - Mouse over the component
+**Pressed** - Active/pressed state
+**Focused** - Keyboard focus (important for accessibility)
+**Disabled** - Component is not interactive
+
+Select a state, apply styling, and it exports as CSS pseudo-classes (`:hover`, `:active`, `:focus-visible`, `[disabled]`).
+
+Always design focus states for accessibility—they're required for keyboard navigation.
+
+## Slots
+
+Slots enable component composition by accepting React children. To create a slot:
+
+1. Select a Stack in your component
+2. Right-click → **Add slot**
+3. Name the slot (e.g., "actions", "header", "content")
+4. Add default content that appears when the slot is empty
+
+Slots export as props that accept JSX:
+
+```tsx
+<Card
+  title="Product"
+  actions={<Button>Buy now</Button>}
+>
+  <ProductImage />
+  <ProductDescription />
+</Card>
+```
+
+For guidance on when to use slots vs props, see [Props and Slots](/components/props-and-slots).
+
+## Component structure
+
+**Use Stacks for layout** - Start with a Stack as root and use nested Stacks to organize elements. Stacks provide flexible flexbox layout.
+
+**Name your layers** - Give elements descriptive names in the Layers panel: "icon-wrapper", "title-text", "action-button". This makes components easier to maintain.
+
+**Keep components focused** - A component should do one thing well. If it's getting complex, break it into multiple components.
+
+## Saving and syncing
+
+Components auto-save as you work. Once saved, your component appears in the component library under "Custom" and can be used in any page.
+
+To sync components to your codebase:
+
+```bash
+npx @subframe/cli sync --all
+```
+
+Your component exports as TypeScript React code with full type safety:
+
+```tsx ProductCard.tsx
+import * as React from "react"
+
+export interface ProductCardProps {
+  title: string
+  description: string
+  price: string
+  image: string
+  size?: "small" | "medium" | "large"
+  variant?: "default" | "featured"
+}
+
+export const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
+  function ProductCard({ size = "medium", variant = "default", ...props }, ref) {
+    // Generated component implementation
+  }
+)
+```
+
+## Editing components
+
+To edit an existing component:
+
+1. Go to **Components** tab (top nav)
+2. Select your component
+3. Make changes in the component editor
+4. All instances update automatically
+
+Or right-click any instance → **Edit component** to open the editor.
+
+Changes you make update all instances across all pages immediately—this is the power of component-based design.
+
+## Best practices
+
+**Plan properties before building** - Think through what should be configurable. This is faster than adding properties incrementally.
+
+**Use clear property names** - They become prop names in code. Use names developers will understand.
+
+**Add property descriptions** - Write brief descriptions for each property. They appear in the Inspector and help others use your component.
+
+**Test with real content** - Use actual text and images, not placeholders. This reveals layout issues early.
+
+**Start simple** - Create a basic version first, then add variants and states. Don't build everything at once.
+
+## Learn more
+
+- [Props and Slots](/components/props-and-slots) - Understand customization patterns
+- [Using Components](/components/using-components) - Add components to designs and configure instances
+- [Syncing Components](/develop/syncing-components) - Keep code in sync with design changes

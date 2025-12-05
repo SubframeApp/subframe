@@ -49,38 +49,28 @@
           "installation",
           "tailwind-config",
           "fonts",
+          "installation/new-project",
+          "installation/existing-project",
           {
             "group": "Framework guides",
             "pages": [
-              "framework-guides/nextjs",
-              "framework-guides/vite",
-              "framework-guides/astro",
-              "framework-guides/monorepo",
-              "framework-guides/manual"
+              "installation/framework-guides/nextjs",
+              "installation/framework-guides/vite",
+              "installation/framework-guides/astro",
+              "installation/framework-guides/remix",
+              "installation/framework-guides/monorepo",
+              "installation/framework-guides/manual"
             ]
           }
         ]
       },
       {
-        "group": "Design with Subframe",
-        "pages": [
-          "designing/adding-elements",
-          "designing/using-ai-to-design",
-          "designing/personalizing-ai",
-          "designing/version-history"
-        ]
-      },
-      {
-        "group": "Prototype with Subframe",
-        "pages": ["prototyping/creating-ai-prototypes", "prototyping/sharing-prototypes"]
-      },
-      {
         "group": "Develop with Subframe",
         "pages": [
           "developing/mcp-server",
+          "developing/auth-tokens",
           "developing/syncing-components",
-          "developing/using-components",
-          "developing/copy-paste-pages",
+          "developing/exporting-code",
           "developing/adding-business-logic",
           "developing/props-and-slots",
           "developing/disabling-sync"
@@ -96,9 +86,68 @@
         ]
       },
       {
+        "group": "Components",
+        "pages": [
+          "components/overview",
+          "components/using-components",
+          "components/creating-components",
+          "components/props-and-slots"
+        ]
+      },
+      {
+        "group": "Editor",
+        "pages": [
+          "editor/overview",
+          {
+            "group": "Ask AI",
+            "pages": [
+              "editor/ask-ai/prompt-to-design",
+              "editor/ask-ai/image-to-design",
+              "editor/ask-ai/inline-ask-ai",
+              "editor/ask-ai/remix-pages",
+              "editor/ask-ai/personalizing-ai"
+            ]
+          },
+          {
+            "group": "Design mode",
+            "pages": [
+              "editor/design-mode/page-editor",
+              "editor/design-mode/add-elements",
+              "editor/design-mode/layers",
+              "editor/design-mode/inspector",
+              "editor/design-mode/responsive-design",
+              "editor/design-mode/page-layouts",
+              "editor/design-mode/preview",
+              "editor/design-mode/actions-menu",
+              "editor/design-mode/custom-css"
+            ]
+          },
+          {
+            "group": "Prototype mode",
+            "pages": [
+              "editor/prototype-mode/overview",
+              "editor/prototype-mode/annotations",
+              "editor/prototype-mode/chat-with-ai",
+              "editor/prototype-mode/updating-designs",
+              "editor/prototype-mode/view-prototype-code",
+              "editor/prototype-mode/sharing-prototypes"
+            ]
+          },
+          {
+            "group": "Code mode",
+            "pages": [
+              "editor/code-mode/inspecting-code",
+              "editor/code-mode/export-preferences",
+              "editor/code-mode/export-prompts"
+            ]
+          }
+        ]
+      },
+      {
         "group": "Admin and billing",
         "pages": [
-          "admin/managing-team",
+          "admin/inviting-team-members",
+          "admin/roles-and-permissions",
           "admin/pricing-and-plans",
           "admin/managing-projects",
           "admin/version-history",

@@ -1,29 +1,21 @@
 ---
 title: Syncing components
+description: Keep your codebase in sync with Subframe components using the CLI.
 ---
 
-<video
-  autoPlay
-  muted
-  loop
-  playsInline
-  controls
-  className="w-full"
-  src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/sync-components-qNU25B0X4BKttDuiXdqf4h6WEt0fYO.webm"
-/>
+To use Subframe components in your app, you need to sync them to your codebase. This creates a local copy of the code for your components that stays in sync with your designs in Subframe.
 
-To use Subframe components in your app, you will need to sync them to your codebase. This will create a local copy of the code for your Subframe components. You can then use the Subframe CLI to update the component code whenever you add or change components in Subframe.
+<img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Terminal showing the Subframe CLI sync command running with output displaying synced components like Button, TextField, and Card with success checkmarks" className="w-full" />
 
 <Note>
-  **Sync goes one way** from Subframe to your codebase. This means that if you make changes to a Subframe component's code in
-  your codebase, those changes will be overwritten the next time you sync.
+**Sync goes one way** from Subframe to your codebase. This means that if you make changes to a Subframe component's code in your codebase, those changes will be overwritten the next time you sync.
 </Note>
 
 ## Running the sync command
 
-Make sure to first [install Subframe](/installation). To sync the code for all of your components to your codebase run the following command:
-<CodeGroup>
+Make sure to first [install Subframe](/installation/existing-project). To sync the code for all of your components to your codebase, run the following command:
 
+<CodeGroup>
   ```bash npm
   npx @subframe/cli@latest sync --all
   ```
@@ -36,26 +28,13 @@ Make sure to first [install Subframe](/installation). To sync the code for all o
   ```bash bun
   bunx --bun @subframe/cli@latest sync --all
   ```
-
 </CodeGroup>
 
-You can also provide arguments to the command to sync only specific components, all components, and to directly install all necessary dependencies:
+### Sync specific components
 
-```
-Arguments:
-  components                   the components to sync
-
-Options:
-  -a, --all                    sync all components
-  -p, --projectId <projectId>  project id to run sync with
-  -i, --install                install dependencies after syncing
-  -h, --help                   display help for command
-```
-
-For example, to only sync the `<Alert />` and `<Accordion />` components, you can run:
+You can also sync only specific components by providing their names as arguments:
 
 <CodeGroup>
-
   ```bash npm
   npx @subframe/cli@latest sync Alert Accordion
   ```
@@ -68,13 +47,43 @@ For example, to only sync the `<Alert />` and `<Accordion />` components, you ca
   ```bash bun
   bunx --bun @subframe/cli@latest sync Alert Accordion
   ```
-
 </CodeGroup>
 
+### Command options
+
+The sync command accepts several options:
+
+```
+Arguments:
+  components                   the components to sync
+
+Options:
+  -a, --all                    sync all components
+  -p, --projectId <projectId>  project id to run sync with
+  -i, --install                install dependencies after syncing
+  -h, --help                   display help for command
+```
+
+For example, to sync all components and automatically install dependencies:
+
+```bash
+npx @subframe/cli@latest sync --all --install
+```
+
+## When to sync
+
+You should sync your components whenever you:
+
+- **Create new components** in Subframe that you want to use in your codebase
+- **Modify existing components** in Subframe (change styles, add variants, update props)
+- **Pull changes** from teammates who updated components
+- **Update your theme** (colors, typography, spacing)
+
+Sync is fast and safe—it only updates the files that changed, so you can run it as often as you need.
 
 ## Disabling sync
 
-If you make changes to a Subframe component's code in your codebase, those changes will be overwritten the next time you sync. To prevent your changes from being overwritten, you can disable syncing the component by adding `// @subframe/sync-disable` anywhere in the component file.
+If you make changes to a Subframe component's code in your codebase, those changes will be overwritten the next time you sync. To prevent your changes from being overwritten, you can disable syncing for that component by adding `// @subframe/sync-disable` anywhere in the component file:
 
 ```tsx src/ui/Accordion.tsx {1}
 // @subframe/sync-disable
@@ -89,7 +98,7 @@ If you make changes to a Subframe component's code in your codebase, those chang
 ```
 
 <Warning>
-  Disabling sync should be used as a last resort when you need to change the core behavior of a component.
+Disabling sync should be used as a last resort when you need to change the core behavior of a component.
 </Warning>
 
-See our best practices for when to [disable sync](/developing/disabling-sync).
+See our best practices for when to [disable sync](/develop/disabling-sync).
