@@ -1,6 +1,6 @@
 import { Command } from "@commander-js/extra-typings"
 import { readFile } from "node:fs/promises"
-import { join } from "node:path"
+import { isAbsolute, join } from "node:path"
 import { oraPromise } from "ora"
 import { getAccessToken } from "./access-token"
 import { apiPushComponent } from "./api-endpoints"
@@ -22,7 +22,8 @@ export const pushComponentCommand = new Command()
       const accessToken = await getAccessToken(cliLogger)
 
       // read file from path
-      const componentFile = await readFile(join(cwd, componentFilePath), "utf8")
+      const resolvedPath = isAbsolute(componentFilePath) ? componentFilePath : join(cwd, componentFilePath)
+      const componentFile = await readFile(resolvedPath, "utf8")
 
       // look for export statement for component name, e.g. "export const Button = ButtonRoot"
       const componentName = componentFile.match(/export const (\w+) = \w+Root/)?.[1]
