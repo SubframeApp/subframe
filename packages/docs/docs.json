@@ -147,8 +147,7 @@
       {
         "group": "Admin and billing",
         "pages": [
-          "admin/inviting-team-members",
-          "admin/roles-and-permissions",
+          "admin/managing-team",
           "admin/pricing-and-plans",
           "admin/managing-projects",
           "admin/version-history",
