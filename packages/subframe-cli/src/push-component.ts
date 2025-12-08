@@ -12,7 +12,10 @@ export const pushComponentCommand = new Command()
   .name("push-component")
   .description("pushes a component to Subframe")
   .argument("<component-file-path>", "path to the component file to push")
-  .action(async (componentFilePath) => {
+  .option("-s, --skip-normalize", "skip normalizing the component file")
+  // TODO: handle this in the backend
+  .option("-n, --new-component", "creating a new component")
+  .action(async (componentFilePath, opts) => {
     const cliLogger = makeCLILogger()
 
     try {
@@ -32,6 +35,8 @@ export const pushComponentCommand = new Command()
         apiPushComponent(accessToken, {
           componentName,
           componentFile,
+          skipNormalize: opts.skipNormalize,
+          isNewComponent: opts.newComponent,
         }),
         {
           text: "Pushing Subframe component",

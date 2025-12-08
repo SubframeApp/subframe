@@ -41,6 +41,12 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(function
   }: ButtonRootProps,
   ref,
 ) {
+  const [count, setCount] = useState(0)
+  useEffect(() => {
+    if (count > 10) {
+      setCount(0)
+    }
+  }, [count])
   return (
     <button
       className={SubframeUtils.twClassNames(
