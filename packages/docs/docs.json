@@ -88,11 +88,18 @@
         ]
       },
       {
-        "group": "Account Management",
+        "group": "Admin and billing",
         "pages": [
+          "admin/managing-team",
+          "admin/pricing-and-plans",
+          "admin/managing-projects",
+          "admin/version-history",
+          "admin/auth-tokens",
           {
-            "group": "Single Sign-On",
-            "pages": ["sso/okta"]
+            "group": "Single sign-on (SSO)",
+            "pages": [
+              "admin/sso/okta"
+            ]
           }
         ]
       }
