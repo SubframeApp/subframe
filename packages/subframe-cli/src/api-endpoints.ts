@@ -4,6 +4,8 @@ import { makeFetchWithRetries, prepareHttpBody } from "shared/http"
 import type {
   InitProjectRequest,
   InitProjectResponse,
+  PushComponentRequest,
+  PushComponentResponse,
   SyncProjectRequest,
   SyncProjectResponse,
   UpdateImportAliasRequest,
@@ -82,6 +84,17 @@ export async function apiSyncProject(
   return http<SyncProjectRequest, SyncProjectResponse>(`${BASE_URL}/api/cli/sync`, {
     method: "POST",
     body: { truncatedProjectId, components, importAlias, cssType },
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+  })
+}
+
+export async function apiPushComponent(
+  token: string,
+  { componentName, componentFile, skipNormalize }: PushComponentRequest,
+) {
+  return http<PushComponentRequest, PushComponentResponse>(`${BASE_URL}/api/cli/push-component`, {
+    method: "POST",
+    body: { componentName, componentFile, skipNormalize },
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
   })
 }
