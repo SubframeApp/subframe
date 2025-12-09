@@ -1,6 +1,7 @@
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises"
 import { dirname, join } from "node:path"
 import { oraPromise } from "ora"
+import { ensureIsValidCodeGenFile, isCodeGenFileValid } from "shared/code-gen-type-helpers"
 import { IGNORE_UPDATE_KEYWORD } from "shared/constants"
 import { SyncProjectResponse, TruncatedProjectId } from "shared/types"
 import { apiSyncProject } from "./api-endpoints"
@@ -26,7 +27,7 @@ export async function syncComponents({
   syncDirectory: string
   cssType: "tailwind" | "tailwind-v4"
 }) {
-  const { definitionFiles, otherFiles, errorComponents, projectInfo } = await oraPromise(
+  const { definitionFiles, otherFiles, missingComponents, projectInfo } = await oraPromise(
     apiSyncProject(accessToken, {
       truncatedProjectId: projectId,
       components,
@@ -40,16 +41,28 @@ export async function syncComponents({
     },
   )
 
-  if (errorComponents.length) {
+  if (missingComponents.length) {
     await cliLogger.trackWarningAndFlush("[CLI]: sync components not found", {
-      components: errorComponents.join(", "),
+      components: missingComponents.join(", "),
       truncatedProjectId: projectInfo.truncatedProjectId,
     })
     console.log(
       warning(
-        `The following components were not found in ${highlight(projectInfo.name)}: ${errorComponents.join(", ")}\n`,
+        `The following components were not found in ${highlight(projectInfo.name)}: ${missingComponents.join(", ")}\n`,
       ),
     )
+  }
+
+  const validDefinitionFiles = definitionFiles.filter(({ file }) => isCodeGenFileValid(file))
+  const errorDefinitionFiles = definitionFiles.filter(({ file }) => !isCodeGenFileValid(file))
+
+  if (errorDefinitionFiles.length) {
+    const errorFileNames = errorDefinitionFiles.map(({ file }) => file.fileName)
+    await cliLogger.trackWarningAndFlush("[CLI]: code gen errors", {
+      files: errorFileNames.join(", "),
+      truncatedProjectId: projectInfo.truncatedProjectId,
+    })
+    console.log(warning(`The following components had code generation errors: ${errorFileNames.join(", ")}\n`))
   }
 
   console.log(
@@ -63,8 +76,8 @@ export async function syncComponents({
    * Making map of files to write
    */
   const filesToWrite: { [absFilePath: string]: string } = {}
-  definitionFiles.forEach(({ file, folderName }) => {
-    filesToWrite[join(syncDirectory, folderName, file.fileName)] = file.contents
+  validDefinitionFiles.forEach(({ file, folderName }) => {
+    filesToWrite[join(syncDirectory, folderName, file.fileName)] = ensureIsValidCodeGenFile(file).contents
   })
   otherFiles.forEach((file) => {
     filesToWrite[join(syncDirectory, file.fileName)] = file.contents
