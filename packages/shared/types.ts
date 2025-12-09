@@ -85,7 +85,6 @@ export interface PushComponentRequest {
   componentName: string
   componentFile: string
   skipNormalize?: boolean
-  isNewComponent?: boolean
 }
 
 export interface PushComponentResponse {
