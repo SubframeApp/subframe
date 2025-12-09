@@ -10,7 +10,7 @@ import { highlight } from "./output/format"
 
 export const pushComponentCommand = new Command()
   .name("push-component")
-  .description("pushes a component to Subframe")
+  .description("pushes a component to Subframe [EXPERIMENTAL]")
   .argument("<component-file-path>", "path to the component file to push")
   .option("-s, --skip-normalize", "skip normalizing the component file")
   .action(async (componentFilePath, opts) => {
@@ -23,8 +23,8 @@ export const pushComponentCommand = new Command()
       const resolvedPath = isAbsolute(componentFilePath) ? componentFilePath : join(cwd, componentFilePath)
       const componentFile = await readFile(resolvedPath, "utf8")
 
-      // look for export statement for component name, e.g. "export const Button = ButtonRoot"
-      const componentName = componentFile.match(/export const (\w+) = \w+Root/)?.[1]
+      // look for export statement for component name, e.g. "export const Button = ..."
+      const componentName = componentFile.match(/export const (\w+) = /)?.[1]
       if (!componentName) {
         console.log("Failed to find component name in component file")
         return
