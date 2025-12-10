@@ -30,20 +30,23 @@ export const pushComponentCommand = new Command()
         return
       }
 
-      await oraPromise(
-        apiPushComponent(accessToken, {
-          componentName,
-          componentFile,
-          skipNormalize: opts.skipNormalize,
-        }),
-        {
-          text: "Pushing Subframe component",
-          successText: () => `Pushed component ${highlight(componentName)}`,
-          failText: (error: Error) => `Failed to push component ${highlight(componentName)}: ${error.message}`,
-        },
-      )
+      try {
+        await oraPromise(
+          apiPushComponent(accessToken, {
+            componentName,
+            componentFile,
+            skipNormalize: opts.skipNormalize,
+          }),
+          {
+            text: "Pushing Subframe component",
+            successText: () => `Pushed component ${highlight(componentName)}`,
+            failText: (error: Error) => `Failed to push component ${highlight(componentName)}:\n${error.message}`,
+          },
+        )
+      } catch (err) {
+        // error is logged by oraPromise
+      }
     } catch (err: any) {
-      console.error(err)
       await cliLogger.trackWarningAndFlush("[CLI]: push-component uncaught error", { error: err.toString() })
     }
   })
