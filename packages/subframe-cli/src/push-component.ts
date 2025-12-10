@@ -12,6 +12,7 @@ export const pushComponentCommand = new Command()
   .name("push-component")
   .description("pushes a component to Subframe [EXPERIMENTAL]")
   .argument("<component-file-path>", "path to the component file to push")
+  .requiredOption("-p, --project-id <projectId>", "project ID to push the component to")
   .option("-s, --skip-normalize", "skip normalizing the component file")
   .action(async (componentFilePath, opts) => {
     const cliLogger = makeCLILogger()
@@ -33,6 +34,7 @@ export const pushComponentCommand = new Command()
       try {
         await oraPromise(
           apiPushComponent(accessToken, {
+            truncatedProjectId: opts.projectId,
             componentName,
             componentFile,
             skipNormalize: opts.skipNormalize,

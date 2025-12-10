@@ -90,11 +90,11 @@ export async function apiSyncProject(
 
 export async function apiPushComponent(
   token: string,
-  { componentName, componentFile, skipNormalize }: PushComponentRequest,
+  { truncatedProjectId, componentName, componentFile, skipNormalize }: PushComponentRequest,
 ) {
   return http<PushComponentRequest, PushComponentResponse>(`${BASE_URL}/api/cli/push-component`, {
     method: "POST",
-    body: { componentName, componentFile, skipNormalize },
+    body: { truncatedProjectId, componentName, componentFile, skipNormalize },
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
   })
 }
