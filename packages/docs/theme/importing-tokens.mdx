@@ -1,19 +1,34 @@
 ---
 title: Importing tokens
-description: Import color tokens from CSS variables into Subframe.
 ---
 
-Import color tokens from existing design systems to match your brand. Subframe supports CSS variable import for colors—typography, borders, corners, and shadows require manual configuration.
+Import color tokens from existing design systems to match your brand. Subframe supports CSS variable import for color and palette tokens only.
 
-## Import locations
+## Importing color tokens
 
-Import colors to two locations:
+**Step 1: Open your Theme**
 
-**Individual tokens:** Click **Import** button in the non-palette colors section. Creates standalone color tokens.
-
+**Individual color tokens:** Click **Import** button in the non-palette colors section. 
 **Custom palettes:** Click the import icon on any custom palette. Adds colors to that palette with auto-generated suffixes.
 
 <Note>Default palettes (Brand, Neutral, Error, Success, Warning) don't support import. Create a custom palette first.</Note>
+
+**Step 2: Paste CSS variables**
+
+Dialog shows textarea with example format. Paste your CSS variables.
+
+**Step 2: Review and edit**
+
+For each detected token:
+- Edit palette name (applies to all tokens when importing to palette)
+- Edit individual token names
+- Adjust color values via color picker
+
+New color tokens must have unique names to avoid conflicts.
+
+**Step 4: Import**
+
+Click **Import** to add tokens. New tokens appear immediately in your theme.
 
 ## Supported CSS format
 
@@ -33,23 +48,6 @@ Paste CSS color variables, one per line:
 
 Variable names auto-convert to Title Case: `--color-primary-100` becomes "Color Primary 100".
 
-## Import workflow
-
-**Step 1: Paste variables**
-
-Dialog shows textarea with example format. Paste your CSS variables.
-
-**Step 2: Review and edit**
-
-For each detected token:
-- Edit palette name (applies to all tokens when importing to palette)
-- Edit individual token names
-- Adjust color values via color picker
-
-**Step 3: Import**
-
-Click **Import** to add tokens. They appear immediately in your theme.
-
 ## After importing
 
 **Sync to code:** Run `npx @subframe/cli sync --all` to update your Tailwind configuration.
@@ -60,9 +58,8 @@ Click **Import** to add tokens. They appear immediately in your theme.
 
 Subframe doesn't directly integrate with Figma or other design tools. Export your design tokens to CSS format first:
 
-1. Use a Figma plugin like "Design Tokens" or "Figma Tokens"
-2. Export as CSS variables
-3. Paste into Subframe import dialog
+1. Use a Figma plugin to export styles or variables as CSS variables
+2. Paste into Subframe import dialog
 
 ## Troubleshooting
 

@@ -1,33 +1,32 @@
 ---
 title: Customizing theme
-description: Modify colors, typography, and other design tokens to match your brand.
 ---
 
-Your theme defines design tokens for your project—reusable values for colors, typography, borders, corners, and shadows. Update a token once and every component using it updates automatically. Subframe generates a Tailwind CSS configuration with all your tokens.
+Your theme defines design tokens for your project to generate a Tailwind CSS configuration. Design tokens are reusable values for colors, typography, borders, corners, and shadows. Each project contains its own theme used across components and pages.
 
-## Viewing your theme
+## Editing your theme
 
-Navigate to theme settings:
+Navigate to the theme page:
 
 1. Click **Theme** in the top navigation, or press <kbd>Cmd</kbd> + <kbd>K</kbd> and search "Theme"
 2. Browse five sections: Colors, Typography, Borders, Corners, Shadows
 
 All changes save automatically and apply immediately across your project.
 
-## Editing your theme
-
 ### Theme presets
 
-Apply professionally designed themes instantly:
+Quickly apply a theme preset:
 
 1. Click **Edit theme** on the Theme page
-2. Browse 10 preset styles: OpenAI, Linear, Stripe, Google, Airbnb, Vercel, Medium, Coinbase, Spotify, VS Code
+2. Browse 10 preset styles
 3. Customize brand colors, fonts, and corner radius
-4. Toggle between Light and Dark variants
+4. Toggle between Light and Dark mode
 
 Each preset configures color palettes (brand, neutral, error, success, warning), typography, and corner radius. Customize further after applying.
 
-### Ask AI to generate theme
+<Note>Applying a theme preset will override values in your current theme.</Note>
+
+### Generate theme with Ask AI
 
 Use Ask AI to generate custom themes from a prompt:
 
@@ -35,7 +34,7 @@ Use Ask AI to generate custom themes from a prompt:
 2. Describe your desired theme: "Create a retro theme with muted colors and bold typography"
 3. Review the preview and click **Apply** to update your theme
 
-<Note>AI theme generation affects your entire project. Use for major theme changes, not individual token adjustments.</Note>
+<Note>AI theme generation affects your entire project – use for major theme changes.</Note>
 
 ## Colors
 
@@ -47,14 +46,11 @@ Subframe organizes colors into **palettes** and **individual tokens**.
 - Based on Tailwind color presets
 - Cannot reference other tokens (no aliases)
 - Default palettes: Brand, Neutral, Error, Success, Warning
-- Default palettes can be renamed but not deleted
-- Custom palettes can be created and deleted
 
-**Individual color tokens** are standalone semantic colors:
+**Individual color tokens** define standalone colors:
 - Used for specific UI purposes: Brand Primary, Default Background, Neutral Border
 - Can reference palette colors as aliases (e.g., Brand Primary → Brand 700)
 - Custom tokens can be created and deleted
-- Default tokens can be renamed but not deleted
 
 Use palettes for color scales. Use individual tokens for semantic colors that reference palette shades.
 
@@ -64,32 +60,34 @@ Use palettes for color scales. Use individual tokens for semantic colors that re
 </div>
 ```
 
-### Editing colors
+### Editing color tokens
 
 **Edit palette colors:** Click any palette color to open color picker.
 
-**Swap entire palette:** Click palette icon next to palette name. Select from Tailwind color presets—all shades update instantly.
+**Palette presets:** Click palette icon next to palette name. Select from Tailwind color presets to update all shades instantly.
 
 **Edit individual tokens:** Click any token to open color picker. Set direct color value or reference another token as alias.
 
-### Creating colors
+### Creating color tokens
+
+See [Importing tokens](/theme/importing-tokens) to quickly add your own color tokens.
+
+**New color token:**
+1. Click **+** in the color tokens section
+2. Name your token descriptively: `accent-primary`, `surface-elevated`
+3. Set color via picker or reference existing token
 
 **New palette:**
 1. Click **New palette** in Colors section
 2. Name your palette
-3. Add colors manually or import CSS variables (see [Importing tokens](/theme/importing-tokens))
+3. Add colors manually or 
 
-**New individual token:**
-1. Click **+** in individual tokens section
-2. Name your token descriptively: `accent-purple`, `surface-elevated`
-3. Set color via picker or reference existing token
-
-**New palette color:**
+**New palette token:**
 1. Click **+** on palette row
-2. Token auto-names with next suffix (100, 200, 300...)
-3. Set color value
+2. Name your color using the palette name as the prefix and the shade as the suffix
+3. Set color via picker
 
-<Warning>Deleting a token converts all references to hex values. Components won't update when you change colors afterward.</Warning>
+<Note>Deleting a token detaches its references and converts them to hex values.</Note>
 
 ## Typography
 
@@ -101,35 +99,32 @@ Text tokens define typography styles with font family, size, weight, line height
 </span>
 ```
 
-### Default tokens
-
-Subframe includes eight default text tokens: Heading 1, Heading 2, Heading 3, Body Bold, Body, Caption Bold, Caption, Monospace Body. Default tokens can be renamed and modified but not deleted.
-
 ### Editing text tokens
 
 Click any text token to edit:
 - **Font size** — Pixel value
 - **Line height** — Pixel value
 - **Font weight** — Slider based on font's supported weights
-- **Letter spacing** — Slider: -0.05em to 0.05em
+- **Letter spacing** — Slider from `-0.05em` to `0.05em`
 
 ### Changing font families
 
-Click the font name card to select a different font family. This updates all tokens using that font. Choose from Google Fonts or custom uploaded fonts.
+Click the font name card at the top to select a different font family. This updates all tokens using that font. Choose froma curated list of Google Fonts or custom uploaded fonts.
 
 ### Adding custom fonts
 
-Upload WOFF, WOFF2, TTF, or OTF font files. Supports static fonts (one file per weight) and variable fonts (single file with weight range).
+<Note>Upgrade to the Pro plan to add custom fonts.</Note>
+
+Upload WOFF, WOFF2, TTF, or OTF font files, with support for variable fonts.
 
 For detailed upload steps and codebase installation, see [Adding custom fonts](/theme/adding-custom-fonts).
 
 ### Creating text tokens
 
 1. Click **+** in Typography section
-2. Token copies properties from first existing token
-3. Rename and adjust properties
+2. Rename and adjust properties
 
-Typography tokens auto-sort based on font size on the theme page.
+New tokens duplicate the properties from the frist token. Typography tokens auto-sort based on font size on the theme page.
 
 ## Borders
 
@@ -151,8 +146,7 @@ Click any border token to edit:
 ### Creating border tokens
 
 1. Click **+** in Borders section
-2. Token copies default border properties
-3. Rename and adjust style, size, color
+2. Rename and adjust style, size, color
 
 ## Corners
 
@@ -173,36 +167,35 @@ Click any corner token to edit radius value in pixels.
 1. Click **+** in Corners section
 2. Set radius value
 
-Corner tokens auto-sort on the theme page.
+Corner tokens auto-sort based on value.
 
 ## Shadows
 
 Shadow tokens define box shadows with multiple layers for depth and elevation.
 
 ```tsx
-<div className="shadow-small">
+<div className="shadow-sm">
   Element with small shadow
 </div>
 ```
 
 ### Editing shadow tokens
 
-Click any shadow token to edit layers. Each layer has:
+Click any shadow token to edit individual shadow layers. Each layer has:
+- **Inset** — Whether shadow appears inside element
 - **X/Y offset** — Horizontal and vertical offset in pixels
 - **Blur radius** — Blur amount in pixels
 - **Spread radius** — Spread amount in pixels
 - **Color** — Shadow color with opacity
-- **Inset** — Whether shadow appears inside element
 
 Add multiple layers for complex shadow effects.
 
 ### Creating shadow tokens
 
 1. Click **+** in Shadows section
-2. Token copies default shadow properties
-3. Add, remove, or edit layers
+2. Add, remove, or edit shadow layers
 
-Shadow tokens auto-sort on the theme page.
+Shadow tokens auto-sort based on perceived shadow effect.
 
 ## Syncing to code
 
@@ -214,7 +207,7 @@ npx @subframe/cli sync --all
 
 This updates `tailwind.config.js` with new token values. Components automatically use the updated theme.
 
-View generated Tailwind config by clicking **tailwind.config.js** at top of Theme page. Supports Tailwind v3 and v4 formats.
+View generated Tailwind config by clicking **tailwind.config.js** at top of Theme page, with support Tailwind v3 and v4 formats.
 
 ## Limitations
 

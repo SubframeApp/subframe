@@ -1,9 +1,8 @@
 ---
 title: Adding custom fonts
-description: Upload and configure custom font files for your project.
 ---
 
-Upload custom font files to use proprietary or licensed fonts in your Subframe project. Supports WOFF, WOFF2, TTF, and OTF formats with both static and variable font types.
+Upload custom font files to use proprietary or licensed fonts in your project.
 
 ## Supported formats
 
@@ -20,15 +19,12 @@ Upload custom font files to use proprietary or licensed fonts in your Subframe p
 1. Navigate to **Theme > Typography**
 2. Click **Upload font**
 3. Select or drag font files into the dialog
-4. Wait for font parsing to complete
-5. Review and edit font metadata:
+4. Review and edit font metadata:
    - **Font family name** — Editable per font group
    - **Weight** — Dropdown for static fonts, range display for variable fonts
-6. Click **Add fonts**
+5. Click **Add fonts**
 
-Fonts appear immediately in the font family selector. A toast notification confirms: `"FontName" added`.
-
-## Font grouping rules
+## Font validation
 
 Subframe groups uploaded files by font family. Follow these rules:
 
@@ -39,24 +35,13 @@ Subframe groups uploaded files by font family. Follow these rules:
 
 If validation fails, edit the font family name or remove conflicting files before uploading.
 
-## Static vs variable fonts
-
-**Static fonts:** Upload multiple files, one per weight. Common weights: 400 (Regular), 500 (Medium), 600 (SemiBold), 700 (Bold).
-
-**Variable fonts:** Upload a single file that contains the full weight range. The font picker shows a continuous slider for weight selection.
-
-Variable fonts are more efficient but require browser support. Both types work in Subframe.
-
 ## Using custom fonts
 
 After uploading:
 
 1. Go to **Theme > Typography**
-2. Click the font name card for any typography token group
+2. Click the font name card or any text token to edit
 3. Select your custom font from the picker
-4. All tokens using that font family update automatically
-
-Custom fonts display with the file format: "MyFont.woff2" to distinguish from Google Fonts.
 
 ## Installing fonts in your codebase
 
