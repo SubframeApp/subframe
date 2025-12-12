@@ -97,19 +97,19 @@
         ]
       },
       {
+        "group": "Ask AI",
+        "pages": [
+          "editor/ask-ai/prompt-to-design",
+          "editor/ask-ai/image-to-design",
+          "editor/ask-ai/inline-ask-ai",
+          "editor/ask-ai/remix-pages",
+          "editor/ask-ai/personalizing-ai"
+        ]
+      },
+      {
         "group": "Editor",
         "pages": [
           "editor/editor-interface",
-          {
-            "group": "Ask AI",
-            "pages": [
-              "editor/ask-ai/prompt-to-design",
-              "editor/ask-ai/image-to-design",
-              "editor/ask-ai/inline-ask-ai",
-              "editor/ask-ai/remix-pages",
-              "editor/ask-ai/personalizing-ai"
-            ]
-          },
           {
             "group": "Design mode",
             "pages": [
