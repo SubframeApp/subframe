@@ -1,0 +1,236 @@
+---
+title: Customizing theme
+---
+
+Your theme defines design tokens for your project. Design tokens are reusable values for colors, typography, borders, corners, and shadows. Each project contains its own theme used to generate a custom Tailwind CSS configuration.
+
+## Editing your theme
+
+Navigate to the theme page:
+
+1. Click **Theme** in the top navigation, or press <kbd>Cmd</kbd> + <kbd>K</kbd> and search "Theme"
+2. Browse five sections: Colors, Typography, Borders, Corners, Shadows
+
+All changes save automatically and apply immediately across your project.
+
+### Theme presets
+
+<img src="/images/theme/theme-presets.png" alt="Edit theme dialog with theme preset controls and a preview" />
+
+Quickly apply a theme preset:
+
+1. Click **Edit theme** on the Theme page
+2. Browse 10 preset styles
+3. Customize brand colors, fonts, and corner radius
+4. Toggle between Light and Dark mode
+
+Each preset configures color palettes (brand, neutral, error, success, warning), typography, and corner radius. Customize further after applying.
+
+<Note>Applying a theme preset will override values in your current theme.</Note>
+
+### Generate theme with Ask AI
+
+<img src="/images/theme/theme-ask-ai.png" alt="Conversation view of Ask AI generating a theme from a prompt" />
+
+Use Ask AI to generate custom themes from a prompt:
+
+1. Navigate to any page and open **Ask AI**
+2. Describe your desired theme: "Create a retro theme with muted colors and bold typography"
+3. Review the preview and click **Apply** to update your theme
+
+<Note>AI theme generation affects your entire project – use for major theme changes.</Note>
+
+## Colors
+
+Subframe organizes colors into **color tokens** and **palettes**.
+
+<img src="/images/theme/theme-colors.png" alt="Color section of the theme page showing editing a color token" />
+
+```tsx
+<div className="bg-neutral-100 text-default-font">
+  Neutral background with default text color
+</div>
+```
+
+### Color tokens vs. palettes
+
+**Individual color tokens** define standalone colors:
+- Used for specific UI purposes: Brand Primary, Default Background, Neutral Border
+- Can reference palette colors as aliases (e.g. Brand Primary → Brand 700)
+- Custom tokens can be created and deleted
+
+**Color palettes** group related shades with numbered suffixes (e.g. Brand 50, Brand 100... Brand 900):
+- Based on Tailwind color presets
+- Cannot reference other tokens (no aliases)
+- Default palettes: Brand, Neutral, Error, Success, Warning
+
+Use palettes for color scales. Use individual tokens for semantic colors that reference palette shades.
+
+### Editing color tokens
+
+**Edit color tokens:** Click any token to open color picker. Set direct color value or reference another token as alias.
+
+**Edit palette colors:** Click any palette color to open color picker.
+
+**Palette presets:** Click palette icon next to palette name. Select from Tailwind color presets to update all shades instantly.
+
+### Creating color tokens
+
+See [Importing tokens](/theme/importing-tokens) to quickly add your own color tokens.
+
+**New color token:**
+1. Click **+** in the color tokens section
+2. Name your token descriptively: `accent-primary`, `surface-elevated`
+3. Set color via picker or reference existing token
+
+**New palette:**
+1. Click **New palette** in Colors section
+2. Name your palette
+3. Add colors manually or 
+
+**New palette token:**
+1. Click **+** on palette row
+2. Name your color using the palette name as the prefix and the shade as the suffix
+3. Set color via picker
+
+<Note>Deleting a token detaches its references and converts them to hex values.</Note>
+
+## Typography
+
+Text tokens define typography styles with font family, size, weight, line height, and letter spacing.
+
+<img src="/images/theme/theme-typography.png" alt="Typography section of the theme page showing editing a text token" />
+
+```tsx
+<span className="text-heading-1 font-heading-1">
+  Heading 1
+</span>
+```
+
+### Editing text tokens
+
+Click any text token to edit:
+- **Font size** — Pixel value
+- **Line height** — Pixel value
+- **Font weight** — Slider based on font's supported weights
+- **Letter spacing** — Slider from `-0.05em` to `0.05em`
+
+### Creating text tokens
+
+1. Click **+** in Typography section
+2. Rename and adjust properties
+
+New tokens duplicate the properties from the frist token. Typography tokens auto-sort based on font size on the theme page.
+
+### Changing font families
+
+Click the font name card at the top to select a different font family. This updates all tokens using that font. Choose froma curated list of Google Fonts or custom uploaded fonts.
+
+### Adding custom fonts
+
+<Note>Upgrade to the Pro plan to add custom fonts.</Note>
+
+Upload WOFF, WOFF2, TTF, or OTF font files, with support for variable fonts.
+
+For detailed upload steps and codebase installation, see [Adding custom fonts](/theme/adding-custom-fonts).
+
+## Borders
+
+Border tokens define composite border styles consisting of color, width, and style.
+
+<img src="/images/theme/theme-border.png" alt="Borders section of the theme page showing editing a border token" />
+
+When generating code, border styles turn into explicit values for the border:
+
+```tsx
+<div className="border border-solid border-brand-primary">
+  Border token: Primary Border
+  Width: 1px
+  Style: Solid
+  Color: Brand Primary
+</div>
+```
+
+### Editing border tokens
+
+Click any border token to edit:
+- **Border style** — Solid or dashed
+- **Border size** — Pixel width
+- **Border color** — Color token reference or direct value
+
+### Creating border tokens
+
+1. Click **+** in Borders section
+2. Rename and adjust style, size, color
+
+## Corners
+
+Corner tokens define border radius values for consistent rounded corners.
+
+<img src="/images/theme/theme-corner.png" alt="Corners section of the theme page showing editing a corner token" />
+
+```tsx
+<div className="rounded-medium">
+  Element with medium corner radius
+</div>
+```
+
+### Editing corner tokens
+
+Click any corner token to edit radius value in pixels.
+
+### Creating corner tokens
+
+1. Click **+** in Corners section
+2. Set radius value
+
+Corner tokens auto-sort based on value.
+
+## Shadows
+
+Shadow tokens define box shadows with multiple layers for depth and elevation.
+
+<img src="/images/theme/theme-shadow.png" alt="Shadows section of the theme page showing editing a shadow token" />
+
+```tsx
+<div className="shadow-sm">
+  Element with small shadow
+</div>
+```
+
+### Editing shadow tokens
+
+Click any shadow token to edit individual shadow layers. Each layer has:
+- **Inset** — Whether shadow appears inside element
+- **X/Y offset** — Horizontal and vertical offset in pixels
+- **Blur radius** — Blur amount in pixels
+- **Spread radius** — Spread amount in pixels
+- **Color** — Shadow color with opacity
+
+Add multiple layers for complex shadow effects.
+
+### Creating shadow tokens
+
+1. Click **+** in Shadows section
+2. Add, remove, or edit shadow layers
+
+Shadow tokens auto-sort based on perceived shadow effect.
+
+## Syncing to code
+
+After updating your theme, sync changes to your codebase:
+
+```bash
+npx @subframe/cli sync --all
+```
+
+This updates your local `tailwind.config.js` with new token values. Components automatically use the updated theme.
+
+View generated Tailwind config by clicking **tailwind.config.js** at top of Theme page, with support Tailwind v3 and v4 formats.
+
+<img src="/images/theme/theme-tailwind-config.png" alt="Dialog showing the Tailwind configuration" />
+
+## Limitations
+
+**Spacing not configurable** — Spacing tokens (padding, gaps) use Tailwind defaults. Extend `tailwind.config.js` manually for custom spacing in your codebase.
+

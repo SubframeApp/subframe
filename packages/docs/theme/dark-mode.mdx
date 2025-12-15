@@ -1,0 +1,264 @@
+---
+title: Supporting dark mode
+---
+
+Subframe doesn't currently support both light & dark mode per theme, but you can implement it in your codebase using CSS variables. This guide shows you how to set up dark mode using CSS variables and Tailwind's dark mode support.
+
+## Prerequisites
+
+Before setting up dark mode, ensure you have:
+- [Installed Subframe](/installation/existing-project) in your project
+- [Synced your components and theme](/develop/syncing-components) to your codebase
+
+## How it works
+
+1. Configure Tailwind to use CSS variables instead of hardcoded colors
+2. Define light mode colors from your Subframe theme as CSS variables
+3. Define dark mode color overrides under an `html.dark` selector
+4. Toggle between modes by adding/removing the `dark` class on the HTML element
+
+This keeps your Subframe workflow unchanged while enabling dark mode in your application.
+
+## Step 1: Configure Tailwind for CSS variables
+
+<Tabs>
+<Tab title="Tailwind v3">
+
+Modify your `tailwind.config.js` to use CSS variables. 
+
+<Note>Add `// @subframe/sync-disable` at the top to prevent Subframe from overwriting your changes.</Note>
+
+```js tailwind.config.js {1, 3}
+// @subframe/sync-disable
+module.exports = {
+  darkMode: "selector", // Enable class-based dark mode
+  theme: {
+    extend: {
+      colors: {
+        brand: {
+          50: "var(--brand-50)",
+          100: "var(--brand-100)",
+          // ... rest of your brand colors as CSS variables
+        },
+        neutral: {
+          0: "var(--neutral-0)",
+          50: "var(--neutral-50)",
+          // ... rest of your neutral colors
+        },
+        // Continue for error, warning, success, etc.
+        "brand-primary": "var(--brand-primary)",
+        "default-font": "var(--default-font)",
+        "subtext-color": "var(--subtext-color)",
+        "neutral-border": "var(--neutral-border)",
+        white: "var(--white)",
+        "default-background": "var(--default-background)",
+      },
+    },
+  },
+}
+```
+
+<Note>
+Find your theme configuration in the [Theme tab](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV3).
+</Note>
+
+</Tab>
+<Tab title="Tailwind v4">
+
+Modify your `theme.css` to use CSS variables and add the dark mode custom variant:
+
+```css theme.css {1-3, 295}
+@theme {
+  /* Replace hardcoded colors with CSS variables */
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  /* ... continue for all colors */
+
+  /* Keep fonts, shadows, borders, spacing as-is */
+}
+
+/* Enable dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
+```
+
+<Note>
+Find your theme.css in the [Theme tab](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV4).
+</Note>
+
+</Tab>
+</Tabs>
+
+## Step 2: Create CSS variables file
+
+Create a `variables.css` file that defines CSS variables for both light and dark modes:
+
+```css variables.css
+
+/* Light mode */
+
+html {
+  --brand-50: rgb(250, 250, 250);
+  --brand-100: rgb(245, 245, 245);
+  /* ... rest of brand colors */
+
+  --neutral-0: rgb(255, 255, 255);
+  --neutral-50: rgb(247, 247, 247);
+  /* ... rest of neutral colors */
+
+  /* Semantic colors */
+  --brand-primary: rgb(26, 26, 26);
+  --default-font: rgb(41, 41, 41);
+  --subtext-color: rgb(117, 117, 117);
+  --neutral-border: rgb(240, 240, 240);
+  --white: rgb(255, 255, 255);
+  --default-background: rgb(252, 252, 252);
+}
+
+/* Dark mode */
+
+html.dark {
+  --brand-50: rgb(23, 23, 23);
+  --brand-100: rgb(38, 38, 38);
+  /* ... inverted brand colors (light becomes dark) */
+
+  --neutral-0: rgb(10, 10, 10);
+  --neutral-50: rgb(23, 23, 23);
+  /* ... inverted neutral colors */
+
+  /* Dark semantic colors */
+  --brand-primary: rgb(212, 212, 212);
+  --default-font: rgb(250, 250, 250);
+  --subtext-color: rgb(163, 163, 163);
+  --neutral-border: rgb(64, 64, 64);
+  --white: rgb(10, 10, 10);
+  --default-background: rgb(10, 10, 10);
+}
+```
+
+<Tip>
+Dark mode colors typically invert the scale: light mode's `--brand-50` (lightest) becomes dark mode's `--brand-900` (darkest), and vice versa.
+</Tip>
+
+## Step 3: Import variables globally
+
+Import your `variables.css` in your global CSS file (typically `index.css`, `globals.css`, or `App.css` depending on framework):
+
+```css globals.css
+@import "./variables.css";
+@import "tailwindcss";
+```
+
+Or import directly in your entry point:
+
+```tsx main.tsx
+import "./variables.css"
+```
+
+## Step 4: Toggle dark mode
+
+Add or remove the `dark` class on the `<html>` element to switch themes.
+
+### Next.js with next-themes
+
+```bash
+npm install next-themes
+```
+
+```tsx app/layout.tsx
+import { ThemeProvider } from 'next-themes'
+
+export default function RootLayout({ children }) {
+  return (
+    <html suppressHydrationWarning>
+      <body>
+        <ThemeProvider attribute="class" defaultTheme="system">
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
+  )
+}
+```
+
+### React with context
+
+```tsx ThemeProvider.tsx
+import { createContext, useContext, useEffect, useState } from 'react'
+
+const ThemeContext = createContext({ theme: 'light', toggleTheme: () => {} })
+
+export function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState('light')
+
+  useEffect(() => {
+    const root = window.document.documentElement
+    root.classList.remove('light', 'dark')
+    root.classList.add(theme)
+  }, [theme])
+
+  const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light')
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  )
+}
+
+export const useTheme = () => useContext(ThemeContext)
+```
+
+### Theme toggle button
+
+```tsx
+import { useTheme } from 'next-themes'
+
+export function ThemeToggle() {
+  const { theme, setTheme } = useTheme()
+
+  return (
+    <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+      {theme === 'dark' ? '☀️' : '🌙'}
+    </button>
+  )
+}
+```
+
+## Best practices
+
+<AccordionGroup>
+<Accordion title="Test both modes">
+
+Always test your application in both light and dark modes. Check for:
+- Sufficient contrast ratios (use browser DevTools)
+- Readability of all text
+- Visibility of borders and dividers
+- Proper styling of interactive states
+
+</Accordion>
+<Accordion title="Respect system preferences">
+
+Use the user's system preference as the default:
+
+```tsx
+<ThemeProvider attribute="class" defaultTheme="system">
+```
+
+</Accordion>
+<Accordion title="Prevent flash of unstyled content">
+
+Set the theme before React hydrates to prevent flashing:
+
+```tsx _document.tsx
+<script dangerouslySetInnerHTML={{
+  __html: `
+    (function() {
+      const theme = localStorage.getItem('theme') || 'light';
+      document.documentElement.classList.add(theme);
+    })()
+  `
+}} />
+```
+
+</Accordion>
+</AccordionGroup>

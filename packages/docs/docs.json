@@ -88,6 +88,15 @@
         ]
       },
       {
+        "group": "Theme",
+        "pages": [
+          "theme/customizing-theme",
+          "theme/importing-tokens",
+          "theme/adding-custom-fonts",
+          "theme/dark-mode"
+        ]
+      },
+      {
         "group": "Admin and billing",
         "pages": [
           "admin/managing-team",
