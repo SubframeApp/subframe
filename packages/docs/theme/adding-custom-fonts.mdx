@@ -49,75 +49,7 @@ After uploading:
 
 Custom fonts require additional setup in your project to load correctly.
 
-### Syncing font assets
-
-Run the CLI to download font files:
-
-```bash
-npx @subframe/cli sync --all
-```
-
-Font files sync to your project's font directory (typically `public/fonts/` or `src/fonts/`).
-
-### Loading fonts
-
-Add `@font-face` declarations in your CSS. Subframe generates these in your theme configuration.
-
-**Example for static fonts:**
-
-```css
-@font-face {
-  font-family: 'MyFont';
-  src: url('/fonts/MyFont-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MyFont';
-  src: url('/fonts/MyFont-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-```
-
-**Example for variable fonts:**
-
-```css
-@font-face {
-  font-family: 'MyFont';
-  src: url('/fonts/MyFont-Variable.woff2') format('woff2-variations');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-```
-
-### Tailwind configuration
-
-Ensure your `tailwind.config.js` includes the custom font family. Subframe adds this automatically when you sync:
-
-```js
-module.exports = {
-  theme: {
-    extend: {
-      fontFamily: {
-        'my-font': ['MyFont', 'sans-serif'],
-      },
-    },
-  },
-}
-```
-
-### Framework-specific setup
-
-**Next.js:** Place fonts in `public/fonts/` and reference with absolute paths.
-
-**Vite:** Place fonts in `public/fonts/` or import directly in CSS.
-
-**Self-hosting:** Ensure font files are served with correct MIME types and CORS headers if loading from CDN.
+See [Loading fonts](/fonts) for instructions.
 
 ## Updating fonts
 

@@ -47,7 +47,7 @@
         "group": "Installation",
         "pages": [
           "installation",
-          "theme",
+          "tailwind-config",
           "fonts",
           {
             "group": "Framework guides",
