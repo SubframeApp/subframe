@@ -1,0 +1,83 @@
+---
+title: Importing tokens
+---
+
+Import color tokens from existing design systems to match your brand. Subframe supports CSS variable import for color and palette tokens only.
+
+## Importing color tokens
+
+<img src="/images/theme/theme-import-tokens.png" alt="Dialog showing a list of imported color tokens for review" />
+
+### **Step 1: Open your Theme**
+
+**Individual color tokens:** Click **Import** button in the non-palette colors section. 
+
+**Custom palettes:** Click the import icon on any custom palette. Adds colors to that palette with auto-generated suffixes.
+
+<Note>Default palettes (Brand, Neutral, Error, Success, Warning) don't support import. Create a custom palette first.</Note>
+
+### **Step 2: Paste CSS variables**
+
+Paste your CSS variables, one per line:
+
+```css
+--color-primary-100: #eeeeee;
+--color-primary-200: #dddddd;
+--color-primary-300: #cccccc;
+```
+
+### **Step 3: Review and edit**
+
+For each detected token:
+- Edit palette name (applies to all tokens when importing to palette)
+- Edit individual token names
+- Adjust color values via color picker
+
+New color tokens must have unique names to avoid conflicts.
+
+### **Step 4: Import**
+
+Click **Import** to add tokens. New tokens appear immediately in your theme.
+
+### Supported CSS format
+
+**Requirements:**
+- Must start with `--`
+- Color value must be valid hex, rgb, or hsl
+- Semicolons optional
+- Non-color variables are ignored
+
+Variable names auto-convert to Title Case: `--color-primary-100` becomes "Color Primary 100".
+
+## Exporting from design tools
+
+Subframe doesn't directly integrate with Figma or other design tools. Export your design tokens to CSS format first:
+
+1. Use a Figma plugin to export styles or variables as CSS variables
+2. Paste into Subframe import dialog
+
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="No color tokens detected">
+
+Verify:
+- CSS variables start with `--`
+- Color values are valid hex, rgb, or hsl
+- Format follows: `--name: value;` or `--name: value`
+- Remove JavaScript syntax or preprocessor variables
+
+</Accordion>
+<Accordion title="Can't import to default palette">
+
+Import only works with custom palettes. Click **New palette** first, then use the import icon on that palette.
+
+</Accordion>
+<Accordion title="Palette name or token names empty">
+
+All names must be filled before import. Edit empty names in the preview step, then click **Import**.
+
+</Accordion>
+</AccordionGroup>
+
+  

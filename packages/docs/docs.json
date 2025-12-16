@@ -47,7 +47,7 @@
         "group": "Installation",
         "pages": [
           "installation",
-          "theme",
+          "tailwind-config",
           "fonts",
           {
             "group": "Framework guides",
@@ -83,8 +83,16 @@
           "developing/copy-paste-pages",
           "developing/adding-business-logic",
           "developing/props-and-slots",
-          "developing/disabling-sync",
-          "developing/dark-mode"
+          "developing/disabling-sync"
+        ]
+      },
+      {
+        "group": "Theme",
+        "pages": [
+          "theme/customizing-theme",
+          "theme/importing-tokens",
+          "theme/adding-custom-fonts",
+          "theme/dark-mode"
         ]
       },
       {
