@@ -1,24 +1,18 @@
 ---
-title: Adding custom fonts
+title: "Adding custom fonts"
 ---
 
 Upload custom font files to use proprietary or licensed fonts in your project.
 
-## Supported formats
-
-**File formats:** WOFF, WOFF2, TTF, OTF
-
-**Font types:**
-- **Static fonts** — One file per weight (e.g., `MyFont-Regular.woff2`, `MyFont-Bold.woff2`)
-- **Variable fonts** — Single file with weight range support
-
-<Note>Custom fonts require a Pro plan. Free plans show Google Fonts only.</Note>
+<Note>
+  Custom fonts require a Pro plan. Free plan includes Google Fonts.
+</Note>
 
 ## Uploading fonts
 
-<img src="/images/theme/theme-custom-fonts.png" alt="Dialog showing a list of fonts uploaded for review" />
+![Dialog showing a list of fonts uploaded for review](/images/theme/theme-custom-fonts.png)
 
-1. Navigate to **Theme > Typography**
+1. Navigate to **Theme \> Typography**
 2. Click **Upload font**
 3. Select or drag font files into the dialog
 4. Review and edit font metadata:
@@ -26,72 +20,62 @@ Upload custom font files to use proprietary or licensed fonts in your project.
    - **Weight** — Dropdown for static fonts, range display for variable fonts
 5. Click **Add fonts**
 
+## Supported formats
+
+**File formats:** WOFF, WOFF2, TTF, OTF
+
+**Font types:**
+
+- **Static fonts** — One file per weight (e.g., `MyFont-Regular.woff2`, `MyFont-Bold.woff2`)
+- **Variable fonts** — Single file with weight range support
+
 ## Font validation
 
-Subframe groups uploaded files by font family. Follow these rules:
+Subframe groups uploaded files by font family. Follow these rules when uploading:
 
 - **Same file format** — All files in a family must use the same format (don't mix WOFF and TTF)
 - **Same font type** — Static and variable fonts cannot be mixed in one family
 - **Unique weights** — Each weight must be unique within the family
 - **No Google Font conflicts** — Custom font names cannot match existing Google Font names
 
-If validation fails, edit the font family name or remove conflicting files before uploading.
-
-## Using custom fonts
-
-After uploading:
-
-1. Go to **Theme > Typography**
-2. Click the font name card or any text token to edit
-3. Select your custom font from the picker
+If validation fails, edit the font family name or remove conflicting files.
 
 ## Installing fonts in your codebase
 
-Custom fonts require additional setup in your project to load correctly.
-
-See [Loading fonts](/fonts) for instructions.
+Custom fonts require additional setup in your project to load correctly. See [Loading fonts](/fonts) for instructions.
 
 ## Updating fonts
 
 To add weights to an existing custom font:
 
-1. Upload additional font files with matching family name
-2. Subframe adds new weights to existing font asset
-3. Existing typography tokens gain access to new weights
-
-<Note>Overwriting existing font files requires a browser refresh to see changes.</Note>
+1. Upload additional font files for each new weight
+2. Make sure the font family name matches the original font
+3. After adding, additional weights will be available for the font
 
 ## Troubleshooting
 
 <AccordionGroup>
-<Accordion title="Font not appearing in picker">
+  <Accordion title="Font not appearing in picker">
+    Check that:
 
-Check that:
-- Upload completed successfully (toast notification appeared)
-- Font family name doesn't conflict with Google Fonts
-- File format is supported (WOFF, WOFF2, TTF, OTF)
+    - Upload completed successfully (toast notification appeared)
+    - Font family name doesn't conflict with Google Fonts
+    - File format is supported (WOFF, WOFF2, TTF, OTF)
+  </Accordion>
+  <Accordion title="Font not loading in codebase">
+    Verify:
 
-</Accordion>
-<Accordion title="Font not loading in codebase">
+    - Font files synced via `npx @subframe/cli sync --all`
+    - `@font-face` declarations are in your CSS
+    - File paths match actual font file locations
+    - No CORS errors in browser console
+  </Accordion>
+  <Accordion title="Weight slider not showing all weights">
+    For static fonts, the slider only shows uploaded weights. Upload additional font files to enable more weight options.
 
-Verify:
-- Font files synced via `npx @subframe/cli sync --all`
-- `@font-face` declarations are in your CSS
-- File paths match actual font file locations
-- No CORS errors in browser console
-
-</Accordion>
-<Accordion title="Weight slider not showing all weights">
-
-For static fonts, the slider only shows uploaded weights. Upload additional font files to enable more weight options.
-
-For variable fonts, the slider shows the full supported range from the font file metadata.
-
-</Accordion>
-<Accordion title="Can't mix fonts in same family">
-
-Remove existing font files or use a different family name. Subframe requires consistent format and type (static vs variable) within each font family.
-
-</Accordion>
+    For variable fonts, the slider shows the full supported range from the font file metadata.
+  </Accordion>
+  <Accordion title="Can't mix fonts in same family">
+    Remove existing font files or use a different family name. Subframe requires consistent format and type (static vs variable) within each font family.
+  </Accordion>
 </AccordionGroup>
-
