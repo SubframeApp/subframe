@@ -51,7 +51,7 @@ Subframe serves designers (visual editing, AI design) and engineers (code export
 
 | Type | Purpose | Length | Tone | Visual Density |
 |---|---|---|---|---|
-| Quickstart | First value in <5 min | 300-500 words | Encouraging | High |
+| Quickstart | First value in under 5 min | 300-500 words | Encouraging | High |
 | How-to guide | Complete specific task | 500-1500 words | Instructional | Medium |
 | Conceptual guide | Understand how/why | 800-2000 words | Educational | Low-medium |
 | Reference | Technical specs | Varies | Precise | Low |
@@ -219,44 +219,16 @@ Rare, only for destructive actions or common errors
 Don't use multiple callouts in a row or for obvious information.
 
 **Code groups - for variations:**
-```markdown
-<CodeGroup>
-  ```bash npm
-  npm install package
-  ```
-  ```bash yarn
-  yarn add package
-  ```
-</CodeGroup>
-```
+
+Use `<CodeGroup>` to show multiple code alternatives (npm/yarn, different languages).
 
 **Tabs - for version differences:**
-```markdown
-<Tabs>
-  <Tab title="Tailwind v3">
-  Content specific to v3
-  </Tab>
-  <Tab title="Tailwind v4">
-  Content specific to v4
-  </Tab>
-</Tabs>
-```
+
+Use `<Tabs>` with `<Tab title="...">` children for version-specific or alternative content.
 
 **Accordions - for troubleshooting and FAQs:**
-```markdown
-<AccordionGroup>
-<Accordion title="Authentication failed">
 
-Check that you copied the entire token without spaces. Verify it hasn't been revoked.
-
-</Accordion>
-<Accordion title="Connection errors">
-
-Verify the URL is correct. Check your internet connection.
-
-</Accordion>
-</AccordionGroup>
-```
+Use `<AccordionGroup>` with `<Accordion title="...">` children for collapsible content.
 
 Use accordions for:
 - Troubleshooting sections (required)

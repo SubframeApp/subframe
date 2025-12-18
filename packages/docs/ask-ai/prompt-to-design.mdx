@@ -1,0 +1,78 @@
+---
+title: Ask AI mode
+---
+
+Prompt what you want and Ask AI can generate page designs, edit your existing designs, or update your theme.
+
+- **Design new pages** — Generate multiple variations of page designs
+- **Edit your page directly** — Make targeted changes to your current page
+- **Update your theme** — Modify colors, fonts, and tokens project-wide
+- **Answer questions** — Search Subframe docs for help with features and development workflows
+
+Ask AI mode is available for pages only. To edit components or make targeted edits, use [Inline Ask AI](/ask-ai/inline-ask-ai). For adding interactivity and state, use [Prototype mode](/editor/prototype-mode/overview).
+
+## Prompt Ask AI
+
+1. Click **Ask AI** in the mode switcher (top-right) of the page editor or press <kbd>Cmd</kbd> + <kbd>K</kbd> and select **Mode > Ask AI**
+2. Type a prompt and press <kbd>Enter</kbd> or click the send button
+3. Ask AI creates a new conversation and generates 1–4 variations
+
+New conversations are automatically named based on your first prompt.
+
+### Variations vs. direct edits
+
+Ask AI chooses how to respond based on your prompt:
+
+- **Variations** — For new designs, creative exploration, or prompts requiring new components
+- **Direct edits** — For simple changes to existing elements like colors, text, or layout tweaks
+
+## Apply designs
+
+After generations finish streaming, click each thumbnail to open a preview. From the preview, you can:
+
+- **Drag elements** — Drag individual elements from the preview directly onto your canvas to mix and match from different variations
+- **Apply design** — Replace your current page
+- **Save as new page** — Create a new page with this design
+- **Ask follow-up** — Refine with another prompt
+
+## Iterate on designs
+
+After generating, send follow-up prompts or switch to **Design** mode for manual edits. Each follow-up can reference the current page and previous generations.
+
+## Conversation history
+
+Recent conversations appear at the bottom of the Ask AI panel. Click **Show all history** to see older conversations grouped by date.
+
+Your conversations persist across sessions and pages so you can reference past generations.
+
+## Ask AI toolbar
+
+Ask AI includes additional tools:
+
+- **[Remix pages](/ask-ai/remix-pages)** — Reference other pages as context
+- **[Upload image](/ask-ai/image-to-design)** — Add reference images
+- **Import from Figma** — Import Figma designs using the image model
+- **[Edit specific element](/ask-ai/inline-ask-ai)** — Use inline Ask AI to make targeted edits
+- **[Personalize AI](/ask-ai/personalizing-ai)** — Configure project-wide context
+
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="AI is not applying my changes">
+Try being more specific in your prompt. Instead of "make it better," describe exactly what you want: "Change the heading to 24px bold" or "Use brand-primary for the button background."
+
+If AI generates variations instead of editing directly, your change may require components not on your page. Apply a variation or use [Inline Ask AI](/ask-ai/inline-ask-ai) for targeted edits.
+</Accordion>
+
+<Accordion title="I can't edit components">
+Ask AI mode only works with pages. To edit components, use [Inline Ask AI](/ask-ai/inline-ask-ai)—select an element inside the component, then right-click or press <kbd>/</kbd> and select **Ask AI to edit...**.
+</Accordion>
+
+<Accordion title="AI generates Tailwind classes I don't recognize">
+AI uses standard Tailwind CSS classes that may not be in your theme tokens. You can keep these classes or replace them with your theme values in Design mode. To encourage AI to use your theme, reference token names in your prompt: "Use the brand-primary color" or "Apply the heading-lg font style."
+</Accordion>
+
+<Accordion title="How do I undo changes?">
+Press <kbd>Cmd</kbd> + <kbd>Z</kbd> to undo. Subframe maintains full undo history, so you can step back through multiple changes. You can also use [Version history](/admin/version-history) to restore a previous state.
+</Accordion>
+</AccordionGroup>

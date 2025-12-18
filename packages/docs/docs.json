@@ -99,11 +99,11 @@
       {
         "group": "Ask AI",
         "pages": [
-          "editor/ask-ai/prompt-to-design",
-          "editor/ask-ai/image-to-design",
-          "editor/ask-ai/inline-ask-ai",
-          "editor/ask-ai/remix-pages",
-          "editor/ask-ai/personalizing-ai"
+          "ask-ai/prompt-to-design",
+          "ask-ai/image-to-design",
+          "ask-ai/inline-ask-ai",
+          "ask-ai/remix-pages",
+          "ask-ai/personalizing-ai"
         ]
       },
       {
