@@ -82,10 +82,11 @@ export interface UpdateImportAliasResponse {
 }
 
 export interface PushComponentRequest {
-  truncatedProjectId: string
-  componentName: string
+  truncatedProjectId: TruncatedProjectId
   componentFile: string
+  componentName: string
   skipNormalize?: boolean
+  isNewComponent?: boolean
 }
 
 export interface PushComponentResponse {

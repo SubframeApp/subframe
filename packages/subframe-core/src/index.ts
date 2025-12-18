@@ -31,7 +31,6 @@ import * as ToggleGroup from "./components/toggle-group"
 import * as Collapsible from "./components/collapsible"
 
 // utilities
-import { Text } from "./utilities/text"
 import * as TypescriptHelpers from "./lib/typescript-helpers"
 import { createTwClassNames, twClassNames } from "./lib/tw-classnames"
 
@@ -58,13 +57,13 @@ export { Switch }
 export { Loader }
 export { Icon }
 export { IconWrapper }
+export type { IconProps } from "./components/icon"
 export type { IconName } from "./components/icon"
 export { Dialog }
 export { Drawer }
 export { FullScreenDialog }
 export { ToggleGroup }
 export { Collapsible }
-export { Text }
 export { TypescriptHelpers }
 export { createTwClassNames, twClassNames }
 export * from "./assets/icons/final"
@@ -108,7 +107,6 @@ const SubframeCore = {
   FullScreenDialog,
   ToggleGroup,
   Collapsible,
-  Text,
   TypescriptHelpers,
   createTwClassNames,
   twClassNames,
