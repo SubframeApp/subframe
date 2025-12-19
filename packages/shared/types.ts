@@ -67,6 +67,7 @@ export interface InitProjectResponse {
   cssType: CodeGenCSSType
   oldImportAlias?: string
   projectInfo: {
+    teamId: number
     truncatedProjectId: TruncatedProjectId
     name: string
   }
@@ -109,6 +110,7 @@ export interface SyncProjectResponse {
   otherFiles: CodeGenFileValid[]
   missingComponents: string[]
   projectInfo: {
+    teamId: number
     truncatedProjectId: TruncatedProjectId
     name: string
   }

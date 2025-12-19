@@ -29,7 +29,7 @@ import { TruncatedProjectId } from "shared/types"
 import { getAccessToken, verifyTokenWithOra } from "./access-token"
 import { apiUpdateImportAlias } from "./api-endpoints"
 import { localSyncSettings } from "./common"
-import { writeAuthConfig } from "./config"
+import { storeToken } from "./config"
 import { SUBFRAME_INIT_MESSAGE } from "./constants"
 import { initProject } from "./init-project"
 import { initSync } from "./init-sync"
@@ -79,14 +79,14 @@ initCommand.action(async (opts) => {
 
     let accessToken = opts.authToken
     if (accessToken) {
-      const isValid = await verifyTokenWithOra(cliLogger, accessToken)
-      if (!isValid) {
+      const tokenWithTeam = await verifyTokenWithOra(cliLogger, accessToken)
+      if (!tokenWithTeam) {
         throw new Error("Failed to authenticate with provided token")
       }
-
-      await writeAuthConfig({ token: accessToken })
+      await storeToken(cliLogger, tokenWithTeam)
     } else {
-      accessToken = await getAccessToken(cliLogger)
+      const tokenWithTeam = await getAccessToken(cliLogger, { teamId: localSyncSettings?.teamId })
+      accessToken = tokenWithTeam.token
     }
 
     console.time(SUBFRAME_INIT_MESSAGE)
@@ -108,6 +108,7 @@ initCommand.action(async (opts) => {
         directory: opts.dir ?? localSyncSettings?.directory,
         importAlias: localSyncSettings?.importAlias,
         projectId: truncatedProjectId,
+        teamId: projectInfo.teamId,
         cssType: styleInfo.cssType,
       },
       opts,
