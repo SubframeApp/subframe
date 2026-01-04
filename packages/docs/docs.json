@@ -25,88 +25,88 @@
           "anchor": "YouTube",
           "href": "https://www.youtube.com/@SubframeApp",
           "icon": "youtube"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://www.subframe.com/blog",
-          "icon": "newspaper"
         }
       ]
     },
-    "groups": [
+    "tabs": [
       {
-        "group": "Get started",
+        "tab": "Learn Subframe",
+        "icon": "book-open",
         "pages": [
           "get-started/introduction",
           "get-started/quickstart",
           "get-started/concepts",
-          "get-started/faq"
-        ]
-      },
-      {
-        "group": "Installation",
-        "pages": [
-          "installation",
-          "tailwind-config",
-          "fonts",
+          "get-started/faq",
           {
-            "group": "Framework guides",
+            "group": "Design with Subframe",
             "pages": [
-              "framework-guides/nextjs",
-              "framework-guides/vite",
-              "framework-guides/astro",
-              "framework-guides/monorepo",
-              "framework-guides/manual"
+              "designing/adding-elements",
+              "designing/using-ai-to-design",
+              "designing/personalizing-ai",
+              "designing/version-history"
+            ]
+          },
+          {
+            "group": "Prototype with Subframe",
+            "pages": ["prototyping/creating-ai-prototypes", "prototyping/sharing-prototypes"]
+          },
+          {
+            "group": "Theme",
+            "pages": [
+              "theme/customizing-theme",
+              "theme/importing-tokens",
+              "theme/adding-custom-fonts",
+              "theme/dark-mode"
+            ]
+          },
+          {
+            "group": "Admin and billing",
+            "pages": [
+              "admin/managing-team",
+              "admin/pricing-and-plans",
+              "admin/managing-projects",
+              "admin/version-history",
+              "admin/auth-tokens",
+              {
+                "group": "Single sign-on (SSO)",
+                "pages": ["admin/sso/okta"]
+              }
             ]
           }
         ]
       },
       {
-        "group": "Design with Subframe",
-        "pages": [
-          "designing/adding-elements",
-          "designing/using-ai-to-design",
-          "designing/personalizing-ai",
-          "designing/version-history"
-        ]
-      },
-      {
-        "group": "Prototype with Subframe",
-        "pages": ["prototyping/creating-ai-prototypes", "prototyping/sharing-prototypes"]
-      },
-      {
-        "group": "Develop with Subframe",
-        "pages": [
-          "developing/mcp-server",
-          "developing/syncing-components",
-          "developing/using-components",
-          "developing/copy-paste-pages",
-          "developing/adding-business-logic",
-          "developing/props-and-slots",
-          "developing/disabling-sync"
-        ]
-      },
-      {
-        "group": "Theme",
-        "pages": [
-          "theme/customizing-theme",
-          "theme/importing-tokens",
-          "theme/adding-custom-fonts",
-          "theme/dark-mode"
-        ]
-      },
-      {
-        "group": "Admin and billing",
-        "pages": [
-          "admin/managing-team",
-          "admin/pricing-and-plans",
-          "admin/managing-projects",
-          "admin/version-history",
-          "admin/auth-tokens",
+        "tab": "Developer docs",
+        "icon": "code",
+        "groups": [
           {
-            "group": "Single sign-on (SSO)",
+            "group": "Installation",
             "pages": [
-              "admin/sso/okta"
+              "installation",
+              "tailwind-config",
+              "fonts",
+              {
+                "group": "Framework guides",
+                "pages": [
+                  "framework-guides/nextjs",
+                  "framework-guides/vite",
+                  "framework-guides/astro",
+                  "framework-guides/monorepo",
+                  "framework-guides/manual"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Develop with Subframe",
+            "pages": [
+              "developing/mcp-server",
+              "developing/syncing-components",
+              "developing/using-components",
+              "developing/copy-paste-pages",
+              "developing/adding-business-logic",
+              "developing/props-and-slots",
+              "developing/disabling-sync"
             ]
           }
         ]
