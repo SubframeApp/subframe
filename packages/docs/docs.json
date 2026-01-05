@@ -78,38 +78,7 @@
       {
         "tab": "Developer docs",
         "icon": "code",
-        "groups": [
-          {
-            "group": "Installation",
-            "pages": [
-              "installation",
-              "tailwind-config",
-              "fonts",
-              {
-                "group": "Framework guides",
-                "pages": [
-                  "framework-guides/nextjs",
-                  "framework-guides/vite",
-                  "framework-guides/astro",
-                  "framework-guides/monorepo",
-                  "framework-guides/manual"
-                ]
-              }
-            ]
-          },
-          {
-            "group": "Develop with Subframe",
-            "pages": [
-              "developing/mcp-server",
-              "developing/syncing-components",
-              "developing/using-components",
-              "developing/copy-paste-pages",
-              "developing/adding-business-logic",
-              "developing/props-and-slots",
-              "developing/disabling-sync"
-            ]
-          }
-        ]
+        "pages": []
       }
     ]
   },
