@@ -78,7 +78,7 @@
       {
         "tab": "Developer docs",
         "icon": "code",
-        "pages": []
+        "pages": ["developers/introduction"]
       }
     ]
   },
