@@ -25,18 +25,18 @@ In a nutshell, **components are synced, pages are exported**. This is because pa
 Say your designer creates a sign in page in Subframe:
 
 <Frame>
-  <img src="/images/developers/getting-started-signin-page.png" alt="Sign in page designed in Subframe" />
+  <img src="/images/developers/signin-page-example.png" alt="Sign in page designed in Subframe" />
 </Frame>
 
 When designers use Subframe, they are modifying the underlying code, which uses components that eventually live in your codebase. In this sign in page, the designer used the `Button` and `SocialSignInButton` components:
 
 <Frame>
-  <img src="/images/concepts/design-to-code-annotated.png" alt="Sign in page with components highlighted" />
+  <img src="/images/developers/signin-page-example-annotated.png" alt="Sign in page with components highlighted" />
 </Frame>
 
 ### Syncing components
 
-When the designs are ready for handoff, the developer syncs these components to their codebase by running the following command:
+When the designs are ready for handoff, the developer syncs `Button` and `SocialSignInButton` components to their codebase by running the following command:
 
 <CodeGroup>
 
@@ -72,7 +72,7 @@ src/ui/
   └─ SocialSignInButton.tsx
 ```
 
-<Accordion title="View code">
+<Accordion title="View synced code">
 
 <CodeGroup>
 
