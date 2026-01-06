@@ -81,6 +81,10 @@
           "developers/introduction",
           "developers/installation",
           {
+            "group": "Core concepts",
+            "pages": ["concepts/design-to-code", "developers/syncing-components", "developers/exporting-pages"]
+          },
+          {
             "group": "Guides",
             "pages": ["developers/mcp-server"]
           },

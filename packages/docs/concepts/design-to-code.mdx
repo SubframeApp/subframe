@@ -1,0 +1,151 @@
+---
+title: Design to code workflow
+description: How Subframe connects designs to your codebase.
+---
+
+import SignInPageCode from "/snippets/signin-page-code.mdx"
+import SignInPageWithLogic from "/snippets/signin-page-with-logic.mdx"
+import CliSyncAllCommand from "/snippets/cli-sync-all-command.mdx"
+
+By default, Subframe **determinstically** generates pure UI + CSS code without application logic (handling state, API calls, etc). Developers are expected to add this logic themselves after export.
+
+This guide explains Subframe's design-to-code workflow in detail.
+
+#### Components vs pages
+
+As a developer, you should treat **components** and **pages** differently:
+
+- **Components** are your design system (e.g. buttons, inputs, cards). They are synced via CLI to a folder in your codebase (default: `./ui/components`) and are not meant to be modified after export.
+- **Pages** are screens built from components. They are exported as copyable React code or using an MCP server and are meant to be modified after export.
+
+In a nutshell, **components are synced, pages are exported**. This is because pages are typically modified with business logic like API calls after export. If your component needs logic after syncing, see our guide on best practices for [exporting components](/developing/exporting-components).
+
+## Design handoff
+
+Say your designer creates a sign in page in Subframe:
+
+<Frame>
+  <img src="/images/developers/getting-started-signin-page.png" alt="Sign in page designed in Subframe" />
+</Frame>
+
+When designers use Subframe, they are modifying the underlying code, which uses components that eventually live in your codebase. In this sign in page, the designer used the `Button` and `SocialSignInButton` components:
+
+<Frame>
+  <img src="/images/concepts/design-to-code-annotated.png" alt="Sign in page with components highlighted" />
+</Frame>
+
+### Syncing components
+
+When the designs are ready for handoff, the developer syncs these components to their codebase by running the following command:
+
+<CodeGroup>
+
+```bash npm
+npx @subframe/cli@latest sync Button SocialSignInButton
+```
+
+```bash yarn
+yarn dlx @subframe/cli@latest sync Button SocialSignInButton
+```
+
+```bash pnpm
+pnpx @subframe/cli@latest sync Button SocialSignInButton
+```
+
+```bash bun
+bunx @subframe/cli@latest sync Button SocialSignInButton
+```
+
+</CodeGroup>
+
+The developer can also sync all design system components at once:
+
+<CliSyncAllCommand />
+
+The CLI sync command pulls `Button`, `SocialSignInButton`, and any other components into a specific folder in your codebase. By default this folder is located in the `./src/ui/components` folder but can be configured in the project settings.
+
+```
+src/ui/
+└─ components/
+// [!code ++:2]
+  ├─ Button.tsx
+  └─ SocialSignInButton.tsx
+```
+
+<Accordion title="View code">
+
+<CodeGroup>
+
+import ButtonComponentCode from "/snippets/button-component-code.mdx"
+
+<ButtonComponentCode />
+
+import SocialSignInButtonCode from "/snippets/social-signin-button-code.mdx"
+
+<SocialSignInButtonCode />
+
+</CodeGroup>
+
+</Accordion>
+
+For more information on syncing components, see the [Syncing components](/developing/syncing-components) guide.
+
+### Exporting pages
+
+Once the components are synced, the generated page code can now be exported. The generated code has stubs for business logic that need to be filled in by the developer:
+
+<SignInPageCode />
+
+The page code can now be exported in two ways:
+
+- **MCP server (recommended)** - install Subframe MCP server and ask your AI tool to integrate the page code directly using the [page link](/developers/mcp-server#using-the-mcp-server).
+- **Copy/paste** - Open **Code** > **Inspect** in Subframe and copy the React code.
+
+We recommend using the MCP server because you can also ask AI to add business logic or update the page code based on code changes. Once exported, refactor the code or add any business logic as needed.
+
+<SignInPageWithLogic />
+
+## Iterating on designs
+
+After the initial export, both designs and code will evolve. Here's how to handle changes:
+
+### Designer makes changes
+
+If the designer makes changes in Subframe, you'll need to re-export either the component or page code.
+
+**Component updates**
+
+Re-run the sync command to update the component code:
+
+<CliSyncAllCommand />
+
+If a component has breaking changes, TypeScript will throw errors wherever that component is used. This makes it easy for developers to find and update the affected code.
+
+**Page updates**
+
+The recommended way is to prompt your AI tool using the MCP server to update the page code:
+
+```text
+Update the existing page to match the Subframe design at
+https://app.subframe.com/<YOUR_PROJECT_ID>/design/<DESIGN_ID>/edit.
+
+Preserve all existing functionality unless the new design requires a change.
+```
+
+AI will fetch the latest design and merge it with your existing code, preserving your business logic.
+
+### Developer makes changes
+
+Often times, developers will need to modify the component behavior.
+
+The best practice is to wrap the component with a new component that adds the necessary logic. In that case, you probably don't need to sync code back to Subframe, since the visual layer managed by Subframe will be untouched. If creating a wrapper component is not possible, you can disable sync for the component.
+
+In the near future, we will add CLI commands to sync component code back to Subframe. If you are interested in this feature, please let us know by [joining our Slack community](https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ).
+
+To import an existing page code back to Subframe, you can take a screenshot of the page and ask Subframe AI to recreate the design in Subframe.
+
+## Beyond handoff
+
+Once a feature ships, page designs may drift from code. That's okay — page designs are artifacts for communication. Once the feature is live, the code is the source of truth.
+
+Components are different. They stay synced, so Subframe remains the single source of truth for your design system. When a designer updates a button or input, you re-run sync and every page using that component gets the update.
