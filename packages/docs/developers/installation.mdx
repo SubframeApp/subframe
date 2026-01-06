@@ -1,0 +1,209 @@
+---
+title: Installation
+description: Set up Subframe in your codebase.
+---
+
+import CLIInitCommand from "/snippets/cli-init-command.mdx"
+
+## Prerequisites
+
+Subframe generates React components with Tailwind CSS. Your project needs:
+
+- React 16+
+- Tailwind CSS 3.4+
+- TypeScript
+
+## Install Subframe
+
+Start from a new project or install in an existing project. Our CLI is [open source](https://github.com/SubframeApp/subframe/tree/main/packages/subframe-cli) and will help you get started quickly.
+
+<Tabs>
+<Tab title="New project">
+
+Run our CLI in a blank folder to scaffold a new pre-configured project and follow the prompts:
+
+<CLIInitCommand />
+
+</Tab>
+<Tab title="Existing project">
+
+Run our CLI in your project root and follow the prompts:
+
+<CLIInitCommand />
+
+<AccordionGroup>
+  <Accordion title="Installation issues">
+    If you run into installation issues, refer to one of these framework-specific troubleshooting guides:
+
+    <Columns cols={2}>
+      <Card title="Next.js" href="/framework-guides/nextjs" />
+      <Card title="Vite" href="/framework-guides/vite" />
+      <Card title="Astro" href="/framework-guides/astro" />
+      <Card title="Monorepo" href="/framework-guides/monorepo" />
+      <Card title="Other (manual installation)" href="/framework-guides/manual" />
+    </Columns>
+
+  </Accordion>
+
+  <Accordion title="Importing existing components">
+    If you have an existing component library, the best way to use Subframe is to recreate your library in Subframe. We will offer a guide to do this and eventually an import tool in the future.
+
+    Note: If you're interested in early access to importing your existing library, reach out to support@subframe.com
+
+  </Accordion>
+</AccordionGroup>
+</Tab>
+</Tabs>
+
+## Install fonts
+
+Your Subframe theme may use a Google Font or an uploaded font. You'll need to add a snippet to your codebase to render the fonts correctly.
+
+<Steps>
+<Step title="Copy the font import snippet">
+You can get the import code snippet from your [Subframe theme](https://app.subframe.com/library?component=theme&showInstallFontsModal=true)
+</Step>
+<Step title="Add the code snippet to your `<head>` tag">
+
+```html
+<head>
+  <!-- Insert the font import snippet you copied here -->
+  <!-- Example: importing the Inter font... -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Remaining code in your `<head>` tag... -->
+</head>
+```
+
+</Step>
+</Steps>
+
+## Set up Subframe MCP (optional)
+
+Subframe's MCP server lets AI tools like Cursor and Claude Code fetch your designs directly. Instead of copying code manually, AI can access your components, pages, and theme automatically.
+
+<Tabs>
+<Tab title="Cursor">
+
+**One-click installation**
+
+1. Open a page in Subframe
+2. Go to **Code** > **Installation** > **Cursor MCP server**
+3. Click on **Add to Cursor** <img src="/images/developers/mcp-add-to-cursor-button.png" alt="Add to Cursor button" />
+
+**Manual installation**
+
+Create a new auth token at [app.subframe.com/settings/tokens](https://app.subframe.com/settings/tokens) and add the following to `~/.cursor/mcp.json`:
+
+```json ~/.cursor/mcp.json
+{
+  "mcpServers": {
+    "subframe": {
+      "url": "https://mcp.subframe.com/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_AUTH_TOKEN"
+      }
+    },
+    "subframe-docs": {
+      "url": "https://docs.subframe.com/mcp"
+    }
+  }
+}
+```
+
+</Tab>
+
+<Tab title="Claude Code">
+
+<Steps>
+<Step title="Create a new auth token">
+You can create and manage your auth tokens at [app.subframe.com/settings/tokens](https://app.subframe.com/settings/tokens)
+</Step>
+
+<Step title="Install the Subframe MCP server">
+
+Run the following command with `YOUR_AUTH_TOKEN` replaced with your auth token:
+
+```bash
+claude mcp add --transport http subframe https://mcp.subframe.com/mcp \
+  --header "Authorization: Bearer YOUR_AUTH_TOKEN"
+```
+
+</Step>
+
+<Step title="Install the Subframe Docs MCP server (optional)">
+
+You can install the Subframe Docs MCP server (recommended) to give AI access to this docs site:
+
+```bash
+claude mcp add --transport http subframe-docs https://docs.subframe.com/mcp
+```
+
+</Step>
+</Steps>
+
+</Tab>
+
+<Tab title="Other clients">
+
+<Steps>
+<Step title="Create a new auth token">
+You can create and manage your auth tokens at [app.subframe.com/settings/tokens](https://app.subframe.com/settings/tokens)
+</Step>
+<Step title="Configure the Subframe MCP Server">
+Configure your MCP client to connect to the Subframe MCP server:
+
+- **URL:** `https://mcp.subframe.com/mcp`
+- **Transport:** HTTP
+- **Authentication:** Bearer token in header
+- **Header:** `Authorization: Bearer YOUR_AUTH_TOKEN`
+
+</Step>
+<Step title="Configure the Subframe Docs MCP Server (optional)">
+Optionally add the Subframe Docs MCP server for documentation access:
+
+- **URL:** `https://docs.subframe.com/mcp`
+- **Transport:** HTTP
+- **Authentication:** None required
+
+</Step>
+<Step title="Verify installation">
+Restart your MCP client, then verify the MCP servers are available in your AI assistant.
+</Step>
+</Steps>
+
+</Tab>
+</Tabs>
+
+See our [MCP server guide](/developers/mcp-server) for more information on how to use the MCP server.
+
+## FAQ
+
+<AccordionGroup>
+
+<Accordion title="What if I don't use React, TypeScript or Tailwind CSS?">
+
+You can use our [MCP server](/developers/mcp-server) to access your designs and documentation in your AI coding assistant and convert them to your preferred language and framework.
+
+While Subframe only generates React + Typescript + Tailwind code for now, we found that in practice, asking AI to convert the code to your preferred framework is far faster than starting from scratch. Our generated frontend code is high-quality and consistent, without the overhead that most LLMs add to AI-generated UI code, so AI's often are able to convert the code to your preferred framework consistently in a single prompt.
+
+</Accordion>
+
+<Accordion title="Will my code keep working if I stop using Subframe?">
+
+Yes. All generated code lives in your codebase and is yours to keep. Any dependencies you see are [open source](https://github.com/SubframeApp/subframe).
+
+</Accordion>
+
+<Accordion title="How can I get additional installation support?">
+
+Join our active [Subframe Slack community](https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ) for additional support from the Subframe team and other users.
+
+</Accordion>
+
+</AccordionGroup>

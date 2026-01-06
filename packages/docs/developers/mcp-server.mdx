@@ -1,0 +1,159 @@
+---
+title: MCP server
+description: Let AI coding assistants directly access your Subframe designs and documentation.
+---
+
+Our MCP server lets AI coding assistants like Claude Code and Cursor access your Subframe designs directly. Instead of copying code manually, AI can fetch components, pages, and themes from your projects automatically.
+
+We also have a separate Subframe Docs MCP server that provides access to Subframe documentation (this site).
+
+## Installation
+
+You can find full MCP setup instructions in the [Installation](/developers/installation) page.
+
+## Using the MCP server
+
+Once configured, your AI assistant can access Subframe automatically when you prompt or paste an MCP link to a page from the Code panel.
+
+### Available tools
+
+| Tool                 | Description                                  | Input Parameters                                  | Returns                                      |
+| -------------------- | -------------------------------------------- | ------------------------------------------------- | -------------------------------------------- |
+| `list_components`    | Lists all components in your project         | `projectId` (optional)                            | Array of components with `id`, `name`, `url` |
+| `list_pages`         | Lists all pages in your project              | `projectId` (optional)                            | Array of pages with `id`, `name`, `url`      |
+| `get_component_info` | Gets the code and metadata for a component   | `id`, `name`, or `url`<br/>`projectId` (optional) | `id`, `name`, `files`                        |
+| `get_page_info`      | Gets the code for a page                     | `id`, `name`, or `url`<br/>`projectId` (optional) | `id`, `name`, `files`                        |
+| `get_theme`          | Generates the Tailwind theme for the project | `projectId` (optional)<br/>`cssType` (optional)   | `theme` config                               |
+
+If `projectId` is not specified, the tool will use the first project you have access to.
+
+### Prompt with MCP link
+
+When prompting we recommend using the MCP link found in the Code Inspect panel for a page.
+
+```text
+Implement the design at https://app.subframe.com/design/...
+```
+
+<Note>
+  To get the latest version of components in your project, run `npx @subframe/cli@latest sync` to [sync
+  components](/developing/syncing-components).
+</Note>
+
+### Example prompts
+
+<AccordionGroup>
+
+<Accordion title="Implement a new page from a design">
+
+```text
+Create a new page using the Subframe page at
+https://app.subframe.com/PROJECT_ID/design/DESIGN_ID/edit as reference.
+
+Wire up relevant app logic (API calls, hooks, routing) where applicable.
+Keep it consistent with existing project conventions.
+```
+
+</Accordion>
+<Accordion title="Update an existing page with a new design">
+
+```text
+Update the existing page to match the Subframe design at
+https://app.subframe.com/PROJECT_ID/design/DESIGN_ID/edit.
+
+Preserve all existing functionality unless the new design requires a change.
+```
+
+</Accordion>
+<Accordion title="Add accessibility tags in code">
+
+```text
+Review the Subframe design at
+https://app.subframe.com/PROJECT_ID/design/DESIGN_ID/edit and add proper
+accessibility attributes to the existing page.
+
+Add ARIA labels, roles, and descriptions, and proper semantic HTML throughout.
+```
+
+</Accordion>
+<Accordion title="Migrate to Subframe's design system">
+
+```text
+Migrate the components on the existing page to use Subframe components instead
+of the old components.
+
+Get all components in my Subframe project and preserve all existing
+functionality unless the new design requires a change.
+```
+
+</Accordion>
+
+<Accordion title="Fetch a component">
+
+```text
+Get the Button component from Subframe and use it in this file
+```
+
+</Accordion>
+<Accordion title="List available components">
+
+```text
+Show me all components in my Subframe project
+```
+
+</Accordion>
+<Accordion title="Get the theme">
+
+```text
+Get my Subframe theme configuration
+```
+
+</Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="Authentication failed">
+
+Check that:
+
+- Your API token is correct and hasn't expired
+- You copied the entire token without extra spaces
+- The token is in the `Authorization` header as `Bearer YOUR_AUTH_TOKEN`
+
+Generate a new token at [app.subframe.com/settings/tokens](https://app.subframe.com/settings/tokens).
+
+</Accordion>
+<Accordion title="AI not calling the server">
+
+Make sure your AI tool:
+
+- Has MCP support enabled
+- Has the Subframe server in its MCP configuration
+- Has been restarted after adding the configuration
+
+Check your tool's logs for MCP-related errors.
+
+</Accordion>
+<Accordion title="Component or page not found">
+
+Use `list_components` or `list_pages` to see what's available.
+
+Verify:
+
+- The component/page exists in your Subframe project
+- The name or URL matches exactly
+- You have access to the project
+
+</Accordion>
+<Accordion title="Connection errors">
+
+If the MCP server is unreachable:
+
+- Check your internet connection
+- Verify the URL is `https://mcp.subframe.com/mcp`
+- Reach out to the Subframe team for support
+
+</Accordion>
+</AccordionGroup>

@@ -1,5 +1,5 @@
 ---
-sidebarTitle: Introduction
+sidebarTitle: Overview
 title: Why Subframe
 description: Subframe is an AI design tool that outputs production-ready React code.
 ---
@@ -24,9 +24,11 @@ Our code philosophy:
 
 Let's say your designer designs a sign in page in Subframe:
 
-<img src="/images/developers/getting-started-signin-page.png" alt="Login page designed in Subframe" />
+<Frame>
+  <img src="/images/developers/getting-started-signin-page.png" alt="Login page designed in Subframe" />
+</Frame>
 
-Subframe turns the designs into pixel-perfect React code determinstically. The code uses your design system components, with stubs for business logic:
+Subframe turns the designs into pixel-perfect React code determinstically. The generated code uses your design system components, with stubs for business logic:
 
 <CodeGroup>
 
@@ -240,7 +242,7 @@ export const SocialSignInButton = SocialSignInButtonRoot
 
 </CodeGroup>
 
-All that's left is to export the code from Subframe to your codebase and fill in the business logic:
+All that's left is to export it to your codebase and add business logic. You can do that manually or with AI assistants like Cursor or Claude Code connected to our [MCP server](/developers/mcp-server):
 
 ```tsx SignInPage.tsx expandable
 import React from "react"

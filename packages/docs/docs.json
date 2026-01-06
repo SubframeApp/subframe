@@ -31,7 +31,6 @@
     "tabs": [
       {
         "tab": "Learn Subframe",
-        "icon": "book-open",
         "pages": [
           "get-started/introduction",
           "get-started/quickstart",
@@ -78,7 +77,29 @@
       {
         "tab": "Developer docs",
         "icon": "code",
-        "pages": ["developers/introduction"]
+        "pages": [
+          "developers/introduction",
+          "developers/installation",
+          {
+            "group": "Guides",
+            "pages": ["developers/mcp-server"]
+          },
+          {
+            "group": "Troubleshooting",
+            "pages": [
+              {
+                "group": "Framework guides",
+                "pages": [
+                  "framework-guides/nextjs",
+                  "framework-guides/vite",
+                  "framework-guides/astro",
+                  "framework-guides/monorepo",
+                  "framework-guides/manual"
+                ]
+              }
+            ]
+          }
+        ]
       }
     ]
   },
