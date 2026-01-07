@@ -16,6 +16,7 @@ import { MALFORMED_INIT_MESSAGE, SUBFRAME_SYNC_MESSAGE, WRONG_PROJECT_MESSAGE } 
 import { installDependencies } from "./install-dependencies"
 import { makeCLILogger } from "./logger/logger-cli"
 import { syncComponents } from "./sync-components"
+import { updateSyncSettings } from "./sync-settings"
 
 export const syncCommand = new Command()
   .name("sync")
@@ -40,7 +41,14 @@ export const syncCommand = new Command()
         process.exit(1)
       }
 
-      const accessToken = await getAccessToken(cliLogger)
+      const tokenWithTeam = await getAccessToken(cliLogger, { teamId: localSyncSettings?.teamId })
+
+      const accessToken = tokenWithTeam.token
+
+      // Update sync.json with teamId if it's missing (legacy project migration)
+      if (!localSyncSettings.teamId) {
+        await updateSyncSettings(cwd, { ...localSyncSettings, teamId: tokenWithTeam.teamId })
+      }
 
       // strip /* which is used for tsconfig.json
       const importAlias = localSyncSettings.importAlias.endsWith("/*")

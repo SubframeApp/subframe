@@ -13,6 +13,7 @@ export interface SyncSettingsConfig {
   directory: string
   importAlias: string
   projectId?: TruncatedProjectId
+  teamId?: number
   cssType?: "tailwind" | "tailwind-v4"
 }
 
@@ -66,6 +67,7 @@ export async function setupSyncSettings(
     directory: options.directory,
     importAlias: options.importAlias,
     projectId: options.projectId,
+    teamId: options.teamId,
     cssType: options.cssType,
   }
 
@@ -130,6 +132,17 @@ export async function setupSyncSettings(
     directory: config.directory!,
     importAlias: config.importAlias!,
     projectId: options.projectId,
+    teamId: options.teamId,
     cssType: options.cssType,
   }
+}
+
+/**
+ * Writes sync settings to sync.json file
+ */
+export async function updateSyncSettings(cwd: string, settings: SyncSettingsConfig): Promise<void> {
+  const subframeDirPath = join(cwd, SUBFRAME_DIR)
+  const syncSettingsPath = join(subframeDirPath, SYNC_SETTINGS_FILENAME)
+
+  await writeFile(syncSettingsPath, JSON.stringify(settings, null, 2))
 }

@@ -33,7 +33,7 @@ export async function initProject({
   } catch (error) {
     if (error.message === FAILED_TO_FETCH_PROJECT_ERROR) {
       console.log("> Unable to fetch project. Try authenticating again.")
-      const newAccessToken = await promptForNewAccessToken(cliLogger)
+      const { token: newAccessToken } = await promptForNewAccessToken(cliLogger)
       return initProject({ cliLogger, accessToken: newAccessToken, truncatedProjectId, cssType })
     }
 

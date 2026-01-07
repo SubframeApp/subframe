@@ -2,9 +2,10 @@ import { Command } from "@commander-js/extra-typings"
 import { readFile } from "node:fs/promises"
 import { isAbsolute, join } from "node:path"
 import { oraPromise } from "ora"
+import { TruncatedProjectId } from "shared/types"
 import { getAccessToken } from "./access-token"
 import { apiPushComponent } from "./api-endpoints"
-import { cwd } from "./common"
+import { cwd, localSyncSettings } from "./common"
 import { makeCLILogger } from "./logger/logger-cli"
 import { highlight } from "./output/format"
 
@@ -18,7 +19,8 @@ export const pushComponentCommand = new Command()
     const cliLogger = makeCLILogger()
 
     try {
-      const accessToken = await getAccessToken(cliLogger)
+      const tokenWithTeam = await getAccessToken(cliLogger, { teamId: localSyncSettings?.teamId })
+      const accessToken = tokenWithTeam.token
 
       // read file from path
       const resolvedPath = isAbsolute(componentFilePath) ? componentFilePath : join(cwd, componentFilePath)
@@ -34,7 +36,7 @@ export const pushComponentCommand = new Command()
       try {
         await oraPromise(
           apiPushComponent(accessToken, {
-            truncatedProjectId: opts.projectId,
+            truncatedProjectId: opts.projectId as TruncatedProjectId,
             componentName,
             componentFile,
             skipNormalize: opts.skipNormalize,
