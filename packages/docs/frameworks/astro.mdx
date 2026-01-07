@@ -3,26 +3,19 @@ title: Astro
 ---
 
 <Note>
-  This guide assumes that you have already setup React and Tailwind CSS in your Astro app. If you haven't, please follow the
-  [Astro](https://docs.astro.build/en/install-and-setup/#install-from-the-cli-wizard), [Astro React](https://docs.astro.build/en/guides/integrations-guide/react/), and [Tailwind CSS](https://v3.tailwindcss.com/docs/installation/using-postcss) guides.
+  This guide assumes that you have already setup React and Tailwind CSS in your Astro app. If you haven't, please follow
+  the [Astro](https://docs.astro.build/en/install-and-setup/#install-from-the-cli-wizard), [Astro
+  React](https://docs.astro.build/en/guides/integrations-guide/react/), and [Tailwind
+  CSS](https://v3.tailwindcss.com/docs/installation/using-postcss) guides.
 </Note>
 
 ### Install Subframe
+
 Run the following command in the root of your repository to install Subframe and configure your project:
 
 <CodeGroup>
-  ```bash npm
-  npx @subframe/cli@latest init
-  ```
-  ```bash yarn
-  yarn dlx @subframe/cli@latest init
-  ```
-  ```bash pnpm
-  pnpx @subframe/cli@latest init
-  ```
-  ```bash bun
-  bunx @subframe/cli@latest init
-  ```
+  ```bash npm npx @subframe/cli@latest init ``` ```bash yarn yarn dlx @subframe/cli@latest init ``` ```bash pnpm pnpx
+  @subframe/cli@latest init ``` ```bash bun bunx @subframe/cli@latest init ```
 </CodeGroup>
 
 ### Configure Astro to use import aliases
@@ -60,10 +53,13 @@ Run the following command in the root of your repository to install Subframe and
       "noUncheckedSideEffectImports": true+
     },
     "include": ["src"]
-  }
-  ```
+
+}
+
+```
 </CodeGroup>
 
 ### Troubleshooting
 
-If you run into any issues with the installation, refer to the [manual installation guide](/framework-guides/manual) for all of the steps needed to get Subframe working in your codebase.
+If you run into any issues with the installation, refer to the [manual installation guide](/frameworks/manual) for all of the steps needed to get Subframe working in your codebase.
+```
