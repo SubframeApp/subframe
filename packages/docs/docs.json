@@ -143,5 +143,15 @@
     "segment": {
       "key": "5nOHRiT81iSqK2WHigNEoNZWMG2JcfOq"
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/framework-guides/:slug*",
+      "destination": "/frameworks/:slug*"
+    },
+    {
+      "source": "/developing/:slug*",
+      "destination": "/guides/:slug*"
+    }
+  ]
 }
