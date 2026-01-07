@@ -42,6 +42,7 @@
 - Language tags on all code blocks
 - Alt text on all images
 - Relative paths for internal links
+- For external links, add this icon after text: <Icon className="mb-1" size={12} icon="arrow-up-right-from-square" />
 
 ## Conventions
 

@@ -15,8 +15,8 @@ This guide explains Subframe's design-to-code workflow in detail.
 
 As a developer, you should treat **components** and **pages** differently:
 
-- **Components** are your design system (e.g. buttons, inputs, cards). They are synced via CLI to a folder in your codebase (default: `./ui/components`) and are not meant to be modified after export.
-- **Pages** are screens built from components. They are exported as copyable React code or using an MCP server and are meant to be modified after export.
+- **Components** are your design system (e.g. buttons, inputs, cards). They are [synced via CLI](/concepts/syncing-components) to a folder in your codebase (default: `./ui/components`) and are not meant to be modified after export.
+- **Pages** are screens built from components. They are [exported](/concepts/exporting-pages) as copyable React code or using the MCP server and are meant to be modified after export.
 
 In a nutshell, **components are synced, pages are exported**. This is because pages are typically modified with business logic like API calls after export. If your component needs logic after syncing, see our guide on best practices for [exporting components](/concepts/syncing-components).
 
@@ -138,7 +138,7 @@ AI will fetch the latest design and merge it with your existing code, preserving
 
 Often times, you will need to add or modify the component behavior after handoff.
 
-The best practice is to wrap the component with a new component that adds the necessary logic. In that case, you probably don't need to sync code back to Subframe, since the visual layer managed by Subframe will be untouched. If creating a wrapper component is not possible, you can disable sync for the component.
+The best practice is to [create a wrapper component](/concepts/syncing-components#wrapping-components) that adds the necessary logic. In that case, you probably don't need to sync code back to Subframe, since the visual layer managed by Subframe will be untouched. If creating a wrapper component is not possible, you can [disable sync](/concepts/syncing-components#disabling-sync) for the component.
 
 In the near future, we will add CLI commands to sync component code back to Subframe. If you are interested in this feature, please let us know by [joining our Slack community](https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ).
 
