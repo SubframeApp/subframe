@@ -1,0 +1,51 @@
+---
+title: Code generation
+description: How Subframe generates clean, production-ready React code.
+---
+
+Subframe generates production-ready React code deterministically—no LLM involved.
+
+## How it works
+
+When you make edits in Subframe, you're editing the underlying code directly. If it can't be translated to code, you can't do it in Subframe.
+
+- **Deterministic** — The same design always produces the same code, without AI hallucinations or unexpected output.
+- **Clean** — You get a minimal set of changes. No extra wrappers, one-off components, or redundant styles.
+- **Responsive** — Changes reflect instantly, without waiting for AI calls.
+
+<Frame caption="Increasing the size of text in Subframe reflects real-time in generated code.">
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    className="w-full"
+    src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/Mintlify/design-changes-reflected-in-code-Swdkw45gXz7gO32nN7GRnEzPxtzu0T.mp4"
+  />
+</Frame>
+
+## AI-ready output
+
+Subframe's code is designed to work well with AI coding tools like Cursor, Claude Code, and Copilot.
+
+### Tailwind CSS
+
+Tailwind is well-represented in AI training data, so models generate it reliably. Utility classes also make it easy to copy, paste, and refactor code after AI edits.
+
+Subframe also syncs your theme to a Tailwind config file. In our testing, we find that a consistent theme helps AI tools generate code that matches your design system, rather than inventing arbitrary colors or spacing.
+
+### Headless components
+
+[Headless components](https://www.subframe.com/blog/how-headless-components-became-the-future-for-building-ui-libraries) separate styling from functionality, giving you:
+
+- **Flexibility** — Restyle without breaking behavior
+- **Composability** — Mix and match primitives
+- **Accessibility** — Built-in ARIA support and keyboard navigation
+
+Subframe uses [Radix](https://www.radix-ui.com/) for interactive behavior.
+
+Headless components also provide guardrails for AI. We found that relying on a battle-tested library for component logic—rather than asking AI to build dropdowns, modals, and accordions from scratch—produces higher quality, more consistent code.
+
+## Future support
+
+We're exploring support for other frameworks and languages. If you're interested, [join our Slack community](https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ) and let us know what you'd like to see.

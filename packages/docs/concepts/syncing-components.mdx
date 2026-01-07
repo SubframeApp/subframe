@@ -5,6 +5,18 @@ description: Keep your design system in sync between Subframe and your codebase.
 
 Subframe is the single source of truth for your design system. Components you build in Subframe sync directly to your codebase — same code, same behavior.
 
+<Frame caption="You can copy the sync command from the navbar in Subframe.">
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    controls
+    className="w-full"
+    src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/sync-components-qNU25B0X4BKttDuiXdqf4h6WEt0fYO.webm"
+  />
+</Frame>
+
 ## Using the CLI
 
 Sync all components to your codebase with the CLI:
@@ -28,6 +40,16 @@ Note that **sync is one-way** from Subframe to your codebase. Local changes to s
 Subframe components are presentational — they handle layout, styling, and UI interactions like accordion open/close, but avoid adding product-specific application logic like API calls or state management.
 
 Under the hood, we use [Radix](https://www.radix-ui.com/) for interactive behavior, which gives you accessible, well-tested interactions out of the box.
+
+### Adding handlers and attributes
+
+All components pass through props to the top-level element. This means you can add `data-*` attributes, `tabIndex`, `onClick`, or any other standard HTML attribute directly to any component.
+
+```tsx
+<Button onClick={handleSubmit} tabIndex={0} data-testid="submit-btn">
+  Submit
+</Button>
+```
 
 ### Using slots to access nested props
 
@@ -93,14 +115,3 @@ As a last resort, disable sync for a component by adding this comment comment an
 When the CLI is run, it will skip over any file that contains this comment.
 
 You can alternatively copy/paste component code directly from Subframe if you need a one-off version.
-
-## Publishing to NPM
-
-For teams that want to distribute components as a package, set up a separate repository:
-
-1. Create a new repo for your component library
-2. Follow the [installation instructions](/developers/installation) to initialize the project in that repo
-3. Sync components to this repo
-4. Publish to NPM with your standard workflow
-
-Your apps can then install that package instead of syncing directly. If you need help with this, please join our [Slack community](https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ) for additional support.

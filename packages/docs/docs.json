@@ -51,12 +51,7 @@
           },
           {
             "group": "Theme",
-            "pages": [
-              "theme/customizing-theme",
-              "theme/importing-tokens",
-              "theme/adding-custom-fonts",
-              "theme/dark-mode"
-            ]
+            "pages": ["theme/customizing-theme", "theme/importing-tokens", "theme/adding-custom-fonts"]
           },
           {
             "group": "Admin and billing",
@@ -82,25 +77,32 @@
           "developers/installation",
           {
             "group": "Core concepts",
-            "pages": ["concepts/design-to-code", "concepts/syncing-components", "concepts/exporting-pages"]
+            "pages": [
+              "concepts/design-to-code",
+              "concepts/code-generation",
+              "concepts/syncing-components",
+              "concepts/exporting-pages"
+            ]
           },
           {
             "group": "Guides",
-            "pages": ["developers/mcp-server"]
+            "pages": [
+              "developers/guides/mcp-server",
+              "theme/dark-mode",
+              "developers/component-docs",
+              "developers/guides/accessibility",
+              "developers/guides/testing",
+              "developers/guides/publish-to-npm"
+            ]
           },
           {
             "group": "Troubleshooting",
             "pages": [
-              {
-                "group": "Framework guides",
-                "pages": [
-                  "framework-guides/nextjs",
-                  "framework-guides/vite",
-                  "framework-guides/astro",
-                  "framework-guides/monorepo",
-                  "framework-guides/manual"
-                ]
-              }
+              "framework-guides/nextjs",
+              "framework-guides/vite",
+              "framework-guides/astro",
+              "framework-guides/monorepo",
+              "framework-guides/manual"
             ]
           }
         ]
