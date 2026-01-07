@@ -16,5 +16,5 @@ npm run dev
 
 ## Learn More
 
-- [Subframe documentation](https://docs.subframe.com/introduction)
+- [Subframe documentation](https://docs.subframe.com/overview)
 - [Astro documentation](https://docs.astro.build)
