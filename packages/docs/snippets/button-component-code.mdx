@@ -1,0 +1,101 @@
+```tsx Button.tsx expandable
+import React from "react"
+import * as SubframeCore from "@subframe/core"
+import * as SubframeUtils from "../utils"
+
+interface ButtonRootProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  disabled?: boolean
+  variant?: "brand-primary" | "brand-secondary" | "destructive-primary"
+  size?: "large" | "medium" | "small"
+  children?: React.ReactNode
+  icon?: SubframeCore.IconName
+  iconRight?: SubframeCore.IconName
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  className?: string
+}
+
+const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(function ButtonRoot(
+  {
+    disabled = false,
+    variant = "brand-primary",
+    size = "medium",
+    children,
+    icon = null,
+    iconRight = null,
+    className,
+    type = "button",
+    ...otherProps
+  }: ButtonRootProps,
+  ref,
+) {
+  return (
+    <button
+      className={SubframeUtils.twClassNames(
+        "group/3b777358 flex h-8 cursor-pointer items-center justify-center gap-2 rounded-md border-none bg-brand-600 px-3 text-left hover:bg-brand-500 active:bg-brand-600 disabled:cursor-default disabled:bg-neutral-200 hover:disabled:cursor-default hover:disabled:bg-neutral-200 active:disabled:cursor-default active:disabled:bg-neutral-200",
+        {
+          "h-6 w-auto flex-row flex-nowrap gap-1 px-2 py-0": size === "small",
+          "h-10 w-auto px-4 py-0": size === "large",
+          "bg-error-600 hover:bg-error-500 active:bg-error-600": variant === "destructive-primary",
+          "bg-brand-50 hover:bg-brand-100 active:bg-brand-50": variant === "brand-secondary",
+        },
+        className,
+      )}
+      ref={ref}
+      type={type}
+      disabled={disabled}
+      {...otherProps}
+    >
+      <SubframeCore.Icon
+        className={SubframeUtils.twClassNames(
+          "text-body font-body text-white group-disabled/3b777358:text-neutral-400",
+          {
+            "text-heading-3 font-heading-3": size === "large",
+            "text-brand-700": variant === "brand-secondary",
+          },
+        )}
+        name={icon}
+      />
+      <div
+        className={SubframeUtils.twClassNames("hidden h-4 w-4 flex-none items-center justify-center gap-2", {
+          "h-3 w-3 flex-none": size === "small",
+        })}
+      >
+        <SubframeCore.Loader
+          className={SubframeUtils.twClassNames(
+            "font-['Inter'] text-[12px] font-[400] leading-[20px] text-white group-disabled/3b777358:text-neutral-400",
+            {
+              "text-caption font-caption": size === "small",
+              "text-brand-700": variant === "brand-secondary",
+            },
+          )}
+        />
+      </div>
+      {children ? (
+        <span
+          className={SubframeUtils.twClassNames(
+            "whitespace-nowrap text-body-bold font-body-bold text-white group-disabled/3b777358:text-neutral-400",
+            {
+              "text-caption-bold font-caption-bold": size === "small",
+              "text-brand-700": variant === "brand-secondary",
+            },
+          )}
+        >
+          {children}
+        </span>
+      ) : null}
+      <SubframeCore.Icon
+        className={SubframeUtils.twClassNames(
+          "text-body font-body text-white group-disabled/3b777358:text-neutral-400",
+          {
+            "text-heading-3 font-heading-3": size === "large",
+            "text-brand-700": variant === "brand-secondary",
+          },
+        )}
+        name={iconRight}
+      />
+    </button>
+  )
+})
+
+export const Button = ButtonRoot
+```

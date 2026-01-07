@@ -1,0 +1,33 @@
+---
+title: Accessibility
+description: Build accessible interfaces with Subframe components.
+---
+
+Subframe components are accessible by default. We use [Radix](https://www.radix-ui.com/) under the hood, which provides built-in keyboard navigation, focus management, and ARIA attributes.
+
+## Adding accessibility attributes
+
+All components pass through props to the top-level element. You can add any ARIA attribute directly:
+
+```tsx
+<Button aria-label="Close dialog" aria-describedby="dialog-description">
+  <Icon name="FeatherX" />
+</Button>
+
+<TextField aria-required="true" aria-invalid={hasError} />
+
+<Card role="article" aria-labelledby="card-title" />
+```
+
+Common attributes you might use:
+
+- `aria-label` — Describes the element for screen readers
+- `aria-describedby` — References an element that describes this one
+- `aria-required` — Indicates a required form field
+- `aria-invalid` — Indicates validation errors
+- `aria-expanded` — Indicates expandable content state
+- `aria-hidden` — Hides decorative elements from screen readers
+- `role` — Overrides the semantic role of an element
+
+For more complex accessibility needs, you can also [create wrapper components](/concepts/syncing-components#wrapping-components) for code reuse.
+

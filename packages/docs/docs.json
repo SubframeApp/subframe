@@ -25,88 +25,89 @@
           "anchor": "YouTube",
           "href": "https://www.youtube.com/@SubframeApp",
           "icon": "youtube"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://www.subframe.com/blog",
-          "icon": "newspaper"
         }
       ]
     },
-    "groups": [
+    "tabs": [
       {
-        "group": "Get started",
+        "tab": "Developer docs",
+        "icon": "code",
         "pages": [
-          "get-started/introduction",
-          "get-started/quickstart",
-          "get-started/concepts",
-          "get-started/faq"
-        ]
-      },
-      {
-        "group": "Installation",
-        "pages": [
+          "overview",
           "installation",
-          "tailwind-config",
-          "fonts",
           {
-            "group": "Framework guides",
+            "group": "Core concepts",
             "pages": [
-              "framework-guides/nextjs",
-              "framework-guides/vite",
-              "framework-guides/astro",
-              "framework-guides/monorepo",
-              "framework-guides/manual"
+              "concepts/design-to-code",
+              "concepts/code-generation",
+              "concepts/syncing-components",
+              "concepts/exporting-pages"
+            ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              "guides/mcp-server",
+              "guides/dark-mode",
+              "guides/component-docs",
+              "guides/accessibility",
+              "guides/testing",
+              "guides/publish-to-npm"
+            ]
+          },
+          {
+            "group": "Troubleshooting",
+            "pages": [
+              "frameworks/nextjs",
+              "frameworks/vite",
+              "frameworks/astro",
+              "frameworks/monorepo",
+              "frameworks/manual"
             ]
           }
         ]
       },
       {
-        "group": "Design with Subframe",
+        "tab": "Learn Subframe",
+        "icon": "book",
         "pages": [
-          "designing/adding-elements",
-          "designing/using-ai-to-design",
-          "designing/personalizing-ai",
-          "designing/version-history"
-        ]
-      },
-      {
-        "group": "Prototype with Subframe",
-        "pages": ["prototyping/creating-ai-prototypes", "prototyping/sharing-prototypes"]
-      },
-      {
-        "group": "Develop with Subframe",
-        "pages": [
-          "developing/mcp-server",
-          "developing/syncing-components",
-          "developing/using-components",
-          "developing/copy-paste-pages",
-          "developing/adding-business-logic",
-          "developing/props-and-slots",
-          "developing/disabling-sync"
-        ]
-      },
-      {
-        "group": "Theme",
-        "pages": [
-          "theme/customizing-theme",
-          "theme/importing-tokens",
-          "theme/adding-custom-fonts",
-          "theme/dark-mode"
-        ]
-      },
-      {
-        "group": "Admin and billing",
-        "pages": [
-          "admin/managing-team",
-          "admin/pricing-and-plans",
-          "admin/managing-projects",
-          "admin/version-history",
-          "admin/auth-tokens",
+          "learn/introduction",
+          "learn/quickstart",
+          "learn/concepts",
+          "learn/faq",
           {
-            "group": "Single sign-on (SSO)",
+            "group": "Design with Subframe",
             "pages": [
-              "admin/sso/okta"
+              "learn/designing/adding-elements",
+              "learn/designing/using-ai-to-design",
+              "learn/designing/personalizing-ai",
+              "learn/designing/version-history"
+            ]
+          },
+          {
+            "group": "Prototype with Subframe",
+            "pages": ["learn/prototyping/creating-ai-prototypes", "learn/prototyping/sharing-prototypes"]
+          },
+          {
+            "group": "Theme",
+            "pages": [
+              "learn/theme/customizing-theme",
+              "learn/theme/importing-tokens",
+              "learn/theme/adding-custom-fonts"
+            ]
+          },
+          {
+            "group": "Admin and billing",
+            "pages": [
+              "learn/admin/managing-team",
+              "learn/admin/pricing-and-plans",
+              "learn/admin/managing-projects",
+              "learn/admin/version-history",
+              "learn/admin/auth-tokens",
+              {
+                "group": "Single sign-on (SSO)",
+                "pages": ["learn/admin/sso/okta"]
+              }
             ]
           }
         ]

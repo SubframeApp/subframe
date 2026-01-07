@@ -1,0 +1,45 @@
+---
+title: Exporting pages
+description: Export page designs to your codebase and add business logic.
+---
+
+Pages are screens built from components. Design the layout and UI in Subframe, then export and add business logic like API calls, state management, and routing in code.
+
+## Using the MCP server (recommended)
+
+The fastest way to export pages is through AI assistants connected to Subframe's [MCP server](/guides/mcp-server). Paste a page link and let AI integrate the design directly:
+
+```text
+Implement the design at https://app.subframe.com/PROJECT_ID/design/DESIGN_ID/edit.
+
+Wire up relevant app logic where applicable.
+```
+
+AI fetches the latest design and generates code that fits your existing project structure. You can also ask AI to update existing pages when designs change:
+
+```text
+Update the existing page to match the Subframe design at
+https://app.subframe.com/PROJECT_ID/design/DESIGN_ID/edit.
+
+Preserve all existing functionality unless the new design requires a change.
+```
+
+## Copy and paste
+
+You can also copy page code directly from Subframe:
+
+1. Open the page in Subframe
+2. Click **Code** > **Inspect**
+3. Copy the React code
+
+To export just part of a page, select the elements you want and the code panel will show only your selection.
+
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  controls
+  className="w-full"
+  src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/copy-and-paste-JNO1IbVafiW2vHKt9OuGXgteMyHkTR.webm"
+/>

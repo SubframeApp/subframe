@@ -3,28 +3,22 @@ title: Vite
 ---
 
 <Note>
-    This guide assumes that you have already setup React and Tailwind CSS in your Vite app. If you haven't, please follow the [Vite](https://vite.dev/guide/#scaffolding-your-first-vite-project) and [Tailwind CSS](https://v3.tailwindcss.com/docs/installation/using-postcss) installation guides.
+  This guide assumes that you have already setup React and Tailwind CSS in your Vite app. If you haven't, please follow
+  the [Vite](https://vite.dev/guide/#scaffolding-your-first-vite-project) and [Tailwind
+  CSS](https://v3.tailwindcss.com/docs/installation/using-postcss) installation guides.
 </Note>
 
 ### Install Subframe
+
 Run the following command in the root of your repository to install Subframe and configure your project:
 
 <CodeGroup>
-    ```bash npm
-    npx @subframe/cli@latest init
-    ```
-    ```bash yarn
-    yarn dlx @subframe/cli@latest init
-    ```
-    ```bash pnpm
-    pnpx @subframe/cli@latest init
-    ```
-    ```bash bun
-    bunx --bun @subframe/cli@latest init
-    ```
+  ```bash npm npx @subframe/cli@latest init ``` ```bash yarn yarn dlx @subframe/cli@latest init ``` ```bash pnpm pnpx
+  @subframe/cli@latest init ``` ```bash bun bunx --bun @subframe/cli@latest init ```
 </CodeGroup>
 
 ### Configure Vite to use import aliases
+
 1. Configure the `compilerOptions` in the `tsconfig.app.json` file so Typescript understands your import aliases.
 
 <CodeGroup>
@@ -60,8 +54,10 @@ Run the following command in the root of your repository to install Subframe and
         "noUncheckedSideEffectImports": true
     },
     "include": ["src"]
+
 }
-```
+
+````
 </CodeGroup>
 
 2. Run `npm install -D @types/node` and then update `vite.config.ts` so Vite can resolve paths without error:
@@ -80,9 +76,10 @@ export default defineConfig({
         }
     }
 })
-```
+````
+
 </CodeGroup>
 
 ### Troubleshooting
 
-If you run into any issues with the installation, refer to the [manual installation guide](/framework-guides/manual) for all of the steps needed to get Subframe working in your codebase.
+If you run into any issues with the installation, refer to the [manual installation guide](/frameworks/manual) for all of the steps needed to get Subframe working in your codebase.

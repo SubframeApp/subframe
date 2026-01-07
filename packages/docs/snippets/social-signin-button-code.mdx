@@ -1,0 +1,51 @@
+```tsx SocialSignInButton.tsx expandable
+import React from "react"
+import * as SubframeUtils from "../utils"
+
+interface SocialSignInButtonRootProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  disabled?: boolean
+  variant?: "facebook" | "google" | "apple"
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  className?: string
+}
+
+const SocialSignInButtonRoot = React.forwardRef<HTMLButtonElement, SocialSignInButtonRootProps>(
+  function SocialSignInButtonRoot(
+    { disabled = false, variant = "facebook", className, type = "button", ...otherProps }: SocialSignInButtonRootProps,
+    ref,
+  ) {
+    return (
+      <button
+        className={SubframeUtils.twClassNames(
+          "group/f1948f75 flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-md border border-solid border-neutral-border bg-white px-4 text-left hover:bg-neutral-50 active:bg-white disabled:cursor-default disabled:bg-white hover:disabled:cursor-default hover:disabled:bg-white active:disabled:cursor-default active:disabled:bg-white",
+          className,
+        )}
+        ref={ref}
+        type={type}
+        disabled={disabled}
+        {...otherProps}
+      >
+        <img
+          className="h-5 w-5 flex-none object-cover"
+          src={
+            variant === "apple"
+              ? "https://res.cloudinary.com/subframe/image/upload/v1711417561/shared/kplo8lv2zjit3brqmadv.png"
+              : variant === "google"
+              ? "https://res.cloudinary.com/subframe/image/upload/v1711417516/shared/z0i3zyjjqkobzuaecgno.svg"
+              : "https://res.cloudinary.com/subframe/image/upload/v1711417550/shared/epocfym1zba2deri6krm.png"
+          }
+        />
+        <span className="text-body-bold font-body-bold text-neutral-700 group-disabled/f1948f75:text-neutral-400">
+          {variant === "apple"
+            ? "Sign in with Apple"
+            : variant === "google"
+            ? "Sign in with Google"
+            : "Sign in with Facebook"}
+        </span>
+      </button>
+    )
+  },
+)
+
+export const SocialSignInButton = SocialSignInButtonRoot
+```

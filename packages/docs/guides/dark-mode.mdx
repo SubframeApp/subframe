@@ -1,14 +1,16 @@
 ---
-title: Supporting dark mode
+title: Dark mode
+description: Setting up dark mode using CSS variables
 ---
 
-Subframe doesn't currently support both light & dark mode per theme, but you can implement it in your codebase using CSS variables. This guide shows you how to set up dark mode using CSS variables and Tailwind's dark mode support.
+Subframe doesn't support dark mode out-of-the-box, but you can easily implement it in your codebase using CSS variables. This guide shows you how to set up dark mode using CSS variables and Tailwind's dark mode support.
 
 ## Prerequisites
 
 Before setting up dark mode, ensure you have:
+
 - [Installed Subframe](/installation) in your project
-- [Synced your components and theme](/developing/syncing-components) to your codebase
+- [Synced your components and theme](/concepts/syncing-components) to your codebase
 
 ## How it works
 
@@ -24,7 +26,7 @@ This keeps your Subframe workflow unchanged while enabling dark mode in your app
 <Tabs>
 <Tab title="Tailwind v3">
 
-Modify your `tailwind.config.js` to use CSS variables. 
+Modify your `tailwind.config.js` to use CSS variables.
 
 <Note>Add `// @subframe/sync-disable` at the top to prevent Subframe from overwriting your changes.</Note>
 
@@ -59,7 +61,8 @@ module.exports = {
 ```
 
 <Note>
-Find your theme configuration in the [Theme tab](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV3).
+  Find your theme configuration in the [Theme
+  tab](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV3).
 </Note>
 
 </Tab>
@@ -82,7 +85,8 @@ Modify your `theme.css` to use CSS variables and add the dark mode custom varian
 ```
 
 <Note>
-Find your theme.css in the [Theme tab](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV4).
+  Find your theme.css in the [Theme
+  tab](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV4).
 </Note>
 
 </Tab>
@@ -93,7 +97,6 @@ Find your theme.css in the [Theme tab](https://app.subframe.com/library?componen
 Create a `variables.css` file that defines CSS variables for both light and dark modes:
 
 ```css variables.css
-
 /* Light mode */
 
 html {
@@ -136,7 +139,8 @@ html.dark {
 ```
 
 <Tip>
-Dark mode colors typically invert the scale: light mode's `--brand-50` (lightest) becomes dark mode's `--brand-900` (darkest), and vice versa.
+  Dark mode colors typically invert the scale: light mode's `--brand-50` (lightest) becomes dark mode's `--brand-900`
+  (darkest), and vice versa.
 </Tip>
 
 ## Step 3: Import variables globally
@@ -165,7 +169,7 @@ npm install next-themes
 ```
 
 ```tsx app/layout.tsx
-import { ThemeProvider } from 'next-themes'
+import { ThemeProvider } from "next-themes"
 
 export default function RootLayout({ children }) {
   return (
@@ -183,26 +187,22 @@ export default function RootLayout({ children }) {
 ### React with context
 
 ```tsx ThemeProvider.tsx
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from "react"
 
-const ThemeContext = createContext({ theme: 'light', toggleTheme: () => {} })
+const ThemeContext = createContext({ theme: "light", toggleTheme: () => {} })
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState('light')
+  const [theme, setTheme] = useState("light")
 
   useEffect(() => {
     const root = window.document.documentElement
-    root.classList.remove('light', 'dark')
+    root.classList.remove("light", "dark")
     root.classList.add(theme)
   }, [theme])
 
-  const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light')
+  const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light")
 
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  )
+  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>
 }
 
 export const useTheme = () => useContext(ThemeContext)
@@ -211,16 +211,12 @@ export const useTheme = () => useContext(ThemeContext)
 ### Theme toggle button
 
 ```tsx
-import { useTheme } from 'next-themes'
+import { useTheme } from "next-themes"
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
 
-  return (
-    <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
-      {theme === 'dark' ? '☀️' : '🌙'}
-    </button>
-  )
+  return <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>{theme === "dark" ? "☀️" : "🌙"}</button>
 }
 ```
 
@@ -230,6 +226,7 @@ export function ThemeToggle() {
 <Accordion title="Test both modes">
 
 Always test your application in both light and dark modes. Check for:
+
 - Sufficient contrast ratios (use browser DevTools)
 - Readability of all text
 - Visibility of borders and dividers
@@ -242,22 +239,6 @@ Use the user's system preference as the default:
 
 ```tsx
 <ThemeProvider attribute="class" defaultTheme="system">
-```
-
-</Accordion>
-<Accordion title="Prevent flash of unstyled content">
-
-Set the theme before React hydrates to prevent flashing:
-
-```tsx _document.tsx
-<script dangerouslySetInnerHTML={{
-  __html: `
-    (function() {
-      const theme = localStorage.getItem('theme') || 'light';
-      document.documentElement.classList.add(theme);
-    })()
-  `
-}} />
 ```
 
 </Accordion>

@@ -1,0 +1,61 @@
+```tsx SignInPage.tsx expandable
+import React from "react"
+import { Button } from "@/ui/components/Button"
+import { SocialSignInButton } from "@/ui/components/SocialSignInButton"
+// [!code ++:2]
+import { useNavigate } from "react-router-dom"
+import { signInWithGoogle, signInWithApple } from "@/lib/auth"
+
+function SignInPage() {
+  // [!code ++:1]
+  const navigate = useNavigate()
+
+  return (
+    <div className="flex h-full w-full flex-col items-center justify-center bg-white">
+      <div className="flex w-64 flex-col items-center justify-center gap-8">
+        <div className="flex flex-col items-center justify-center gap-1">
+          <img
+            className="h-16 flex-none object-cover"
+            src="https://res.cloudinary.com/subframe/image/upload/v1767591134/uploads/302/zzfsz5tcwky0pkjkru9d.png"
+          />
+          <span className="text-heading-2 font-heading-2 text-default-font">Welcome</span>
+          <span className="text-body font-body text-subtext-color">Login or sign up below</span>
+        </div>
+        <div className="flex w-full flex-col items-center gap-2">
+          <SocialSignInButton
+            variant="google"
+            // [!code ++:4]
+            onClick={async () => {
+              await signInWithGoogle()
+              navigate("/dashboard")
+            }}
+          />
+          <SocialSignInButton
+            variant="apple"
+            // [!code ++:4]
+            onClick={async () => {
+              await signInWithApple()
+              navigate("/dashboard")
+            }}
+          />
+        </div>
+        <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-border" />
+        <Button
+          className="h-10 w-full flex-none"
+          variant="brand-secondary"
+          size="large"
+          icon="FeatherMail"
+          // [!code ++:3]
+          onClick={() => {
+            navigate("/sign-in/email")
+          }}
+        >
+          Continue with email
+        </Button>
+      </div>
+    </div>
+  )
+}
+
+export default SignInPage
+```

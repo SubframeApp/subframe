@@ -1,0 +1,117 @@
+---
+title: Syncing components
+description: Keep your design system in sync between Subframe and your codebase.
+---
+
+Subframe is the single source of truth for your design system. Components you build in Subframe sync directly to your codebase — same code, same behavior.
+
+<Frame caption="You can copy the sync command from the navbar in Subframe.">
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    controls
+    className="w-full"
+    src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/sync-components-qNU25B0X4BKttDuiXdqf4h6WEt0fYO.webm"
+  />
+</Frame>
+
+## Using the CLI
+
+Sync all components to your codebase with the CLI:
+
+```bash
+npx @subframe/cli sync --all
+```
+
+To sync specific components:
+
+```bash
+npx @subframe/cli sync Button Alert Accordion
+```
+
+The CLI pulls all components into your configured directory in your project settings.
+
+Note that **sync is one-way** from Subframe to your codebase. Local changes to synced files will be overwritten on the next sync. If you don't want to overwrite local changes, you can [disable sync](/concepts/syncing-components#disabling-sync) for the component. In the future, we'll support syncing code changes back to Subframe.
+
+## Adding business logic
+
+Subframe components are presentational — they handle layout, styling, and UI interactions like accordion open/close, but avoid adding product-specific application logic like API calls or state management.
+
+Under the hood, we use [Radix](https://www.radix-ui.com/) for interactive behavior, which gives you accessible, well-tested interactions out of the box.
+
+### Adding handlers and attributes
+
+All components pass through props to the top-level element. This means you can add `data-*` attributes, `tabIndex`, `onClick`, or any other standard HTML attribute directly to any component.
+
+```tsx
+<Button onClick={handleSubmit} tabIndex={0} data-testid="submit-btn">
+  Submit
+</Button>
+```
+
+### Using slots to access nested props
+
+It's common for components to contain interactive elements within them—like a card with a button. Slots let you access these nested elements' props:
+
+```tsx
+import { TrackCard } from "@/ui/components/TrackCard"
+
+function MyTrackCard({ onFavorite }) {
+  return (
+    <TrackCard
+      title="Song Title"
+      artist="Artist Name"
+      // Slots let you access nested props, without top-level object props
+      // [!code highlight:8]
+      favoriteButtonSlot={
+        <TrackCard.FavoriteButton
+          icon="FeatherHeart"
+          onClick={() => {
+            // Add any business logic here
+          }}
+        />
+      }
+    />
+  )
+}
+```
+
+The flexibility of slots lets you pass handlers, custom icons, or even swap in entirely different components. You can create [slots <Icon className="mb-1" size={12} icon="arrow-up-right-from-square" />](https://www.youtube.com/watch?v=7C9cRkvKbQY) using Subframe's component editor.
+
+### Wrapping components
+
+For logic not supported by Radix or slots, wrap the Subframe component:
+
+```tsx
+import { Button } from "@/ui/components/Button"
+
+export function SubmitButton({ onSubmit, ...props }) {
+  const [loading, setLoading] = useState(false)
+
+  async function handleClick() {
+    setLoading(true)
+    await onSubmit()
+    setLoading(false)
+  }
+
+  return <Button {...props} loading={loading} onClick={handleClick} />
+}
+```
+
+This is the recommended way to extend Subframe components. This keeps Subframe as the source of truth for the visual layer, but gives developers the flexibility of code to add any business logic.
+
+<Note>In the future, we'll let you add component logic directly in Subframe.</Note>
+
+### Disabling sync
+
+As a last resort, disable sync for a component by adding this comment comment anywhere in the file:
+
+```tsx
+// @subframe/sync-disable
+```
+
+When the CLI is run, it will skip over any file that contains this comment.
+
+You can alternatively copy/paste component code directly from Subframe if you need a one-off version.

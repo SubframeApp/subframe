@@ -4,9 +4,7 @@ title: "Adding custom fonts"
 
 Upload custom font files to use proprietary or licensed fonts in your project.
 
-<Note>
-  Custom fonts require a Pro plan. Free plan includes Google Fonts.
-</Note>
+<Note>Custom fonts require a Pro plan. Free plan includes Google Fonts.</Note>
 
 ## Uploading fonts
 
@@ -42,7 +40,7 @@ If validation fails, edit the font family name or remove conflicting files.
 
 ## Installing fonts in your codebase
 
-Custom fonts require additional setup in your project to load correctly. See [Loading fonts](/fonts) for instructions.
+Custom fonts require additional setup in your project to load correctly. See [Loading fonts](/installation#install-fonts) for instructions.
 
 ## Updating fonts
 
@@ -61,6 +59,7 @@ To add weights to an existing custom font:
     - Upload completed successfully (toast notification appeared)
     - Font family name doesn't conflict with Google Fonts
     - File format is supported (WOFF, WOFF2, TTF, OTF)
+
   </Accordion>
   <Accordion title="Font not loading in codebase">
     Verify:
@@ -69,11 +68,13 @@ To add weights to an existing custom font:
     - `@font-face` declarations are in your CSS
     - File paths match actual font file locations
     - No CORS errors in browser console
+
   </Accordion>
   <Accordion title="Weight slider not showing all weights">
     For static fonts, the slider only shows uploaded weights. Upload additional font files to enable more weight options.
 
     For variable fonts, the slider shows the full supported range from the font file metadata.
+
   </Accordion>
   <Accordion title="Can't mix fonts in same family">
     Remove existing font files or use a different family name. Subframe requires consistent format and type (static vs variable) within each font family.

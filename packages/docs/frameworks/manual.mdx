@@ -1,0 +1,152 @@
+---
+sidebarTitle: Other (manual)
+title: Manual installation
+---
+
+<Note>
+  We recommend using `@subframe/cli` to initialize your project. If you're troubleshooting issues, you can follow the
+  steps below instead.
+</Note>
+
+This guide will walk through all of the steps needed to get Subframe working in your codebase.
+
+We'll assume you have a project with the following file structure:
+
+```
+my-app/
+|-- src/
+|   |-- main.tsx
+|   `-- styles.css
+|-- index.html
+|-- package.json
+`-- tsconfig.json
+```
+
+<Steps>
+<Step title="Create a .subframe/sync.json file">
+
+```json .subframe/sync.json
+{
+  "directory": "./src/ui",
+  "importAlias": "@/ui/*",
+  "projectId": "YOUR_PROJECT_ID"
+}
+```
+
+The file contains three settings:
+
+- `directory`: The directory where your Subframe components will be synced to.
+- `importAlias`: The import alias for your Subframe components.
+- `projectId`: The project ID for your Subframe project.
+
+<Accordion title="Finding your project ID">
+You can find `YOUR_PROJECT_ID` in your URL in the Subframe app: `https://app.subframe.com/<YOUR_PROJECT_ID>/rest/of/url`
+
+For example, if the URL you see is `https://app.subframe.com/abcdef123456/library`, your project ID is `abcdef123456`.
+
+</Accordion>
+
+</Step>
+
+<Step title="Install dependencies">
+
+Subframe depends on `@subframe/core`. Run the following command to install the dependencies:
+
+<CodeGroup>
+
+```bash npm
+npm install @subframe/core@latest
+```
+
+```bash yarn
+yarn add @subframe/core@latest
+```
+
+```bash pnpm
+pnpm add @subframe/core@latest
+```
+
+```bash bun
+bun add @subframe/core@latest
+```
+
+</CodeGroup>
+
+</Step>
+
+<Step title="Sync your Subframe components">
+
+Run the following command to sync your Subframe components and theme to your codebase:
+
+<CodeGroup>
+
+```bash npm
+npx @subframe/cli@latest sync --all
+```
+
+```bash yarn
+yarn dlx @subframe/cli@latest sync --all
+```
+
+```bash pnpm
+pnpx @subframe/cli@latest sync --all
+```
+
+```bash bun
+bunx --bun @subframe/cli@latest sync --all
+```
+
+</CodeGroup>
+
+The Subframe CLI will look for the project settings in your `.subframe` directory. It may ask you for an access token to authenticate with your project.
+
+</Step>
+
+<Step title="Configure Tailwind to use Subframe's theme">
+
+After syncing, Subframe creates theme configuration files. You need to import these into your Tailwind setup.
+
+You can configure which version of Tailwind CSS you're using in your project settings.
+
+<Tabs>
+<Tab title="Tailwind v3">
+
+Extend your `tailwind.config.js` with your Subframe theme:
+
+```javascript tailwind.config.js {11-13}
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+  // [!code ++]
+  presets: [require("./src/ui/tailwind.config")],
+}
+```
+
+Anytime you update your theme in Subframe, you'll need to rerun sync again to update the theme in your codebase. You can view the generated `tailwind.config.js` file in your [Subframe theme](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV3).
+
+</Tab>
+
+<Tab title="Tailwind v4">
+
+Import Subframe's generated `theme.css` in your global CSS file (typically `index.css`, `styles.css`, or `globals.css`):
+
+```css src/styles.css
+@import "tailwindcss";
+// [!code ++]
+@import "./ui/theme.css";
+
+/* Remaining code in your global CSS file... */
+```
+
+Anytime you update your theme in Subframe, you'll need to rerun sync again to update the theme in your codebase. You can view the generated `theme.css` file in your [Subframe theme](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV4).
+
+</Tab>
+</Tabs>
+
+</Step>
+
+</Steps>

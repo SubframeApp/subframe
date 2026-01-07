@@ -1,0 +1,17 @@
+---
+title: Testing
+description: Add test attributes to Subframe components.
+---
+
+All components pass through props to the top-level element. Add `data-testid` or other test attributes for use with testing tools like Playwright, Cypress, or Selenium:
+
+```tsx
+<Button data-testid="submit-btn" onClick={handleSubmit}>
+  Submit
+</Button>
+
+<TextField data-testid="email-input" data-cy="email-field" />
+```
+
+For reusable test IDs, [create wrapper components](/concepts/syncing-components#wrapping-components) that include them by default.
+
