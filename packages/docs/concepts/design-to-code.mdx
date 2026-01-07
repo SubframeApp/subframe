@@ -7,7 +7,7 @@ import SignInPageCode from "/snippets/signin-page-code.mdx"
 import SignInPageWithLogic from "/snippets/signin-page-with-logic.mdx"
 import CliSyncAllCommand from "/snippets/cli-sync-all-command.mdx"
 
-By default, Subframe **determinstically** generates pure UI + CSS code without application logic (handling state, API calls, etc). Developers are expected to add this logic themselves after export.
+Subframe is designed for building interfaces—the visual layer that designers own. Code generation in Subframe is **deterministic** and **purely presentational** (no API calls, state management, etc). Developers can later add application logic themselves using IDEs like Cursor or VS Code after export.
 
 This guide explains Subframe's design-to-code workflow in detail.
 
@@ -18,11 +18,11 @@ As a developer, you should treat **components** and **pages** differently:
 - **Components** are your design system (e.g. buttons, inputs, cards). They are synced via CLI to a folder in your codebase (default: `./ui/components`) and are not meant to be modified after export.
 - **Pages** are screens built from components. They are exported as copyable React code or using an MCP server and are meant to be modified after export.
 
-In a nutshell, **components are synced, pages are exported**. This is because pages are typically modified with business logic like API calls after export. If your component needs logic after syncing, see our guide on best practices for [exporting components](/developing/exporting-components).
+In a nutshell, **components are synced, pages are exported**. This is because pages are typically modified with business logic like API calls after export. If your component needs logic after syncing, see our guide on best practices for [exporting components](/developing/syncing-components).
 
 ## Design handoff
 
-Say your designer creates a sign in page in Subframe:
+Suppose your designer creates a sign in page in Subframe:
 
 <Frame>
   <img src="/images/developers/signin-page-example.png" alt="Sign in page designed in Subframe" />
@@ -36,7 +36,7 @@ When designers use Subframe, they are modifying the underlying code, which uses 
 
 ### Syncing components
 
-When the designs are ready for handoff, the developer syncs `Button` and `SocialSignInButton` components to their codebase by running the following command:
+When the designs are ready for handoff, sync the `Button` and `SocialSignInButton` code to your codebase by running the following command:
 
 <CodeGroup>
 
@@ -58,7 +58,7 @@ bunx @subframe/cli@latest sync Button SocialSignInButton
 
 </CodeGroup>
 
-The developer can also sync all design system components at once:
+You can also sync all design system components at once:
 
 <CliSyncAllCommand />
 
@@ -92,11 +92,11 @@ For more information on syncing components, see the [Syncing components](/develo
 
 ### Exporting pages
 
-Once the components are synced, the generated page code can now be exported. The generated code has stubs for business logic that need to be filled in by the developer:
+Subframe generates page code with stubs for business logic that need to be filled in:
 
 <SignInPageCode />
 
-The page code can now be exported in two ways:
+The page code can be exported in two ways:
 
 - **MCP server (recommended)** - install Subframe MCP server and ask your AI tool to integrate the page code directly using the [page link](/developers/guides/mcp-server#using-the-mcp-server).
 - **Copy/paste** - Open **Code** > **Inspect** in Subframe and copy the React code.
@@ -115,7 +115,7 @@ Subframe lets designers own the visual layer. When a change is made in Subframe,
 
 **Component updates**
 
-Re-run the sync command to update the component code:
+Run the sync command to get the latest component code:
 
 <CliSyncAllCommand />
 
@@ -136,7 +136,7 @@ AI will fetch the latest design and merge it with your existing code, preserving
 
 ### Developer makes changes
 
-Often times, developers will need to modify the component behavior.
+Often times, you will need to add or modify the component behavior after handoff.
 
 The best practice is to wrap the component with a new component that adds the necessary logic. In that case, you probably don't need to sync code back to Subframe, since the visual layer managed by Subframe will be untouched. If creating a wrapper component is not possible, you can disable sync for the component.
 

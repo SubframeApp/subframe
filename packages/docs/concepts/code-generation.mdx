@@ -9,11 +9,14 @@ Subframe generates production-ready React code deterministically—no LLM involv
 
 When you make edits in Subframe, you're editing the underlying code directly. If it can't be translated to code, you can't do it in Subframe.
 
+Subframe's code output is designed to be:
+
 - **Deterministic** — The same design always produces the same code, without AI hallucinations or unexpected output.
 - **Clean** — You get a minimal set of changes. No extra wrappers, one-off components, or redundant styles.
-- **Responsive** — Changes reflect instantly, without waiting for AI calls.
+- **Instant** — Changes reflect real-time, without waiting for AI calls.
+- **Presentational** — No API calls, state management, or business logic for developers to unwind during handoff.
 
-<Frame caption="Increasing the size of text in Subframe reflects real-time in generated code.">
+<Frame caption="Increasing the size of text in Subframe reflects instantly in generated code.">
   <video
     autoPlay
     muted
@@ -24,27 +27,28 @@ When you make edits in Subframe, you're editing the underlying code directly. If
   />
 </Frame>
 
-## AI-ready output
+## AI-ready code
 
-Subframe's code is designed to work well with AI coding tools like Cursor, Claude Code, and Copilot.
+Subframe's exported code is designed to work well with AI coding tools like Cursor, Claude Code, and Copilot. Our [MCP server](/developers/guides/mcp-server) allows you to grant direct access to your designs to these tools.
 
 ### Tailwind CSS
 
-Tailwind is well-represented in AI training data, so models generate it reliably. Utility classes also make it easy to copy, paste, and refactor code after AI edits.
+Tailwind CSS is a popular, robust CSS framework that, in our testing, is very AI-friendly:
 
-Subframe also syncs your theme to a Tailwind config file. In our testing, we find that a consistent theme helps AI tools generate code that matches your design system, rather than inventing arbitrary colors or spacing.
+- Tailwind's utility classes make it easy to copy, paste, and refactor code after AI edits.
+- A well-architected Tailwind theme give guardrails to AI tools, which dissuades it from inventing arbitrary colors or spacing. Subframe generates a robust Tailwind theme for you automatically.
 
 ### Headless components
 
-[Headless components](https://www.subframe.com/blog/how-headless-components-became-the-future-for-building-ui-libraries) separate styling from functionality, giving you:
+Subframe uses headless components for interactivity because we believe [they are the future](https://www.subframe.com/blog/how-headless-components-became-the-future-for-building-ui-libraries) of building UI libraries. Headless components are unstyled components that help separate styling from functionality, giving you:
 
 - **Flexibility** — Restyle without breaking behavior
-- **Composability** — Mix and match primitives
+- **Composability** — Mix and match primitives, without reinventing the wheel
 - **Accessibility** — Built-in ARIA support and keyboard navigation
 
-Subframe uses [Radix](https://www.radix-ui.com/) for interactive behavior.
+Subframe publishes an [open-source](https://github.com/SubframeApp/subframe/tree/main/packages/subframe-core) package called `@subframe/core` that's a thin wrapper around [Radix](https://www.radix-ui.com/). We use this package instead of Radix directly to support other headless libraries like [BaseUI](https://base-ui.com/) and [React Aria](https://react-aria.adobe.com/) in the future.
 
-Headless components also provide guardrails for AI. We found that relying on a battle-tested library for component logic—rather than asking AI to build dropdowns, modals, and accordions from scratch—produces higher quality, more consistent code.
+We also found headless components to be AI-friendly. Relying on an open-source, battle-tested library for component logic—rather than asking AI to build dropdowns, modals, and accordions from scratch—produces higher quality, more consistent code that is easier to modify with AI.
 
 ## Future support
 
