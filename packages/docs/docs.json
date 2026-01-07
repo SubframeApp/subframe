@@ -30,51 +30,11 @@
     },
     "tabs": [
       {
-        "tab": "Learn Subframe",
-        "pages": [
-          "get-started/introduction",
-          "get-started/quickstart",
-          "get-started/concepts",
-          "get-started/faq",
-          {
-            "group": "Design with Subframe",
-            "pages": [
-              "designing/adding-elements",
-              "designing/using-ai-to-design",
-              "designing/personalizing-ai",
-              "designing/version-history"
-            ]
-          },
-          {
-            "group": "Prototype with Subframe",
-            "pages": ["prototyping/creating-ai-prototypes", "prototyping/sharing-prototypes"]
-          },
-          {
-            "group": "Theme",
-            "pages": ["theme/customizing-theme", "theme/importing-tokens", "theme/adding-custom-fonts"]
-          },
-          {
-            "group": "Admin and billing",
-            "pages": [
-              "admin/managing-team",
-              "admin/pricing-and-plans",
-              "admin/managing-projects",
-              "admin/version-history",
-              "admin/auth-tokens",
-              {
-                "group": "Single sign-on (SSO)",
-                "pages": ["admin/sso/okta"]
-              }
-            ]
-          }
-        ]
-      },
-      {
         "tab": "Developer docs",
         "icon": "code",
         "pages": [
-          "developers/introduction",
-          "developers/installation",
+          "overview",
+          "installation",
           {
             "group": "Core concepts",
             "pages": [
@@ -87,22 +47,67 @@
           {
             "group": "Guides",
             "pages": [
-              "developers/guides/mcp-server",
-              "theme/dark-mode",
-              "developers/component-docs",
-              "developers/guides/accessibility",
-              "developers/guides/testing",
-              "developers/guides/publish-to-npm"
+              "guides/mcp-server",
+              "guides/dark-mode",
+              "guides/component-docs",
+              "guides/accessibility",
+              "guides/testing",
+              "guides/publish-to-npm"
             ]
           },
           {
             "group": "Troubleshooting",
             "pages": [
-              "framework-guides/nextjs",
-              "framework-guides/vite",
-              "framework-guides/astro",
-              "framework-guides/monorepo",
-              "framework-guides/manual"
+              "frameworks/nextjs",
+              "frameworks/vite",
+              "frameworks/astro",
+              "frameworks/monorepo",
+              "frameworks/manual"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Learn Subframe",
+        "icon": "book",
+        "pages": [
+          "learn/introduction",
+          "learn/quickstart",
+          "learn/concepts",
+          "learn/faq",
+          {
+            "group": "Design with Subframe",
+            "pages": [
+              "learn/designing/adding-elements",
+              "learn/designing/using-ai-to-design",
+              "learn/designing/personalizing-ai",
+              "learn/designing/version-history"
+            ]
+          },
+          {
+            "group": "Prototype with Subframe",
+            "pages": ["learn/prototyping/creating-ai-prototypes", "learn/prototyping/sharing-prototypes"]
+          },
+          {
+            "group": "Theme",
+            "pages": [
+              "learn/theme/customizing-theme",
+              "learn/theme/importing-tokens",
+              "learn/theme/adding-custom-fonts"
+            ]
+          },
+          {
+            "group": "Admin and billing",
+            "pages": [
+              "learn/admin/managing-team",
+              "learn/admin/pricing-and-plans",
+              "learn/admin/managing-projects",
+              "learn/admin/version-history",
+              "learn/admin/auth-tokens",
+              {
+                "group": "Single sign-on (SSO)",
+                "pages": ["learn/admin/sso/okta"]
+              }
             ]
           }
         ]
