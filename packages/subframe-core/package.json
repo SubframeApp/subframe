@@ -1,6 +1,6 @@
 {
   "name": "@subframe/core",
-  "version": "1.150.0",
+  "version": "1.153.0",
   "description": "",
   "source": "src/index.ts",
   "main": "dist/cjs/index.cjs",
@@ -42,12 +42,18 @@
     "@types/react-dom": "^18",
     "postcss": "8.4.21",
     "rollup": "4.2.0",
-    "rollup-plugin-auto-external": "^2.0.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "4.0.2",
     "rollup-plugin-preserve-directives": "0.4.0",
     "rollup-plugin-typescript2": "0.36.0",
     "typescript": "5.8.3",
     "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "react-day-picker": "^9.0.4",
+    "react-virtualized-auto-sizer": "^1.0.25",
+    "recharts": "^2.15.1",
+    "tailwind-merge": "^2.3.0"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.13.0"
@@ -72,11 +78,7 @@
     "classnames": "^2.5.1",
     "copy-to-clipboard": "^3.3.3",
     "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
-    "react-day-picker": "^9.0.4",
     "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
-    "react-virtualized-auto-sizer": "^1.0.25",
-    "recharts": "^2.15.1",
-    "sonner": "^1.7.2",
-    "tailwind-merge": "^2.3.0"
+    "sonner": "^1.7.2"
   }
 }
