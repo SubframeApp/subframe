@@ -57,6 +57,13 @@ export interface VerifyTokenResponse {
 
 export type TruncatedProjectId = Distinct<string, "TruncatedProjectId">
 
+export interface ListProjectsResponse {
+  projects: Array<{
+    truncatedProjectId: TruncatedProjectId
+    name: string
+  }>
+}
+
 export interface InitProjectRequest {
   truncatedProjectId?: TruncatedProjectId
   cssType?: CodeGenCSSType
