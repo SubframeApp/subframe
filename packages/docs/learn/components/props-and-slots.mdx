@@ -1,0 +1,58 @@
+---
+title: Props and slots
+description: Understand when to use props vs slots for customizing Subframe components.
+---
+
+Components accept two types of customization: **props** and **slots**.
+
+**Props** are simple values—text, numbers, booleans, icons, images. Configure props in the Inspector panel when using components. In code, pass props like any React component.
+
+**Slots** are placeholders for React children. They enable composition—nesting components inside other components. Designers define slots and add default content. Developers fill slots with custom components, event handlers, and framework-specific elements.
+
+## When to use each
+
+Use **props** for content that changes per instance: titles, labels, colors, icons, image URLs.
+
+Use **slots** when you need:
+
+- Event handlers on subcomponents (`onClick`, `onChange`)
+- Framework-specific components (Next.js `Image`, custom wrappers)
+- Complex nested content with its own state and logic
+
+## Example: Props vs slots
+
+A `TrackCard` component with only props accepts simple values but can't expose event handlers or framework components:
+
+```tsx
+<TrackCard
+  title="The Less I Know The Better"
+  artist="Tame Impala"
+  image="/covers/tame_impala.jpg" // Static URL only, no Next.js Image
+  // No way to add onClick to favorite button
+/>
+```
+
+The same component with slots exposes subcomponents and accepts React elements:
+
+```tsx
+<TrackCard
+  title="The Less I Know The Better"
+  artist="Tame Impala"
+  favoriteButton={
+    <IconButton icon={isFavorite ? "FeatherHeartOff" : "FeatherHeart"} onClick={() => setIsFavorite(!isFavorite)} />
+  }
+  image={<Image src="/covers/tame_impala.jpg" alt="Tame Impala Currents Cover" fill />}
+/>
+```
+
+Slots enable event handlers, Next.js optimized images, and full control over nested components.
+
+## Creating props and slots
+
+Add props and slots when creating or editing components. See [Creating Components](/components/creating-components) for detailed instructions.
+
+**Props:** Select an element → Inspector panel → **+ Add property** → Choose type (Text, Boolean, Enum, Icon, Image, Number)
+
+**Slots:** Select a Stack → Right-click → **Add slot** → Name the slot → Add default content
+
+Slots export as React props that accept JSX. Props export as TypeScript interface properties.

@@ -1,0 +1,71 @@
+---
+title: Layers
+description: Navigate and organize the element hierarchy.
+---
+
+The Layers panel shows your design's element hierarchy as a tree structure. Use it to select, reorder, and organize elements.
+
+## Opening the Layers panel
+
+Click the **Page** tab in the left sidebar to open the Layers panel. It shows all elements on the current page in a tree structure.
+
+## Navigating the hierarchy
+
+**Select an element** - Click any layer to select that element on the canvas. The Inspector updates to show its properties.
+
+**Expand/collapse** - Click the arrow icon next to a layer to show or hide its children.
+
+**Navigate with keyboard:**
+
+- Press <kbd>↑</kbd> / <kbd>↓</kbd> to move between layers
+- Press <kbd>→</kbd> to expand a layer
+- Press <kbd>←</kbd> to collapse a layer
+- Press <kbd>Enter</kbd> to select the highlighted layer
+
+## Understanding hierarchy
+
+The tree structure reflects parent-child relationships. Elements nested inside Stacks or other containers appear indented below their parent.
+
+**Example hierarchy:**
+
+```
+Page
+├── Container
+│   └── Stack (vertical)
+│       ├── Text (heading)
+│       ├── Text (paragraph)
+│       └── Button
+└── Stack (horizontal)
+    ├── Image
+    └── Text
+```
+
+Children inherit layout behavior from their parents. A Stack controls how its children are arranged, sized, and spaced.
+
+## Reordering elements
+
+Drag layers up or down to reorder them.
+
+**In Stacks** - Reordering changes the visual order. Drag a layer above or below its siblings to change their sequence.
+
+**Z-index** - For overlapping elements, the bottom layer in the tree appears on top visually.
+
+## Renaming layers
+
+Double-click any layer name to rename it. Use descriptive names like "hero-heading" or "signup-button" to make complex designs easier to navigate.
+
+Element names don't affect exported code—they're only for organization in the editor.
+
+## Layer actions
+
+**Show/hide** - Click the eye icon to toggle visibility. Hidden elements don't appear on the canvas or in exported code.
+
+**Lock** - Click the lock icon to prevent accidental selection or editing. Locked elements stay visible but can't be modified until unlocked.
+
+**Delete** - Select a layer and press <kbd>Delete</kbd> or <kbd>Backspace</kbd> to remove it.
+
+**Duplicate** - Select a layer and press <kbd>Cmd</kbd> + <kbd>D</kbd> to duplicate it.
+
+## Searching layers
+
+Use the search box at the top of the Layers panel to filter layers by name. Type a few letters and only matching layers appear.

@@ -1,0 +1,101 @@
+---
+title: Responsive design
+description: Design for mobile and desktop breakpoints.
+---
+
+Subframe uses a desktop-first responsive design approach. Design for desktop, then add mobile-specific overrides for properties that need to change on smaller screens.
+
+## Breakpoints
+
+Subframe has two breakpoints:
+
+- **Default** - Desktop and tablet (768px and above)
+- **Mobile** - Phones (767px and below)
+
+The default design applies to all screen sizes. Mobile overrides only apply when the viewport is 767px or narrower.
+
+## Switching breakpoints
+
+Click the device selector in the top toolbar to switch between default and mobile views. The canvas resizes to show how your design looks at each breakpoint.
+
+The current breakpoint indicator shows which view you're in.
+
+## Mobile overrides
+
+Mobile overrides customize specific properties for mobile devices without changing the desktop design.
+
+**Create an override:**
+
+1. Switch to mobile view
+2. Select an element
+3. Modify any property in the Inspector
+4. An override indicator appears next to the property
+
+**Override indicator** - A blue dot shows when a property has a mobile override.
+
+**Clear an override** - Click the override indicator to remove the mobile-specific value and use the default value.
+
+## Properties that support overrides
+
+Almost all properties support mobile overrides:
+
+**Layout** - Width, height, padding, gap, direction, alignment
+
+**Style** - Background, border, corner, shadow, opacity
+
+**Typography** - Font size, line height, color, alignment
+
+**Visibility** - Hide elements on mobile
+
+**Spacing** - Adjust gaps and padding for smaller screens
+
+## Common responsive patterns
+
+**Horizontal to vertical layout** - Change a horizontal Stack to vertical:
+
+1. Create a horizontal Stack on desktop
+2. Switch to mobile
+3. Override **Direction** to vertical
+
+**Hide on mobile** - Remove elements that don't fit on small screens:
+
+1. Select the element
+2. Switch to mobile
+3. Add a mobile override to hide it
+
+**Reduce spacing** - Tighten gaps and padding for mobile:
+
+1. Select a Stack
+2. Switch to mobile
+3. Override **Gap** and **Padding** to smaller values
+
+**Adjust font sizes** - Make text smaller on mobile:
+
+1. Select a Text element
+2. Switch to mobile
+3. Override **Size** to a smaller value
+
+## Code export
+
+Mobile overrides export using the `mobile:` prefix in Tailwind CSS:
+
+```tsx
+<div className="flex flex-row mobile:flex-col gap-6 mobile:gap-4">
+  {/* Horizontal on desktop, vertical on mobile */}
+  {/* 24px gap on desktop, 16px on mobile */}
+</div>
+```
+
+The `mobile:` prefix generates a media query that applies styles when the viewport is 767px or narrower.
+
+## Best practices
+
+**Design desktop-first** - Start with the desktop layout, then adjust for mobile. This matches how Subframe generates CSS.
+
+**Test frequently** - Toggle to mobile view regularly as you build. Don't wait until the end to check mobile.
+
+**Touch targets** - Interactive elements should be at least 44x44px on mobile for easy tapping.
+
+**Simplify layouts** - Mobile screens have less space. Hide secondary content, reduce columns, and streamline navigation.
+
+**Consistent spacing** - Use Subframe's spacing scale (4, 8, 12, 16, 24, 32). Reduce by one step for mobile (e.g., 24px → 16px).

@@ -1,0 +1,31 @@
+---
+title: Overview
+description: Create interactive prototypes with AI-powered code generation.
+---
+
+Prototypes are real web apps built from your page designs. AI generates front-end React code, synced with your design system. Annotate elements as inline prompts, then chat to continuously iterate.
+
+## Quick start
+
+1. **Design your screens** — Build all pages for your flow in Design Mode. Include different states (loading, error, empty).
+2. **Organize into flow** — Drag pages into a flow folder. Each flow = one prototype.
+3. **Add annotations** — Click elements, describe interactions. Press <kbd>Cmd</kbd> + <kbd>Enter</kbd> to save.
+4. **Generate prototype** — Type your first message in chat. AI creates working React code (15-60 seconds).
+5. **Iterate and refine** — Use chat to fix bugs, add features. Design changes sync via **Apply** button.
+
+<Warning>
+  Design updates don't sync back from prototypes to pages. Always make visual changes in Design Mode, then apply to
+  prototype.
+</Warning>
+
+## What makes prototypes different
+
+**Real React code, not mockups:** Prototypes run as functional Vite projects. Test interactions instantly via Sandpack browser preview.
+
+**Design system synced:** Uses your actual Subframe components. Theme and component changes flow through automatically.
+
+**Annotations as inline prompts:** Click any element, describe what it does. AI embeds instructions as code comments, ensuring consistent behavior across regenerations.
+
+**Flow-based organization:** Each flow (folder of pages) has one independent prototype. All pages in the flow are included as context.
+
+**Version controlled:** Every generation creates a versioned snapshot. Restore any previous version instantly.

@@ -1,0 +1,141 @@
+---
+title: Custom Tailwind CSS
+description: Add custom Tailwind utility classes to elements.
+---
+
+Add custom Tailwind CSS classes to any element for fine-tuned styling beyond what the Inspector provides. This gives you full access to Tailwind's utility classes while keeping your design in Subframe.
+
+## Adding custom classes
+
+1. Select an element
+2. Find the **Tailwind CSS** section in the Inspector (right sidebar)
+3. Click to enable the input field
+4. Type space-separated class names
+5. Classes apply immediately to the element
+
+**Example:**
+
+```
+px-4 py-2 hover:bg-blue-500 transition-all
+```
+
+## Removing custom classes
+
+Click the trash icon next to the **Tailwind CSS** field to remove all custom classes from the element.
+
+You can also edit the field to remove specific classes while keeping others.
+
+## How custom classes work
+
+Custom Tailwind classes apply alongside Subframe-generated styles. Subframe generates base styles, and your custom classes extend or override them.
+
+**Subframe generates:**
+
+```tsx
+<div className="flex flex-col gap-4 p-6">
+```
+
+**You add custom classes:**
+
+```tsx
+<div className="flex flex-col gap-4 p-6 hover:shadow-lg transition-all">
+```
+
+## Supported Tailwind features
+
+You can use any Tailwind utility class, including:
+
+**Layout** - `container`, `aspect-square`, `overflow-hidden`
+
+**Spacing** - `mx-auto`, `space-x-4`, `divide-y`
+
+**Typography** - `font-mono`, `tracking-wide`, `leading-relaxed`
+
+**Backgrounds** - `bg-gradient-to-r`, `from-blue-500`, `to-purple-600`
+
+**Borders** - `border-dashed`, `divide-x`, `ring-2`
+
+**Effects** - `shadow-xl`, `blur-sm`, `grayscale`
+
+**Transitions** - `transition-all`, `duration-300`, `ease-in-out`
+
+**Transforms** - `scale-105`, `rotate-45`, `translate-x-4`
+
+**Hover/Focus states** - `hover:bg-blue-500`, `focus:ring-2`
+
+**Responsive variants** - `mobile:hidden`, `md:flex`, `lg:grid-cols-3`
+
+**Dark mode** - `dark:bg-gray-800`, `dark:text-white`
+
+## Custom classes vs Inspector
+
+**Use the Inspector for:**
+
+- Standard styling (colors, spacing, sizing)
+- Properties that need mobile overrides
+- Visual editing with immediate feedback
+
+**Use custom classes for:**
+
+- Hover and focus states
+- Transitions and animations
+- Advanced Tailwind features (gradients, transforms, filters)
+- One-off utility classes not in the Inspector
+
+## Mobile overrides
+
+Custom classes support the `mobile:` prefix for responsive styles:
+
+```
+hidden mobile:block mobile:text-sm
+```
+
+This hides the element on desktop but shows it on mobile with smaller text.
+
+You can also create separate custom class overrides for mobile in the Inspector when viewing the mobile breakpoint.
+
+## Tailwind documentation
+
+Click the Tailwind icon next to the **Tailwind CSS** field to open the Tailwind CSS documentation in a new tab.
+
+Use the docs to find utility class names and see examples.
+
+## Actions menu integration
+
+The Actions menu includes common Tailwind utilities:
+
+Press <kbd>/</kbd> with an element selected and search for:
+
+- **Overflow** - Adds `overflow-auto` or `overflow-hidden`
+- **Scroll** - Adds `overflow-auto`
+- Other utilities
+
+These actions add classes to your existing custom classes automatically.
+
+## Code export
+
+Custom classes export exactly as you typed them:
+
+```tsx
+<div className="flex flex-col gap-4 hover:shadow-lg transition-all duration-300">{/* Your content */}</div>
+```
+
+Your development environment must have Tailwind CSS configured with the same class names for styles to apply correctly.
+
+## Best practices
+
+**Use custom classes sparingly** - Rely on the Inspector for most styling. Custom classes are for edge cases and advanced features.
+
+**Follow Tailwind conventions** - Use Tailwind's utility-first approach. Avoid writing custom CSS classes.
+
+**Test in preview** - Check that your custom classes work as expected before exporting code.
+
+**Document complex classes** - If you use many custom classes, add comments in your code after export to explain their purpose.
+
+**Leverage responsive variants** - Use `mobile:`, `md:`, `lg:` prefixes for responsive behavior beyond Subframe's default breakpoints (requires Tailwind config).
+
+## Limitations
+
+Custom classes don't appear as editable properties in the Inspector. To modify them, return to the **Tailwind CSS** field and edit the text.
+
+Subframe doesn't validate custom class names. Typos or invalid classes won't cause errors in the editor but won't work in your exported code.

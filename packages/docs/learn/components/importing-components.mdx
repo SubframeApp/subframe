@@ -1,0 +1,57 @@
+---
+title: Importing components
+description: Import components from other projects or external code.
+---
+
+Import existing components into your Subframe project instead of building from scratch. Share components across projects or bring in components from external codebases.
+
+## Import from another project
+
+Copy components from one Subframe project to another, including all dependencies and assets.
+
+### Import workflow
+
+1. Navigate to **Components** tab
+2. Click **Import** → **From another project**
+3. Select source project from dropdown
+4. Browse and select components to import
+5. Click **Import**
+
+### What gets imported
+
+When you import a component, Subframe includes all dependencies:
+
+- **Component definitions** — The component and all subcomponents
+- **Theme tokens** — Colors, typography, borders, corners, shadows used by the component
+- **Assets** — Fonts, icons, and images referenced by the component
+
+Imported components appear in your component library and can be customized independently from the source project.
+
+### Selecting components
+
+The import dialog shows two sections:
+
+**Components** — Custom components you've created (excludes base components)
+
+**Pages** — Page designs that can be imported as components
+
+Search by name to find specific components. Select multiple components to import them together.
+
+<Note>Changes to the source project don't sync to imported components. Each project maintains its own copy.</Note>
+
+## Import from code
+
+Import React components from your existing codebase into Subframe.
+
+<Note>
+  This feature is currently in development. Contact [support@subframe.com](mailto:support@subframe.com) for early
+  access.
+</Note>
+
+## After importing
+
+**Review imported components** — Open each component in the editor to verify it imported correctly. Check that all properties, variants, and styling transferred.
+
+**Customize as needed** — Imported components are fully editable. Modify colors, layouts, properties to match your project's design system.
+
+**Sync to code** — Run `npx @subframe/cli sync --all` to add imported components to your codebase.

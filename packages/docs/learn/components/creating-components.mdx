@@ -1,0 +1,180 @@
+---
+title: Creating components
+description: Build custom components visually for your design system.
+---
+
+Build production UI component libraries visually using React + Tailwind CSS. Every Subframe project starts with base components built using [subframe/core](https://github.com/SubframeApp/subframe) – an open-source wrapper around [Radix UI](https://radix-ui.com/).
+
+## Design-to-code workflow
+
+Designers maintain the component library in Subframe. Engineers sync components to production with `npx @subframe/cli sync`. Components export as TypeScript React code with Tailwind styling. Changes flow one way: from Subframe to code.
+
+## Base vs custom components
+
+**Base components** include built-in interactivity and accessibility:
+
+- **Select, Dropdown Menu** — State management for open/closed, selection
+- **Accordion** — Collapsible state, keyboard navigation
+- **Checkbox, Switch, Radio Group** — Checked state, form integration
+- **Slider** — Range value handling, thumb positioning
+- **Toggle Group** — Selection state management
+
+**Custom components** are visual-only without built-in logic. Add business logic in your codebase after syncing—event handlers, API calls, state management.
+
+<Note>
+  Ask AI doesn't create or update components directly. Create components manually from scratch, from a page, or by
+  remixing existing components.
+</Note>
+
+## Creating components
+
+### From the Components page
+
+1. Navigate to **Components** tab (top nav)
+2. Click **+ New component**
+3. Choose creation method:
+   - **Remix** — Duplicate an existing base component as starting point
+   - **New blank component** — Start from scratch
+4. Name your component (use PascalCase: ProductCard, UserAvatar)
+
+Remixing is useful for creating variations of base components while preserving their structure and properties.
+
+### From an existing design
+
+Create components directly from elements on a page:
+
+1. Right-click an element or press <kbd>/</kbd> → **Create component**
+2. Name your component
+3. Review AI-suggested properties—edit these later in the component editor
+4. Click **Create**
+
+Subframe analyzes your selection and suggests properties based on detected content: Text, Icon, Image, Slot. Toggle suggestions on or off and rename as needed.
+
+## Adding properties
+
+Properties make your component configurable. Select an element and click **+ Add property** in the Inspector.
+
+**Property types:**
+
+- **Text** — Editable text content (titles, labels)
+- **Boolean** — True/false toggle
+- **Variant** — Enum choices (size, style options)
+- **Icon** — Icon selection from libraries
+- **Image** — Image URLs or uploads
+- **Number** — Numeric values
+- **Slot** — Flexible areas for React children
+
+Each property exports as a TypeScript prop with full type safety.
+
+## Variants
+
+Variants are pre-configured versions using enum properties. Common patterns:
+
+**Size variants** — Create "size" enum with small, medium, large. Adjust padding, font size, spacing per option.
+
+**Style variants** — Create "variant" enum with primary, secondary, destructive. Change colors and styling per option.
+
+To style variants: select the enum value from dropdown, apply styles—those styles only apply to that variant.
+
+## States
+
+States define appearance during interaction. Add from the States dropdown:
+
+- **Hover** — Mouse over (`:hover`)
+- **Pressed** — Active/clicked (`:active`)
+- **Focused** — Keyboard focus (`:focus-visible`)
+
+## Subcomponents
+
+Subcomponents are child components scoped to a parent. They export as compound components in code (e.g., `Card.Header`, `Card.Footer`).
+
+### Creating subcomponents
+
+1. Open your component in the editor
+2. Click the component name dropdown in the left panel
+3. Click **+ Add subcomponent**
+4. Name your subcomponent
+5. Build the subcomponent structure
+
+### Common examples
+
+- **Card** with Header, Body, Footer subcomponents
+- **List** with Item subcomponent
+- **Table** with Header, Row, Cell subcomponents
+- **Accordion** with Trigger, Content subcomponents
+
+### Using in code
+
+Subcomponents export as properties on the parent component:
+
+```tsx
+<Card>
+  <Card.Header>Title</Card.Header>
+  <Card.Body>Content here</Card.Body>
+  <Card.Footer>
+    <Button>Action</Button>
+  </Card.Footer>
+</Card>
+```
+
+Subcomponents can be reordered via drag-and-drop in the component dropdown. Some base component subcomponents cannot be deleted as they're required for functionality.
+
+## Slots
+
+Slots accept React children for component composition. Create slots by selecting a Stack, right-clicking → **Add slot**, and naming it (e.g., "actions", "header").
+
+For guidance on when to use slots vs props, see [Props and slots](/components/props-and-slots).
+
+## Previewing components
+
+Preview your component in a sandbox to test properties and variants:
+
+1. Click **Preview** in the top navigation
+2. Adjust property values in the Inspector panel
+3. Test different variant combinations
+4. Check responsive behavior
+
+The preview renders your component with live property controls. Press <kbd>Esc</kbd> to exit preview mode.
+
+## Saving and syncing
+
+Components auto-save as you work. Saved components appear in the library under "Custom" for use in any page.
+
+Sync to your codebase:
+
+```bash
+npx @subframe/cli sync --all
+```
+
+Components export as TypeScript React with full type safety:
+
+```tsx ProductCard.tsx
+import * as React from "react"
+
+export interface ProductCardProps {
+  title: string
+  price: string
+  size?: "small" | "medium" | "large"
+  variant?: "default" | "featured"
+}
+
+export const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(function ProductCard(
+  { size = "medium", variant = "default", ...props },
+  ref,
+) {
+  // Generated implementation
+})
+```
+
+## Editing components
+
+Edit any component—base or custom:
+
+1. Go to **Components** tab
+2. Select your component
+3. Make changes in the editor
+4. All instances update automatically
+
+Or right-click any instance → **Edit component**.
+
+Base components are fully customizable. Change colors, layouts, variants, spacing—all changes update instances across pages immediately.

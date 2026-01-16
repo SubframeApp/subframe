@@ -1,0 +1,171 @@
+---
+title: Actions menu
+description: Quick access to element actions with the slash command.
+---
+
+The Actions menu provides keyboard-driven access to all available actions for selected elements. Press <kbd>/</kbd> to open it and quickly modify properties without using the Inspector.
+
+## Opening the Actions menu
+
+Press <kbd>/</kbd> (slash) with an element selected. The Actions menu appears, showing all actions available for that element.
+
+You can also press <kbd>Cmd</kbd> + <kbd>K</kbd> with an element selected to open the command palette in element context.
+
+## Using the menu
+
+**Search for actions** - Type to filter the list. For example, type "padding" to see all padding-related actions.
+
+**Navigate** - Use <kbd>↑</kbd> / <kbd>↓</kbd> arrow keys to move through actions.
+
+**Execute** - Press <kbd>Enter</kbd> or click to run the selected action.
+
+**Close** - Press <kbd>Esc</kbd> to dismiss the menu.
+
+## Available actions
+
+The Actions menu shows different actions depending on the selected element type and current selection.
+
+### Element operations
+
+- **Duplicate** - Copy the element
+- **Delete** - Remove the element
+- **Hide** / **Show** - Toggle visibility
+- **Copy code** - Copy the element's generated code
+
+### Structure
+
+- **Wrap in Stack** - Wrap the element in a new Stack container
+- **Remove Stack** - Unwrap elements from their parent Stack
+- **Create component** - Convert selection to a reusable component
+- **Create snippet** - Save selection as a snippet
+
+### Layout
+
+**Stack direction:**
+
+- Vertical
+- Horizontal
+- Wrap
+
+**Alignment:**
+
+- Align start, center, end
+- Space between, space around
+- Stretch
+
+**Gap and padding:**
+
+- Set gap between children
+- Set padding (all sides or individual)
+
+### Sizing
+
+**Width:**
+
+- Hug content
+- Fill container
+- Set fixed width
+- Min/Max width
+
+**Height:**
+
+- Hug content
+- Fill container
+- Set fixed height
+- Min/Max height
+
+### Style
+
+**Background:**
+
+- Set background color
+- Set gradient
+- Remove background
+
+**Border:**
+
+- Set border width
+- Set border color
+- Set border style
+- Remove border
+
+**Corner:**
+
+- Set corner radius (all or individual corners)
+
+**Shadow:**
+
+- Add drop shadow
+- Add inner shadow
+- Remove shadow
+
+### Typography
+
+For Text elements:
+
+**Font:**
+
+- Set font family
+- Set font weight
+
+**Size:**
+
+- Set font size
+
+**Color:**
+
+- Set text color
+
+**Alignment:**
+
+- Left, center, right, justify
+
+**Text effects:**
+
+- Wrap, truncate, nowrap
+- Transform (uppercase, lowercase, capitalize)
+- Decoration (underline, line-through)
+
+### Advanced
+
+**Tailwind CSS:**
+
+- Set custom Tailwind classes
+- Common utilities (overflow-auto, overflow-hidden, etc.)
+
+**Popovers:**
+
+- Add dropdown
+- Add tooltip
+- Add dialog
+- Add drawer
+
+**Properties:**
+
+- Edit component props
+- Configure slots
+
+**Navigation:**
+
+- Insert element (above, below, left, right)
+- Select adjacent element
+
+## Keyboard shortcuts
+
+Many actions have dedicated keyboard shortcuts. When available, they appear next to the action name in the menu.
+
+**Common shortcuts:**
+
+- <kbd>F</kbd> - Cycle width (hug → fill → fixed)
+- <kbd>G</kbd> - Cycle height (hug → fill → fixed)
+- <kbd>B</kbd> - Focus background color
+- <kbd>C</kbd> - Focus corner radius
+- <kbd>O</kbd> - Focus border
+- <kbd>Cmd</kbd> + <kbd>D</kbd> - Duplicate
+- <kbd>Delete</kbd> - Delete element
+
+## Multi-selection
+
+Select multiple elements to see actions that apply to all of them. The Actions menu shows only actions available for every selected element.
+
+Use this to quickly style or arrange multiple elements at once.

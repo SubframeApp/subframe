@@ -1,0 +1,82 @@
+---
+title: Editor overview
+description: Learn the Subframe editor interface and navigate between editing modes.
+---
+
+The Subframe editor is where you design pages, build components, and export production-ready code. Switch between four modes—Ask AI, Design, Prototype, and Code—depending on your task.
+
+## Editor modes
+
+Switch modes using the mode selector buttons at the top of the editor.
+
+<CardGroup cols={2}>
+  <Card title="Ask AI" icon="sparkle">
+    Generate new pages and variations from text prompts or images.
+  </Card>
+  <Card title="Design Mode" icon="square-mouse-pointer">
+    Edit visually with drag-and-drop, responsive canvas, and layers & properties.
+  </Card>
+  <Card title="Prototype Mode" icon="mouse-pointer-click">
+    Build interactive prototypes from your designs by annotating and chatting with AI
+  </Card>
+  <Card title="Code Mode" icon="code">
+    View code, set up MCP server, and export to AI coding tools like Cursor.
+  </Card>
+</CardGroup>
+
+## Editor layout
+
+The editor consists of three main areas: left panel, canvas (center), and Inspector (right panel).
+
+### Left panel
+
+Toggle left panel buttons with <kbd>Cmd</kbd> + <kbd>\\</kbd>. Click icon buttons to open panels:
+
+**Pages** — Switch between pages and flows in your project. Navigate to different designs or subcomponents when editing components.
+
+**Layers** — View and organize the element hierarchy for the current page. Select, reorder, or group elements. Shows the complete component tree.
+
+**Insert** — Browse and insert components and snippets. Search or drag elements onto the canvas. Switches between snippet and component libraries.
+
+### Canvas (center)
+
+Your design surface where elements appear at their actual rendered size. The canvas shows exactly how your design will look at the current breakpoint (desktop or mobile).
+
+Unlike infinite canvas tools, Subframe uses flexbox for layout (not absolute positioning). Elements flow and arrange using Stacks, resize responsively, and adapt to different screen sizes automatically.
+
+### Inspector (right panel)
+
+Context-aware properties panel that changes based on editor mode and selected element. Shows layout, styling, typography, and component-specific settings. Changes update the canvas in real-time.
+
+**Content by mode:**
+
+- **Design mode** — Layout, sizing, colors, backgrounds, borders, shadows, padding, overflow, and component properties
+- **Code mode** — Three tabs: Inspect (view code), Installation (setup instructions), Prompts (MCP links for AI tools)
+- **Ask AI mode** — AI generation settings and context
+- **Prototype mode** — Interaction and annotation settings
+
+## Breakpoints and responsive design
+
+Switch between desktop (default) and mobile views using the device selector in the Inspector panel.
+
+**Desktop view (default)** — Design for desktop and tablet screens. Elements use their base flex properties.
+
+**Mobile view (768px)** — Add mobile-specific overrides for properties that need different values on small screens. Elements automatically resize and reflow based on flex layout.
+
+Design for desktop first. Then add mobile overrides only where needed.
+
+## Flex-based layout system
+
+Subframe uses flexbox exclusively—no absolute positioning. This matches how production React components work.
+
+**Stack containers** — Primary layout tool. Stacks arrange children vertically, horizontally, or with wrapping. Direction, spacing, and alignment match CSS flexbox exactly.
+
+**Responsive sizing** — Set width/height to "fill" (elements expand) or "hug" (elements shrink to content). Changes apply automatically across breakpoints.
+
+**Why this matters** — Designs are production-ready from the start. No converting positions to flexbox, no broken responsive behavior, no surprises in exported code. AI can generate working interfaces because the editor uses the same layout system as React.
+
+## Collaboration
+
+Multiple team members can edit simultaneously. See who's viewing or editing with avatars in the top navigation.
+
+Click **Share** in the top navigation to invite team members or create view-only links. Set roles (viewer/editor) and toggle public preview access.
