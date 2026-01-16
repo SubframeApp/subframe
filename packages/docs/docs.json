@@ -2,12 +2,11 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Subframe Docs",
-  "colors": {
-    "primary": "#000000",
-    "light": "#dddddd",
-    "dark": "#333333"
-  },
+  "colors": { "primary": "#111111", "light": "#dddddd", "dark": "#111111" },
   "favicon": "/favicon.png",
+  "icons": {
+    "library": "lucide"
+  },
   "navigation": {
     "global": {
       "anchors": [
@@ -76,19 +75,6 @@
           "learn/concepts",
           "learn/faq",
           {
-            "group": "Design with Subframe",
-            "pages": [
-              "learn/designing/adding-elements",
-              "learn/designing/using-ai-to-design",
-              "learn/designing/personalizing-ai",
-              "learn/designing/version-history"
-            ]
-          },
-          {
-            "group": "Prototype with Subframe",
-            "pages": ["learn/prototyping/creating-ai-prototypes", "learn/prototyping/sharing-prototypes"]
-          },
-          {
             "group": "Theme",
             "pages": [
               "learn/theme/customizing-theme",
@@ -97,11 +83,68 @@
             ]
           },
           {
+            "group": "Components",
+            "pages": [
+              "learn/components/creating-components",
+              "learn/components/using-components",
+              "learn/components/importing-components",
+              "learn/components/props-and-slots"
+            ]
+          },
+          {
+            "group": "Editor",
+            "pages": [
+              "learn/editor/overview",
+              {
+                "group": "Ask AI",
+                "pages": [
+                  "learn/ask-ai/prompt-to-design",
+                  "learn/ask-ai/image-to-design",
+                  "learn/ask-ai/inline-ask-ai",
+                  "learn/ask-ai/remix-pages",
+                  "learn/ask-ai/personalizing-ai"
+                ]
+              },
+              {
+                "group": "Design mode",
+                "pages": [
+                  "learn/design-mode/working-with-stacks",
+                  "learn/design-mode/add-elements",
+                  "learn/design-mode/layers",
+                  "learn/design-mode/inspector",
+                  "learn/design-mode/responsive-design",
+                  "learn/design-mode/page-layouts",
+                  "learn/design-mode/preview",
+                  "learn/design-mode/actions-menu",
+                  "learn/design-mode/custom-css"
+                ]
+              },
+              {
+                "group": "Prototype mode",
+                "pages": [
+                  "learn/prototype-mode/overview",
+                  "learn/prototype-mode/managing-designs",
+                  "learn/prototype-mode/annotations",
+                  "learn/prototype-mode/chat-with-ai",
+                  "learn/prototype-mode/view-prototype-code",
+                  "learn/prototype-mode/sharing-prototypes"
+                ]
+              },
+              {
+                "group": "Code mode",
+                "pages": ["learn/code-mode/inspecting-code", "learn/code-mode/example-prompts"]
+              }
+            ]
+          },
+          {
+            "group": "Projects",
+            "pages": ["learn/admin/managing-projects"]
+          },
+          {
             "group": "Admin and billing",
             "pages": [
               "learn/admin/managing-team",
               "learn/admin/pricing-and-plans",
-              "learn/admin/managing-projects",
               "learn/admin/version-history",
               "learn/admin/auth-tokens",
               {

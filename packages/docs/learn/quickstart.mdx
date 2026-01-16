@@ -51,9 +51,12 @@ You can create a new page with AI, select a template, or start from scratch.
 
 Next, we'll create a new project using the Subframe Vite starter kit to implement your design. Open a new folder on your computer using Cursor or your favorite IDE.
 
-### Build with Subframe MCP
-
 <Steps>
+<Step title="Setup your project">
+
+See [Installation](/learn/installation) for detailed instructions on setting up Subframe in a new or existing project.
+
+</Step>
   <Step title="Install the MCP server">
 
     <img src="/images/quickstart/quickstart-setup-mcp.png" alt="Installation instructions for Cursor and Claude MCP server" />
@@ -61,6 +64,8 @@ Next, we'll create a new project using the Subframe Vite starter kit to implemen
     In the page editor, open **Code** > **Installation** to view Cursor or Claude Code instructions specific to your project.
 
     Go to https://app.subframe.com/cli/auth to generate your auth token.
+
+    <Info>To learn more about the MCP server and its capabilities, see [MCP Server](/guides/mcp-server).</Info>
 
   </Step>
 
@@ -85,6 +90,8 @@ Next, we'll create a new project using the Subframe Vite starter kit to implemen
   </Step>
 
   <Step title="Start your development server">
+If you created a new project, you can start your development server with:
+
     ```bash
     npm install
     npm run dev
@@ -95,30 +102,21 @@ Next, we'll create a new project using the Subframe Vite starter kit to implemen
   </Step>
 </Steps>
 
-### Or manually copy code
+You're all set! Your Subframe project is now connected and ready for development.
 
-<Steps>
-  <Step title="Create a new Vite project with CLI">
-      ```bash npm
-      npx @subframe/cli@latest init --dir ./src/ui --alias '@/ui/*' --install --tailwind --sync --template vite
-      ```
-  </Step>
+## Next steps
 
-{" "}
-<Step title="Copy your page code">
-  1. Switch to **Code** > **Inspect** to view React & Tailwind CSS code for your page. 2. Click the copy icon in the
-  code viewer. 3. Paste into `src/pages/App.tsx`
-</Step>
-
-  <Step title="Start development">
-    ```bash
-    npm install
-    npm run dev
-    ```
-
-    Open `localhost:3000`—your page renders exactly as designed.
-
-  </Step>
-</Steps>
-
-Continue developing your app using Subframe to sync components and export new designs as code.
+<CardGroup cols={2}>
+  <Card title="Core concepts" icon="lightbulb" href="/learn/concepts">
+    Understand how Subframe works under the hood.
+  </Card>
+  <Card title="Learn the editor" icon="square-mouse-pointer" href="/learn/editor">
+    Discover how to design using Subframe's visual editor.
+  </Card>
+  <Card title="Go to developer docs" icon="code" href="/overview">
+    Dive deeper into using Subframe for developer handoff.
+  </Card>
+  <Card title="Ask AI" icon="wand-sparkles" href="/learn/ask-ai">
+    Explore AI-powered design features.
+  </Card>
+</CardGroup>
