@@ -3,179 +3,55 @@ title: Working with stacks
 description: Master stack-based layouts with direction, spacing, and alignment.
 ---
 
-Stacks are the foundation of layouts in Subframe. A stack is a container that arranges children in a direction (vertical, horizontal, or wrap) with consistent spacing and alignment. This matches how modern web interfaces work—using flexbox instead of absolute positioning.
+Stacks are the most fundamental building block in Subframe. They're essential for layout—equivalent to flexbox in code and auto-layouts in Figma.
 
-If you're familiar with auto-layout in Figma, stacks work the same way. Everything you design uses stacks to create responsive, production-ready layouts.
+## Grouping elements
 
-## Stack properties
+To wrap elements in a stack:
 
-Every stack has three core properties:
+1. Select one or more elements
+2. Press <kbd>Cmd</kbd> + <kbd>G</kbd> or right-click and select "Wrap in Stack"
 
-**Direction** — Vertical, horizontal, or wrap. Controls how children flow.
+## Updating layout and alignment
 
-**Gap** — Space between children. Set to exact pixels or "fill" for space-between.
+<Frame>
+  <img
+    src="/images/design-mode/layout-inspector.png"
+    alt="Layout inspector showing the layout / alignment properties"
+  />
+</Frame>
 
-**Alignment** — How children align on main axis (start, center, end) and cross axis (start, center, end).
+Select a stack to configure its layout in the Inspector:
 
-Configure these in the Inspector panel under Layout. Use keyboard shortcuts for faster workflow:
+- **Direction** — Vertical, horizontal, or wrap
+- **Gap** — Space between children (pixels or "fill" for space-between)
+- **Alignment** — How children are positioned (start, center, end, space between, space around, stretch)
 
-- <kbd>d</kbd> <kbd>v</kbd> — Vertical direction
-- <kbd>d</kbd> <kbd>h</kbd> — Horizontal direction
-- <kbd>d</kbd> <kbd>w</kbd> — Wrap direction
-
-## Common use cases
-
-### Moving elements to opposite sides
-
-**Problem:** You need to push a button to the right side while keeping another element on the left.
-
-**Two solutions:**
-
-**Option 1: Set gap to fill**
-
-Works well for two elements. The gap becomes flexible space that pushes elements apart.
-
-1. Select the parent stack
-2. Click **Layout** in Inspector
-3. Click the "Fill" button next to Gap
-
-This creates space-between alignment. Add a third element and it appears in the center—not ideal for most layouts.
-
-**Option 2: Grow a sibling to fill (recommended)**
-
-More flexible approach that works with any number of children.
-
-1. Select the stack between the left element and right button
-2. Set **Width** to **Fill** (<kbd>w</kbd> <kbd>f</kbd>)
-
-The filled stack pushes the button to the right. Add more elements and they maintain position.
-
-**Why this works:** The filled stack consumes available space, forcing siblings to the edges. This pattern is fundamental to stack-based layouts.
-
-### Aligning children within a stack
-
-**Problem:** You select an element and try to align it left, but nothing happens.
-
-**Solution:** Select the parent stack, not the child.
-
-Stack alignment settings apply to children, not the stack itself. To align elements:
-
-1. Click the parent stack containing your elements
-2. Use the **Alignment Picker** (9-cell grid) in Inspector
-3. Click desired alignment position
-
-The alignment picker shows all combinations of main axis and cross axis alignment. For vertical stacks:
-
-- **Main axis** (vertical) — Top, center, bottom
-- **Cross axis** (horizontal) — Left, center, right
-
-For horizontal stacks, axes swap directions.
-
-**Quick tip:** Press <kbd>Esc</kbd> to select parent stack when child is selected.
-
-### Growing elements to fill space
-
-**Problem:** Your stack has extra space and you want an element to expand.
-
-**Solution:** Set the element's width or height to fill.
-
-1. Select the element
-2. Press <kbd>w</kbd> <kbd>f</kbd> for width fill or <kbd>h</kbd> <kbd>f</kbd> for height fill
-3. Element expands to consume available space
-
-**Sizing options:**
-
-- **Hug** (<kbd>w</kbd> <kbd>h</kbd> / <kbd>h</kbd> <kbd>h</kbd>) — Size to fit content
-- **Fill** (<kbd>w</kbd> <kbd>f</kbd> / <kbd>h</kbd> <kbd>f</kbd>) — Expand to fill parent
-- **Absolute** (<kbd>w</kbd> <kbd>a</kbd> / <kbd>h</kbd> <kbd>a</kbd>) — Explicit pixel size
-
-### Adding elements between existing items
-
-**Problem:** You need to insert an element between two existing elements without disrupting layout.
-
-**Solution:** Use quick insert buttons that appear on selection.
-
-1. Select an element
-2. Click the **+** button that appears (above, below, left, or right)
-3. Choose element type from menu
-4. Element inserts and wraps in a stack automatically
-
-**Keyboard shortcuts for insert:**
-
-- <kbd>Ctrl</kbd> + <kbd>i</kbd> — Insert above
-- <kbd>Ctrl</kbd> + <kbd>k</kbd> — Insert below
-- <kbd>Ctrl</kbd> + <kbd>j</kbd> — Insert left
-- <kbd>Ctrl</kbd> + <kbd>l</kbd> — Insert right
-
-The editor automatically creates wrapper stacks as needed to maintain layout structure.
-
-### Creating multi-column layouts
-
-**Problem:** You need elements in multiple columns with consistent spacing.
-
-**Solution:** Use nested stacks with proper direction.
-
-1. Create a horizontal stack (parent)
-2. Add vertical stacks inside (columns)
-3. Set parent gap for column spacing
-4. Set column gaps for item spacing
-5. Set column widths to fill for equal columns
-
-**Example structure:**
-
-```
-Horizontal Stack (parent)
-├── Vertical Stack (column 1, width: fill)
-│   ├── Item A
-│   └── Item B
-├── Vertical Stack (column 2, width: fill)
-│   ├── Item C
-│   └── Item D
-```
-
-## Alignment picker
-
-The 9-cell grid in the Inspector shows all alignment combinations. Click any cell to align children to that position.
-
-**When gap is set to fill:** Picker shows 3 cells representing space-between distribution (start, center, end on cross axis only).
-
-**Double-click any alignment cell:** Toggles between fill gap and 8px absolute gap.
-
-This interaction makes switching between packed layouts and distributed layouts fast.
-
-## Working in flow
-
-Stay focused on design without getting stuck in layout mechanics:
-
-**Quick insert buttons** — Add elements directionally without manual stack creation. The editor handles wrapping.
-
-**Keyboard shortcuts** — Change direction, sizing, and alignment without opening panels. Press <kbd>/</kbd> for actions menu with all shortcuts.
-
-**Ask AI for adjustments** — Select an icon and ask "make this a share icon" to swap icons quickly.
-
-**Hide layout complexity** — Nested stacks auto-generate as you design. Focus on visual arrangement, not structure.
-
-## Troubleshooting
+## FAQ
 
 <AccordionGroup>
-<Accordion title="Element won't move to opposite side">
+  <Accordion title="How do I move an element to the opposite side?">
+    First, ensure your parent stack has enough space (set width / height to fill).
 
-Check if gap is set to absolute pixels. Try **Option 1** (set gap to fill) or **Option 2** (set sibling width to fill). For horizontal stacks, use width fill. For vertical stacks, use height fill.
+    **Solution 1 — Make the sibling fill (recommended)**
+    1. Select the sibling element
+    2. Set width / height to **Fill**
 
-</Accordion>
-<Accordion title="Alignment picker doesn't change anything">
+    The sibling expands and pushes the other element to the opposite side.
 
-You selected the child element instead of the parent stack. Press <kbd>Esc</kbd> to select parent, then adjust alignment. Stack alignment applies to children, not the stack itself.
+    **Solution 2 — Set gap to fill**
+    1. Select the parent stack
+    2. Set gap to **Fill**
 
-</Accordion>
-<Accordion title="Stack has unwanted extra space">
+  </Accordion>
+  <Accordion title="How do I align a single child differently from its siblings?">
+    Alignment applies to all children in a stack, so you need to wrap the element in its own stack.
 
-Check if gap is set to fill. This creates space-between alignment. Switch to absolute gap (8px, 16px, 24px presets) for packed layouts. Or set a child element to fill to consume the space.
+    1. Wrap the element in its own stack
+    2. Set the wrapper stack's alignment as needed
+    3. You may need to make the wrapper stack
 
-</Accordion>
-<Accordion title="Can't add element between two items">
+    The wrapper stack lets you control that element's alignment independently.
 
-Use quick insert buttons. Select an element, click the **+** button in the desired direction. The editor wraps elements in stacks automatically to maintain layout flow.
-
-</Accordion>
+  </Accordion>
 </AccordionGroup>

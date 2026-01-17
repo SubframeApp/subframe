@@ -110,6 +110,8 @@
               {
                 "group": "Design mode",
                 "pages": [
+                  "learn/design-mode/layers",
+                  "learn/design-mode/inspector",
                   "learn/design-mode/adding-elements",
                   "learn/design-mode/working-with-stacks",
                   "learn/design-mode/page-layouts",
@@ -117,9 +119,8 @@
                   "learn/design-mode/responsive-design",
                   "learn/design-mode/actions-menu",
                   "learn/design-mode/keyboard-shortcuts",
-                  "learn/design-mode/custom-css",
-                  "learn/design-mode/layers",
-                  "learn/design-mode/inspector"
+                  "learn/design-mode/comments",
+                  "learn/design-mode/custom-css"
                 ]
               },
               {
@@ -139,6 +140,10 @@
               },
               "learn/editor/sharing-designs"
             ]
+          },
+          {
+            "group": "Snippets",
+            "pages": ["learn/snippets/snippets"]
           },
           {
             "group": "Projects",
