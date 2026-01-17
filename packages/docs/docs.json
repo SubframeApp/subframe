@@ -142,6 +142,9 @@
   "integrations": {
     "segment": {
       "key": "5nOHRiT81iSqK2WHigNEoNZWMG2JcfOq"
+    },
+    "ga4": {
+      "measurementId": "G-1GGBBPL5LT"
     }
   },
   "redirects": [
