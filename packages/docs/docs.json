@@ -120,6 +120,7 @@
                   "learn/design-mode/actions-menu",
                   "learn/design-mode/keyboard-shortcuts",
                   "learn/design-mode/comments",
+                  "learn/design-mode/share-designs",
                   "learn/design-mode/custom-css"
                 ]
               },
@@ -137,13 +138,16 @@
               {
                 "group": "Code mode",
                 "pages": ["learn/code-mode/inspecting-code", "learn/code-mode/example-prompts"]
-              },
-              "learn/editor/sharing-designs"
+              }
             ]
           },
           {
             "group": "Snippets",
             "pages": ["learn/snippets/snippets"]
+          },
+          {
+            "group": "Flows",
+            "pages": ["learn/flows/flows"]
           },
           {
             "group": "Projects",
