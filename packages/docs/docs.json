@@ -75,21 +75,42 @@
           "learn/concepts",
           "learn/faq",
           {
-            "group": "Theme",
+            "group": "Core Concepts",
             "pages": [
-              "learn/theme/customizing-theme",
-              "learn/theme/importing-tokens",
-              "learn/theme/adding-custom-fonts"
-            ]
-          },
-          {
-            "group": "Components",
-            "pages": [
-              "learn/components/creating-components",
-              "learn/components/using-components",
-              "learn/components/importing-components",
-              "learn/components/props-and-slots",
-              "learn/components/component-variants"
+              {
+                "group": "Projects",
+                "pages": ["learn/projects/managing-projects", "learn/projects/project-settings"]
+              },
+              {
+                "group": "Flows",
+                "pages": ["learn/flows/flows"]
+              },
+              {
+                "group": "Pages",
+                "pages": ["learn/pages/pages"]
+              },
+              {
+                "group": "Snippets",
+                "pages": ["learn/snippets/snippets"]
+              },
+              {
+                "group": "Components",
+                "pages": [
+                  "learn/components/creating-components",
+                  "learn/components/using-components",
+                  "learn/components/importing-components",
+                  "learn/components/props-and-slots",
+                  "learn/components/component-variants"
+                ]
+              },
+              {
+                "group": "Theme",
+                "pages": [
+                  "learn/theme/customizing-theme",
+                  "learn/theme/importing-tokens",
+                  "learn/theme/adding-custom-fonts"
+                ]
+              }
             ]
           },
           {
@@ -140,18 +161,6 @@
                 "pages": ["learn/code-mode/inspecting-code", "learn/code-mode/example-prompts"]
               }
             ]
-          },
-          {
-            "group": "Snippets",
-            "pages": ["learn/snippets/snippets"]
-          },
-          {
-            "group": "Flows",
-            "pages": ["learn/flows/flows"]
-          },
-          {
-            "group": "Projects",
-            "pages": ["learn/projects/managing-projects", "learn/projects/project-settings"]
           },
           {
             "group": "Admin and billing",
