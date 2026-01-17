@@ -101,7 +101,7 @@
                   "learn/ask-ai/prompt-to-design",
                   "learn/ask-ai/image-to-design",
                   "learn/ask-ai/inline-ask-ai",
-                  "learn/ask-ai/remix-pages",
+                  "learn/ask-ai/referencing-pages",
                   "learn/ask-ai/personalizing-ai"
                 ]
               },
@@ -138,7 +138,7 @@
           },
           {
             "group": "Projects",
-            "pages": ["learn/admin/managing-projects"]
+            "pages": ["learn/projects/managing-projects", "learn/projects/project-settings"]
           },
           {
             "group": "Admin and billing",

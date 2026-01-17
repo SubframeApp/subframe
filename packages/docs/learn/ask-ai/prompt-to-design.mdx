@@ -2,42 +2,57 @@
 title: Ask AI mode
 ---
 
-Prompt what you want and Ask AI can generate page designs, edit your existing designs, or update your theme.
+<Frame>
+  <img src="/images/ask-ai/ask-ai-mode.png" alt="Ask AI mode showing the mode switcher and the prompt area" />
+</Frame>
+
+You can prompt AI to generate page designs, edit your existing designs, or update your theme.
 
 - **Design new pages** — Generate multiple variations of page designs
 - **Edit your page directly** — Make targeted changes to your current page
 - **Update your theme** — Modify colors, fonts, and tokens project-wide
 - **Answer questions** — Search Subframe docs for help with features and development workflows
 
-Ask AI mode is available for pages only. To edit components or make targeted edits, use [Inline Ask AI](/ask-ai/inline-ask-ai). For adding interactivity and state, use [Prototype mode](/prototype-mode/overview).
+Ask AI is for creating and updating designs. For adding interactivity and state, use [Prototype mode](/prototype-mode/overview).
 
-## Prompt Ask AI
+## Getting started
 
 1. Click **Ask AI** in the mode switcher (top-right) of the page editor or press <kbd>Cmd</kbd> + <kbd>K</kbd> and select **Mode > Ask AI**
 2. Type a prompt and press <kbd>Enter</kbd> or click the send button
-3. Ask AI creates a new conversation and generates 1–4 variations
+3. Ask AI will create a new conversation and responds to your prompt
 
-New conversations are automatically named based on your first prompt.
+Our AI will choose how to respond based on your prompt:
 
-### Variations vs. direct edits
-
-Ask AI chooses how to respond based on your prompt:
-
-- **Variations** — For new designs, creative exploration, or prompts requiring new components
+- **Variations** — For new designs, creative exploration, or prompts requiring new components. Ask AI will generate 1-4 variations for you to choose from.
 - **Direct edits** — For simple changes to existing elements like colors, text, or layout tweaks
 
 ## Apply designs
 
-After generations finish streaming, click each thumbnail to open a preview. From the preview, you can:
+After generations finish streaming, click each thumbnail to open a preview.
 
-- **Drag elements** — Drag individual elements from the preview directly onto your canvas to mix and match from different variations
+<Frame>
+  <img src="/images/ask-ai/apply-designs.png" alt="Ask AI variations showing the generated variations" />
+</Frame>
+
+From the preview, you can:
+
 - **Apply design** — Replace your current page
 - **Save as new page** — Create a new page with this design
 - **Ask follow-up** — Refine with another prompt
 
-## Iterate on designs
+You can even **mix and match elements** from different variations by dragging elements from the preview onto your canvas.
 
-After generating, send follow-up prompts or switch to **Design** mode for manual edits. Each follow-up can reference the current page and previous generations.
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  controls
+  className="w-full"
+  src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/Mintlify/ai-drag-to-insert-BKAcupQ453HXKXmsKaDGp6dw8cLmbW.mp4"
+/>
+
+After generating, send follow-up prompts or switch to <a href="/learn/design-mode">design mode</a> for manual edits. Each follow-up can reference the current page and previous generations.
 
 ## Conversation history
 
@@ -49,31 +64,22 @@ Your conversations persist across sessions and pages so you can reference past g
 
 Ask AI includes additional tools:
 
-- **[Remix pages](/ask-ai/remix-pages)** — Reference other pages as context
-- **[Upload image](/ask-ai/image-to-design)** — Add reference images
-- **Import from Figma** — Import Figma designs using the image model
-- **[Edit specific element](/ask-ai/inline-ask-ai)** — Use inline Ask AI to make targeted edits
-- **[Personalize AI](/ask-ai/personalizing-ai)** — Configure project-wide context
+- **[Referencing pages](/learn/ask-ai/referencing-pages)** — Remix other pages as prompts for your design
+- **[Upload image](/learn/ask-ai/image-to-design)** — Add reference images
+- **[Import from Figma](/learn/ask-ai/image-to-design#import-from-figma)** — Import Figma designs using the image model
+- **[Edit specific element](/learn/ask-ai/inline-ask-ai)** — Use inline Ask AI to make targeted edits
+- **[Personalize AI](/learn/ask-ai/personalizing-ai)** — Configure project-wide context
 
 ## Troubleshooting
 
 <AccordionGroup>
-<Accordion title="AI is not applying my changes">
-Try being more specific in your prompt. Instead of "make it better," describe exactly what you want: "Change the heading to 24px bold" or "Use brand-primary for the button background."
-
-If AI generates variations instead of editing directly, your change may require components not on your page. Apply a variation or use [Inline Ask AI](/ask-ai/inline-ask-ai) for targeted edits.
-
+<Accordion title="AI is not applying changes where I want them">
+Ask AI is great for generating new designs or making broad changes to your page. But for more targeted edits, you may want to use [Inline Ask AI](/learn/ask-ai/inline-ask-ai).
 </Accordion>
 
 <Accordion title="I can't edit components">
-  Ask AI mode only works with pages. To edit components, use [Inline Ask AI](/ask-ai/inline-ask-ai)—select an element
-  inside the component, then right-click or press <kbd>/</kbd> and select **Ask AI to edit...**.
-</Accordion>
-
-<Accordion title="AI generates Tailwind classes I don't recognize">
-  AI uses standard Tailwind CSS classes that may not be in your theme tokens. You can keep these classes or replace them
-  with your theme values in Design mode. To encourage AI to use your theme, reference token names in your prompt: "Use
-  the brand-primary color" or "Apply the heading-lg font style."
+  Ask AI mode only works with pages. To edit components, use [Inline Ask AI](/learn/ask-ai/inline-ask-ai)—select an
+  element inside the component, then right-click or press <kbd>/</kbd> and select **Ask AI to edit...**.
 </Accordion>
 
 <Accordion title="How do I undo changes?">
