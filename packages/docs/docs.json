@@ -88,19 +88,21 @@
               "learn/components/creating-components",
               "learn/components/using-components",
               "learn/components/importing-components",
-              "learn/components/props-and-slots"
+              "learn/components/props-and-slots",
+              "learn/components/component-variants"
             ]
           },
           {
             "group": "Editor",
             "pages": [
               "learn/editor/overview",
+              "learn/editor/primitives",
               {
                 "group": "Ask AI",
                 "pages": [
                   "learn/ask-ai/prompt-to-design",
+                  "learn/ask-ai/making-quick-edits",
                   "learn/ask-ai/image-to-design",
-                  "learn/ask-ai/inline-ask-ai",
                   "learn/ask-ai/referencing-pages",
                   "learn/ask-ai/personalizing-ai"
                 ]
@@ -108,15 +110,16 @@
               {
                 "group": "Design mode",
                 "pages": [
+                  "learn/design-mode/adding-elements",
                   "learn/design-mode/working-with-stacks",
-                  "learn/design-mode/add-elements",
-                  "learn/design-mode/layers",
-                  "learn/design-mode/inspector",
-                  "learn/design-mode/responsive-design",
                   "learn/design-mode/page-layouts",
                   "learn/design-mode/preview",
+                  "learn/design-mode/responsive-design",
                   "learn/design-mode/actions-menu",
-                  "learn/design-mode/custom-css"
+                  "learn/design-mode/keyboard-shortcuts",
+                  "learn/design-mode/custom-css",
+                  "learn/design-mode/layers",
+                  "learn/design-mode/inspector"
                 ]
               },
               {
@@ -133,7 +136,8 @@
               {
                 "group": "Code mode",
                 "pages": ["learn/code-mode/inspecting-code", "learn/code-mode/example-prompts"]
-              }
+              },
+              "learn/editor/sharing-designs"
             ]
           },
           {

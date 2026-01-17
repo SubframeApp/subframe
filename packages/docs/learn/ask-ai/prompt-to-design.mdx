@@ -1,5 +1,5 @@
 ---
-title: Ask AI mode
+title: Generating designs
 ---
 
 <Frame>
@@ -20,6 +20,15 @@ Ask AI is for creating and updating designs. For adding interactivity and state,
 1. Click **Ask AI** in the mode switcher (top-right) of the page editor or press <kbd>Cmd</kbd> + <kbd>K</kbd> and select **Mode > Ask AI**
 2. Type a prompt and press <kbd>Enter</kbd> or click the send button
 3. Ask AI will create a new conversation and responds to your prompt
+
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  className="w-full"
+  src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/ask-ai-plus-drag-drop.mp4"
+/>
 
 Our AI will choose how to respond based on your prompt:
 
@@ -67,22 +76,25 @@ Ask AI includes additional tools:
 - **[Referencing pages](/learn/ask-ai/referencing-pages)** — Remix other pages as prompts for your design
 - **[Upload image](/learn/ask-ai/image-to-design)** — Add reference images
 - **[Import from Figma](/learn/ask-ai/image-to-design#import-from-figma)** — Import Figma designs using the image model
-- **[Edit specific element](/learn/ask-ai/inline-ask-ai)** — Use inline Ask AI to make targeted edits
 - **[Personalize AI](/learn/ask-ai/personalizing-ai)** — Configure project-wide context
+
+You can also use [quick edits](/learn/ask-ai/making-quick-edits) to make targeted edits to specific elements using AI.
 
 ## Troubleshooting
 
 <AccordionGroup>
 <Accordion title="AI is not applying changes where I want them">
-Ask AI is great for generating new designs or making broad changes to your page. But for more targeted edits, you may want to use [Inline Ask AI](/learn/ask-ai/inline-ask-ai).
+Ask AI is great for generating new designs or making broad changes to your page. But for more targeted edits, you may want to use [quick edits](/learn/ask-ai/making-quick-edits).
 </Accordion>
 
 <Accordion title="I can't edit components">
-  Ask AI mode only works with pages. To edit components, use [Inline Ask AI](/learn/ask-ai/inline-ask-ai)—select an
+  Ask AI mode only works with pages. To edit components, use [quick edit](/learn/ask-ai/making-quick-edits)—select an
   element inside the component, then right-click or press <kbd>/</kbd> and select **Ask AI to edit...**.
 </Accordion>
 
 <Accordion title="How do I undo changes?">
-Press <kbd>Cmd</kbd> + <kbd>Z</kbd> to undo. Subframe maintains full undo history, so you can step back through multiple changes. You can also use [Version history](/admin/version-history) to restore a previous state.
+  Press <kbd>Cmd</kbd> + <kbd>Z</kbd> to undo. Subframe maintains full undo history, so you can step back through
+  multiple changes. You can also use [Version history](/admin/version-history) to restore a previous state.
 </Accordion>
+
 </AccordionGroup>

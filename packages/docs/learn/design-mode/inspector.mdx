@@ -3,187 +3,37 @@ title: Inspector
 description: Configure element properties in the right sidebar.
 ---
 
-The Inspector shows all editable properties for the selected element. It's context-aware—different element types show different controls.
+The Inspector panel shows all editable properties for the selected element. Select any element on the canvas to see its properties in the right sidebar.
 
-## Opening the Inspector
+<Frame>
+  <img src="/images/design-mode/inspector.png" alt="Inspector panel showing the element properties" />
+</Frame>
 
-The Inspector appears in the right sidebar when you select an element. Toggle it with <kbd>Cmd</kbd> + <kbd>.</kbd> to get more canvas space.
+## Overrides properties
 
-## Inspector sections
+Overrides let you customize properties for specific contexts without changing the base element. There are two types of overrides:
 
-The Inspector organizes properties into collapsible sections. Click section headers to expand or collapse them.
+- **[Responsive overrides](/learn/design-mode/responsive-design)** — mobile overrides for properties that need different values on small screens
+- **[Variant overrides](/learn/components/component-variants)** — different values for component instances
 
-### Component properties
+<Frame>
+  <img src="/images/design-mode/overrides.png" alt="Inspector panel showing the element properties" />
+</Frame>
 
-At the top, component-specific properties appear:
+When a property has an override, a pink dot appears next to it. Click the pink dot to remove the override and revert to the default value.
 
-- **Variant** - Component variants (primary/secondary, size, etc.)
-- **Text** - Button labels, heading text, placeholder text
-- **Icon** - Icon selection for buttons and icon elements
-- **Props** - Custom component props and slots
+## Keyboard shortcuts
 
-### Layout
+Most properties in the inspector have a keyboard shortcut. Hover over any edit action to see its shortcut.
 
-Control sizing, spacing, and positioning.
+<Frame>
+  <img src="/images/design-mode/inspector-shortcuts.png" alt="Inspector panel showing the element properties" />
+</Frame>
 
-**Width** - Set element width:
+For the full list, see [Keyboard shortcuts](/learn/editor/keyboard-shortcuts).
 
-- **Hug** - Shrink to fit content
-- **Fill** - Expand to fill available space
-- **Fixed** - Set a specific pixel or percentage value
-- **Min/Max** - Set minimum or maximum width constraints
+## FAQ
 
-**Height** - Set element height with the same options as width.
-
-**Padding** - Internal spacing inside the element. Set all sides at once or individually (top, right, bottom, left).
-
-**Gap** - Spacing between children in a Stack. Only appears for Stack elements.
-
-**Alignment** - Control how children align in a Stack:
-
-- **Main axis** - Alignment along the Stack direction (start, center, end, space-between)
-- **Cross axis** - Alignment perpendicular to direction (start, center, end, stretch)
-
-**Direction** - Set Stack direction (vertical, horizontal, wrap). Only for Stack elements.
-
-**Keyboard shortcuts for layout:**
-
-- Press <kbd>F</kbd> to cycle width (hug → fill → fixed)
-- Press <kbd>G</kbd> to cycle height (hug → fill → fixed)
-
-### Style
-
-Control visual appearance.
-
-**Fill** - Background color or gradient:
-
-- Choose from theme colors
-- Set custom colors with hex codes
-- Add gradients
-- Set opacity
-
-**Border** - Border width, color, and style:
-
-- Set border width (all sides or individual)
-- Choose border color from theme or custom
-- Set border style (solid, dashed, dotted)
-
-**Corner** - Border radius for rounded corners:
-
-- Set radius for all corners
-- Set individual corner radii
-
-**Shadow** - Drop shadows and inner shadows:
-
-- Choose from theme shadows
-- Customize shadow color, blur, spread, and offset
-- Add multiple shadows
-
-**Opacity** - Element transparency (0-100%).
-
-**Keyboard shortcuts for style:**
-
-- Press <kbd>B</kbd> to focus background color
-- Press <kbd>C</kbd> to focus corner radius
-- Press <kbd>O</kbd> to focus border
-
-### Typography
-
-For Text elements, typography properties appear:
-
-**Font** - Font family and weight.
-
-**Size** - Font size in pixels or rem units.
-
-**Color** - Text color from theme or custom.
-
-**Alignment** - Left, center, right, or justify.
-
-**Line height** - Spacing between lines of text.
-
-**Letter spacing** - Space between characters.
-
-**Text transform** - Uppercase, lowercase, or capitalize.
-
-**Text decoration** - Underline, line-through, or none.
-
-**Text wrap** - Allow text to wrap to multiple lines or truncate with ellipsis.
-
-### Image properties
-
-For Image elements:
-
-**Source** - Image URL or upload a file.
-
-**Alt text** - Accessibility description for screen readers.
-
-**Scale** - How the image fills its container:
-
-- **Cover** - Fill container, cropping if needed
-- **Fit** - Show entire image, adding letterboxing if needed
-
-### Icon properties
-
-For Icon elements:
-
-**Icon** - Click the icon picker to search and select an icon.
-
-**Size** - Icon width and height in pixels.
-
-**Color** - Icon color from theme or custom.
-
-### Tailwind CSS
-
-Add custom Tailwind CSS classes to any element:
-
-**Add classes** - Click to enable the Tailwind CSS field, then type space-separated class names.
-
-**Remove classes** - Click the trash icon to remove all custom classes.
-
-**Documentation link** - Click the icon to open Tailwind CSS documentation.
-
-Custom classes apply alongside Subframe-generated styles. This lets you add utility classes for fine-tuned control.
-
-For more details, see [Custom Tailwind CSS](/design-mode/custom-css).
-
-### Overrides
-
-When viewing mobile breakpoint, override controls appear next to properties. Click the override icon to create a mobile-specific value.
-
-**Override indicator** - A blue dot shows when a property has a mobile override.
-
-**Clear override** - Click the override icon again to remove the override and use the default value.
-
-For more on overrides, see [Responsive Design](/design-mode/responsive-design).
-
-## Editing properties
-
-**Text input** - Click to type a value. Press <kbd>Enter</kbd> to apply or <kbd>Esc</kbd> to cancel.
-
-**Dropdowns** - Click to show options, then select one.
-
-**Color picker** - Click a color swatch to open the color picker. Choose from theme colors or enter a custom hex code.
-
-**Number scrubbing** - Hover over a number field and drag left/right to adjust the value.
-
-**Toggle buttons** - Click to enable or disable a property.
-
-## Keyboard navigation
-
-Press <kbd>/</kbd> with an element selected to open the actions menu. This shows all available actions for quick property changes.
-
-Keyboard shortcuts for common edits:
-
-- <kbd>F</kbd> - Cycle width
-- <kbd>G</kbd> - Cycle height
-- <kbd>B</kbd> - Focus background
-- <kbd>C</kbd> - Focus corner radius
-- <kbd>O</kbd> - Focus border
-
-For the full list, see [Actions Menu](/design-mode/actions-menu).
-
-## Multi-selection
-
-Select multiple elements to edit shared properties at once. The Inspector shows only properties common to all selected elements.
-
-Changes apply to all selected elements simultaneously.
+<AccordionGroup>
+  <Accordion title="Placeholder question">Placeholder answer</Accordion>
+</AccordionGroup>
