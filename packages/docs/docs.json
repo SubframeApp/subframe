@@ -77,22 +77,7 @@
           {
             "group": "Core Concepts",
             "pages": [
-              {
-                "group": "Projects",
-                "pages": ["learn/projects/managing-projects", "learn/projects/project-settings"]
-              },
-              {
-                "group": "Flows",
-                "pages": ["learn/flows/flows"]
-              },
-              {
-                "group": "Pages",
-                "pages": ["learn/pages/pages"]
-              },
-              {
-                "group": "Snippets",
-                "pages": ["learn/snippets/snippets"]
-              },
+              "learn/primitives/primitives",
               {
                 "group": "Components",
                 "pages": [
@@ -103,6 +88,7 @@
                   "learn/components/component-variants"
                 ]
               },
+              "learn/pages/pages",
               {
                 "group": "Theme",
                 "pages": [
@@ -110,6 +96,12 @@
                   "learn/theme/importing-tokens",
                   "learn/theme/adding-custom-fonts"
                 ]
+              },
+              "learn/flows/flows",
+              "learn/snippets/snippets",
+              {
+                "group": "Projects",
+                "pages": ["learn/projects/overview", "learn/projects/project-settings"]
               }
             ]
           },
@@ -117,7 +109,6 @@
             "group": "Editor",
             "pages": [
               "learn/editor/overview",
-              "learn/editor/primitives",
               {
                 "group": "Ask AI",
                 "pages": [
