@@ -149,11 +149,7 @@
                 "group": "Prototype mode",
                 "pages": [
                   "learn/prototype-mode/overview",
-                  "learn/prototype-mode/managing-designs",
-                  "learn/prototype-mode/annotations",
-                  "learn/prototype-mode/chat-with-ai",
-                  "learn/prototype-mode/view-prototype-code",
-                  "learn/prototype-mode/sharing-prototypes"
+                  "learn/prototype-mode/annotations"
                 ]
               },
               {

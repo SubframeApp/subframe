@@ -1,146 +1,27 @@
 ---
 title: Annotations
-description: Add instructions to guide AI prototype generation.
+description: Add implementation notes to guide AI prototype generation.
 ---
 
-Annotations tell AI how elements behave. Click an element, describe what it does, and AI generates the code.
+<Frame>
+  <img src="/images/prototype-mode/annotation-example.png" alt="Exampe of an annotation on an element" />
+</Frame>
 
-Your visual design embeds functionality context—buttons, forms, navigation. Annotations add the "what happens when" layer. They persist as code comments, ensuring consistent results across regenerations.
+Annotations let you add implementation notes to your design. They are used by prototype mode to instruct AI how your designs should behave.
 
 ## Adding annotations
 
-Click **Annotate** in the chat bar to enter annotation mode.
+1. Click **Annotate** in navbar
+2. Click on an element in canvas
+3. Type the annotation
+4. Press <kbd>Cmd</kbd> + <kbd>Enter</kbd> to save
 
-1. Click any element on the canvas
-2. Type what it should do in the annotation card
-3. Press <kbd>Cmd</kbd> + <kbd>Enter</kbd> to save
+You should see blue dots on elements for each annotation.
 
-Blue dots mark annotated elements. Hover to see annotations.
+## Exporting to code
 
-### Annotations inspector
+Annotations are also useful for documenting your design for handoff. Any annotation will be exported as comments in code:
 
-View all annotations in the right panel:
-
-1. Switch to **Annotations** tab
-2. See all pages with their annotations
-3. Click an annotation to navigate to that element
-4. Drag pages to reorder
-
-## Writing effective annotations
-
-<AccordionGroup>
-<Accordion title="Navigation">
-
-- "Navigate to /pricing page"
-- "Go back to home page when clicked"
-- "Open product details in new page"
-
-**Best practice:** Be specific about destination
-
-- ✓ "Navigate to pricing page and scroll to Pro tier"
-- ✗ "Go to next page"
-
-</Accordion>
-
-<Accordion title="State changes">
-
-- "Toggle mobile menu visibility"
-- "Show password when eye icon is clicked"
-- "Expand accordion section on click"
-
-**Best practice:** Describe complete interactions
-
-- ✓ "Toggle menu and trap focus inside when open"
-- ✗ "Toggle menu"
-
-</Accordion>
-
-<Accordion title="Form interactions">
-
-- "Submit form and show success message"
-- "Validate email format before submitting"
-- "Clear all inputs when reset button is clicked"
-
-**Best practice:** Include validation and outcomes
-
-- ✓ "Submit form, validate fields, show error if invalid, success if valid"
-- ✗ "Handle submit"
-
-</Accordion>
-
-<Accordion title="Conditional logic">
-
-- "Show error message if email is invalid"
-- "Disable submit button while form is empty"
-- "Display loading spinner during API call"
-
-**Best practice:** Include conditions clearly
-
-- ✓ "Disable submit button while form is empty or invalid"
-- ✗ "Disable button sometimes"
-
-</Accordion>
-
-<Accordion title="Working app logic">
-
-- "Build interactive time zone tracker using current time and date"
-- "Search city database when user types"
-- "Animate cards when adding new time zones"
-
-**Best practice:** Reference data sources
-
-- ✓ "Search cities database using time zone API"
-- ✗ "Make it searchable"
-
-</Accordion>
-
-<Accordion title="Component attachments">
-
-Paste Subframe component URLs into annotations for AI reference:
-
-1. Copy component link from Components tab
-2. Paste into annotation field
-3. Preview appears showing the component
-4. AI uses it when generating code
-
-**Example:** "Use this CardList component to display search results"
-
-</Accordion>
-</AccordionGroup>
-
-**General best practice:** One action per annotation—split complex behaviors across multiple elements.
-
-## How annotations become code
-
-When generating prototypes, AI:
-
-1. Creates `designs/ANNOTATIONS.md` with all annotations organized by page
-2. Embeds annotations as comments in generated code files
-3. Uses annotation context to implement interactions
-
-Example generated code:
-
-```tsx designs/PricingPage.tsx
-export default function PricingPage() {
-  // ANNOTATION: Navigate to signup page when clicked
-  const handleGetStarted = () => {
-    // Implementation here
-  }
-
-  return <Button onClick={handleGetStarted}>Get Started</Button>
-}
-```
-
-## When to use annotations vs chat
-
-**Use annotations for:**
-
-- Core interactions you're defining
-- Element-specific behavior
-- Instructions that should persist across rebuilds
-
-**Use chat for:**
-
-- Bug fixes in existing prototypes
-- Changes affecting multiple elements
-- Complex logic hard to describe per-element
+<Frame>
+  <img src="/images/prototype-mode/annotation-as-code.png" alt="Annotation persisted as code comment" />
+</Frame>
