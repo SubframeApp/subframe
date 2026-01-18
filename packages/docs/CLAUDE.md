@@ -34,7 +34,7 @@
 ## Writing standards
 
 - Second-person voice ("you")
-- Use present tense
+- Use present tense (e.g. "Update" instead of "Updating")
 - Prerequisites at start of procedural content
 - Test all code examples before publishing
 - Match style and formatting of existing pages
@@ -42,13 +42,15 @@
 - Language tags on all code blocks
 - Alt text on all images
 - Relative paths for internal links
+- If you can link to a page directly, always do so. Users prefer to click to get to where they need.
 - For external links, add this icon after text if it helps with clarity: <Icon className="mb-1" size={12} icon="arrow-up-right-from-square" />
 
 ## Conventions
 
 - Bold anything labelled in the UI, e.g. "Click on the **Back** button"
 - Use chevrons > to indicate nested content, e.g. "Navigate to **Components > Button**"
-- Individual keys in a keyboard shortcut should use a `<kbd>` tag, like <kbd>CMD</kbd> + <kbd>S</kbd>
+- Individual keys in a keyboard shortcut should use a `<kbd>` tag with spaces around the plus sign, like <kbd>Cmd</kbd> + <kbd>S</kbd>
+- When mentioning clickable icons (like icon buttons), use the `<Icon>` component with size 16, e.g. `<Icon icon="plus" size={16} />`
 - Use H2 for section headers. Use H4 for subsection headers.
 - Add images / videos below relevant headers, not above. Additional explanations or instructions should go below the image / video.
 

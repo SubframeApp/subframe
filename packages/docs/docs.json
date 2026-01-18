@@ -77,15 +77,16 @@
           {
             "group": "Core Concepts",
             "pages": [
-              "learn/primitives/primitives",
+              "learn/elements/elements",
               {
                 "group": "Components",
                 "pages": [
-                  "learn/components/creating-components",
-                  "learn/components/using-components",
-                  "learn/components/importing-components",
+                  "learn/components/overview",
+                  "learn/components/subcomponents",
                   "learn/components/props-and-slots",
-                  "learn/components/component-variants"
+                  "learn/components/variants",
+                  "learn/components/states",
+                  "learn/components/importing"
                 ]
               },
               "learn/pages/pages",
@@ -129,7 +130,7 @@
                   "learn/design-mode/page-layouts",
                   "learn/design-mode/preview",
                   "learn/design-mode/responsive-design",
-                  "learn/design-mode/actions-menu",
+                  "learn/design-mode/quick-actions",
                   "learn/design-mode/keyboard-shortcuts",
                   "learn/design-mode/comments",
                   "learn/design-mode/share-designs",

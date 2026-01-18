@@ -1,0 +1,75 @@
+---
+title: Variants
+description: Create different visual styles for your component.
+---
+
+Variants let you create different visual styles for your component.
+
+## How variants work
+
+Every component has a **default variant**—how it looks with no changes applied.
+
+<Frame>
+  <img src="/images/components/variant-default.png" alt="The default variant of a Button component" />
+</Frame>
+
+You can add variants to override styles. There are two types:
+
+- **Boolean** — True or false (e.g. `disabled`)
+- **Enum** — Multiple options (e.g. `variant` with primary, secondary, destructive)
+
+Each variant only stores style overrides from the default—not the full design. When multiple variants are active, they layer together automatically.
+
+For example, a button with `disabled` and `variant=destructive` variants:
+
+- `disabled` changes opacity to 50%
+- `destructive` changes background to red
+
+<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", alignItems: "flex-end" }}>
+  <Frame caption="A boolean variant named 'disabled'">
+    <img src="/images/components/variant-disabled.png" alt="The disabled variant of a Button component" />
+  </Frame>
+  <Frame caption="An enum variant named 'variant'">
+    <img
+      src="/images/components/variant-variant.png"
+      alt="The enum variant of a Button component"
+      style={{ height: "100%", objectFit: "cover" }}
+    />
+  </Frame>
+</div>
+
+When both are active, you get a red button at 50% opacity.
+
+<Frame caption="Composing both disabled and destructive variants on a Button component">
+  <img
+    src="/images/components/variant-disabled-and-destructive.png"
+    alt="The composition of two variants on a Button component"
+  />
+</Frame>
+
+By defining each variant separately, you don't need to design every combination—just define what each variant changes.
+
+## Creating a variant
+
+1. Ensure you have nothing selected in design mode
+2. On right-hand panel, click **Properties** > <Icon icon="plus" size={16} />
+3. Select the type of variant to add
+
+## Adding options to an enum variant
+
+1. Ensure you have nothing selected in design mode
+2. On right-hand panel, find the enum to add an option to
+3. Click <Icon icon="plus" size={16} /> to add an option
+
+## Modifying styles in a variant
+
+1. Select the variant you want to modify
+2. Select an element
+3. Modify any property in the Inspector
+4. An override indicator (pink dot) appears next to the property
+
+<Frame>
+  <img src="/images/design-mode/overrides.png" alt="Inspector showing override with pink dot indicator" />
+</Frame>
+
+To remove a variant override, click the pink dot to reset to the default value.

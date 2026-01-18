@@ -1,58 +1,81 @@
 ---
-title: Props and slots
-description: Understand when to use props vs slots for customizing Subframe components.
+title: Props & slots
+description: Add data and composition to your components.
 ---
 
-Components accept two types of customization: **props** and **slots**.
+Properties make your components reusable by accepting different data. There are four types:
 
-**Props** are simple values—text, numbers, booleans, icons, images. Configure props in the Inspector panel when using components. In code, pass props like any React component.
+- **Text / Number** — Simple text or numeric values
+- **Icon** — Icon selection from available icon libraries
+- **Image** — Image URLs or uploaded files
+- **Slot** — Regions for dynamic content and composition
 
-**Slots** are placeholders for React children. They enable composition—nesting components inside other components. Designers define slots and add default content. Developers fill slots with custom components, event handlers, and framework-specific elements.
+When using component instances, properties can be configured in the inspector.
 
-## When to use each
+<Frame caption="Configuring properties of a Button component instance">
+  <img src="/images/components/component-props-example.png" alt="Showing properties of a component instance" />
+</Frame>
 
-Use **props** for content that changes per instance: titles, labels, colors, icons, image URLs.
+Text, icon, and image props are for simple data. Slots are special properties that allow for composition—see [dedicated section](#slots) below.
 
-Use **slots** when you need:
+## Creating a new property
 
-- Event handlers on subcomponents (`onClick`, `onChange`)
-- Framework-specific components (Next.js `Image`, custom wrappers)
-- Complex nested content with its own state and logic
+1. Ensure you have nothing selected in design mode
+2. On right-hand panel, click **Properties** > <Icon icon="plus" size={16} />
+3. Select the property type to add
 
-## Example: Props vs slots
+You can also create a property when [linking](/learn/components/props-and-slots#linking-element-contents-to-a-property) elements.
 
-A `TrackCard` component with only props accepts simple values but can't expose event handlers or framework components:
+## Removing properties
 
-```tsx
-<TrackCard
-  title="The Less I Know The Better"
-  artist="Tame Impala"
-  image="/covers/tame_impala.jpg" // Static URL only, no Next.js Image
-  // No way to add onClick to favorite button
-/>
-```
+1. Ensure you have nothing selected in design mode
+2. Look for your property under **Properties**
+3. Click on the <Icon icon="minus" size={16} /> to delete
 
-The same component with slots exposes subcomponents and accepts React elements:
+## Linking element contents to a property
 
-```tsx
-<TrackCard
-  title="The Less I Know The Better"
-  artist="Tame Impala"
-  favoriteButton={
-    <IconButton icon={isFavorite ? "FeatherHeartOff" : "FeatherHeart"} onClick={() => setIsFavorite(!isFavorite)} />
-  }
-  image={<Image src="/covers/tame_impala.jpg" alt="Tame Impala Currents Cover" fill />}
-/>
-```
+<Frame>
+  <img src="/images/components/linking-to-prop.png" alt="Linking element contents to a property" />
+</Frame>
 
-Slots enable event handlers, Next.js optimized images, and full control over nested components.
+1. Click on the element
+2. In inspector, click **Content** > <Icon icon="code" size={16} />
+3. Select the property or **New Property...** to create a new one
 
-## Creating props and slots
+## Slots
 
-Add props and slots when creating or editing components. See [Creating Components](/components/creating-components) for detailed instructions.
+Slots expose a region of your component as a prop. They're useful for:
 
-**Props:** Select an element → Inspector panel → **+ Add property** → Choose type (Text, Boolean, Enum, Icon, Image, Number)
+- **Reusability & composition** — Add dynamic content like elements and other components within others
+- **Adding interactions in code** — Let developers add business logic within your components. See [adding interactive logic](/guides/component-docs) for more.
 
-**Slots:** Select a Stack → Right-click → **Add slot** → Name the slot → Add default content
+<Frame caption="Learn how slots work in Subframe.">
+  <iframe
+    style={{ width: "100%", height: "auto", aspectRatio: "16 / 9" }}
+    src="https://www.youtube-nocookie.com/embed/7C9cRkvKbQY"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen
+  />
+</Frame>
 
-Slots export as React props that accept JSX. Props export as TypeScript interface properties.
+#### Adding slots
+
+1. Create a stack
+2. In the inspector, click **Slot** > <Icon icon="plus" size={16} />
+3. Name your slot, click **Create**
+
+You can also right-click to open [quick actions](/learn/design-mode/quick-actions), then click **Add slot**.
+
+#### Using slots
+
+<Frame>
+  <img src="/images/components/editing-slots.png" alt="Editing slots within a component instance" />
+</Frame>
+
+1. Insert a component instance
+2. In inspector, look for the slot property and click **Edit X layers**
+
+Within the canvas, you can also double-click any contents within a slot to edit.

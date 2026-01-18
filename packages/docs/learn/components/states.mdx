@@ -1,0 +1,43 @@
+---
+title: Hover, active, focus states
+description: Add interaction states to your components.
+---
+
+<Frame>
+  <img
+    src="/images/components/interaction-states.png"
+    alt="Showing the hover, active, and focus states of a Button component"
+  />
+</Frame>
+
+Subframe supports three interaction states:
+
+- **Hover** — Mouse over (`:hover`)
+- **Active** — Mouse press (`:active`)
+- **Focused** — Keyboard focus (`:focus-visible`)
+
+## Creating a state
+
+1. Hover over the variant you want to add a state to
+2. Click **+Hover**, **+Active**, or **+Focus**
+
+## Modifying states
+
+1. Select the state you want to modify
+2. Select an element
+3. Modify any property in the Inspector
+4. An override indicator (pink dot) appears next to the property
+
+<Frame>
+  <img src="/images/design-mode/overrides.png" alt="Inspector showing override with pink dot indicator" />
+</Frame>
+
+To remove a state override, click the pink dot to reset to the default value.
+
+## Hover states in code
+
+If your element has a hover state, we add `cursor-pointer` in the generated code:
+
+```tsx
+<div className="cursor-pointer hover:bg-blue-600">Click me</div>
+```
