@@ -147,14 +147,11 @@
               },
               {
                 "group": "Prototype mode",
-                "pages": [
-                  "learn/prototype-mode/overview",
-                  "learn/prototype-mode/annotations"
-                ]
+                "pages": ["learn/prototype-mode/overview", "learn/prototype-mode/annotations"]
               },
               {
                 "group": "Code mode",
-                "pages": ["learn/code-mode/inspecting-code", "learn/code-mode/example-prompts"]
+                "pages": ["learn/code-mode/overview"]
               }
             ]
           },
