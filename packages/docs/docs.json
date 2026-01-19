@@ -139,7 +139,7 @@
               },
               {
                 "group": "Prototype mode",
-                "pages": ["learn/prototype-mode/overview", "learn/prototype-mode/annotations"]
+                "pages": ["learn/prototype-mode/overview", "learn/prototype-mode/annotations", "learn/prototype-mode/click-through-prototypes"]
               },
               {
                 "group": "Code mode",
