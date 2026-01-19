@@ -82,3 +82,16 @@
 - Use absolute URLs for internal links
 - Include untested code examples
 - Make assumptions - always ask for clarification
+
+## Code snippets
+
+**FAQs** – FAQ sections should use AccordionGroup and Accordion components:
+
+```mdx
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Why is X not working?">Answer to the question.</Accordion>
+  <Accordion title="How do I do Y?">Steps or explanation.</Accordion>
+</AccordionGroup>
+```
