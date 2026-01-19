@@ -1,0 +1,54 @@
+---
+title: Responsive design
+description: Design for mobile and desktop breakpoints.
+---
+
+Subframe has two breakpoints:
+
+- **Default** — Desktop and tablet (768px and above)
+- **Mobile** <Icon icon="smartphone" size={16} /> — 767px and below
+
+## Switching breakpoints
+
+<Frame>
+  <img src="/images/editor/editor-breakpoints.png" alt="Breakpoint selector showing desktop and mobile views" />
+</Frame>
+
+Click the device selector in the top toolbar to switch between default and mobile views.
+
+## Creating mobile overrides
+
+You can add mobile overrides to both pages and components.
+
+1. Switch to mobile view <Icon icon="smartphone" size={16} />
+2. Select an element
+3. Modify any property in the Inspector
+4. An override indicator (pink dot) appears next to the property
+
+<Frame>
+  <img src="/images/design-mode/overrides.png" alt="Inspector showing mobile override with pink dot indicator" />
+</Frame>
+
+To remove a mobile override, click the pink dot to reset to the default value.
+
+## Code export
+
+When there is a mobile override, the exported code uses a `mobile:` prefix in Tailwind, which adds a media query:
+
+{/* prettier-ignore */}
+```tsx
+<div className="flex mobile:flex-col">
+  {/* Horizontal on desktop, vertical on mobile */}
+</div>
+```
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Why can't I override this property?">
+    If you don't see a pink dot, no mobile override is being set.
+    {/* prettier-ignore */}
+    Mobile overrides only work for styles that translate to CSS, so some properties without a CSS equivalent cannot have
+    a mobile override.
+  </Accordion>
+</AccordionGroup>

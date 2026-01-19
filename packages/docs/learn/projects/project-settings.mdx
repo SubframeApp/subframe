@@ -1,0 +1,89 @@
+---
+title: Project settings
+description: Configure project settings like code generation and AI preferences.
+---
+
+## Access project settings
+
+<Frame>
+  <img
+    src="/images/projects/project-settings-entrypoint.png"
+    alt="Project settings showing the project settings dialog"
+  />
+</Frame>
+
+1. Open [Subframe](https://app.subframe.com)
+2. Click the project switcher in the top nav
+3. Select **Project settings**
+
+You should see the project settings dialog.
+
+<Frame>
+  <img src="/images/projects/project-settings.png" alt="Project settings showing the project settings dialog" />
+</Frame>
+
+## Import alias
+
+Set the path prefix used for component imports in generated code.
+
+**Default:** `@/ui/components`
+
+This determines how import statements appear in your exported code:
+
+```tsx
+import { Button } from "@/ui/components/Button"
+```
+
+Change this to match your project's directory structure and TypeScript path aliases.
+
+## Company context
+
+Provide context to help AI generate designs that are more relevant to your product.
+
+#### Company name
+
+Your company or product name. AI uses this to personalize generated content and copy.
+
+#### Description
+
+Describe your company, product, and design preferences. This helps AI understand:
+
+- What your product does
+- Your target audience
+- Tone and style preferences
+- Any specific design guidelines
+
+<Tip>The more context you provide, the better AI can tailor designs to your brand and product.</Tip>
+
+## Icon imports
+
+Choose how icons are imported in generated code.
+
+#### Import as component
+
+Icons are imported as React components:
+
+```tsx
+import { FeatherIcon } from "@/ui/components/FeatherIcon"
+```
+
+```tsx
+<FeatherIcon name="check" />
+```
+
+#### Import as string
+
+Icons are referenced by name as strings:
+
+```tsx
+import { Icon } from "@/ui/components/Icon"
+```
+
+```tsx
+<Icon name="FeatherCheck" />
+```
+
+<Info>
+  If your project has uploaded custom icons, you must use "Import as component". The string option is disabled when
+  custom icons are present.
+</Info>

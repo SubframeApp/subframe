@@ -1,0 +1,81 @@
+---
+title: Props & slots
+description: Add data and composition to your components.
+---
+
+Properties make your components reusable by accepting different data. There are four types:
+
+- **Text / Number** — Simple text or numeric values
+- **Icon** — Icon selection from available icon libraries
+- **Image** — Image URLs or uploaded files
+- **Slot** — Regions for dynamic content and composition
+
+When using component instances, properties can be configured in the inspector.
+
+<Frame caption="Configuring properties of a Button component instance">
+  <img src="/images/components/component-props-example.png" alt="Showing properties of a component instance" />
+</Frame>
+
+Text, icon, and image props are for simple data. Slots are special properties that allow for composition—see [dedicated section](#slots) below.
+
+## Creating a new property
+
+1. Ensure you have nothing selected in design mode
+2. On right-hand panel, click **Properties** > <Icon icon="plus" size={16} />
+3. Select the property type to add
+
+You can also create a property when [linking](/learn/components/props-and-slots#linking-element-contents-to-a-property) elements.
+
+## Removing properties
+
+1. Ensure you have nothing selected in design mode
+2. Look for your property under **Properties**
+3. Click on the <Icon icon="minus" size={16} /> to delete
+
+## Linking element contents to a property
+
+<Frame>
+  <img src="/images/components/linking-to-prop.png" alt="Linking element contents to a property" />
+</Frame>
+
+1. Click on the element
+2. In inspector, click **Content** > <Icon icon="code" size={16} />
+3. Select the property or **New Property...** to create a new one
+
+## Slots
+
+Slots expose a region of your component as a prop. They're useful for:
+
+- **Reusability & composition** — Add dynamic content like elements and other components within others
+- **Adding interactions in code** — Let developers add business logic within your components. See [adding interactive logic](/guides/component-docs) for more.
+
+<Frame caption="Learn how slots work in Subframe.">
+  <iframe
+    style={{ width: "100%", height: "auto", aspectRatio: "16 / 9" }}
+    src="https://www.youtube-nocookie.com/embed/7C9cRkvKbQY"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen
+  />
+</Frame>
+
+#### Adding slots
+
+1. Create a stack
+2. In the inspector, click **Slot** > <Icon icon="plus" size={16} />
+3. Name your slot, click **Create**
+
+You can also right-click or press <kbd>/</kbd> to open [quick actions](/learn/design-mode/quick-actions), then select **Add slot**.
+
+#### Using slots
+
+<Frame>
+  <img src="/images/components/editing-slots.png" alt="Editing slots within a component instance" />
+</Frame>
+
+1. Insert a component instance
+2. In inspector, look for the slot property and click **Edit X layers**
+
+Within the canvas, you can also double-click any contents within a slot to edit.

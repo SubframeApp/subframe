@@ -26,10 +26,11 @@ You can create a new page with AI, select a template, or start from scratch.
     1. Go to [subframe.com/design/new](https://app.subframe.com/design/new) to open the new page dialog.
     2. Type a prompt for the page you want to design.
     3. Submit your prompt to open the page editor and wait for designs to generate.
-    4. Select a variation to preview in the Ask AI panel. 
+    4. Select a variation to preview in the Ask AI panel.
     5. Click **Apply design** to add it to the current page.
-    
+
     <Tip>Mix and match elements from different variations by dragging to the page from the preview.</Tip>
+
   </Step>
 
   <Step title="Edit in Design Mode">
@@ -42,6 +43,7 @@ You can create a new page with AI, select a template, or start from scratch.
     - Select an element and click the **+** Insert buttons to add new elements inline.
     - Edit styles and properties in the Inspector panel on the right.
     - Right-click or press <kbd>/</kbd> for contextual edits to a selected element.
+
   </Step>
 </Steps>
 
@@ -49,9 +51,12 @@ You can create a new page with AI, select a template, or start from scratch.
 
 Next, we'll create a new project using the Subframe Vite starter kit to implement your design. Open a new folder on your computer using Cursor or your favorite IDE.
 
-### Build with Subframe MCP
-
 <Steps>
+<Step title="Setup your project">
+
+See [Installation](/installation) for detailed instructions on setting up Subframe in a new or existing project.
+
+</Step>
   <Step title="Install the MCP server">
 
     <img src="/images/quickstart/quickstart-setup-mcp.png" alt="Installation instructions for Cursor and Claude MCP server" />
@@ -60,6 +65,8 @@ Next, we'll create a new project using the Subframe Vite starter kit to implemen
 
     Go to https://app.subframe.com/cli/auth to generate your auth token.
 
+    <Info>To learn more about the MCP server and its capabilities, see [MCP Server](/guides/mcp-server).</Info>
+
   </Step>
 
   <Step title="Initialize Subframe">
@@ -67,6 +74,7 @@ Next, we'll create a new project using the Subframe Vite starter kit to implemen
     <img src="/images/quickstart/quickstart-cursor-init.png" alt="Cursor project with Subframe installation prompt" />
 
     Copy the installation prompt in **Code** > **Installation** for Cursor or Claude Code and run it in your project's root folder.
+
   </Step>
 
   <Step title="Prompt to implement your design">
@@ -78,41 +86,37 @@ Next, we'll create a new project using the Subframe Vite starter kit to implemen
     > "Implement the design from this Subframe page [YOUR_PAGE_MCP_LINK]"
 
     AI fetches the code via MCP and adds business logic.
+
   </Step>
 
   <Step title="Start your development server">
+If you created a new project, you can start your development server with:
+
     ```bash
     npm install
     npm run dev
     ```
 
     Open `localhost:3000`—your page renders exactly as designed.
+
   </Step>
 </Steps>
 
-### Or manually copy code
+You're all set! Your Subframe project is now connected and ready for development.
 
-<Steps>
-  <Step title="Create a new Vite project with CLI">
-      ```bash npm
-      npx @subframe/cli@latest init --dir ./src/ui --alias '@/ui/*' --install --tailwind --sync --template vite
-      ```
-  </Step>
+## Next steps
 
-  <Step title="Copy your page code">
-    1. Switch to **Code** > **Inspect** to view React & Tailwind CSS code for your page.
-    2. Click the copy icon in the code viewer.
-    3. Paste into `src/pages/App.tsx`
-  </Step>
-
-  <Step title="Start development">
-    ```bash
-    npm install
-    npm run dev
-    ```
-
-    Open `localhost:3000`—your page renders exactly as designed.
-  </Step>
-</Steps>
-
-Continue developing your app using Subframe to sync components and export new designs as code.
+<CardGroup cols={2}>
+  <Card title="Core concepts" icon="lightbulb" href="/learn/concepts">
+    Understand how Subframe works under the hood.
+  </Card>
+  <Card title="Learn the editor" icon="square-mouse-pointer" href="/learn/editor">
+    Discover how to design using Subframe's visual editor.
+  </Card>
+  <Card title="Go to developer docs" icon="code" href="/overview">
+    Dive deeper into using Subframe for developer handoff.
+  </Card>
+  <Card title="Ask AI" icon="wand-sparkles" href="/learn/ask-ai">
+    Explore AI-powered design features.
+  </Card>
+</CardGroup>

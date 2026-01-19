@@ -17,9 +17,9 @@
     /* Linting */
     "strict": true,
     "noFallthroughCasesInSwitch": true,
-    
+
     /* Import aliases */
-    "baseUrl": "./",
+    "baseUrl": "./"
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

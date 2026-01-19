@@ -1,0 +1,86 @@
+---
+title: Overview
+description: Learn the Subframe editor interface and navigate between editing modes.
+---
+
+The Subframe editor is where you design pages, build components, and export production-ready code. Switch between all four modes, depending on your task.
+
+## Editor modes
+
+<Frame>
+  <img
+    src="/images/editor/editor-modes.png"
+    alt="Editor mode selector showing Ask AI, Design, Prototype, and Code mode buttons"
+  />
+</Frame>
+
+You can use the mode buttons in the top-right of the editor to switch between the following modes:
+
+<CardGroup cols={2}>
+  <Card title="Ask AI" icon="sparkle">
+    Generate new pages and variations from text prompts or images.
+  </Card>
+  <Card title="Design Mode" icon="square-mouse-pointer">
+    Edit visually with drag-and-drop, responsive canvas, and layers & properties.
+  </Card>
+  <Card title="Prototype Mode" icon="mouse-pointer-click">
+    Build interactive prototypes from your designs by annotating and chatting with AI
+  </Card>
+  <Card title="Code Mode" icon="code">
+    View code, set up MCP server, and export to AI coding tools like Cursor.
+  </Card>
+</CardGroup>
+
+## Editor layout
+
+The editor consists of three main areas: left panel, canvas (center), and Inspector (right panel).
+
+<Frame>
+  <img src="/images/editor/editor-layout.png" alt="Editor layout showing the left panel, canvas, and inspector" />
+</Frame>
+
+### Left panel
+
+Toggle left panel buttons with <kbd>Cmd</kbd> + <kbd>\\</kbd>. You have the following panels available to you:
+
+**Pages** — Switch between pages and flows in your project. Navigate to different designs or subcomponents when editing components.
+
+**Layers** — View and organize the element hierarchy for the current page. Select, reorder, or group elements. Shows the complete component tree.
+
+**Insert** — Browse and insert components and snippets. Search or drag elements onto the canvas. Switches between snippet and component libraries.
+
+### Canvas (center)
+
+Your design surface where elements appear at their actual rendered size. The canvas shows exactly how your design will look at the current breakpoint (desktop or mobile).
+
+Unlike infinite canvas tools, Subframe uses flexbox for layout (not absolute positioning). Elements flow and arrange using Stacks, resize responsively, and adapt to different screen sizes automatically. If you're familiar with Figma, this works similarly to auto-layout.
+
+### Inspector (right panel)
+
+This is the context-aware properties panel that changes based on editor mode and selected element.
+
+For example, in design mode, you'll see layout, sizing, colors, backgrounds, borders, shadows, padding, overflow, and component properties. In code mode, you'll see the Inspect tab, which shows the code for the selected element.
+
+## Responsive breakpoints
+
+Switch between desktop (default) and mobile views using the device selector in the Inspector panel.
+
+<Frame>
+  <img src="/images/editor/editor-breakpoints.png" alt="Editor breakpoints showing the desktop and mobile views" />
+</Frame>
+
+**Desktop view (default)** — Design for desktop and tablet screens. Elements use their base flex properties.
+
+**Mobile view (768px)** — Add mobile-specific overrides for properties that need different values on small screens.
+
+We recommend you design for desktop first, then add mobile overrides only where needed.
+
+## Collaboration
+
+Multiple team members can edit simultaneously. See who's viewing or editing with avatars in the top navigation.
+
+<Frame>
+  <img src="/images/editor/editor-collaborators.png" alt="Editor collaboration showing the team members and avatars" />
+</Frame>
+
+Click **Share** in the top navigation to invite team members or create view-only links. Set roles (viewer/editor) and toggle public preview access.

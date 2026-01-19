@@ -3,7 +3,8 @@ title: Okta SSO
 ---
 
 <Info>
-    This feature is only available on the Custom Plan. If you are an existing Custom Plan customer, continue with the setup below. Once completed, contact us to enable SSO for your team.
+  This feature is only available on the Custom Plan. If you are an existing Custom Plan customer, continue with the
+  setup below. Once completed, contact us to enable SSO for your team.
 </Info>
 
 <Steps>
@@ -11,11 +12,13 @@ title: Okta SSO
     Navigate to the Applications dashboard of the Okta admin console. Click _Create App Integration_.
 
     ![](/images/sso/okta/step-1.png)
+
   </Step>
   <Step title="Choose SAML 2.0 in the App Integration Dialog">
     Subframe supports the SAML 2.0 SSO protocol. Choose it from the _Create a new app integration_ dialog.
 
     ![](/images/sso/okta/step-2.png)
+
   </Step>
   <Step title="Fill out general settings">
     The information you enter here will be shown in your Okta applications menu. The App name should typically be **Subframe**.
@@ -25,13 +28,14 @@ title: Okta SSO
     You can download the Subframe logo to upload as the **App logo** below:
 
     ![](/images/sso/okta/logo.png)
+
   </Step>
   <Step title="Fill out SAML settings">
     These settings let Subframe use SAML 2.0 properly with your Okta application. Make sure you enter this information exactly as shown in this table and screenshot.
 
     | Setting                                             | Value                                                |
     | --------------------------------------------------- | ---------------------------------------------------- |
-    | Single sign-on URL                                  | `https://api.subframe.com/auth/v1/sso/saml/acs`      | 
+    | Single sign-on URL                                  | `https://api.subframe.com/auth/v1/sso/saml/acs`      |
     | Use this for Recipient URL and Destination URL      | ✔️                                                    |
     | Audience URI (SP Entity ID)	                      | `https://api.subframe.com/auth/v1/sso/saml/metadata` |
     | Default `RelayState`                                | `https://app.subframe.com`                           |
@@ -40,6 +44,7 @@ title: Okta SSO
     | Update applicate username on                        | Create and update                                    |
 
     ![](/images/sso/okta/step-4.png)
+
   </Step>
   <Step title="Fill out attribute settings">
     Attribute Statements allow Subframe to get information about your Okta users on each login.
@@ -47,6 +52,7 @@ title: Okta SSO
     A `email` to `user.email` **statement is required**. Other mappings shown below are optional and configurable depending on your Okta setup. If in doubt, replicate the same config in the screenshot below.
 
     ![](/images/sso/okta/step-5.png)
+
   </Step>
   <Step title="Obtain IdP metadata URL">
     Subframe needs to finalize enabling single sign-on with your Okta application.
@@ -56,11 +62,13 @@ title: Okta SSO
     The Metadata URL usually has this structure: `https://<okta-org>.okta.com/apps/<app-id>/sso/saml/metadata`
 
     ![](/images/sso/okta/step-6.png)
+
   </Step>
   <Step title="Wait for confirmation">
     Once you’ve configured the Okta app as describe above, send the Metadata URL to your support contact at Subframe.
 
     Wait for confirmation that this information has successfully been added to Subframe. It usually takes us less than 1 business day to configure this for your team.
+
   </Step>
   <Step title="Test single sign-on">
     Once you’ve received confirmation from your support contact at Subframe that SSO setup has been completed, you can ask some of your users to sign in with SSO via their Okta account.
@@ -68,5 +76,6 @@ title: Okta SSO
     All they need to do is enter their work email address when they choose to sign in with SSO.
 
     If sign in is not working correctly, reach out to your support contact at Subframe for further guidance.
+
   </Step>
 </Steps>

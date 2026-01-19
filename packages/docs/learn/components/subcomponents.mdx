@@ -1,0 +1,25 @@
+---
+title: Subcomponents
+description: Child components scoped to a parent component.
+---
+
+Subcomponents are child components scoped to a parent (also known as compound components). Use them to group related components together. In code, they are represented as properties of the parent component.
+
+```tsx
+<Card>
+  <Card.Header>Title</Card.Header>
+  <Card.Body>Content goes here</Card.Body>
+  <Card.Footer>Actions</Card.Footer>
+</Card>
+```
+
+In this example, `Card` is the parent component. `Header`, `Body`, and `Footer` are subcomponents.
+
+## Creating subcomponents
+
+<Frame>
+  <img src="/images/components/subcomponent-menu.png" alt="Subcomponent panel when editing a component" />
+</Frame>
+
+1. Open your parent component
+2. In the left panel, click on **Subcomponents** > <Icon icon="plus" size={16} /> to create a new subcomponent

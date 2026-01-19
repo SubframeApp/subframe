@@ -2,12 +2,11 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Subframe Docs",
-  "colors": {
-    "primary": "#000000",
-    "light": "#dddddd",
-    "dark": "#333333"
-  },
+  "colors": { "primary": "#111111", "light": "#dddddd", "dark": "#111111" },
   "favicon": "/favicon.png",
+  "icons": {
+    "library": "lucide"
+  },
   "navigation": {
     "global": {
       "anchors": [
@@ -76,24 +75,76 @@
           "learn/concepts",
           "learn/faq",
           {
-            "group": "Design with Subframe",
+            "group": "Core Concepts",
             "pages": [
-              "learn/designing/adding-elements",
-              "learn/designing/using-ai-to-design",
-              "learn/designing/personalizing-ai",
-              "learn/designing/version-history"
+              "learn/elements/elements",
+              {
+                "group": "Components",
+                "pages": [
+                  "learn/components/overview",
+                  "learn/components/subcomponents",
+                  "learn/components/props-and-slots",
+                  "learn/components/variants",
+                  "learn/components/states",
+                  "learn/components/importing"
+                ]
+              },
+              "learn/pages/pages",
+              {
+                "group": "Theme",
+                "pages": [
+                  "learn/theme/customizing-theme",
+                  "learn/theme/importing-tokens",
+                  "learn/theme/adding-custom-fonts"
+                ]
+              },
+              "learn/flows/flows",
+              "learn/snippets/snippets",
+              {
+                "group": "Projects",
+                "pages": ["learn/projects/overview", "learn/projects/project-settings", "learn/projects/version-history"]
+              }
             ]
           },
           {
-            "group": "Prototype with Subframe",
-            "pages": ["learn/prototyping/creating-ai-prototypes", "learn/prototyping/sharing-prototypes"]
-          },
-          {
-            "group": "Theme",
+            "group": "Editor",
             "pages": [
-              "learn/theme/customizing-theme",
-              "learn/theme/importing-tokens",
-              "learn/theme/adding-custom-fonts"
+              "learn/editor/overview",
+              {
+                "group": "Ask AI",
+                "pages": [
+                  "learn/ask-ai/prompt-to-design",
+                  "learn/ask-ai/making-quick-edits",
+                  "learn/ask-ai/image-to-design",
+                  "learn/ask-ai/referencing-pages",
+                  "learn/ask-ai/personalizing-ai"
+                ]
+              },
+              {
+                "group": "Design mode",
+                "pages": [
+                  "learn/design-mode/layers",
+                  "learn/design-mode/inspector",
+                  "learn/design-mode/adding-elements",
+                  "learn/design-mode/working-with-stacks",
+                  "learn/design-mode/page-layouts",
+                  "learn/design-mode/preview",
+                  "learn/design-mode/responsive-design",
+                  "learn/design-mode/quick-actions",
+                  "learn/design-mode/keyboard-shortcuts",
+                  "learn/design-mode/comments",
+                  "learn/design-mode/share-designs",
+                  "learn/design-mode/custom-css"
+                ]
+              },
+              {
+                "group": "Prototype mode",
+                "pages": ["learn/prototype-mode/overview", "learn/prototype-mode/annotations", "learn/prototype-mode/click-through-prototypes"]
+              },
+              {
+                "group": "Code mode",
+                "pages": ["learn/code-mode/overview"]
+              }
             ]
           },
           {
@@ -101,8 +152,6 @@
             "pages": [
               "learn/admin/managing-team",
               "learn/admin/pricing-and-plans",
-              "learn/admin/managing-projects",
-              "learn/admin/version-history",
               "learn/admin/auth-tokens",
               {
                 "group": "Single sign-on (SSO)",

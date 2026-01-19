@@ -1,0 +1,101 @@
+---
+title: Generating designs
+---
+
+<Frame>
+  <img src="/images/ask-ai/ask-ai-mode.png" alt="Ask AI mode showing the mode switcher and the prompt area" />
+</Frame>
+
+You can prompt AI to generate page designs, edit your existing designs, or update your theme.
+
+- **Design new pages** — Generate multiple variations of page designs
+- **Edit your page directly** — Make targeted changes to your current page
+- **Update your theme** — Modify colors, fonts, and tokens project-wide
+- **Answer questions** — Search Subframe docs for help with features and development workflows
+
+Ask AI is for creating and updating designs. For adding interactivity and state, use [Prototype mode](/learn/prototype-mode/overview).
+
+## Getting started
+
+1. Click **Ask AI** in the mode switcher (top-right) of the page editor or press <kbd>Cmd</kbd> + <kbd>K</kbd> and select **Mode > Ask AI**
+2. Type a prompt and press <kbd>Enter</kbd> or click the send button
+3. Ask AI will create a new conversation and responds to your prompt
+
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  className="w-full"
+  src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/ask-ai-plus-drag-drop.mp4"
+/>
+
+Our AI will choose how to respond based on your prompt:
+
+- **Variations** — For new designs, creative exploration, or prompts requiring new components. Ask AI will generate 1-4 variations for you to choose from.
+- **Direct edits** — For simple changes to existing elements like colors, text, or layout tweaks
+
+## Apply designs
+
+After generations finish streaming, click each thumbnail to open a preview.
+
+<Frame>
+  <img src="/images/ask-ai/apply-designs.png" alt="Ask AI variations showing the generated variations" />
+</Frame>
+
+From the preview, you can:
+
+- **Apply design** — Replace your current page
+- **Save as new page** — Create a new page with this design
+- **Ask follow-up** — Refine with another prompt
+
+You can even **mix and match elements** from different variations by dragging elements from the preview onto your canvas.
+
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  controls
+  className="w-full"
+  src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/Mintlify/ai-drag-to-insert-BKAcupQ453HXKXmsKaDGp6dw8cLmbW.mp4"
+/>
+
+After generating, send follow-up prompts or switch to [design mode](/learn/design-mode/layers) for manual edits. Each follow-up can reference the current page and previous generations.
+
+## Conversation history
+
+Recent conversations appear at the bottom of the Ask AI panel. Click **Show all history** to see older conversations grouped by date.
+
+Your conversations persist across sessions and pages so you can reference past generations.
+
+## Ask AI toolbar
+
+Ask AI includes additional tools:
+
+- **[Referencing pages](/learn/ask-ai/referencing-pages)** — Remix other pages as prompts for your design
+- **[Upload image](/learn/ask-ai/image-to-design)** — Add reference images
+- **[Import from Figma](/learn/ask-ai/image-to-design#import-from-figma)** — Import Figma designs using the image model
+- **[Personalize AI](/learn/ask-ai/personalizing-ai)** — Configure project-wide context
+
+You can also use [quick edits](/learn/ask-ai/making-quick-edits) to make targeted edits to specific elements using AI.
+
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="AI is not applying changes where I want them">
+Ask AI is great for generating new designs or making broad changes to your page. But for more targeted edits, you may want to use [quick edits](/learn/ask-ai/making-quick-edits).
+</Accordion>
+
+<Accordion title="I can't edit components">
+  Ask AI mode only works with pages. To edit components, use [quick edit](/learn/ask-ai/making-quick-edits)—select an
+  element inside the component, then right-click or press <kbd>/</kbd> to open [quick
+  actions](/learn/design-mode/quick-actions) and select **Ask AI to edit...**.
+</Accordion>
+
+<Accordion title="How do I undo changes?">
+  Press <kbd>Cmd</kbd> + <kbd>Z</kbd> to undo. Subframe maintains full undo history, so you can step back through
+  multiple changes. You can also use [Version history](/learn/projects/version-history) to restore a previous state.
+</Accordion>
+
+</AccordionGroup>

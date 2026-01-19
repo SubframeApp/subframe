@@ -34,7 +34,7 @@
 ## Writing standards
 
 - Second-person voice ("you")
-- Use present tense
+- Use present tense (e.g. "Update" instead of "Updating")
 - Prerequisites at start of procedural content
 - Test all code examples before publishing
 - Match style and formatting of existing pages
@@ -42,13 +42,15 @@
 - Language tags on all code blocks
 - Alt text on all images
 - Relative paths for internal links
+- If you can link to a page directly, always do so. Users prefer to click to get to where they need.
 - For external links, add this icon after text if it helps with clarity: <Icon className="mb-1" size={12} icon="arrow-up-right-from-square" />
 
 ## Conventions
 
 - Bold anything labelled in the UI, e.g. "Click on the **Back** button"
 - Use chevrons > to indicate nested content, e.g. "Navigate to **Components > Button**"
-- Individual keys in a keyboard shortcut should use a `<kbd>` tag, like <kbd>CMD</kbd> + <kbd>S</kbd>
+- Individual keys in a keyboard shortcut should use a `<kbd>` tag with spaces around the plus sign, like <kbd>Cmd</kbd> + <kbd>S</kbd>
+- When mentioning clickable icons (like icon buttons), use the `<Icon>` component with size 16, e.g. `<Icon icon="plus" size={16} />`
 - Use H2 for section headers. Use H4 for subsection headers.
 - Add images / videos below relevant headers, not above. Additional explanations or instructions should go below the image / video.
 
@@ -58,6 +60,22 @@
 - Prefer "select" over "click" when clicking within menus, like "Click `...` and select Delete"
 - Prefer "press" for keyboard events, such as "press <kbd>S</kbd> to save"
 - Prefer "navigate to" when instructing users to navigate to another page
+
+## Product-specific
+
+- When instructing users to insert elements, use the phrase "Open the [quick insert](/learn/design-mode/adding-elements) <Icon icon="plus" size={16} /> menu"
+- When talking about right-clicking an element and selecting an action, use two steps:
+  1. "Right-click or press <kbd>/</kbd> to open [quick actions](/learn/design-mode/quick-actions)"
+  2. "Select **Action**"
+
+## Updating from product / code changes
+
+When updating docs based on product or code changes:
+
+- Verify all subframe.com and app.subframe.com links still work after the change
+- Update copy to align with new terminology, UI labels, or behavior
+- If screenshots or images may be outdated, add a `{/* TODO: Update image */}` comment in the PR and write it in the PR description
+- Search for related mentions across docs that may also need updating
 
 ## Git workflow
 
@@ -73,3 +91,16 @@
 - Use absolute URLs for internal links
 - Include untested code examples
 - Make assumptions - always ask for clarification
+
+## Code snippets
+
+**FAQs** – FAQ sections should use AccordionGroup and Accordion components:
+
+```mdx
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Why is X not working?">Answer to the question.</Accordion>
+  <Accordion title="How do I do Y?">Steps or explanation.</Accordion>
+</AccordionGroup>
+```

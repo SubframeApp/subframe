@@ -1,0 +1,99 @@
+---
+title: Overview
+description: Reusable UI building blocks for your designs.
+---
+
+Components let you reuse UI across your designs.
+
+- **Same as code** — Components in Subframe are the same building blocks your engineers use
+- **Always in sync** — When you update a component, all instances update and sync to code
+- **Interactive when needed** — Some components like checkboxes and accordions have built-in interaction logic using `@subframe/core`, our Radix-based headless component library. Learn more about [headless components](/concepts/code-generation#headless-components).
+
+## Creating components from scratch
+
+<Frame>
+  <img src="/images/components/create-component-dialog.png" alt="Create a new component dialog" />
+</Frame>
+
+1. Navigate to **Components** in navbar
+2. Click **New component**
+3. Choose one of:
+   - Remix an existing prebuilt component
+   - Create from scratch
+
+<Note>
+  Some prebuilt components are based off of Radix primitives. If you want interactive logic like checked state, you must
+  remix an existing prebuilt component.
+</Note>
+
+## Creating components from existing designs
+
+<Frame>
+  <img src="/images/components/create-component-existing.png" alt="Create a new component dialog" />
+</Frame>
+
+You can create components directly from elements on a page:
+
+1. Right-click or press <kbd>/</kbd> to open [quick actions](/learn/design-mode/quick-actions)
+2. Select **Create component**
+3. Name your component
+4. Review AI-suggested properties
+5. Click **Create**
+
+Subframe AI will auto-suggest properties using best practices based on what you have selected.
+
+## Editing components
+
+To edit a component you can either:
+
+- navigate to **Components**, click on the component, click on **Edit component** button
+- Right-click or press <kbd>/</kbd> to open [quick actions](/learn/design-mode/quick-actions), select **Edit component**
+
+Any changes you make in the editor will update all component instances.
+
+## Adding component instances
+
+You can add a component instance by
+
+1. Open the [quick insert](/learn/design-mode/adding-elements) <Icon icon="plus" size={16} /> menu
+2. Select the component you want to add
+
+## Detaching component instances
+
+You can detach a component so the rendered elements are no longer linked to the component.
+
+1. Right-click or press <kbd>/</kbd> to open [quick actions](/learn/design-mode/quick-actions)
+2. Select **Detach component**
+
+<Note>
+  Not all components can be detached; interactive components built on Radix (like accordions, checkboxes, etc) cannot be
+  detached.
+</Note>
+
+## Component docs
+
+<Frame>
+  <img src="/images/components/component-docs.png" alt="Component docs for a Button component" />
+</Frame>
+
+We auto-generate component docs with properties and sometimes examples, similar to Storybook. Any updates you make will automatically update the docs. You can directly edit the component from these docs or send them to a developer.
+
+To view them, navigate to **Components**, click on the component.
+
+## Exporting components to code
+
+<Frame>
+  <img src="/images/components/sync-component-command.png" alt="Sync component CLI command" />
+</Frame>
+
+1. Click **Code**
+2. Select **Inspect**
+3. Copy and paste the `npx @subframe/cli` command
+
+For more information, see [syncing components](/concepts/syncing-components).
+
+## Importing from another project
+
+1. Go to **Components**
+2. Click **Import from...** button
+3. Select **Another project**

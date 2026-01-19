@@ -10,11 +10,13 @@ Import color tokens from existing design systems to match your brand. Subframe s
 
 ### **Step 1: Open your Theme**
 
-**Individual color tokens:** Click **Import** button in the non-palette colors section. 
+**Individual color tokens:** Click **Import** button in the non-palette colors section.
 
 **Custom palettes:** Click the import icon on any custom palette. Adds colors to that palette with auto-generated suffixes.
 
-<Note>Default palettes (Brand, Neutral, Error, Success, Warning) don't support import. Create a custom palette first.</Note>
+<Note>
+  Default palettes (Brand, Neutral, Error, Success, Warning) don't support import. Create a custom palette first.
+</Note>
 
 ### **Step 2: Paste CSS variables**
 
@@ -29,6 +31,7 @@ Paste your CSS variables, one per line:
 ### **Step 3: Review and edit**
 
 For each detected token:
+
 - Edit palette name (applies to all tokens when importing to palette)
 - Edit individual token names
 - Adjust color values via color picker
@@ -42,6 +45,7 @@ Click **Import** to add tokens. New tokens appear immediately in your theme.
 ### Supported CSS format
 
 **Requirements:**
+
 - Must start with `--`
 - Color value must be valid hex, rgb, or hsl
 - Semicolons optional
@@ -62,6 +66,7 @@ Subframe doesn't directly integrate with Figma or other design tools. Export you
 <Accordion title="No color tokens detected">
 
 Verify:
+
 - CSS variables start with `--`
 - Color values are valid hex, rgb, or hsl
 - Format follows: `--name: value;` or `--name: value`
@@ -79,5 +84,3 @@ All names must be filled before import. Edit empty names in the preview step, th
 
 </Accordion>
 </AccordionGroup>
-
-  

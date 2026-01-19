@@ -2,10 +2,7 @@
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
     "build": {
-      "env": [
-        "NODE_ENV",
-        "SEGMENT_WRITE_KEY"
-      ],
+      "env": ["NODE_ENV", "SEGMENT_WRITE_KEY"],
       "dependsOn": ["^build"]
     },
     "format": {},
