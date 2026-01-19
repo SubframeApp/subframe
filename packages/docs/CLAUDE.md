@@ -61,6 +61,13 @@
 - Prefer "press" for keyboard events, such as "press <kbd>S</kbd> to save"
 - Prefer "navigate to" when instructing users to navigate to another page
 
+## Product-specific
+
+- When instructing users to insert elements, use the phrase "Open the [quick insert](/learn/design-mode/adding-elements) <Icon icon="plus" size={16} /> menu"
+- When talking about right-clicking an element and selecting an action, use two steps:
+  1. "Right-click or press <kbd>/</kbd> to open [quick actions](/learn/design-mode/quick-actions)"
+  2. "Select **Action**"
+
 ## Git workflow
 
 - NEVER use --no-verify when committing
