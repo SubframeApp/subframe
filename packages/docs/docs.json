@@ -102,7 +102,7 @@
               "learn/snippets/snippets",
               {
                 "group": "Projects",
-                "pages": ["learn/projects/overview", "learn/projects/project-settings"]
+                "pages": ["learn/projects/overview", "learn/projects/project-settings", "learn/projects/version-history"]
               }
             ]
           },
@@ -152,7 +152,6 @@
             "pages": [
               "learn/admin/managing-team",
               "learn/admin/pricing-and-plans",
-              "learn/admin/version-history",
               "learn/admin/auth-tokens",
               {
                 "group": "Single sign-on (SSO)",
