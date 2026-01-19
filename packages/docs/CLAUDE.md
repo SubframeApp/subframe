@@ -68,6 +68,15 @@
   1. "Right-click or press <kbd>/</kbd> to open [quick actions](/learn/design-mode/quick-actions)"
   2. "Select **Action**"
 
+## Updating from product / code changes
+
+When updating docs based on product or code changes:
+
+- Verify all subframe.com and app.subframe.com links still work after the change
+- Update copy to align with new terminology, UI labels, or behavior
+- If screenshots or images may be outdated, add a `{/* TODO: Update image */}` comment in the PR and write it in the PR description
+- Search for related mentions across docs that may also need updating
+
 ## Git workflow
 
 - NEVER use --no-verify when committing
