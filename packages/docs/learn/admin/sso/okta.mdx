@@ -1,5 +1,6 @@
 ---
 title: Okta SSO
+description: Configure Okta single sign-on for your Subframe team.
 ---
 
 <Info>
@@ -11,23 +12,23 @@ title: Okta SSO
   <Step title="Create App Integration in the Applications dashboard">
     Navigate to the Applications dashboard of the Okta admin console. Click _Create App Integration_.
 
-    ![](/images/sso/okta/step-1.png)
+    ![Okta Applications dashboard with Create App Integration button](/images/sso/okta/step-1.png)
 
   </Step>
   <Step title="Choose SAML 2.0 in the App Integration Dialog">
     Subframe supports the SAML 2.0 SSO protocol. Choose it from the _Create a new app integration_ dialog.
 
-    ![](/images/sso/okta/step-2.png)
+    ![Create a new app integration dialog with SAML 2.0 selected](/images/sso/okta/step-2.png)
 
   </Step>
   <Step title="Fill out general settings">
     The information you enter here will be shown in your Okta applications menu. The App name should typically be **Subframe**.
 
-    ![](/images/sso/okta/step-3.png)
+    ![General settings form with App name field](/images/sso/okta/step-3.png)
 
     You can download the Subframe logo to upload as the **App logo** below:
 
-    ![](/images/sso/okta/logo.png)
+    ![Subframe logo for Okta app](/images/sso/okta/logo.png)
 
   </Step>
   <Step title="Fill out SAML settings">
@@ -43,7 +44,7 @@ title: Okta SSO
     | Application username                                | Email                                                |
     | Update applicate username on                        | Create and update                                    |
 
-    ![](/images/sso/okta/step-4.png)
+    ![SAML settings form with Single sign-on URL and Audience URI fields](/images/sso/okta/step-4.png)
 
   </Step>
   <Step title="Fill out attribute settings">
@@ -51,7 +52,7 @@ title: Okta SSO
 
     A `email` to `user.email` **statement is required**. Other mappings shown below are optional and configurable depending on your Okta setup. If in doubt, replicate the same config in the screenshot below.
 
-    ![](/images/sso/okta/step-5.png)
+    ![Attribute Statements configuration with email mapping](/images/sso/okta/step-5.png)
 
   </Step>
   <Step title="Obtain IdP metadata URL">
@@ -61,7 +62,7 @@ title: Okta SSO
 
     The Metadata URL usually has this structure: `https://<okta-org>.okta.com/apps/<app-id>/sso/saml/metadata`
 
-    ![](/images/sso/okta/step-6.png)
+    ![Sign On settings page showing Metadata URL location](/images/sso/okta/step-6.png)
 
   </Step>
   <Step title="Wait for confirmation">
