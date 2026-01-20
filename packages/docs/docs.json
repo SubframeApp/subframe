@@ -185,10 +185,11 @@
       "youtube": "https://www.youtube.com/@SubframeApp"
     }
   },
+  "contextual": {
+    "options": ["copy", "chatgpt", "claude", "perplexity"]
+  },
   "seo": {
-    "metatags": {
-      "og:image": "https://www.subframe.com/images/subframe-social-media.png"
-    }
+    "indexing": "all"
   },
   "integrations": {
     "segment": {
@@ -196,6 +197,9 @@
     },
     "ga4": {
       "measurementId": "G-1GGBBPL5LT"
+    },
+    "intercom": {
+      "appId": "m19ac5dq"
     }
   },
   "redirects": [
@@ -207,5 +211,8 @@
       "source": "/developing/:slug*",
       "destination": "/guides/:slug*"
     }
-  ]
+  ],
+  "metadata": {
+    "timestamp": true
+  }
 }
