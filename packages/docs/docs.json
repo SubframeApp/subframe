@@ -68,7 +68,7 @@
       },
       {
         "tab": "Learn Subframe",
-        "icon": "book",
+        "icon": "circle-question-mark",
         "pages": [
           "learn/introduction",
           "learn/quickstart",
@@ -180,7 +180,9 @@
       "x": "https://x.com/SubframeApp",
       "github": "https://github.com/SubframeApp/subframe",
       "instagram": "https://www.instagram.com/subframeapp",
-      "slack": "https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ"
+      "slack": "https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ",
+      "website": "https://subframe.com",
+      "youtube": "https://www.youtube.com/@SubframeApp"
     }
   },
   "seo": {
