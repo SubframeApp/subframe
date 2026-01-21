@@ -9,6 +9,8 @@ import { ACCESS_TOKEN_FILENAME, SUBFRAME_DIR, SYNC_SETTINGS_FILENAME } from "./c
 import { abortOnState } from "./prompt-helpers"
 import { exists, isDirectory, posixJoin } from "./utils/fs"
 
+export const TS_ALIAS_SUFFIX = "/*"
+
 export interface SyncSettingsConfig {
   directory: string
   importAlias: string
@@ -97,12 +99,12 @@ export async function setupSyncSettings(
     const response = await prompts({
       type: "text",
       name: "componentsDirAlias",
-      initial: `${DEFAULT_SUBFRAME_TS_ALIAS}/*`,
+      initial: `${DEFAULT_SUBFRAME_TS_ALIAS}${TS_ALIAS_SUFFIX}`,
       message: `Configure an alias for the subframe component directory (e.g. ${DEFAULT_SUBFRAME_TS_ALIAS})`,
       validate: (value) => {
-        return typeof value === "string" && value.endsWith("/*")
+        return typeof value === "string" && value.endsWith(TS_ALIAS_SUFFIX)
           ? true
-          : "Alias must end with '/*' so that it matches all files in the directory"
+          : `Alias must end with '${TS_ALIAS_SUFFIX}' so that it matches all files in the directory`
       },
       onState: abortOnState,
     })
@@ -113,7 +115,7 @@ export async function setupSyncSettings(
       const aliases = {
         /** just the one alias for now */
         // NOTE: tsconfig.json requires relative paths (unless baseUrl is set), and posixJoin strips the ./
-        [response.componentsDirAlias]: ["./" + posixJoin(config.directory, "/*")],
+        [response.componentsDirAlias]: ["./" + posixJoin(config.directory, TS_ALIAS_SUFFIX)],
       }
 
       if (await exists(tsConfigPath)) {
