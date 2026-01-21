@@ -31,7 +31,7 @@ import { apiUpdateImportAlias } from "./api-endpoints"
 import { localSyncSettings } from "./common"
 import { storeToken } from "./config"
 import { SUBFRAME_INIT_MESSAGE } from "./constants"
-import { initProject } from "./init-project"
+import { initProject, selectProject } from "./init-project"
 import { initSync } from "./init-sync"
 import { installDependencies } from "./install-dependencies"
 import { makeCLILogger } from "./logger/logger-cli"
@@ -91,12 +91,18 @@ initCommand.action(async (opts) => {
 
     console.time(SUBFRAME_INIT_MESSAGE)
 
-    const maybeTruncatedProjectId = (opts.projectId as TruncatedProjectId | undefined) ?? localSyncSettings?.projectId
+    const projectIdFromOpts = (opts.projectId as TruncatedProjectId | undefined) ?? localSyncSettings?.projectId
+
+    const truncatedProjectIdToUse = await selectProject({
+      cliLogger,
+      accessToken,
+      projectIdOverride: projectIdFromOpts,
+    })
 
     const { styleFile, oldImportAlias, projectInfo } = await initProject({
       cliLogger,
       accessToken,
-      truncatedProjectId: maybeTruncatedProjectId,
+      truncatedProjectId: truncatedProjectIdToUse,
       cssType: styleInfo.cssType,
     })
 

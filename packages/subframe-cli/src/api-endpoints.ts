@@ -4,6 +4,7 @@ import { makeFetchWithRetries, prepareHttpBody } from "shared/http"
 import type {
   InitProjectRequest,
   InitProjectResponse,
+  ListProjectsResponse,
   PushComponentRequest,
   PushComponentResponse,
   SyncProjectRequest,
@@ -52,6 +53,14 @@ const http = async <TBody, TResponse>(
 export async function apiVerifyToken(token: string): Promise<VerifyTokenResponse> {
   const url = `${BASE_URL}/api/cli/verify`
   return http<void, VerifyTokenResponse>(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+  })
+}
+
+export async function apiListProjects(token: string): Promise<ListProjectsResponse> {
+  const url = `${BASE_URL}/api/cli/list-projects`
+  return http<void, ListProjectsResponse>(url, {
     method: "GET",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
   })
