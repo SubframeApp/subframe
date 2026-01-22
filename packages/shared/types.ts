@@ -72,7 +72,7 @@ export interface InitProjectRequest {
 export interface InitProjectResponse {
   styleFile: CodeGenFileValid
   cssType: CodeGenCSSType
-  oldImportAlias?: string
+  oldImportAlias: string
   projectInfo: {
     teamId: number
     truncatedProjectId: TruncatedProjectId

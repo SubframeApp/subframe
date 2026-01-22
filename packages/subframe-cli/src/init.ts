@@ -2,6 +2,7 @@ import { Command, Option } from "@commander-js/extra-typings"
 import { writeFile } from "node:fs/promises"
 import { join } from "node:path"
 import { oraPromise } from "ora"
+import prompts from "prompts"
 import {
   COMMAND_ALIAS_KEY,
   COMMAND_ALIAS_KEY_SHORT,
@@ -24,6 +25,7 @@ import {
   COMMAND_TAILWIND_KEY,
   COMMAND_TAILWIND_KEY_SHORT,
   COMMAND_TEMPLATE_KEY,
+  DEFAULT_SUBFRAME_TS_ALIAS,
 } from "shared/constants"
 import { TruncatedProjectId } from "shared/types"
 import { getAccessToken, verifyTokenWithOra } from "./access-token"
@@ -39,7 +41,7 @@ import { prepareProject } from "./setup/prepare-project"
 import { setupTailwindV3 } from "./setup-tailwind-v3"
 import { setupTailwindV4 } from "./setup-tailwind-v4"
 import { startDevServer } from "./start-dev-server"
-import { setupSyncSettings } from "./sync-settings"
+import { setupSyncSettings, TS_ALIAS_SUFFIX } from "./sync-settings"
 import { mkdirIfNotExist } from "./utils/fs"
 
 export const initCommand = new Command()
@@ -112,7 +114,8 @@ initCommand.action(async (opts) => {
       projectPath,
       {
         directory: opts.dir ?? localSyncSettings?.directory,
-        importAlias: localSyncSettings?.importAlias,
+        // If the import alias in the backend is the default, provide undefined so that the user is prompted to change the alias if they want.
+        importAlias: opts.alias ?? localSyncSettings?.importAlias ?? (oldImportAlias === DEFAULT_SUBFRAME_TS_ALIAS ? undefined : oldImportAlias),
         projectId: truncatedProjectId,
         teamId: projectInfo.teamId,
         cssType: styleInfo.cssType,
@@ -121,7 +124,7 @@ initCommand.action(async (opts) => {
     )
 
     // strip /* which is used for tsconfig.json
-    const importAlias = rawImportAlias.endsWith("/*") ? rawImportAlias.slice(0, -2) : rawImportAlias
+    const importAlias = rawImportAlias.endsWith(TS_ALIAS_SUFFIX) ? rawImportAlias.slice(0, -2) : rawImportAlias
 
     // Ensure the root folder exists.
     const rootPath = join(projectPath, directory)
@@ -132,26 +135,34 @@ initCommand.action(async (opts) => {
 
     if (oldImportAlias !== importAlias) {
       console.log(`Change in import alias detected. Before: "${oldImportAlias}", After: "${importAlias}"`)
-      console.log(
-        `Syncing changes to your project settings. Any code you copy / paste from Subframe will now use the new import alias like this: import { Button } from "${importAlias}/components/Button";`,
-      )
 
-      try {
-        await oraPromise(
-          apiUpdateImportAlias(accessToken, {
-            truncatedProjectId,
-            importAlias,
-          }),
-          {
-            text: "Updating import alias",
-            successText: "Import alias updated",
-            failText: "Failed to update import alias",
-          },
-        )
-      } catch (error) {
-        // Note: don't block init if this fails
-        console.error(error)
-        await cliLogger.trackWarningAndFlush("[CLI]: updateImportAlias failed", { error: error.toString() })
+      const { confirmUpdate } = await prompts({
+        type: "confirm",
+        name: "confirmUpdate",
+        message: `Update import alias in your Subframe project? Code will now use the new import alias: import { Button } from "${importAlias}/components/Button";`,
+        initial: true,
+      })
+
+      if (confirmUpdate) {
+        try {
+          await oraPromise(
+            apiUpdateImportAlias(accessToken, {
+              truncatedProjectId,
+              importAlias,
+            }),
+            {
+              text: "Updating import alias",
+              successText: "Import alias updated",
+              failText: "Failed to update import alias",
+            },
+          )
+        } catch (error) {
+          // Note: don't block init if this fails
+          console.error(error)
+          await cliLogger.trackWarningAndFlush("[CLI]: updateImportAlias failed", { error: error.toString() })
+        }
+      } else {
+        console.log("Import alias update skipped.")
       }
     }
 
