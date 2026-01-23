@@ -91,12 +91,17 @@ Subframe's MCP server lets AI tools like Cursor and Claude Code fetch your desig
 
 <Tabs>
   <Tab title="Cursor">
-    **One-click installation**
-
-    1. Open a page in Subframe
-    2. Go to **Code** \> **Installation** \> **Cursor MCP server**
-    3. Click on **Add to Cursor** <img src="/images/developers/mcp-add-to-cursor-button.png" alt="Add to Cursor button" />
-
+    <Steps>
+      <Step title="Open the editor in Subframe">
+        Navigate to any page or component
+      </Step>
+      <Step title="Open code mode">
+        Go to **Code** \> **Installation** \> **Cursor MCP server**
+      </Step>
+      <Step title="Install MCP server">
+        Click on **Add to Cursor**. Your auth token will be automatically applied.
+      </Step>
+    </Steps>
     **Manual installation**
 
     Create a new auth token at [app.subframe.com/settings/tokens](https://app.subframe.com/settings/tokens) and add the following to `~/.cursor/mcp.json`:
