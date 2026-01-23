@@ -33,6 +33,16 @@ npx @subframe/cli sync Button Alert Accordion
 
 The CLI pulls all components into your configured directory in your [project settings](/learn/projects/project-settings).
 
+### Import alias
+
+The import alias (e.g., `@/subframe`) determines how components reference each other in the generated code. When you run `npx @subframe/cli init`, the CLI detects your project's TypeScript path aliases and prompts you to confirm before updating your Subframe project settings.
+
+You can also specify an alias directly with the `--alias` flag:
+
+```bash
+npx @subframe/cli init --alias @/ui
+```
+
 Note that **sync is one-way** from Subframe to your codebase. Local changes to synced files will be overwritten on the next sync. If you don't want to overwrite local changes, you can [disable sync](/concepts/syncing-components#disabling-sync) for the component. In the future, we'll support syncing code changes back to Subframe.
 
 ## Adding business logic
