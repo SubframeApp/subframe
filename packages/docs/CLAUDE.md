@@ -43,7 +43,7 @@
 - Alt text on all images
 - Relative paths for internal links
 - If you can link to a page directly, always do so. Users prefer to click to get to where they need.
-- For external links, add this icon after text if it helps with clarity: <Icon className="mb-1" size={12} icon="arrow-up-right-from-square" />
+- For external links, add a ↗ symbol after text if it helps with clarity, e.g. [Example ↗](https://example.com/)
 
 ## Conventions
 
