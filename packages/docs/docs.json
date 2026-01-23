@@ -172,7 +172,13 @@
       "type": "button",
       "label": "Log in",
       "href": "https://app.subframe.com"
-    }
+    },
+    "links": [
+      {
+        "label": "subframe.com",
+        "href": "https://subframe.com"
+      }
+    ]
   },
   "footer": {
     "socials": {
