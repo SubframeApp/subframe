@@ -101,6 +101,17 @@ async function cloneStarterKit({
 
 export type StyleInfo = { cssType: "tailwind" } | { cssType: "tailwind-v4"; globalCssPath?: string }
 
+async function validateName(value: string): Promise<string | boolean> {
+  if (value.length > 128) {
+    return `Name should be less than 128 characters.`
+  }
+  const projectPath = join(cwd, value)
+  if (await exists(projectPath)) {
+    return `Target directory ${value} already exists. Please choose a different name.`
+  }
+  return true
+}
+
 export async function prepareProject(
   cliLogger: CLILogger,
   options: { template?: "vite" | "nextjs" | "astro"; name?: string; cssType?: "tailwind" | "tailwind-v4" },
@@ -112,6 +123,11 @@ export async function prepareProject(
       name: options.name,
       cssType: options.cssType,
     })
+
+    // NOTE: We need to pre-validate the name if it was provided because otherwise the overrides will not work with the
+    // async validation function.
+    const providedNameValidateResult = options.name ? await validateName(options.name) : false
+
     const { type, name, cssType } = await prompts([
       {
         type: "select",
@@ -134,16 +150,7 @@ export async function prepareProject(
         initial: "my-app",
         format: (value: string) => value.trim(),
         onState: abortOnState,
-        validate: async (value: string) => {
-          if (value.length > 128) {
-            return `Name should be less than 128 characters.`
-          }
-          const projectPath = join(cwd, value)
-          if (await exists(projectPath)) {
-            return `Target directory ${value} already exists. Please choose a different name.`
-          }
-          return true
-        },
+        validate: options.name ? () => providedNameValidateResult : validateName,
       },
       {
         type: "select",

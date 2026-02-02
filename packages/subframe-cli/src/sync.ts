@@ -16,7 +16,7 @@ import { MALFORMED_INIT_MESSAGE, SUBFRAME_SYNC_MESSAGE, WRONG_PROJECT_MESSAGE } 
 import { installDependencies } from "./install-dependencies"
 import { makeCLILogger } from "./logger/logger-cli"
 import { syncComponents } from "./sync-components"
-import { updateSyncSettings, TS_ALIAS_SUFFIX } from "./sync-settings"
+import { TS_ALIAS_SUFFIX, updateSyncSettings } from "./sync-settings"
 
 export const syncCommand = new Command()
   .name("sync")
