@@ -1,0 +1,14 @@
+{
+  "name": "subframe",
+  "description": "Design and implement UIs with Subframe - an AI design tool that outputs production-ready React code",
+  "version": "1.0.0",
+  "author": {
+    "name": "Subframe"
+  },
+  "homepage": "https://subframe.com",
+  "repository": "https://github.com/SubframeApp/subframe",
+  "license": "MIT",
+  "keywords": ["design", "ui", "react", "tailwind", "components"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
+}

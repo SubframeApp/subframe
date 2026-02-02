@@ -47,6 +47,7 @@
             "group": "Guides",
             "pages": [
               "guides/mcp-server",
+              "guides/skills",
               "guides/dark-mode",
               "guides/component-docs",
               "guides/accessibility",

@@ -85,11 +85,25 @@ Your Subframe theme may use a Google Font or an [uploaded custom font](/learn/th
   </Step>
 </Steps>
 
-## Set up Subframe MCP (recommended)
+## Set up Subframe MCP and Skills (recommended)
 
-Subframe's MCP server lets AI tools like Cursor and Claude Code fetch your designs directly. Instead of copying code manually, AI can access your components, pages, and theme automatically.
+The MCP server lets AI tools like Cursor and Claude Code fetch your designs directly. Skills teach your AI assistant how to use Subframe well — setting up projects, designing pages, and implementing with business logic.
 
 <Tabs>
+  <Tab title="Claude Code">
+    The Subframe plugin for Claude Code sets up the MCP server and Skills in one install.
+
+    <Steps>
+      <Step title="Install the Subframe plugin">
+        Run the following commands in Claude Code:
+
+        ```
+        /plugin marketplace add SubframeApp/subframe
+        /plugin install subframe@subframe
+        ```
+      </Step>
+    </Steps>
+  </Tab>
   <Tab title="Cursor">
     <Steps>
       <Step title="Open the editor in Subframe">
@@ -99,21 +113,25 @@ Subframe's MCP server lets AI tools like Cursor and Claude Code fetch your desig
         Go to **Code** \> **Installation** \> **Cursor MCP server**
       </Step>
       <Step title="Install MCP server">
-        Click on **Add to Cursor**. Your auth token will be automatically applied.
+        Click on **Add to Cursor**. You'll be prompted to authenticate via OAuth.
+      </Step>
+      <Step title="Install Skills">
+        Skills are guided workflows that teach Cursor how to best use Subframe. Install them with:
+
+        ```bash
+        npx skills add SubframeApp/subframe
+        ```
       </Step>
     </Steps>
     **Manual installation**
 
-    Create a new auth token at [app.subframe.com/settings/tokens](https://app.subframe.com/settings/tokens) and add the following to `~/.cursor/mcp.json`:
+    Add the following to `~/.cursor/mcp.json`. Cursor will handle OAuth authentication automatically when you first connect.
 
     ```json ~/.cursor/mcp.json
     {
       "mcpServers": {
         "subframe": {
-          "url": "https://mcp.subframe.com/mcp",
-          "headers": {
-            "Authorization": "Bearer YOUR_AUTH_TOKEN"
-          }
+          "url": "https://mcp.subframe.com/mcp"
         },
         "subframe-docs": {
           "url": "https://docs.subframe.com/mcp"
@@ -122,40 +140,14 @@ Subframe's MCP server lets AI tools like Cursor and Claude Code fetch your desig
     }
     ```
   </Tab>
-  <Tab title="Claude Code">
-    <Steps>
-      <Step title="Create a new auth token">
-        You can create and manage your auth tokens at [app.subframe.com/settings/tokens](https://app.subframe.com/settings/tokens)
-      </Step>
-      <Step title="Install the Subframe MCP server">
-        Run the following command with `YOUR_AUTH_TOKEN` replaced with your auth token:
-
-        ```bash
-        claude mcp add --transport http subframe https://mcp.subframe.com/mcp \
-          --header "Authorization: Bearer YOUR_AUTH_TOKEN"
-        ```
-      </Step>
-      <Step title="Install the Subframe Docs MCP server (optional)">
-        You can install the Subframe Docs MCP server (recommended) to give AI access to this docs site:
-
-        ```bash
-        claude mcp add --transport http subframe-docs https://docs.subframe.com/mcp
-        ```
-      </Step>
-    </Steps>
-  </Tab>
   <Tab title="Other clients">
     <Steps>
-      <Step title="Create a new auth token">
-        You can create and manage your auth tokens at [app.subframe.com/settings/tokens](https://app.subframe.com/settings/tokens)
-      </Step>
       <Step title="Configure the Subframe MCP Server">
         Configure your MCP client to connect to the Subframe MCP server:
 
         - **URL:** `https://mcp.subframe.com/mcp`
         - **Transport:** HTTP
-        - **Authentication:** Bearer token in header
-        - **Header:** `Authorization: Bearer YOUR_AUTH_TOKEN`
+        - **Authentication:** OAuth (your client will handle the authentication flow)
       </Step>
       <Step title="Configure the Subframe Docs MCP Server (optional)">
         Optionally add the Subframe Docs MCP server for documentation access:
@@ -164,14 +156,21 @@ Subframe's MCP server lets AI tools like Cursor and Claude Code fetch your desig
         - **Transport:** HTTP
         - **Authentication:** None required
       </Step>
+      <Step title="Install Skills (optional)">
+        If your client supports the [Agent Skills](https://agentskills.io) standard, install the Subframe skills with:
+
+        ```bash
+        npx skills add SubframeApp/subframe
+        ```
+      </Step>
       <Step title="Verify installation">
-        Restart your MCP client, then verify the MCP servers are available in your AI assistant.
+        Restart your MCP client, then verify the MCP servers and skills are available in your AI assistant.
       </Step>
     </Steps>
   </Tab>
 </Tabs>
 
-See our [MCP server guide](/guides/mcp-server) for more information on how to use the MCP server.
+See our [MCP server guide](/guides/mcp-server) and [Skills guide](/guides/skills) for more details.
 
 ## FAQ
 
