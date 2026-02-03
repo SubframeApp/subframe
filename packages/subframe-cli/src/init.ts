@@ -1,6 +1,6 @@
 import { Command, Option } from "@commander-js/extra-typings"
 import { writeFile } from "node:fs/promises"
-import { join } from "node:path"
+import path, { join } from "node:path"
 import { oraPromise } from "ora"
 import prompts from "prompts"
 import {
@@ -40,9 +40,9 @@ import { makeCLILogger } from "./logger/logger-cli"
 import { prepareProject } from "./setup/prepare-project"
 import { setupTailwindV3 } from "./setup-tailwind-v3"
 import { setupTailwindV4 } from "./setup-tailwind-v4"
-import { startDevServer } from "./start-dev-server"
 import { setupSyncSettings, TS_ALIAS_SUFFIX } from "./sync-settings"
 import { mkdirIfNotExist } from "./utils/fs"
+import { getInstallCommand, getPackageManager, getRunDevCommand } from "./utils/package-managers"
 
 export const initCommand = new Command()
   .name("init")
@@ -115,7 +115,10 @@ initCommand.action(async (opts) => {
       {
         directory: opts.dir ?? localSyncSettings?.directory,
         // If the import alias in the backend is the default, provide undefined so that the user is prompted to change the alias if they want.
-        importAlias: opts.alias ?? localSyncSettings?.importAlias ?? (oldImportAlias === DEFAULT_SUBFRAME_TS_ALIAS ? undefined : oldImportAlias),
+        importAlias:
+          opts.alias ??
+          localSyncSettings?.importAlias ??
+          (oldImportAlias === DEFAULT_SUBFRAME_TS_ALIAS ? undefined : oldImportAlias),
         projectId: truncatedProjectId,
         teamId: projectInfo.teamId,
         cssType: styleInfo.cssType,
@@ -182,8 +185,20 @@ initCommand.action(async (opts) => {
     const { didInstall } = await installDependencies({ cwd: projectPath, didCreateNewProject }, opts)
 
     console.timeEnd(SUBFRAME_INIT_MESSAGE)
+
     if (didCreateNewProject) {
-      await startDevServer(projectPath, { didInstall })
+      const packageManager = await getPackageManager(projectPath)
+      const cdProjectName = path.relative(process.cwd(), projectPath)
+      console.log()
+      console.log("Done. Now run:")
+      if (cdProjectName) {
+        const cdCommand = cdProjectName.includes(" ") ? `"${cdProjectName}"` : cdProjectName
+        console.log(`  cd ${cdCommand}`)
+      }
+      if (!didInstall) {
+        console.log(`  ${getInstallCommand(packageManager).join(" ")}`)
+      }
+      console.log(`  ${getRunDevCommand(packageManager).join(" ")}`)
     }
   } catch (err: any) {
     console.error(err)
