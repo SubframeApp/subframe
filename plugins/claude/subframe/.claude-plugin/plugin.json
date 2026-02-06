@@ -1,6 +1,6 @@
 {
   "name": "subframe",
-  "description": "Design and implement UIs with Subframe - an AI design tool that outputs production-ready React code",
+  "description": "Design and build UIs with Subframe. Create pixel-perfect React + Tailwind pages using your design system, explore design variations, and implement with business logic.",
   "version": "1.0.0",
   "author": {
     "name": "Subframe"
@@ -8,7 +8,7 @@
   "homepage": "https://subframe.com",
   "repository": "https://github.com/SubframeApp/subframe",
   "license": "MIT",
-  "keywords": ["design", "ui", "react", "tailwind", "components"],
+  "keywords": ["design", "ui", "react", "tailwind", "components", "design-system", "frontend"],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json"
 }

@@ -33,7 +33,7 @@ You can get the MCP link for any design by either:
 | `get_component_info` | Gets the code and metadata for a component   | `id`, `name`, or `url`<br/>`projectId` (optional) | `id`, `name`, `files`                        |
 | `get_page_info`      | Gets the code for a page                     | `id`, `name`, or `url`<br/>`projectId` (optional) | `id`, `name`, `files`                        |
 | `get_theme`          | Generates the Tailwind theme for the project | `projectId` (optional)<br/>`cssType` (optional)   | `theme` config                               |
-| `design_page`        | Designs multiple page variations using AI    | `description`, `variations` (1–4 strings), `flowName`<br/>`projectId` (optional), `codeContext` (optional) | `pageId`, `reviewUrl` |
+| `design_page`        | Designs UI pages in Subframe. Use to build new UI, iterate on existing UI, explore options, or get a visual starting point to refine. | `description`, `variations` (1, 2, or 4 strings), `flowName`<br/>`projectId` (optional), `codeContext` (optional) | `pageId`, `reviewUrl` |
 
 If `projectId` is not specified, the tool will use the first project you have access to.
 
