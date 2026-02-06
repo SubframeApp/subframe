@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "subframe": {
+      "type": "http",
+      "url": "${SUBFRAME_MCP_URL:-https://mcp.subframe.com/mcp}"
+    },
+    "subframe-docs": {
+      "type": "http",
+      "url": "https://docs.subframe.com/mcp"
+    }
+  }
+}

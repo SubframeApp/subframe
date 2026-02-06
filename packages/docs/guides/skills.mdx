@@ -1,0 +1,43 @@
+---
+title: Skills
+description: Guided workflows that teach AI assistants how to design and implement UIs with Subframe.
+---
+
+[Agent Skills](https://agentskills.io) are structured instructions that teach AI assistants how to use tools correctly. The [MCP server](/guides/mcp-server) gives your AI assistant the _ability_ to access Subframe — skills give it the _knowledge_ of how to use Subframe well.
+
+Skills are an [open standard](https://agentskills.io) and becoming widely adopted throughout the industry.
+
+## Available skills
+
+**`/subframe:setup`** — Initializes Subframe in a new or existing project. Detects the framework, runs the CLI, configures Tailwind and fonts, and syncs components.
+
+**`/subframe:design`** — Designs UI pages in Subframe. Use when you want to build new UI, iterate on existing UI, explore design options, or get a visual starting point to refine. Gathers context from your codebase, generates variations, and returns a review URL to preview and select.
+
+**`/subframe:develop`** — Implements designs with business logic. Fetches the design via `get_page_info`, syncs components if needed, places the page in your codebase, and wires up data fetching, forms, event handlers, and loading/error states.
+
+## Typical workflow
+
+1. Run `/subframe:setup` to initialize Subframe in your project (one-time)
+2. Run `/subframe:design` to create a page design with multiple variations
+3. Review and select a variation in Subframe
+4. Run `/subframe:develop` to implement the selected design with business logic
+
+## Installing skills
+
+<Tabs>
+  <Tab title="Claude Code">
+    Skills are bundled with the Subframe plugin and installed automatically. Run the following commands in Claude Code:
+
+    ```
+    /plugin marketplace add SubframeApp/subframe
+    /plugin install subframe@subframe
+    ```
+  </Tab>
+  <Tab title="Cursor and other clients">
+    Install skills with:
+
+    ```bash
+    npx skills add SubframeApp/subframe
+    ```
+  </Tab>
+</Tabs>
