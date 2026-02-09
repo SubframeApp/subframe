@@ -4,7 +4,7 @@ description: "Set up Subframe in your codebase."
 ---
 
 import CLIInitCommand from "/snippets/cli-init-command.mdx"
-import ClaudeCodePluginInstall from "/snippets/claude-code-plugin-install.mdx"
+import McpSkillsInstall from "/snippets/mcp-skills-install.mdx"
 
 ## Prerequisites
 
@@ -86,83 +86,13 @@ Your Subframe theme may use a Google Font or an [uploaded custom font](/learn/th
   </Step>
 </Steps>
 
-## Set up Subframe MCP and Skills (recommended)
+## Set up Subframe MCP and agent skills (recommended)
 
-The MCP server lets AI tools like Claude Code and Cursor fetch your designs directly and even create new ones. Skills teach your AI assistant how to use Subframe well — setting up projects, designing pages, and implementing with business logic.
+The MCP server lets AI tools like Claude Code and Cursor fetch your designs directly and even create new ones. Agent skills teach your AI assistant how to use Subframe well — setting up projects, designing pages, and implementing with business logic.
 
-<Tabs>
-  <Tab title="Claude Code">
-    The Subframe plugin for Claude Code sets up the MCP server and Skills in one install.
+<McpSkillsInstall />
 
-    <ClaudeCodePluginInstall />
-  </Tab>
-  <Tab title="Cursor">
-    <Steps>
-      <Step title="Open the editor in Subframe">
-        Navigate to any page or component
-      </Step>
-      <Step title="Open code mode">
-        Go to **Code** \> **Installation** \> **Cursor MCP server**
-      </Step>
-      <Step title="Install MCP server">
-        Click on **Add to Cursor**. You'll be prompted to authenticate via OAuth.
-      </Step>
-      <Step title="Install Skills">
-        Skills are guided workflows that teach Cursor how to best use Subframe. Install them with:
-
-        ```bash
-        npx skills add SubframeApp/subframe
-        ```
-      </Step>
-    </Steps>
-    **Manual installation**
-
-    Add the following to `~/.cursor/mcp.json`. Cursor will handle OAuth authentication automatically when you first connect.
-
-    ```json ~/.cursor/mcp.json
-    {
-      "mcpServers": {
-        "subframe": {
-          "url": "https://mcp.subframe.com/mcp"
-        },
-        "subframe-docs": {
-          "url": "https://docs.subframe.com/mcp"
-        }
-      }
-    }
-    ```
-  </Tab>
-  <Tab title="Other clients">
-    <Steps>
-      <Step title="Configure the Subframe MCP Server">
-        Configure your MCP client to connect to the Subframe MCP server:
-
-        - **URL:** `https://mcp.subframe.com/mcp`
-        - **Transport:** HTTP
-        - **Authentication:** OAuth (your client will handle the authentication flow)
-      </Step>
-      <Step title="Configure the Subframe Docs MCP Server (optional)">
-        Optionally add the Subframe Docs MCP server for documentation access:
-
-        - **URL:** `https://docs.subframe.com/mcp`
-        - **Transport:** HTTP
-        - **Authentication:** None required
-      </Step>
-      <Step title="Install Skills (optional)">
-        If your client supports the [Agent Skills](https://agentskills.io) standard, install the Subframe skills with:
-
-        ```bash
-        npx skills add SubframeApp/subframe
-        ```
-      </Step>
-      <Step title="Verify installation">
-        Restart your MCP client, then verify the MCP servers and skills are available in your AI assistant.
-      </Step>
-    </Steps>
-  </Tab>
-</Tabs>
-
-See our [MCP server guide](/guides/mcp-server) and [Skills guide](/guides/skills) for more details.
+See our [MCP server guide](/guides/mcp-server) and [agent skills guide](/guides/skills) for more details.
 
 ## FAQ
 
