@@ -1,11 +1,31 @@
 ---
-title: Skills
+title: Agent skills
 description: Guided workflows that teach AI assistants how to design and implement UIs with Subframe.
 ---
 
-[Agent Skills](https://agentskills.io) are structured instructions that teach AI assistants how to use tools correctly. The [MCP server](/guides/mcp-server) gives your AI assistant the _ability_ to access Subframe — skills give it the _knowledge_ of how to use Subframe well.
+import ClaudeCodePluginInstall from "/snippets/claude-code-plugin-install.mdx"
 
-Skills are an [open standard](https://agentskills.io) and becoming widely adopted throughout the industry.
+Agent skills are structured instructions that teach AI assistants how to use tools correctly. While the [MCP server](/guides/mcp-server) gives your AI the _ability_ to access Subframe, skills give it the _knowledge_ of how to use it well.
+
+Skills are an [open standard ↗](https://agentskills.io) and becoming widely adopted throughout the industry.
+
+## Installation
+
+<Tabs>
+  <Tab title="Claude Code">
+    The Subframe plugin for Claude Code sets up the MCP server and skills in one install.
+
+    <ClaudeCodePluginInstall />
+  </Tab>
+  <Tab title="Cursor / others">
+    Install skills with:
+
+    ```bash
+    npx skills add SubframeApp/subframe
+    ```
+  </Tab>
+</Tabs>
+
 
 ## Available skills
 
@@ -21,23 +41,3 @@ Skills are an [open standard](https://agentskills.io) and becoming widely adopte
 2. Run `/subframe:design` to create a page design with multiple variations
 3. Review and select a variation in Subframe
 4. Run `/subframe:develop` to implement the selected design with business logic
-
-## Installing skills
-
-<Tabs>
-  <Tab title="Claude Code">
-    Skills are bundled with the Subframe plugin and installed automatically. Run the following commands in Claude Code:
-
-    ```
-    /plugin marketplace add SubframeApp/subframe
-    /plugin install subframe@subframe
-    ```
-  </Tab>
-  <Tab title="Cursor and other clients">
-    Install skills with:
-
-    ```bash
-    npx skills add SubframeApp/subframe
-    ```
-  </Tab>
-</Tabs>

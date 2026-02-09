@@ -4,6 +4,7 @@ description: "Set up Subframe in your codebase."
 ---
 
 import CLIInitCommand from "/snippets/cli-init-command.mdx"
+import ClaudeCodePluginInstall from "/snippets/claude-code-plugin-install.mdx"
 
 ## Prerequisites
 
@@ -93,16 +94,7 @@ The MCP server lets AI tools like Claude Code and Cursor fetch your designs dire
   <Tab title="Claude Code">
     The Subframe plugin for Claude Code sets up the MCP server and Skills in one install.
 
-    <Steps>
-      <Step title="Install the Subframe plugin">
-        Run the following commands in Claude Code:
-
-        ```
-        /plugin marketplace add SubframeApp/subframe
-        /plugin install subframe@subframe
-        ```
-      </Step>
-    </Steps>
+    <ClaudeCodePluginInstall />
   </Tab>
   <Tab title="Cursor">
     <Steps>
