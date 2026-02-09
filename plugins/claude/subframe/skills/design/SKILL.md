@@ -42,32 +42,39 @@ How much context to gather and how many variations to generate depends on the ta
 
 | Task                           | Context                                                           | Variations                           |
 | ------------------------------ | ----------------------------------------------------------------- | ------------------------------------ |
-| **New page**                   | Similar pages, data types                                         | 4 — explore the design space         |
-| **Adding or editing existing UI** | The existing page, relevant data types                         | 2 — match the pattern, offer options |
-| **Redesigning existing UI**    | The current page (note what to keep vs change in the description) | 2-4 — depending on how open-ended    |
+| **New page (open-ended)**      | Data types (`codeContext`)                                        | 4 — explore the design space         |
+| **New page (with reference pages)** | Reference pages (`additionalPages` if in Subframe, `codeContext` if not), data types (`codeContext`) | 1-2 — stay close to the reference pages |
+| **Adding or editing existing UI** | The existing page (`additionalPages` if in Subframe, `codeContext` if not), relevant data types (`codeContext`) | 1-2 — match the existing pattern     |
+| **Redesigning existing UI**    | The current page (`additionalPages` if in Subframe, `codeContext` if not; note what to keep vs change in the description) | 2-4 — depending on how open-ended    |
 
 **Always include when available:**
 
-- Similar existing pages (the single most valuable context)
-- Components or patterns the user explicitly mentions
-- Data types/interfaces for what the page will display
+- Similar existing pages (the single most valuable context). Use `additionalPages` for Subframe pages — pass the `pageId` returned by `design_page`, or the page ID from a pasted MCP link. Use `codeContext` for pages that only exist in the codebase.
+- Components or patterns the user refers to or explicitly mentions (via `codeContext`)
+- Data types/interfaces for what the page will display (via `codeContext`)
 
 ### Variations
 
-Each variation is a prompt that drives a unique design direction. Make them meaningfully different:
+Each variation is a prompt that drives a unique design direction.
 
+**When you have reference pages** (`additionalPages`), use fewer variations (1-2) and keep them grounded in the reference. The variations should refine or extend the existing design, not diverge from it. For example:
+- "Follow the same layout as the reference page but adapted for [new content]"
+- "Same structure with a more compact data-dense layout"
+
+**When starting from scratch** (no `additionalPages`), use more variations (4) to explore the design space:
 - "Compact data table with inline actions and bulk operations"
 - "Card-based layout with visual hierarchy and quick filters"
 - "Minimal single-column design focused on the primary action"
+- "Split-panel layout with sidebar navigation and detail view"
 
-More variations = more exploration. Fewer = more focused. Don't overthink it.
+More variations = more exploration. Fewer = more focused. Default to fewer when strong context exists.
 
 ## Multi-Page Requests
 
 When designing multiple related pages (flows, CRUD, etc.):
 
 1. Design the primary page first with more variations to establish the direction
-2. After user selects a variation, design remaining pages using the first as context
+2. After user selects a variation, design remaining pages passing the relevant pages via `additionalPages` as context
 3. Use the same `flowName` to group related pages together
 
 ## After Designing
@@ -80,4 +87,4 @@ Present the `reviewUrl` as a clickable markdown link — it's the most important
    - **"Copy MCP link"** → Use with `/subframe:develop` to implement in code with business logic
    - **"Open in editor"** → Refine visually in Subframe's full design editor, collaborate with team
 
-Also note the `pageId` — they'll need it for `/subframe:develop` if they choose to implement directly.
+Internally track the `pageId` from the response — you'll need it for `/subframe:develop` or `additionalPages` for future designs — but don't mention it to the user.
