@@ -7,7 +7,7 @@
         ```bash
         claude plugin marketplace add https://github.com/SubframeApp/subframe && claude plugin install subframe@subframe
         ```
-        
+
         The Subframe plugin for Claude Code sets up the MCP server and agent skills in one install.
       </Step>
     </Steps>
@@ -22,6 +22,25 @@
       </Step>
       <Step title="Install MCP server">
         Click on **Add to Cursor**. You'll be prompted to authenticate via OAuth.
+
+        <Accordion title="Troubleshooting: Manual installation">
+          If **Add to Cursor** doesn't work, make the following changes to `~/.cursor/mcp.json`.
+
+          ```json ~/.cursor/mcp.json
+          {
+            "mcpServers": {
+              "subframe": {
+                "url": "https://mcp.subframe.com/mcp"
+              },
+              "subframe-docs": {
+                "url": "https://docs.subframe.com/mcp"
+              }
+            }
+          }
+          ```
+
+          Cursor will handle OAuth authentication automatically when you first connect.
+        </Accordion>
       </Step>
       <Step title="Install agent skills">
         Agent skills are guided workflows that teach Cursor how to best use Subframe. Install them with:
@@ -31,22 +50,6 @@
         ```
       </Step>
     </Steps>
-    **Manual installation**
-
-    Add the following to `~/.cursor/mcp.json`. Cursor will handle OAuth authentication automatically when you first connect.
-
-    ```json ~/.cursor/mcp.json
-    {
-      "mcpServers": {
-        "subframe": {
-          "url": "https://mcp.subframe.com/mcp"
-        },
-        "subframe-docs": {
-          "url": "https://docs.subframe.com/mcp"
-        }
-      }
-    }
-    ```
   </Tab>
   <Tab title="Other clients">
     <Steps>
