@@ -10,7 +10,7 @@ Set up Subframe in a project so that pages designed in Subframe render pixel-per
 
 ## MCP Authentication
 
-If you cannot find any Subframe MCP tools (like `get_theme`, `SearchSubframeDocs`, etc.), the MCP server likely needs to be authenticated. Ask the user to authenticate the Subframe MCP server. If the user is using Claude Code, instruct them to run `/mcp` to view and authenticate their MCP servers.
+If you cannot find any Subframe MCP tools (like `get_theme`, etc.), the MCP server likely needs to be authenticated. Ask the user to authenticate the Subframe MCP server. If the user is using Claude Code, instruct them to run `/mcp` to view and authenticate their MCP servers.
 
 ## Workflow Overview
 
