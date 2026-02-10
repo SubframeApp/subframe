@@ -6,6 +6,10 @@ argument-hint: "[page URL, page ID, or 'the design I just made']"
 
 Implement Subframe designs in the codebase. Fetch the design via MCP, sync components, and add business logic.
 
+## MCP Authentication
+
+If you cannot find the `get_page_info` tool (or any Subframe MCP tools), the MCP server likely needs to be authenticated. Ask the user to authenticate the Subframe MCP server. If the user is using Claude Code, instruct them to run `/mcp` to view and authenticate their MCP servers.
+
 ## Workflow
 
 1. **Fetch the design** - Use `get_page_info` with the URL, ID, or name

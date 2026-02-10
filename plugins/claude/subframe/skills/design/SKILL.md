@@ -20,6 +20,10 @@ Use `/subframe:design` when the user:
 
 The key value: `/subframe:design` and `/subframe:develop` bridge coding and design. They work in both directions — create designs while coding and then ensure your code exactly reflects your design.
 
+## MCP Authentication
+
+If you cannot find the `design_page` tool (or any Subframe MCP tools), the MCP server likely needs to be authenticated. Ask the user to authenticate the Subframe MCP server. If the user is using Claude Code, instruct them to run `/mcp` to view and authenticate their MCP servers.
+
 ## Subframe Basics
 
 - **Components** (buttons, inputs, cards): Synced via CLI. Source of truth in Subframe. Don't modify locally.
@@ -30,7 +34,7 @@ Subframe knows about the design system and theme. Your job is to provide context
 ## Workflow
 
 1. **Understand the request** — If vague, ask clarifying questions. What data? What actions? Who uses it?
-2. **Find the projectId** — Check `.subframe/sync.json`
+2. **Find the projectId** — Check `.subframe/sync.json`. If there is no projectId found, ask the user to go to `https://app.subframe.com/cli/auth` to get a project ID.
 3. **Gather context and decide variations** — Scale to the task (see below)
 4. **Choose a flowName** — Group related pages together (e.g., "Settings", "Onboarding", "Checkout")
 5. **Call `design_page`**
