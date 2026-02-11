@@ -15,16 +15,16 @@ If you cannot find any Subframe MCP tools (like `get_theme`, etc.), the MCP serv
 ## Workflow Overview
 
 1. **Parse credentials** from the user's input
-2. **Detect project type** — new project (no `package.json`) or existing project
-3. **Follow the appropriate path** — [New Project](#new-project-path) or [Existing Project](#existing-project-path)
-4. **Configure fonts** — required for both paths
+2. **Detect project type** — no repo, existing Subframe repo, or existing non-Subframe repo
+3. **Follow the appropriate path** — [New Project](#new-project-path), [Already Setup](#already-setup-path), or [Existing Project](#existing-project-path)
+4. **Configure fonts** — required for all paths
 5. **Verify setup** — start dev server and test with a Subframe page
 
 ---
 
 ## Parse Credentials
 
-The user will typically paste an installation prompt copied from **Code > Installation** in Subframe. Extract:
+The user may paste in an installation prompt copied from Subframe. Extract:
 
 - **Auth token** — a long string, usually prefixed or labeled
 - **Project ID** — a shorter alphanumeric string (also found in Subframe URLs: `app.subframe.com/<PROJECT_ID>/...`)
@@ -35,12 +35,31 @@ If the user doesn't provide credentials, ask them to go to `https://app.subframe
 
 ## Detect Project Type
 
-Check for `package.json` in the current directory:
+Check for `package.json` and `.subframe/` folder in the current directory:
 
-| Condition              | Project Type        |
-| ---------------------- | ------------------- |
-| No `package.json`      | **New project**     |
-| Has `package.json`     | **Existing project** |
+| Condition                                      | Project Type                      | Path                                                                                          |
+| ---------------------------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------- |
+| No `package.json`                              | **New project**                   | [New Project](#new-project-path)                                                              |
+| Has `package.json` AND has `.subframe/` folder | **Already setup**                 | [Already Setup](#already-setup-path)                                                          |
+| Has `package.json` but NO `.subframe/` folder  | **Existing non-Subframe project** | Ask user, then [New Project](#new-project-path) or [Existing Project](#existing-project-path) |
+
+### Handling existing non-Subframe projects
+
+If the current directory has a `package.json` but no `.subframe/` folder, prompt the user with two options:
+
+- **Create a new project (recommended)** — Scaffold a brand-new Subframe project in a separate directory. This is the easiest path, especially if you're trying out Subframe for the first time. Follow [New Project](#new-project-path).
+- **Add Subframe to this project** — Install Subframe into the current project. Follow [Existing Project](#existing-project-path).
+
+---
+
+## Already Setup Path
+
+If the project already has both `package.json` and a `.subframe/` folder, Subframe has already been initialized. Ask the user what they'd like to do:
+
+- **Reinstall / re-sync** — Re-run the CLI init and sync to refresh components and configuration. Useful if things are out of date or broken. Follow [Existing Project](#existing-project-path) to re-initialize.
+- **Nothing, it's already set up** — Skip setup entirely. Suggest next steps like `/subframe:design` or `/subframe:develop`.
+
+Do not proceed with setup unless the user confirms they want to reinstall.
 
 ---
 
@@ -76,6 +95,7 @@ npx @subframe/cli@latest init \
 ```
 
 Where:
+
 - `{PROJECT_NAME}` is the project directory name (e.g., `subframe-app`)
 - `{FRAMEWORK}` is `nextjs`, `vite`, or `astro`
 - `{TAILWIND_VERSION}` is `tailwind` (v3) or `tailwind-v4`
@@ -87,6 +107,7 @@ Where:
 **Important**: All arguments must be passed explicitly to avoid interactive prompts, which can cause the CLI to exit silently when run non-interactively.
 
 The CLI will:
+
 - Download the starter kit template
 - Create `.subframe/sync.json`
 - Configure Tailwind
@@ -144,6 +165,7 @@ npx @subframe/cli@latest init \
 **Important**: All arguments must be passed explicitly to avoid interactive prompts, which can cause the CLI to exit silently when run non-interactively.
 
 The CLI will attempt to:
+
 - Create `.subframe/sync.json`
 - Detect and configure Tailwind
 - Set up import aliases
@@ -159,10 +181,13 @@ After init, verify everything was set up correctly. If the CLI missed something 
 **Check Tailwind configuration:**
 
 - **Tailwind v3** — `tailwind.config.js` should have the Subframe preset:
+
   ```javascript
   presets: [require("./src/ui/tailwind.config")],
   ```
+
   And the `content` array should include the Subframe directory:
+
   ```javascript
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   ```
@@ -231,6 +256,7 @@ The theme config includes `fontFamily` entries referencing Google Fonts. Add the
 **Next.js (Pages Router)** — Add to `pages/_document.tsx` inside the `<Head>` component.
 
 **Font link formatting:**
+
 - Replace spaces with `+` in font names (e.g., `Inter+Tight`)
 - Include weights from the theme in the `wght@` parameter (semicolon-separated)
 - Add one `<link>` per font family, but only one set of preconnect links
@@ -257,12 +283,14 @@ npm run dev
 ### 3. Summarize
 
 Recap what was set up:
+
 - `.subframe/sync.json` configured
 - Tailwind configured (v3 preset or v4 import)
 - Components synced to `src/ui/` (or configured directory)
 - Fonts configured
 
 Mention next steps:
+
 - `/subframe:design` — Design new pages with AI
 - `/subframe:develop` — Implement Subframe designs in your codebase
 

@@ -10,11 +10,37 @@ Implement Subframe designs in the codebase. Fetch the design via MCP, sync compo
 
 If you cannot find the `get_page_info` tool (or any Subframe MCP tools), the MCP server likely needs to be authenticated. Ask the user to authenticate the Subframe MCP server. If the user is using Claude Code, instruct them to run `/mcp` to view and authenticate their MCP servers.
 
+## Detect Project State
+
+Before starting, check for `package.json` and `.subframe/` folder in the current directory:
+
+| Condition                                       | Action |
+| ----------------------------------------------- | ------ |
+| No `package.json`                               | Run `/subframe:setup` first — there's no project to implement into yet. |
+| Has `package.json` AND has `.subframe/` folder  | Proceed with the workflow below. |
+| Has `package.json` but NO `.subframe/` folder   | Ask the user (see below). |
+
+### Existing non-Subframe project
+
+If the current directory has a `package.json` but no `.subframe/` folder, ask the user which approach they prefer:
+
+- **Use the design as inspiration** — Fetch the design via MCP for reference, but implement the page using the existing styles, components, and patterns already in the repo. Translate the Subframe design's layout and structure into whatever UI framework the project already uses (e.g., existing component library, CSS modules, styled-components). Do NOT install Subframe or sync components. Skip to [Inspiration Workflow](#inspiration-workflow).
+- **Use Subframe styles and components** — Install Subframe into the project so the design renders pixel-perfect with Subframe's generated code. Run `/subframe:setup` first, then continue with the [Workflow](#workflow) below.
+
 ## Workflow
 
 1. **Fetch the design** - Use `get_page_info` with the URL, ID, or name
 2. **Sync components if needed** - Only if components don't exist locally
 3. **Create the page** - Put it in the right place per codebase patterns
+4. **Add business logic** - Data fetching, forms, events, loading/error states
+
+## Inspiration Workflow
+
+Use this workflow when the user chose to use the design as inspiration in an existing non-Subframe project.
+
+1. **Fetch the design** - Use `get_page_info` with the URL, ID, or name to get the design's layout and structure
+2. **Study existing patterns** - Look at the project's existing components, styles, and conventions
+3. **Create the page** - Implement the design using the project's existing UI framework, mapping Subframe components to their equivalents in the codebase (e.g., Subframe `Button` → the project's own button component)
 4. **Add business logic** - Data fetching, forms, events, loading/error states
 
 ## Fetching Designs

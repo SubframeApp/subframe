@@ -34,8 +34,10 @@ Subframe knows about the design system and theme. Your job is to provide context
 
 ## Workflow
 
+You do not have to run `/subframe:setup` before designing. The `design_page` MCP tool works independently — it only needs a `projectId` and an authenticated MCP server. Local project setup (`.subframe/` folder, synced components, Tailwind config) is not required to design pages.
+
 1. **Understand the request** — If vague, ask clarifying questions. What data? What actions? Who uses it?
-2. **Find the projectId** — Check `.subframe/sync.json`. If there is no projectId found, ask the user to go to `https://app.subframe.com/cli/auth` to get a project ID.
+2. **Find the projectId** — Check `.subframe/sync.json` if it exists. If there is no `.subframe/sync.json` or no projectId found, ask the user to go to `https://app.subframe.com/cli/auth` to get a project ID.
 3. **Decide: `design_page` or `edit_page`?** Then call the respective MCP tool:
    - **`design_page`** → Creating something new, exploring multiple directions, or redesigning existing UI where the user wants options to choose from
    - **`edit_page`** → Making targeted changes to a Subframe page that was just created in this session (via `design_page`) or that the user provided via an MCP link
@@ -129,10 +131,11 @@ Subframe pages are static TSX that gets parsed back into Subframe's visual model
 
 For `design_page`, present the `reviewUrl` as a clickable markdown link. The user will:
 
-1. **Preview the design** — See the generated result rendered
-2. **Choose next steps:**
-   - **"Copy MCP link"** → Use with `/subframe:develop` to implement in code with business logic
-   - **"Open in editor"** → Refine visually in Subframe's full design editor, collaborate with team
+1. **Preview variations** — See each design option rendered in Subframe
+2. **Select a variation** — Choose the one that best fits their needs
+3. **Open in editor** — Refine visually in Subframe's full design editor
+
+From there, the user may continue refining in Subframe or return here and ask you to implement the design in code. Do NOT ask the user which variation they prefer or present variation options as a multiple choice in chat. Variation selection happens in the Subframe editor, not here. Simply present the review URL and let them know they can ask you to implement the design once they're ready.
 
 For `edit_page`, present the `editUrl` as a clickable markdown link. The user opens the design editor with the AI tab showing the edit, where they can apply it or undo.
 
