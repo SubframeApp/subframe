@@ -140,3 +140,16 @@ From there, the user may continue refining in Subframe or return here and ask yo
 For `edit_page`, present the `editUrl` as a clickable markdown link. The user opens the design editor with the AI tab showing the edit, where they can apply it or undo.
 
 Internally track the `pageId` from the response — you'll need it for `/subframe:develop`, `additionalPages` for future designs, or `edit_page` for future edits — but don't mention it to the user.
+
+### Iterating on Variations
+
+After calling `design_page`, you can use `get_variations` with the returned `pageId` to retrieve the generated variations and the current state of the page. This lets the user discuss and iterate on designs conversationally — for example, "I like the layout from variation 1 but the color scheme from variation 3", or "keep the header from the current page but use the card layout from variation 2."
+
+`get_variations` returns:
+- **`currentPageCode`** — The current page code if the user has already accepted a variation for this page, or `null` if no variation has been accepted yet. This reflects the live state of the page, including any edits the user made in the Subframe editor.
+- **`variations`** — The generated design variations from the most recent `design_page` call.
+
+**Important:** The variations can be very token-heavy. After calling `get_variations`, extract `currentPageCode` from the response first — it determines your next step.
+
+- **`currentPageCode` exists** — The user already has a page. Use `edit_page` with `currentPageCode` as the starting point, incorporating ideas from the variations or the user's feedback. You don't need to deeply analyze every variation — just reference the ones the user mentions.
+- **`currentPageCode` is null** — The user hasn't accepted any variation yet. Use `design_page` to iterate, passing the relevant variation code via `codeContext` along with the user's feedback in the description. Note: this creates a new `pageId` — use it for subsequent `get_variations` calls.

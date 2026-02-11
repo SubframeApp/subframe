@@ -1,7 +1,7 @@
 {
   "name": "subframe",
   "description": "Design and build UIs with Subframe. Create pixel-perfect React + Tailwind pages using your design system, explore design variations, and implement with business logic.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": {
     "name": "Subframe"
   },
