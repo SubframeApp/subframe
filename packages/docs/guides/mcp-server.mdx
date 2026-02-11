@@ -37,6 +37,7 @@ You can get the MCP link for any design by either:
 | `get_theme`          | Generates the Tailwind theme for the project | `projectId` (optional)<br/>`cssType` (optional)   | `theme` config                               |
 | `design_page`        | Designs UI pages in Subframe. Use to build new UI, iterate on existing UI, explore options, or get a visual starting point to refine. | `description`, `variations` (1, 2, or 4 strings), `flowName`<br/>`projectId` (optional), `codeContext` (optional), `additionalPages` (optional) | `pageId`, `reviewUrl` |
 | `edit_page`          | Edits an existing Subframe page by applying updated TSX code directly. Use for targeted changes to a known page. | `id`, `name`, or `url`<br/>`code`, `description`<br/>`projectId` (optional) | `editUrl` |
+| `get_variations`     | Gets the status and generated code for variations from a `design_page` call. Use to retrieve variation code for iterating on designs. | `pageId` | `status`, `currentPageCode` (string or null), `variations` (array of `name`, `state`, `code`) |
 
 If `projectId` is not specified, the tool will use the first project you have access to.
 
