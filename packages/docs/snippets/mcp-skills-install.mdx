@@ -10,21 +10,21 @@
 
         The Subframe plugin for Claude Code sets up the MCP server and agent skills in one install.
       </Step>
+      <Step title="Verify installation">
+        Run `/mcp` to check that the Subframe MCP server is connected, then try asking Claude Code to use Subframe.
+      </Step>
     </Steps>
   </Tab>
   <Tab title="Cursor" icon="/images/logos/cursor.webp">
     <Steps>
-      <Step title="Open the editor in Subframe">
-        Navigate to any page or component
-      </Step>
-      <Step title="Open code mode">
-        Go to **Code** \> **Installation** \> **Cursor MCP server**
-      </Step>
-      <Step title="Install MCP server">
-        Click on **Add to Cursor**. You'll be prompted to authenticate via OAuth.
+      <Step title="Install MCP servers">
+        Add the Subframe MCP servers to Cursor. You'll be prompted to authenticate via OAuth.
+
+        - [Add Subframe MCP server to Cursor ↗](https://cursor.com/en-US/install-mcp?name=subframe&config=eyJ1cmwiOiJodHRwczovL21jcC5zdWJmcmFtZS5jb20vbWNwIn0%3D)
+        - (Optional) [Add Subframe Docs MCP server to Cursor ↗](https://cursor.com/en-US/install-mcp?name=subframe-docs&config=eyJ1cmwiOiJodHRwczovL2RvY3Muc3ViZnJhbWUuY29tL21jcCJ9)
 
         <Accordion title="Troubleshooting: Manual installation">
-          If **Add to Cursor** doesn't work, make the following changes to `~/.cursor/mcp.json`.
+          If the install links don't work, make the following changes to `~/.cursor/mcp.json`.
 
           ```json ~/.cursor/mcp.json
           {
@@ -48,6 +48,9 @@
         ```bash
         npx skills add https://github.com/SubframeApp/subframe --skills '*' --agent cursor --yes
         ```
+      </Step>
+      <Step title="Verify installation">
+        Check that the Subframe MCP server has successfully connected in **Cursor Settings** \> **MCP**, then try asking Cursor to use Subframe.
       </Step>
     </Steps>
   </Tab>
@@ -75,7 +78,7 @@
         ```
       </Step>
       <Step title="Verify installation">
-        Restart your MCP client, then verify the MCP servers and skills are available in your AI assistant.
+        Restart your MCP client, then check that the Subframe MCP server has successfully connected and try asking your AI assistant to use Subframe.
       </Step>
     </Steps>
   </Tab>
