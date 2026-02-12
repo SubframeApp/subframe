@@ -14,11 +14,11 @@ If you cannot find the `get_page_info` tool (or any Subframe MCP tools), the MCP
 
 Before starting, check for `package.json` and `.subframe/` folder in the current directory:
 
-| Condition                                       | Action |
-| ----------------------------------------------- | ------ |
-| No `package.json`                               | Run `/subframe:setup` first — there's no project to implement into yet. |
-| Has `package.json` AND has `.subframe/` folder  | Proceed with the workflow below. |
-| Has `package.json` but NO `.subframe/` folder   | Ask the user (see below). |
+| Condition                                      | Action                                                                  |
+| ---------------------------------------------- | ----------------------------------------------------------------------- |
+| No `package.json`                              | Run `/subframe:setup` first — there's no project to implement into yet. |
+| Has `package.json` AND has `.subframe/` folder | Proceed with the workflow below.                                        |
+| Has `package.json` but NO `.subframe/` folder  | Ask the user (see below).                                               |
 
 ### Existing non-Subframe project
 
@@ -29,7 +29,7 @@ If the current directory has a `package.json` but no `.subframe/` folder, ask th
 
 ## Workflow
 
-1. **Fetch the design** - Use `get_page_info` with the URL, ID, or name
+1. **Fetch the design** - Use `get_page_info` with the URL, ID, or name.
 2. **Sync components if needed** - Only if components don't exist locally
 3. **Create the page** - Put it in the right place per codebase patterns
 4. **Add business logic** - Data fetching, forms, events, loading/error states
@@ -38,7 +38,7 @@ If the current directory has a `package.json` but no `.subframe/` folder, ask th
 
 Use this workflow when the user chose to use the design as inspiration in an existing non-Subframe project.
 
-1. **Fetch the design** - Use `get_page_info` with the URL, ID, or name to get the design's layout and structure
+1. **Fetch the design** - Use `get_page_info` with the URL, ID, or name to get the design's layout and structure. Use other available Subframe MCP tools as needed to get additional context (e.g., `get_component_info` to understand a component's props, `get_theme` to check theme values).
 2. **Study existing patterns** - Look at the project's existing components, styles, and conventions
 3. **Create the page** - Implement the design using the project's existing UI framework, mapping Subframe components to their equivalents in the codebase (e.g., Subframe `Button` → the project's own button component)
 4. **Add business logic** - Data fetching, forms, events, loading/error states
@@ -76,6 +76,7 @@ npx @subframe/cli@latest sync --all
 ```
 
 **When to sync:**
+
 - **Components don't exist locally** → Sync those specific components before implementing
 - **Components already exist** → Don't sync automatically. If the user wants the latest versions, they'll ask.
 
