@@ -14,6 +14,42 @@
         Run `/mcp` to check that the Subframe MCP server is connected, then try asking Claude Code to use Subframe.
       </Step>
     </Steps>
+
+    ### Updating
+
+    To update to the latest version of the Subframe plugin:
+
+    ```bash
+    claude plugin install subframe@subframe
+    ```
+
+    To enable auto-updates, add the Subframe plugin to your auto-update list:
+
+    ```bash
+    claude settings set autoUpdateMcpServers '["subframe@subframe"]'
+    ```
+
+    ### Project-level configuration
+
+    To enable the Subframe plugin for all contributors on a project, add the following to `.claude/settings.json` in your repository:
+
+    ```json .claude/settings.json
+    {
+      "enabledPlugins": {
+        "subframe@subframe": true
+      },
+      "extraKnownMarketplaces": {
+        "subframe": {
+          "source": {
+            "source": "github",
+            "repo": "SubframeApp/subframe"
+          }
+        }
+      }
+    }
+    ```
+
+    This automatically enables the plugin when contributors open the project with Claude Code.
   </Tab>
   <Tab title="Cursor" icon="/images/logos/cursor.webp">
     <Steps>
