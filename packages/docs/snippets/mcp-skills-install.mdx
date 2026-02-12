@@ -46,11 +46,50 @@
         Agent skills are guided workflows that teach Cursor how to best use Subframe. Install them with:
 
         ```bash
-        npx skills add https://github.com/SubframeApp/subframe --skills '*' --agent cursor --yes
+        npx skills add https://github.com/SubframeApp/subframe --skills '*' -g --agent cursor --yes
         ```
       </Step>
       <Step title="Verify installation">
         Check that the Subframe MCP server has successfully connected in **Cursor Settings** \> **MCP**, then try asking Cursor to use Subframe.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Codex" icon="/images/logos/openai.png">
+    <Steps>
+      <Step title="Install MCP servers">
+        Run the following commands to add the Subframe MCP servers and authenticate:
+
+        ```bash
+        codex mcp add subframe --url https://mcp.subframe.com/mcp && codex mcp add subframe-docs --url https://docs.subframe.com/mcp && codex mcp login subframe
+        ```
+
+        <Accordion title="Troubleshooting: Manual installation">
+          If the commands above don't work, add the following to `~/.codex/config.toml`:
+
+          ```toml ~/.codex/config.toml
+          [mcp_servers.subframe]
+          url = "https://mcp.subframe.com/mcp"
+
+          [mcp_servers.subframe-docs]
+          url = "https://docs.subframe.com/mcp"
+          ```
+
+          Then authenticate:
+
+          ```bash
+          codex mcp login subframe
+          ```
+        </Accordion>
+      </Step>
+      <Step title="Install agent skills">
+        Agent skills are guided workflows that teach Codex how to best use Subframe. Install them with:
+
+        ```bash
+        npx skills add https://github.com/SubframeApp/subframe --skills '*' -g --agent codex --yes
+        ```
+      </Step>
+      <Step title="Verify installation">
+        Run `/mcp` in Codex to check that the Subframe MCP server is connected, then try asking Codex to use Subframe.
       </Step>
     </Steps>
   </Tab>

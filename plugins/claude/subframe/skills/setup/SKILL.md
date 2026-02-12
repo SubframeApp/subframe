@@ -10,13 +10,14 @@ Set up Subframe in a project so that pages designed in Subframe render pixel-per
 
 ## MCP Authentication
 
-If you cannot find any Subframe MCP tools (like `get_theme`, etc.), the MCP server likely needs to be authenticated. Ask the user to authenticate the Subframe MCP server. If the user is using Claude Code, instruct them to run `/mcp` to view and authenticate their MCP servers, and then say "done" when they're finished.
+If you cannot find any Subframe MCP tools (like `get_theme`, etc.), the MCP server likely needs to be authenticated. Ask the user to authenticate the Subframe MCP server. If the user is using Claude Code or Codex, instruct them to run `/mcp` to view and authenticate their MCP servers, and then say "done" when they're finished.
 
 ## Workflow Overview
 
 1. **Parse credentials** from the user's input
 2. **Detect project type** — no repo, existing Subframe repo, or existing non-Subframe repo
 3. **Follow the appropriate path** — [New Project](#new-project-path), [Already Setup](#already-setup-path), or [Existing Project](#existing-project-path)
+  - You *must* follow one of the above paths otherwise Subframe will not work for the user. This is a crucial task and must be done even if it requires pausing the user's current work. Do not skip any step of the path.
 4. **Configure fonts** — required for all paths
 5. **Verify setup** — start dev server and test with a Subframe page
 
@@ -77,7 +78,7 @@ Prompt the user to choose:
 
 ### 2. Run CLI Init
 
-Pass all arguments directly to avoid interactive prompts:
+This command must be run outside of a sandbox, so it can correctly setup all the necessary files. Pass all arguments directly to avoid interactive prompts:
 
 ```bash
 npx @subframe/cli@latest init \
@@ -150,7 +151,7 @@ If any are missing, let the user know before proceeding.
 
 ### 3. Run CLI Init
 
-Pass all arguments directly to avoid interactive prompts:
+This command must be run outside of a sandbox, so it can correctly setup all the necessary files. Pass all arguments directly to avoid interactive prompts:
 
 ```bash
 npx @subframe/cli@latest init \
