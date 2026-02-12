@@ -217,6 +217,10 @@
   },
   "redirects": [
     {
+      "source": "/learn/guides/using-subframe-with-ai-agents",
+      "destination": "/learn/guides/working-with-ai-agents"
+    },
+    {
       "source": "/framework-guides/:slug*",
       "destination": "/frameworks/:slug*"
     },
