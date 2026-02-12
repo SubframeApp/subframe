@@ -4,7 +4,7 @@ description: Design UI pages in Subframe. Use when building new UI, iterating on
 argument-hint: "[description of what to design]"
 ---
 
-Design pages using the `design_page` and `edit_page` MCP tools. `design_page` creates AI-generated design variations that the user can preview and select. `edit_page` makes targeted changes to an existing Subframe page. Both produce designs the user can refine visually in the Subframe editor and then implement in code.
+Design pages using the `design_page` and `edit_page` MCP tools. `design_page` creates AI-generated design variations that the user can preview and select. `edit_page` makes targeted changes to an existing Subframe page. Both produce designs the user can refine visually in the Subframe editor and then implement in code. Update the theme for these pages using `edit_theme`.
 
 **Don't write UI code directly.** Subframe generates production-ready React/Tailwind code that matches the design system. Design first, then implement with `/subframe:develop`.
 
@@ -18,6 +18,7 @@ Use `/subframe:design` when the user:
 - **Wants a starting point to refine in a design tool**
 - **Is collaborating on designs with a team**
 - **Wants to modify an existing page**
+- **Wants to edit the theme for their Subframe designs**
 
 The key value: `/subframe:design` and `/subframe:develop` bridge coding and design. They work in both directions — create designs while coding and then ensure your code exactly reflects your design.
 
@@ -133,3 +134,16 @@ Do NOT proactively call `get_variations` after `design_page`. The user reviews a
 
 - **`currentPageCode` exists** — The user already has a page. Use `edit_page` with a description incorporating ideas from the variations or the user's feedback. You don't need to deeply analyze every variation — just reference the ones the user mentions.
 - **`currentPageCode` is null** — The user hasn't accepted any variation yet. Use `design_page` to iterate, passing the relevant variation code via `codeContext` along with the user's feedback in the description. Note: this creates a new `pageId` — use it for subsequent `get_variations` calls.
+
+### Updating Theme
+
+If the user indicates an issue with their theme and requests changes, use the `edit_theme` tool to update the theme in Subframe. The designs in Subframe will then reflect those changes. `edit_theme` is able to update color, border, corner, and shadow tokens as well as typography.
+
+The `description` parameter should describe what changes you want to make to the theme. It can include exact token values if needed.
+
+If you are currently working on a page with the user, you should pass that page information into the `edit_theme` tool call.
+
+If a page is provided, the tool will return a URL where the user can review and apply the theme changes.
+If no page is provided, the tool will return a URL where the user can see the resulting theme. The user cannot review the theme changes prior to application in this case, so it is best to provide a page identifier if any is available.
+
+**Important:** The theme affects all pages in the project. Only use this tool if it makes sense for the desired changes to affect everything in the project. If it is specific to a particular page, it should be a modification to that single page instead.
