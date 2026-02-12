@@ -4,7 +4,7 @@ description: Design UI pages in Subframe. Use when building new UI, iterating on
 argument-hint: "[description of what to design]"
 ---
 
-Design pages using the `design_page` and `edit_page` MCP tools. `design_page` creates AI-generated design variations that the user can preview and select. `edit_page` applies direct code edits to an existing Subframe page. Both produce designs the user can refine visually in the Subframe editor and then implement in code.
+Design pages using the `design_page` and `edit_page` MCP tools. `design_page` creates AI-generated design variations that the user can preview and select. `edit_page` makes targeted changes to an existing Subframe page. Both produce designs the user can refine visually in the Subframe editor and then implement in code.
 
 **Don't write UI code directly.** Subframe generates production-ready React/Tailwind code that matches the design system. Design first, then implement with `/subframe:develop`.
 
@@ -91,41 +91,21 @@ When designing multiple related pages (flows, CRUD, etc.):
 2. After user selects a variation, design remaining pages passing the relevant pages via `additionalPages` as context
 3. Use the same `flowName` to group related pages together
 
-## `edit_page` — Editing a Subframe Page with Code
+## `edit_page` — Targeted Edits to an Existing Page
 
-Use `edit_page` when making targeted edits to a specific Subframe page by providing updated TSX code directly.
+Use `edit_page` for targeted changes to a specific Subframe page. Provide a page identifier and a description of the changes — Subframe handles the rest.
 
-### Code Rules
+- **`description`**: Describe what to change. You can include code snippets for precision, but it's not required.
+- **Page identifier**: `id`, `name`, or `url`. Use `list_pages` to find existing pages if needed.
 
-Subframe pages are static TSX that gets parsed back into Subframe's visual model. The code you provide must follow these rules:
-
-- **Raw TSX only** — No import statements, no function definitions, no export statements. Just the JSX body starting from the root element (e.g. `<DefaultPageLayout>` or `<div>`). Note: `get_page_info` returns the full file with imports — you must strip those and only send the JSX body to `edit_page`.
-- **No business logic** — No `useState`, hooks, API calls, event handlers, or any dynamic behavior. Pages are purely visual; business logic is added after export.
-- **No loops or dynamic code** — No `.map()`, `.forEach()`, `.filter()`, or any iteration. Every element must be written out explicitly.
-- **Match the existing code style exactly** — Preserve how flex, gap, padding, and other layout properties are structured. The code will be parsed back into the Subframe editor, so the structure matters.
-- **Tailwind classes only** — No `style` attribute. Use `className` with Tailwind classes for all styling. If you need a custom value, use Tailwind's bracket syntax (e.g. `bg-[#ff0000]`).
-- **Only use components from the Subframe project and standard HTML tags** — Use `list_components` or `get_component_info` to see what's available. Allowed HTML tags: `div`, `span`, `img`, `p`, `h1`-`h6`, `nav`, `header`, `main`, `article`, `section`, `aside`, `footer`. Don't use arbitrary React components or HTML elements beyond these.
-- **No nested text elements** — Text tags (`span`, `p`, `h1`-`h6`) can only contain plain text strings, not other elements.
-- **No omitted code or placeholders** — Output the complete page code. No `// ...rest of code...` or `{/* TODO */}` comments.
-- **Preserve `data-subframe-node-id` attributes** — Never change or remove these IDs; they're critical for the Subframe editor.
-
-### Workflow
-
-1. **Get the current code** — Call `get_page_info` to get the page's current TSX code. **Always refetch immediately before editing** — do not reuse code from earlier in the conversation, as the page may have been modified in the Subframe editor.
-2. **Modify the code** — Make the desired changes following the code rules above
-3. **Call `edit_page`** with:
-   - **Page identifier**: `id`, `name`, or `url` — same as `get_page_info`. Use `list_pages` to find existing pages if needed.
-   - **`code`**: The full updated TSX code for the page
-   - **`description`**: A short description of what changed (shown in the AI tab)
-4. **If the code fails to parse** — Fix the errors based on the error message and retry
-5. **Present the `editUrl`** — The user opens the design editor with the AI tab open to review and apply the edit
+Present the returned `editUrl` to the user so they can review and apply the edit.
 
 ### When to use `edit_page` vs `design_page`
 
-- **`edit_page`**: You know exactly what code changes to make. You provide the updated TSX directly. Fast, precise, no AI generation.
-- **`design_page`**: You want AI-generated design variations. The user picks a direction. Better for new pages or exploring options.
+- **`edit_page`**: Targeted changes to an existing Subframe page. Fast and precise.
+- **`design_page`**: New pages, redesigns, or exploring multiple design directions.
 
-**When NOT to use `edit_page`:** If the user has existing UI in their codebase but no corresponding Subframe page, or if they want to explore multiple design options, use `design_page` instead. `edit_page` is for iterating on a known Subframe page with specific code changes.
+**When NOT to use `edit_page`:** If the user has existing UI in their codebase but no corresponding Subframe page, or if they want to explore multiple design options, use `design_page` instead.
 
 ## After Designing
 
@@ -151,5 +131,5 @@ Do NOT proactively call `get_variations` after `design_page`. The user reviews a
 
 **Important:** The variations can be very token-heavy. After calling `get_variations`, extract `currentPageCode` from the response first — it determines your next step.
 
-- **`currentPageCode` exists** — The user already has a page. Use `edit_page` with `currentPageCode` as the starting point, incorporating ideas from the variations or the user's feedback. You don't need to deeply analyze every variation — just reference the ones the user mentions.
+- **`currentPageCode` exists** — The user already has a page. Use `edit_page` with a description incorporating ideas from the variations or the user's feedback. You don't need to deeply analyze every variation — just reference the ones the user mentions.
 - **`currentPageCode` is null** — The user hasn't accepted any variation yet. Use `design_page` to iterate, passing the relevant variation code via `codeContext` along with the user's feedback in the description. Note: this creates a new `pageId` — use it for subsequent `get_variations` calls.
