@@ -143,7 +143,7 @@ Internally track the `pageId` from the response — you'll need it for `/subfram
 
 ### Iterating on Variations
 
-After calling `design_page`, you can use `get_variations` with the returned `pageId` to retrieve the generated variations and the current state of the page. This lets the user discuss and iterate on designs conversationally — for example, "I like the layout from variation 1 but the color scheme from variation 3", or "keep the header from the current page but use the card layout from variation 2."
+Do NOT proactively call `get_variations` after `design_page`. The user reviews and selects variations in the Subframe editor, not in chat. Only call `get_variations` when the user comes back and explicitly asks to iterate on or combine designs — for example, "I like the layout from variation 1 but the color scheme from variation 3", or "keep the header from the current page but use the card layout from variation 2."
 
 `get_variations` returns:
 - **`currentPageCode`** — The current page code if the user has already accepted a variation for this page, or `null` if no variation has been accepted yet. This reflects the live state of the page, including any edits the user made in the Subframe editor.
