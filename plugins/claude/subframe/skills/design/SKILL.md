@@ -137,7 +137,7 @@ Do NOT proactively call `get_variations` after `design_page`. The user reviews a
 
 ### Updating Theme
 
-If the user indicates an issue with their theme and requests changes, use the `edit_theme` tool to update the theme in Subframe. The designs in Subframe will then reflect those changes. `edit_theme` is able to update color, border, corner, and shadow tokens as well as typography.
+If the user indicates an issue with their theme and requests changes, use the `edit_theme` tool to update the theme in Subframe. The designs in Subframe will then reflect those changes. `edit_theme` is able to update color, border, corner, and shadow tokens as well as typography. Use `get_theme` to understand the current theme before formulating your changes.
 
 The `description` parameter should describe what changes you want to make to the theme. It can include exact token values if needed.
 
