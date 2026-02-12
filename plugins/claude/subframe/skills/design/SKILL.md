@@ -4,7 +4,7 @@ description: Design UI pages in Subframe. Use when building new UI, iterating on
 argument-hint: "[description of what to design]"
 ---
 
-Design pages using the `design_page` and `edit_page` MCP tools. `design_page` creates AI-generated design variations that the user can preview and select. `edit_page` makes targeted changes to an existing Subframe page. Both produce designs the user can refine visually in the Subframe editor and then implement in code. Update the theme for these pages using `edit_theme`.
+Design pages using the `design_page` and `edit_page` MCP tools. `design_page` creates AI-generated design variations that the user can preview and select. `edit_page` makes targeted changes to an existing Subframe page. Both produce designs the user can refine visually in the Subframe editor and then implement in code. Update the theme for the entire project using `edit_theme`.
 
 **Don't write UI code directly.** Subframe generates production-ready React/Tailwind code that matches the design system. Design first, then implement with `/subframe:develop`.
 
@@ -144,6 +144,6 @@ The `description` parameter should describe what changes you want to make to the
 If you are currently working on a page with the user, you should pass that page information into the `edit_theme` tool call.
 
 If a page is provided, the tool will return a URL where the user can review and apply the theme changes.
-If no page is provided, the tool will return a URL where the user can see the resulting theme. The user cannot review the theme changes prior to application in this case, so it is best to provide a page identifier if any is available.
+If no page is provided, the tool will return a URL where the user can see the updated project theme. The user cannot review the theme changes prior to application in this case, so it is best to provide a page identifier if any is available.
 
-**Important:** The theme affects all pages in the project. Only use this tool if it makes sense for the desired changes to affect everything in the project. If it is specific to a particular page, it should be a modification to that single page instead.
+**Important:** The theme affects all pages in the project, so always make the user confirm that they want to update the whole project before using `edit_theme`. If the user only wants to update a particular page, you should use `edit_page` instead.
