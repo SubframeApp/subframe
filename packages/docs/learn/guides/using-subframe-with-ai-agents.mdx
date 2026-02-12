@@ -1,0 +1,101 @@
+---
+title: Working with AI agents
+description: Walk through the full design-to-code workflow using Subframe with AI coding assistants.
+---
+
+import CopyMcpLink from "/snippets/copy-mcp-link.mdx"
+
+This guide walks through the full design-to-code workflow with Subframe and an AI coding assistant. The demo uses Claude Code, but the same workflow applies to any MCP-compatible AI assistant.
+
+## Getting started
+
+Install the Subframe MCP server and agent skills for your AI assistant. See [Agent skills](/guides/skills) for setup instructions.
+
+<Note>
+  This guide uses Claude Code as the example, but the workflow works with any MCP-compatible AI assistant including
+  Cursor and Codex.
+</Note>
+
+## Design with AI
+
+<Frame>
+  <img
+    src="/images/using-subframe-with-ai-agents/claude-code-create-design.png"
+    alt="Prompting Claude Code to design a page in Subframe"
+  />
+</Frame>
+
+You can ask your AI agent to design a page at any stage — during planning, mid-implementation, or as a standalone task. The agent uses the `design_page` tool to generate design variations in Subframe.
+
+After generating designs, Subframe returns an MCP link. Open it to review the design variations.
+
+{/* TODO: Add image of MCP link in Claude Code */}
+
+## Review design variations
+
+{/* TODO: Add image of canvas with four variations */}
+
+From the review page you can:
+
+- **Copy link** of any variation to reference later
+- **Open in editor** to refine visually
+
+Either action adds the page to your project for future reference.
+
+## Combine variations
+
+There are two ways to mix and match elements from different variations:
+
+- **Ask your AI agent** — your agent has access to all variations. Ask it to combine elements from different ones, for example "use the header from variation 1 with the layout from variation 3."
+- **Edit in Subframe** — click **Open in editor** on the variation you want to start from, then use [Ask AI](/learn/ask-ai) to incorporate elements from other variations.
+
+## Edit in the Subframe editor
+
+Click **Open in editor** to enter the full design editor. From there you can:
+
+- Chat for edits in [Ask AI](/learn/ask-ai) mode
+- Drag-and-drop in [Design mode](/learn/design-mode)
+
+## Using designs with your AI agent
+
+To hand the design to your AI agent, copy the MCP link and reference it in your prompt.
+
+<CopyMcpLink />
+
+## How AI agents implement your designs
+
+<Frame>
+  <img
+    src="/images/using-subframe-with-ai-agents/claude-code-implement-design.png"
+    alt="Claude Code implementing a Subframe design"
+  />
+</Frame>
+
+Implementation varies depending on your setup. If you're evaluating Subframe for the first time, we recommend starting with a blank project.
+
+<Tabs>
+  <Tab title="New project from scratch">
+    Your AI agent creates a new project, initializes Subframe with `/subframe:setup`, then implements your designs. This is the fastest path to see the full workflow end-to-end.
+
+    1. Ask your AI agent to scaffold a new project
+    2. Run `/subframe:setup` to initialize Subframe
+    3. Share the MCP link and ask the agent to implement the design
+
+  </Tab>
+  <Tab title="Existing project with Subframe">
+    If your project already has Subframe configured, your AI agent can start developing immediately using your synced components.
+
+    1. Share the MCP link with your AI agent
+    2. Ask the agent to implement the design using your existing components
+
+  </Tab>
+  <Tab title="Existing project without Subframe">
+    Your AI agent will ask whether to:
+
+    - **Use Subframe's theme and components** for pixel-perfect implementation matching the design
+    - **Use the design as inspiration** and map to your existing UI framework
+
+    Choose the approach that fits your project.
+
+  </Tab>
+</Tabs>

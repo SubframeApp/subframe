@@ -149,6 +149,12 @@
             ]
           },
           {
+            "group": "Guides",
+            "pages": [
+              "learn/guides/using-subframe-with-ai-agents"
+            ]
+          },
+          {
             "group": "Admin and billing",
             "pages": [
               "learn/admin/managing-team",
