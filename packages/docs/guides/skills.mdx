@@ -25,3 +25,60 @@ Skills are an [open standard ↗](https://agentskills.io) and becoming widely ad
 ## Next steps
 
 See these skills in action in the [Working with AI agents](/learn/guides/working-with-ai-agents) guide, which walks through the full design-to-code workflow.
+
+## Keep skills up to date
+
+### Claude Code
+
+The Subframe plugin for Claude Code bundles the MCP server and skills together. To enable auto-updates:
+
+1. Run `/plugin` to open the plugin manager
+2. Select the **Marketplaces** tab
+3. Choose the **subframe** marketplace
+4. Select **Enable auto-update**
+
+To manually update the plugin:
+
+```bash
+/plugin update subframe@subframe
+```
+
+### Cursor, Codex, and other clients
+
+Check for available skill updates:
+
+```bash
+npx skills check
+```
+
+Update all skills to the latest versions:
+
+```bash
+npx skills update
+```
+
+Or re-run the original install command to get the latest version.
+
+## Enable for your team
+
+If you use Claude Code, you can add Subframe to your project settings so team members are automatically prompted to install the plugin when they open the project.
+
+Add the following to `.claude/settings.json` in your repository root:
+
+```json .claude/settings.json
+{
+  "enabledPlugins": {
+    "subframe@subframe": true
+  },
+  "extraKnownMarketplaces": {
+    "subframe": {
+      "source": {
+        "source": "github",
+        "repo": "SubframeApp/subframe"
+      }
+    }
+  }
+}
+```
+
+Commit this file to your repository. When a team member opens the project in Claude Code, they'll be prompted to install the Subframe marketplace and plugin.
