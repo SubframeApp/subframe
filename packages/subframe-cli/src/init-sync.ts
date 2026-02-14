@@ -10,7 +10,7 @@ export async function initSync(
   projectId: TruncatedProjectId | undefined,
   accessToken: string,
   importAlias: string,
-  cssType: "tailwind" | "tailwind-v4",
+  cssType: "tailwind" | "tailwind-v3" | "tailwind-v4",
   opts: { sync?: boolean },
 ) {
   prompts.override({

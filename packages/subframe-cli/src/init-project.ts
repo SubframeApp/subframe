@@ -67,7 +67,7 @@ export async function initProject({
   cliLogger: CLILogger
   accessToken: string
   truncatedProjectId: TruncatedProjectId | undefined
-  cssType: "tailwind" | "tailwind-v4"
+  cssType: "tailwind" | "tailwind-v3" | "tailwind-v4"
 }) {
   try {
     // NOTE: Important to return await so that we can catch the errors

@@ -25,7 +25,7 @@ export async function syncComponents({
   accessToken: string
   importAlias: string
   syncDirectory: string
-  cssType: "tailwind" | "tailwind-v4"
+  cssType: "tailwind" | "tailwind-v3" | "tailwind-v4"
 }) {
   const { definitionFiles, otherFiles, missingComponents, projectInfo } = await oraPromise(
     apiSyncProject(accessToken, {

@@ -4,7 +4,7 @@ import { makeNodeLogger, NodeLogger } from "shared/logger/logger-node"
 type CLITrackEventType = {
   type: "cli:starter-kit_cloned"
   framework: "nextjs" | "vite" | "astro"
-  cssType: "tailwind" | "tailwind-v4"
+  cssType: "tailwind" | "tailwind-v3" | "tailwind-v4"
 }
 
 export type CLILogger = NodeLogger<CLITrackEventType> & {

@@ -42,7 +42,7 @@ export interface CodeGenFileValid extends CodeGenFileBase {
 
 export type CodeGenFile = CodeGenFileError | CodeGenFileValid
 
-export const CODE_GEN_CSS_TYPE_OPTIONS = ["tailwind", "tailwind-v4", "scss-with-modules"] as const
+export const CODE_GEN_CSS_TYPE_OPTIONS = ["tailwind", "tailwind-v3", "tailwind-v4", "scss-with-modules"] as const
 export type CodeGenCSSType = (typeof CODE_GEN_CSS_TYPE_OPTIONS)[number]
 
 export const CODE_GEN_ICON_BEHAVIOR_OPTIONS = ["name", "component"] as const

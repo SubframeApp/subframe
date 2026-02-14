@@ -53,7 +53,7 @@ async function cloneStarterKit({
 }: {
   name: string
   type: "astro" | "vite" | "nextjs"
-  cssType: "tailwind" | "tailwind-v4"
+  cssType: "tailwind" | "tailwind-v3" | "tailwind-v4"
 }) {
   const projectPath = join(cwd, name)
 
@@ -65,9 +65,10 @@ async function cloneStarterKit({
 
   const spinner = ora(`Cloning starter kit...`).start()
 
-  function getStarterKitName(type: string, cssType: "tailwind" | "tailwind-v4") {
+  function getStarterKitName(type: string, cssType: "tailwind" | "tailwind-v3" | "tailwind-v4") {
     switch (cssType) {
       case "tailwind":
+      case "tailwind-v3":
         return type
       case "tailwind-v4":
         return `${type}-${cssType}`
@@ -99,7 +100,7 @@ async function cloneStarterKit({
   return projectPath
 }
 
-export type StyleInfo = { cssType: "tailwind" } | { cssType: "tailwind-v4"; globalCssPath?: string }
+export type StyleInfo = { cssType: "tailwind" | "tailwind-v3" } | { cssType: "tailwind-v4"; globalCssPath?: string }
 
 async function validateName(value: string): Promise<string | boolean> {
   if (value.length > 128) {
@@ -114,7 +115,7 @@ async function validateName(value: string): Promise<string | boolean> {
 
 export async function prepareProject(
   cliLogger: CLILogger,
-  options: { template?: "vite" | "nextjs" | "astro"; name?: string; cssType?: "tailwind" | "tailwind-v4" },
+  options: { template?: "vite" | "nextjs" | "astro"; name?: string; cssType?: "tailwind" | "tailwind-v3" | "tailwind-v4" },
 ): Promise<{ projectPath: string; didCreateNewProject: boolean; styleInfo: StyleInfo }> {
   // No package.json in current directory - assume they need to set up a new project.
   if (options.template !== undefined || !(await exists(resolve(cwd, "package.json")))) {
@@ -169,8 +170,8 @@ export async function prepareProject(
     await cliLogger.trackEventAndFlush({ type: "cli:starter-kit_cloned", framework: type, cssType })
 
     const styleInfo: StyleInfo =
-      cssType === "tailwind"
-        ? { cssType: "tailwind" }
+      cssType === "tailwind" || cssType === "tailwind-v3"
+        ? { cssType }
         : { cssType: "tailwind-v4", globalCssPath: getGlobalCssPath(type) }
 
     return { projectPath, didCreateNewProject: true, styleInfo }

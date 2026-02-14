@@ -16,7 +16,7 @@ export interface SyncSettingsConfig {
   importAlias: string
   projectId?: TruncatedProjectId
   teamId?: number
-  cssType?: "tailwind" | "tailwind-v4"
+  cssType?: "tailwind" | "tailwind-v3" | "tailwind-v4"
 }
 
 export function getLocalSyncSettings(cwd: string): SyncSettingsConfig | null {

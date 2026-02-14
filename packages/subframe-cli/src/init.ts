@@ -68,6 +68,7 @@ export const initCommand = new Command()
   .addOption(
     new Option(`${COMMAND_CSS_TYPE_KEY_SHORT}, ${COMMAND_CSS_TYPE_KEY} <cssType>`, "css type to use").choices([
       "tailwind",
+      "tailwind-v3",
       "tailwind-v4",
     ]),
   )
@@ -171,6 +172,7 @@ initCommand.action(async (opts) => {
 
     switch (styleInfo.cssType) {
       case "tailwind":
+      case "tailwind-v3":
         await setupTailwindV3({ projectPath, rootPath }, opts)
         break
       case "tailwind-v4":
