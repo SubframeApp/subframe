@@ -123,6 +123,45 @@ export interface SyncProjectResponse {
   }
 }
 
+export interface DesignSystemImportManifest {
+  theme: string[]
+  components: Array<{
+    name: string
+    sources: string[]
+  }>
+}
+
+export interface DesignSystemImportPayloadSource {
+  path: string
+  content: string
+}
+
+export interface DesignSystemImportPayload {
+  theme: DesignSystemImportPayloadSource[]
+  components: Array<{
+    name: string
+    sources: DesignSystemImportPayloadSource[]
+  }>
+}
+
+export interface CreateImportSessionRequest {
+  truncatedProjectId: TruncatedProjectId
+}
+
+export interface CreateImportSessionResponse {
+  sessionId: string
+  presignedUrl: string
+}
+
+export interface StartImportRequest {
+  truncatedProjectId: TruncatedProjectId
+  sessionId: string
+}
+
+export interface StartImportResponse {
+  success: true
+}
+
 export interface ComponentFilesUploadRequest {
   id: string
   truncatedProjectId?: TruncatedProjectId

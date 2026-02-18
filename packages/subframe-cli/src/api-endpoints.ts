@@ -2,11 +2,15 @@ import nodeFetch, { BodyInit } from "node-fetch"
 import { ProxyAgent } from "proxy-agent"
 import { makeFetchWithRetries, prepareHttpBody } from "shared/http"
 import type {
+  CreateImportSessionRequest,
+  CreateImportSessionResponse,
   InitProjectRequest,
   InitProjectResponse,
   ListProjectsResponse,
   PushComponentRequest,
   PushComponentResponse,
+  StartImportRequest,
+  StartImportResponse,
   SyncProjectRequest,
   SyncProjectResponse,
   UpdateImportAliasRequest,
@@ -106,4 +110,33 @@ export async function apiPushComponent(
     body: { truncatedProjectId, componentName, componentFile, skipNormalize },
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
   })
+}
+
+export async function apiCreateImportSession(token: string, { truncatedProjectId }: CreateImportSessionRequest) {
+  return http<CreateImportSessionRequest, CreateImportSessionResponse>(`${BASE_URL}/api/cli/import/create-session`, {
+    method: "POST",
+    body: { truncatedProjectId },
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+  })
+}
+
+export async function apiStartImport(token: string, { truncatedProjectId, sessionId }: StartImportRequest) {
+  return http<StartImportRequest, StartImportResponse>(`${BASE_URL}/api/cli/import/start`, {
+    method: "POST",
+    body: { truncatedProjectId, sessionId },
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+  })
+}
+
+export async function uploadToPresignedUrl(presignedUrl: string, payload: string): Promise<void> {
+  const response = await nodeFetch(presignedUrl, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: payload,
+    agent,
+  })
+
+  if (!response.ok) {
+    throw new Error(`Failed to upload to S3: ${response.status} ${response.statusText}`)
+  }
 }
