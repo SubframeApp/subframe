@@ -86,6 +86,7 @@ export const importCommand = new Command()
       console.log(`\n  ${success("Design system uploaded. Import is now in progress.")}`)
     } catch (err: any) {
       await cliLogger.trackWarningAndFlush("[CLI]: import uncaught error", { error: err.toString() })
-      throw err
+      console.error(err)
+      process.exit(1)
     }
   })
