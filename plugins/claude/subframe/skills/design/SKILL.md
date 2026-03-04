@@ -68,6 +68,15 @@ How much context to gather and how many variations to generate depends on the ta
 - Components or patterns the user refers to or explicitly mentions (via `codeContext`)
 - Data types/interfaces for what the page will display (via `codeContext`)
 
+### Preparing codeContext
+
+When including code in `codeContext`, distinguish between Subframe components and non-Subframe components:
+
+- **Subframe components** are imported from the synced Subframe directory (configured in `.subframe/sync.json` — typically `@/ui` or `src/ui`) or from `@subframe/core`. Include these as-is — Subframe understands its own components.
+- **All other components** are application components. Do NOT pass these by name. Instead, read the component's source and inline its rendered JSX and Tailwind classes into `codeContext`. If the expanded markup uses Subframe components internally, keep those Subframe references intact.
+
+For example, if a page uses `<LoginForm />` and it's not from the Subframe directory, expand it into the form's JSX markup (inputs, buttons, layout, Tailwind classes) rather than passing `<LoginForm />`.
+
 ### Variations
 
 Each variation is a prompt that drives a unique design direction.
