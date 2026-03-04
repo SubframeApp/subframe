@@ -57,15 +57,29 @@ When unsure whether a component is a design system primitive or an application c
 
 ### 2. Group files by component
 
-For each component, gather everything needed to understand its visual layer:
-- **Required:** The component source file(s) (markup + styles)
-- **Helpful if they exist:** Stories, CSS modules, and `.md` documentation files
+For each component, separate files into two categories:
 
-Group by logical design system component — e.g. `Button.tsx`, `Button.stories.tsx`, `Button.module.css`, `Button.md` all belong to the "Button" component.
+**`entrypoint`** — the path to the main component file. Must reference one of the `sourceFiles`.
+
+**`sourceFiles`** — the primary component implementation:
+- The component source file(s) (`.tsx`, `.jsx`) containing markup and styles
+
+**`supportingFiles`** — everything else that helps understand the component:
+- Story files (`.stories.tsx`, `.stories.jsx`, `.stories.ts`)
+- CSS modules (`.module.css`, `.module.scss`)
+- Documentation files (`.md`)
+
+Group by logical design system component — e.g. `Button.tsx` is a source file, while `Button.stories.tsx`, `Button.module.css`, and `Button.md` are supporting files for the "Button" component.
 
 ### 3. Write manifest
 
-Write the manifest to `/tmp/subframe-import-manifest.json`:
+Create the `.subframe/` directory if it doesn't exist, then write the manifest:
+
+```bash
+mkdir -p .subframe
+```
+
+Write the manifest to `.subframe/import-design-system.json`:
 
 ```json
 {
@@ -76,14 +90,20 @@ Write the manifest to `/tmp/subframe-import-manifest.json`:
   "components": [
     {
       "name": "Button",
-      "sources": [
-        "src/components/Button.tsx",
-        "src/components/Button.stories.tsx"
+      "entrypoint": "src/components/Button.tsx",
+      "sourceFiles": [
+        "src/components/Button.tsx"
+      ],
+      "supportingFiles": [
+        "src/components/Button.stories.tsx",
+        "src/components/Button.module.css"
       ]
     }
   ]
 }
 ```
+
+Component names must be unique. If there are conflicting component names, ask the user how they would like to resolve them, e.g. by adding a prefix based on the directory.
 
 ### 4. Show summary before uploading
 
@@ -101,7 +121,7 @@ Run the CLI to submit the design system for import. This uploads the files to Su
 Always pass the auth token so the CLI doesn't prompt interactively.
 
 ```bash
-npx @subframe/cli@latest import -p {PROJECT_ID} --manifest /tmp/subframe-import-manifest.json --auth-token {TOKEN}
+npx @subframe/cli@latest import -p {PROJECT_ID} --manifest .subframe/import-design-system.json --auth-token {TOKEN}
 ```
 
 If any files are missing the CLI will abort with an error. Otherwise, report to the user that the import has been submitted and will be processed shortly.

@@ -23,7 +23,7 @@ function parseManifest(raw: unknown) {
     throw new Error("Manifest 'components' must be an array")
   }
 
-  const components: Array<{ name: string; sources: string[] }> = []
+  const components: Array<{ name: string; entrypoint: string; sourceFiles: string[]; supportingFiles: string[] }> = []
   for (const c of m.components) {
     if (typeof c !== "object" || c === null) {
       throw new Error("Each component must be an object")
@@ -32,10 +32,19 @@ function parseManifest(raw: unknown) {
     if (typeof comp.name !== "string" || !comp.name) {
       throw new Error("Each component must have a non-empty 'name'")
     }
-    if (!isStringArray(comp.sources)) {
-      throw new Error(`Component '${comp.name}' must have a 'sources' array of file paths`)
+    if (typeof comp.entrypoint !== "string" || !comp.entrypoint) {
+      throw new Error(`Component '${comp.name}' must have a non-empty 'entrypoint'`)
     }
-    components.push({ name: comp.name, sources: comp.sources })
+    if (!isStringArray(comp.sourceFiles)) {
+      throw new Error(`Component '${comp.name}' must have a 'sourceFiles' array of file paths`)
+    }
+    if (!comp.sourceFiles.includes(comp.entrypoint)) {
+      throw new Error(`Component '${comp.name}' entrypoint '${comp.entrypoint}' must be listed in 'sourceFiles'`)
+    }
+    if (!isStringArray(comp.supportingFiles)) {
+      throw new Error(`Component '${comp.name}' must have a 'supportingFiles' array of file paths`)
+    }
+    components.push({ name: comp.name, entrypoint: comp.entrypoint, sourceFiles: comp.sourceFiles, supportingFiles: comp.supportingFiles })
   }
 
   return { theme: m.theme, components }
@@ -61,7 +70,9 @@ export async function resolveManifest(raw: unknown): Promise<DesignSystemImportP
   const components = await Promise.all(
     manifest.components.map(async (component) => ({
       name: component.name,
-      sources: await Promise.all(component.sources.map(resolveSource)),
+      entrypoint: component.entrypoint,
+      sourceFiles: await Promise.all(component.sourceFiles.map(resolveSource)),
+      supportingFiles: await Promise.all(component.supportingFiles.map(resolveSource)),
     })),
   )
 

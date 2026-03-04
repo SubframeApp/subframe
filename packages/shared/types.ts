@@ -127,7 +127,9 @@ export interface DesignSystemImportManifest {
   theme: string[]
   components: Array<{
     name: string
-    sources: string[]
+    entrypoint: string
+    sourceFiles: string[]
+    supportingFiles: string[]
   }>
 }
 
@@ -140,7 +142,9 @@ export interface DesignSystemImportPayload {
   theme: DesignSystemImportPayloadSource[]
   components: Array<{
     name: string
-    sources: DesignSystemImportPayloadSource[]
+    entrypoint: string
+    sourceFiles: DesignSystemImportPayloadSource[]
+    supportingFiles: DesignSystemImportPayloadSource[]
   }>
 }
 
