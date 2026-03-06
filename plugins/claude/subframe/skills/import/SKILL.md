@@ -9,12 +9,14 @@ Import an existing design system into Subframe by discovering files on disk, bui
 
 ## Credentials
 
-The CLI needs an auth token and project ID. If the user hasn't provided these, direct them to:
+The CLI needs an auth token and project ID. If the user hasn't provided these, use MCP tools to get these automatically:
 
-1. Go to `https://app.subframe.com/cli/auth`
-2. Copy the **project ID** and **auth token** shown on that page
+1. **Project ID** — Call `list_projects` to get the list of projects. If there's only one, use it. If there are multiple, ask the user which project to import into.
+2. **Auth token** — Call `generate_auth_token` with the selected project's `teamId` (returned by `list_projects`) to generate an auth token.
 
 The project ID is also visible in any Subframe URL: `app.subframe.com/<PROJECT_ID>/...`
+
+**Fallback**: If the MCP tools are not available, direct the user to `https://app.subframe.com/cli/auth` to get their auth token and project ID.
 
 ---
 
@@ -131,6 +133,6 @@ If any files are missing the CLI will abort with an error. Otherwise, report to 
 ## Error Handling
 
 - If the CLI exits with an error, show the full error output to the user
-- Auth errors: suggest the user check their token or re-authenticate at `https://app.subframe.com/cli/auth`
+- Auth errors: try generating a new token with `generate_auth_token`, or suggest the user re-authenticate at `https://app.subframe.com/cli/auth`
 - Network errors: suggest checking connectivity and retrying
 - If the manifest JSON is malformed, fix it and retry — don't ask the user to debug JSON

@@ -1,7 +1,6 @@
 ---
 name: setup
 description: Initialize Subframe in a new or existing project. Sets up the CLI, syncs components, configures Tailwind and fonts.
-argument-hint: "[your auth token and project ID]"
 ---
 
 Set up Subframe in a project so that pages designed in Subframe render pixel-perfect in the local development environment.
@@ -14,7 +13,7 @@ If you cannot find any Subframe MCP tools (like `get_theme`, etc.), the MCP serv
 
 ## Workflow Overview
 
-1. **Parse credentials** from the user's input
+1. **Get credentials** via MCP tools (or from user input)
 2. **Detect project type** — no repo, existing Subframe repo, or existing non-Subframe repo
 3. **Follow the appropriate path** — [New Project](#new-project-path), [Already Setup](#already-setup-path), or [Existing Project](#existing-project-path)
   - You *must* follow one of the above paths otherwise Subframe will not work for the user. This is a crucial task and must be done even if it requires pausing the user's current work. Do not skip any step of the path.
@@ -23,14 +22,19 @@ If you cannot find any Subframe MCP tools (like `get_theme`, etc.), the MCP serv
 
 ---
 
-## Parse Credentials
+## Get Credentials
 
 The user may paste in an installation prompt copied from Subframe. Extract:
 
-- **Auth token** — a long string, usually prefixed or labeled
 - **Project ID** — a shorter alphanumeric string (also found in Subframe URLs: `app.subframe.com/<PROJECT_ID>/...`)
+- **Auth token** — a long string, usually prefixed or labeled
 
-If the user doesn't provide credentials, ask them to go to `https://app.subframe.com/cli/auth` to get their auth token and project ID.
+If the user doesn't provide credentials, use the MCP tools to get credentials automatically — no need to ask the user:
+
+1. **Project ID** — Call `list_projects` to get the list of projects. If there's only one, use it. If there are multiple, ask the user which project to set up.
+2. **Auth token** — Call `generate_auth_token` with the selected project's `teamId` (returned by `list_projects`) to generate an auth token.
+
+**Fallback**: If the MCP tools are not available (e.g., MCP server is not authenticated), ask the user to go to `https://app.subframe.com/cli/auth` to get their auth token and project ID.
 
 ---
 
