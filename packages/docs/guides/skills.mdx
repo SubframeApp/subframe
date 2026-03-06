@@ -37,10 +37,18 @@ The Subframe plugin for Claude Code bundles the MCP server and skills together. 
 3. Choose the **subframe** marketplace
 4. Select **Enable auto-update**
 
-To manually update the plugin:
+#### Manually update the plugin
+
+Reload the plugin to pick up the latest version:
 
 ```bash
-/plugin update subframe@subframe
+/reload-plugins
+```
+
+If that doesn't work, reinstall the plugin:
+
+```bash
+claude plugin uninstall subframe@subframe && claude plugin install subframe@subframe
 ```
 
 ### Cursor, Codex, and other clients
@@ -82,3 +90,14 @@ Add the following to `.claude/settings.json` in your repository root:
 ```
 
 Commit this file to your repository. When a team member opens the project in Claude Code, they'll be prompted to install the Subframe marketplace and plugin.
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="A skill can't be found or doesn't work as expected">
+    Skills depend on the MCP server being properly connected. Check these:
+
+    1. Make sure the [MCP server](/guides/mcp-server) is running and connected
+    2. Update to the latest version — see [Keep skills up to date](#keep-skills-up-to-date)
+  </Accordion>
+</AccordionGroup>
