@@ -4,7 +4,7 @@ description: Design UI pages in Subframe. Use when building new UI, iterating on
 argument-hint: "[description of what to design]"
 ---
 
-Design pages using the `design_page` and `edit_page` MCP tools. `design_page` creates AI-generated design variations that the user can preview and select. `edit_page` makes targeted changes to an existing Subframe page. Both produce designs the user can refine visually in the Subframe editor and then implement in code. Update the theme for the entire project using `edit_theme`.
+Design pages using the `design_page` and `edit_page` MCP tools. `design_page` creates AI-generated design variations that the user can preview and select. `edit_page` applies targeted changes directly to an existing Subframe page. Both produce designs the user can refine visually in the Subframe editor and then implement in code. Update the theme for the entire project using `edit_theme`.
 
 **Don't write UI code directly.** Subframe generates production-ready React/Tailwind code that matches the design system. Design first, then implement with `/subframe:develop`.
 
@@ -38,7 +38,7 @@ Subframe knows about the design system and theme. Your job is to provide context
 You do not have to run `/subframe:setup` before designing. The `design_page` MCP tool works independently — it only needs a `projectId` and an authenticated MCP server. Local project setup (`.subframe/` folder, synced components, Tailwind config) is not required to design pages.
 
 1. **Understand the request** — If vague, ask clarifying questions. What data? What actions? Who uses it?
-2. **Find the projectId** — Check `.subframe/sync.json` if it exists. If there is no `.subframe/sync.json` or no projectId found, ask the user to go to `https://app.subframe.com/cli/auth` to get a project ID.
+2. **Find the projectId** — Check `.subframe/sync.json` if it exists. If there is no `.subframe/sync.json` or no projectId found, call `list_projects` to get the available projects. If there's only one, use it. If there are multiple, ask the user which project to use.
 3. **Decide: `design_page` or `edit_page`?** Then call the respective MCP tool:
    - **`design_page`** → Creating something new, exploring multiple directions, or redesigning existing UI where the user wants options to choose from
    - **`edit_page`** → Making targeted changes to a Subframe page that was just created in this session (via `design_page`) or that the user provided via an MCP link
@@ -49,7 +49,8 @@ You do not have to run `/subframe:setup` before designing. The `design_page` MCP
 Use `design_page` when:
 
 - Creating a new page from scratch
-- Redesigning or rethinking existing UI — even if there's an existing implementation in code, use `design_page` when the user wants to explore multiple design directions or start fresh
+- Redesigning or rethinking existing UI — if there's an existing implementation in code, use `design_page` when the user wants to explore new design directions or add new features
+- Recreating an existing UI from code exactly as a starting point to design in Subframe
 - The user wants options to choose from (multiple variations)
 
 ### Context and Variations
@@ -61,10 +62,11 @@ How much context to gather and how many variations to generate depends on the ta
 | **New page (open-ended)**      | Data types (`codeContext`)                                        | 4 — explore the design space         |
 | **New page (with reference pages)** | Reference pages (`additionalPages` if in Subframe, `codeContext` if not), data types (`codeContext`) | 1-2 — stay close to the reference pages |
 | **Redesigning existing UI**    | The current page (`additionalPages` if in Subframe, `codeContext` if not; note what to keep vs change in the description) | 2-4 — depending on how open-ended    |
+| **Recreating an existing UI** | The current page's exact markup and styles (`codeContext`) | 1 - recreate the UI from code exactly |
 
 **Always include when available:**
 
-- Similar existing pages (the single most valuable context). Use `additionalPages` for Subframe pages — pass the `pageId` returned by `design_page`, or the page ID from a pasted MCP link. Use `codeContext` for pages that only exist in the codebase.
+- The existing page being discussed and similar existing pages (the single most valuable context). Use `additionalPages` for Subframe pages — pass the `pageId` returned by `design_page`, or the page ID from a pasted MCP link. Use `codeContext` for pages that only exist in the codebase.
 - Components or patterns the user refers to or explicitly mentions (via `codeContext`)
 - Data types/interfaces for what the page will display (via `codeContext`)
 
@@ -108,7 +110,7 @@ Use `edit_page` for targeted changes to a specific Subframe page. Provide a page
 - **`description`**: Describe what to change. You can include code snippets for precision, but it's not required.
 - **Page identifier**: `id`, `name`, or `url`. Use `list_pages` to find existing pages if needed.
 
-Present the returned `editUrl` to the user so they can review and apply the edit.
+The edit is applied immediately. Present the returned `pageUrl` to the user so they can view the updated page in Subframe.
 
 ### When to use `edit_page` vs `design_page`
 
@@ -127,7 +129,7 @@ For `design_page`, present the `reviewUrl` as a clickable markdown link. The use
 
 From there, the user may continue refining in Subframe or return here and ask you to implement the design in code. Do NOT ask the user which variation they prefer or present variation options as a multiple choice in chat. Variation selection happens in the Subframe editor, not here. Simply present the review URL and let them know they can ask you to implement the design once they're ready.
 
-For `edit_page`, present the `editUrl` as a clickable markdown link. The user opens the design editor with the AI tab showing the edit, where they can apply it or undo.
+For `edit_page`, the edit is applied immediately. Present the returned `pageUrl` as a clickable markdown link so the user can view the updated page in Subframe. The user can undo the edit in the editor if needed.
 
 Internally track the `pageId` from the response — you'll need it for `/subframe:develop`, `additionalPages` for future designs, or `edit_page` for future edits — but don't mention it to the user.
 
