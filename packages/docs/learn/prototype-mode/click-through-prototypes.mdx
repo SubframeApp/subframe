@@ -1,16 +1,38 @@
 ---
 title: Click-through prototypes
-description: Create simple click-through prototypes without AI.
+description: Add interactions to elements without writing code.
 ---
 
-Click-through prototypes let you connect two pages together based on clicks. When in preview mode, clicking on a linked element navigates to the connected page.
+Click-through prototypes let you add interactions to elements. You can configure what triggers the interaction and what action it performs.
 
-## Linking pages
+## Adding interactions
+
+<Frame>
+  <img src="/images/prototype-mode/interactions-inspector.png" alt="The Interactions section in the inspector panel showing trigger and action configuration" />
+</Frame>
 
 1. Select an element
-2. In inspector, click **Link to page** > <Icon icon="plus" size={16} />
-3. Select the page you want to navigate to
+2. In the inspector, click **Interactions** > <Icon icon="plus" size={16} />
+3. Choose a trigger and action
 
-When in [preview mode](/learn/design-mode/preview), clicking on that element will now navigate to that page.
+## Previewing interactions
 
-Click-through prototypes are only used for connecting pages together via clicks. For more advanced features like form handling, state management, and dynamic interactions, use [Prototype with AI](/learn/prototype-mode/overview).
+Preview your interactions in [preview mode](/learn/design-mode/preview). For more advanced features like form handling, state management, and dynamic interactions, use [Prototype with AI](/learn/prototype-mode/overview).
+
+## Available prototyping actions
+
+Every prototyping action has a trigger — click, hover, or right-click — that defines what user action starts the interaction.
+
+**On click**
+- **Navigate to** — navigates to another page
+- **Open overlay** — opens a page as an overlay (dialog or drawer)
+- **Close overlay** — closes the current overlay
+- **Open dropdown** — opens a dropdown menu
+- **Open popover** — opens a popover
+
+**On hover**
+- **Open tooltip** — opens a tooltip
+- **Open popover** — opens a popover on hover
+
+**On right click**
+- **Open context menu** — opens a context menu
