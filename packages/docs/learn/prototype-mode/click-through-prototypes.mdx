@@ -1,38 +1,65 @@
 ---
-title: Click-through prototypes
-description: Add interactions to elements without writing code.
+description: "Create click-through prototypes without AI."
+title: "Interactions"
 ---
 
-Click-through prototypes let you add interactions to elements. You can configure what triggers the interaction and what action it performs.
+Interactions let you create click-through prototypes let you add navigation and interactions on click, hover, and right click in preview mode — without using AI.
 
-## Adding interactions
+Use it to connect pages, open overlays (dialogs and drawers), show popovers, tooltips, dropdowns, and context menus.
+
+## Adding an interaction
 
 <Frame>
-  <img src="/images/prototype-mode/interactions-inspector.png" alt="The Interactions section in the inspector panel showing trigger and action configuration" />
+  ![Interactions Panel](/images/interactions-panel.webp)
 </Frame>
 
-1. Select an element
-2. In the inspector, click **Interactions** > <Icon icon="plus" size={16} />
-3. Choose a trigger and action
+1. Select the element you want to make interactive.
+2. In the inspector, find the Interactions section and click the + icon.
+3. Choose a trigger, an action, and configure the destination or alignment.
+
+## Triggers and actions
+
+<Frame>
+  ![Interactions Editor](/images/interactions-editor.webp)
+</Frame>
+
+### On click
+
+- **Navigate to...** — Opens a different page.
+- **Open overlay...** — Opens a page as an overlay (dialog or drawer) on top of the current page.
+- **Close overlay** — Closes the currently open overlay.
+- **Open dropdown** — Opens a dropdown menu anchored to the element.
+- **Open popover** — Opens a popover with custom contents anchored to the element.
+
+<Note>
+  Tip: Make sure pages opened as an overlay use a dialog or drawer layout to render properly over the existing page.
+</Note>
+
+### On hover
+
+- **Open tooltip** — Shows a tooltip on hover.
+- **Open popover** — Shows a popover on hover with custom contents.
+
+### On right click
+
+- **Open context menu** — Opens a context menu at the cursor position.
+
+## Editing popover and overlay contents
+
+Click **Edit contents** to open the popover, tooltip, dropdown, or context menu contents in the editor. Design the contents the same way you would any other element on a page.
+
+For overlays, select the destination page and design it using a dialog or drawer layout.
 
 ## Previewing interactions
 
-Preview your interactions in [preview mode](/learn/design-mode/preview). For more advanced features like form handling, state management, and dynamic interactions, use [Prototype with AI](/learn/prototype-mode/overview).
+<Frame>
+  ![Interactions Dialog Preview](/images/interactions-dialog-preview.webp)
+</Frame>
 
-## Available prototyping actions
+Try out interactions in preview mode. Click the preview icon in the navbar or in the Interactions section to enter preview and test your interactions.
 
-Every prototyping action has a trigger — click, hover, or right-click — that defines what user action starts the interaction.
+### Limitations
 
-**On click**
-- **Navigate to** — navigates to another page
-- **Open overlay** — opens a page as an overlay (dialog or drawer)
-- **Close overlay** — closes the current overlay
-- **Open dropdown** — opens a dropdown menu
-- **Open popover** — opens a popover
-
-**On hover**
-- **Open tooltip** — opens a tooltip
-- **Open popover** — opens a popover on hover
-
-**On right click**
-- **Open context menu** — opens a context menu
+- Each element supports one interaction. You cannot stack multiple triggers (e.g. on hover + on click) on the same element. Wrap elements in stacks with different interactions instead.
+- Preview interactions are separate from Prototype mode. In the future, interactions will automatically feed into AI-generated prototypes as prompt annotations.
+- Click-through prototypes are best for simple navigation flows, opening overlays, and testing popover behavior. For complex interactions like form handling, state management, and dynamic data, use [Prototype with AI](/learn/prototype-mode/overview).
