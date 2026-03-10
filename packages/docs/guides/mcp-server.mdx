@@ -24,7 +24,7 @@ Once configured, your AI assistant can access Subframe automatically when you pr
 
 | Tool                 | Description                                  | Input Parameters                                  | Returns                                      |
 | -------------------- | -------------------------------------------- | ------------------------------------------------- | -------------------------------------------- |
-| `list_projects`      | Lists all projects you have access to        | —                                                 | Array of projects with `projectId`, `name`, `teamId` |
+| `list_projects`      | Lists all projects you have access to        | —                                                 | Array of projects with `projectId`, `name`, `teamId`, `teamName` |
 | `generate_auth_token`| Generates a CLI auth token for a team        | `teamId`                                          | `authToken`                                  |
 | `list_components`    | Lists all components in your project         | `projectId`                                       | Array of components with `id`, `name`, `url` |
 | `list_pages`         | Lists all pages in your project              | `projectId`                                       | Array of pages with `id`, `name`, `url`      |
@@ -35,8 +35,6 @@ Once configured, your AI assistant can access Subframe automatically when you pr
 | `design_page`        | Designs UI pages in Subframe. Use to build new UI, iterate on existing UI, explore options, or get a visual starting point to refine. | `description`, `variations` (1, 2, or 4 strings), `flowName`<br/>`projectId`, `codeContext` (optional), `additionalPages` (optional) | `pageId`, `reviewUrl` |
 | `edit_page`          | Edits an existing Subframe page. Use for targeted changes to an existing page. Describe the changes you want, optionally including code snippets for precision. The edit is applied immediately. | `id`, `name`, or `url`<br/>`description`<br/>`projectId` | `pageUrl` |
 | `get_variations`     | Gets the status and generated code for variations from a `design_page` call. Use to retrieve variation code for iterating on designs. | `pageId` | `status`, `currentPageCode` (string or null), `variations` (array of `name`, `state`, `code`) |
-
-Call `list_projects` first to determine the correct `projectId` if you don't already have one.
 
 ### Prompt with MCP link
 

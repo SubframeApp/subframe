@@ -11,8 +11,10 @@ Import an existing design system into Subframe by discovering files on disk, bui
 
 The CLI needs an auth token and project ID. If the user hasn't provided these, use MCP tools to get these automatically:
 
-1. **Project ID** — Call `list_projects` to get the list of projects. If there's only one, use it. If there are multiple, ask the user which project to import into.
-2. **Auth token** — Call `generate_auth_token` with the selected project's `teamId` (returned by `list_projects`) to generate an auth token.
+1. **Project ID** — Call `list_projects` to get the list of projects. Each project includes a `projectId`, `name`, `teamId`, and `teamName`.
+   - **One project**: Use it automatically.
+   - **Multiple projects**: Always ask the user which project to use. Present each project with its `teamName` to disambiguate. If the user already mentioned a specific team or project name, match it against the `teamName` and `name` fields — but still confirm before proceeding. Never silently pick a project when multiple exist.
+2. **Auth token** — Call `generate_auth_token` with the `teamId` from the user's selected project. Do not use a `teamId` from a different project.
 
 The project ID is also visible in any Subframe URL: `app.subframe.com/<PROJECT_ID>/...`
 
