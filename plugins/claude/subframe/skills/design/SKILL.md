@@ -38,7 +38,9 @@ Subframe knows about the design system and theme. Your job is to provide context
 You do not have to run `/subframe:setup` before designing. The `design_page` MCP tool works independently — it only needs a `projectId` and an authenticated MCP server. Local project setup (`.subframe/` folder, synced components, Tailwind config) is not required to design pages.
 
 1. **Understand the request** — If vague, ask clarifying questions. What data? What actions? Who uses it?
-2. **Find the projectId** — Check `.subframe/sync.json` if it exists. If there is no `.subframe/sync.json` or no projectId found, call `list_projects` to get the available projects. If there's only one, use it. If there are multiple, ask the user which project to use.
+2. **Find the projectId** — Check `.subframe/sync.json` if it exists. If there is no `.subframe/sync.json` or no projectId found, call `list_projects` to get the available projects. Each project includes a `projectId`, `name`, `teamId`, and `teamName`.
+   - **One project**: Use it automatically.
+   - **Multiple projects**: Always ask the user which project to use. Present each project with its `teamName` to disambiguate. If the user already mentioned a specific team or project name, match it against the `teamName` and `name` fields — but still confirm before proceeding. Never silently pick a project when multiple exist.
 3. **Decide: `design_page` or `edit_page`?** Then call the respective MCP tool:
    - **`design_page`** → Creating something new, exploring multiple directions, or redesigning existing UI where the user wants options to choose from
    - **`edit_page`** → Making targeted changes to a Subframe page that was just created in this session (via `design_page`) or that the user provided via an MCP link

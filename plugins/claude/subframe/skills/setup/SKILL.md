@@ -31,8 +31,10 @@ The user may paste in an installation prompt copied from Subframe. Extract:
 
 If the user doesn't provide credentials, use the MCP tools to get credentials automatically — no need to ask the user:
 
-1. **Project ID** — Call `list_projects` to get the list of projects. If there's only one, use it. If there are multiple, ask the user which project to set up.
-2. **Auth token** — Call `generate_auth_token` with the selected project's `teamId` (returned by `list_projects`) to generate an auth token.
+1. **Project ID** — Call `list_projects` to get the list of projects. Each project includes a `projectId`, `name`, `teamId`, and `teamName`.
+   - **One project**: Use it automatically.
+   - **Multiple projects**: Always ask the user which project to use. Present each project with its `teamName` to disambiguate. If the user already mentioned a specific team or project name, match it against the `teamName` and `name` fields — but still confirm before proceeding. Never silently pick a project when multiple exist.
+2. **Auth token** — Call `generate_auth_token` with the `teamId` from the user's selected project. Do not use a `teamId` from a different project.
 
 **Fallback**: If the MCP tools are not available (e.g., MCP server is not authenticated), ask the user to go to `https://app.subframe.com/cli/auth` to get their auth token and project ID.
 

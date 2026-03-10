@@ -59,7 +59,9 @@ get_page_info({ name: "Settings Page", projectId: "PROJECT_ID" })
 list_pages({ projectId: "PROJECT_ID" })
 ```
 
-Get the `projectId` from `.subframe/sync.json`.
+Get the `projectId` from `.subframe/sync.json`. If `.subframe/sync.json` doesn't exist or doesn't contain a `projectId`, call `list_projects` to get the available projects. Each project includes a `projectId`, `name`, `teamId`, and `teamName`.
+- **One project**: Use it automatically.
+- **Multiple projects**: Always ask the user which project to use. Present each project with its `teamName` to disambiguate. If the user already mentioned a specific team or project name, match it against the `teamName` and `name` fields — but still confirm before proceeding. Never silently pick a project when multiple exist.
 
 ## Syncing Components
 
