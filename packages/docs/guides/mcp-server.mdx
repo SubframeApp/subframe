@@ -125,11 +125,13 @@ Get my Subframe theme configuration
 <AccordionGroup>
 <Accordion title="Authentication failed">
 
-The MCP server uses OAuth for authentication. If you're seeing authentication errors:
+Most clients authenticate via OAuth. If you're seeing authentication errors:
 
 - Try re-authenticating by reconnecting to the MCP server in your client
 - Check that you have the correct permissions for the project you're trying to access
 - Make sure your browser session is active when authenticating
+
+If your client doesn't support OAuth (e.g. Antigravity), authenticate using a Subframe token instead. Create a token at [**Settings > Access Tokens**](https://app.subframe.com/settings/tokens) and pass it as a header in your MCP configuration. See the [Other clients](#other-clients) installation tab for details.
 
 </Accordion>
 <Accordion title="AI not calling the server">
