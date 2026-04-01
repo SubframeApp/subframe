@@ -1,87 +1,125 @@
 ---
 title: Importing tokens
-description: Import color tokens from CSS variables to match your existing design system.
+description: Import design tokens from Tailwind config, CSS, or JSON files to set up your theme.
 ---
 
-Import color tokens from existing design systems to match your brand. Subframe supports CSS variable import for color and palette tokens only.
+Import design tokens from your existing design system into Subframe. The theme importer supports Tailwind CSS (v3 and v4), CSS variables, and JSON files — including Figma design token exports.
 
-## Importing color tokens
+## Supported formats
 
-<img src="/images/theme/theme-import-tokens.png" alt="Dialog showing a list of imported color tokens for review" />
+Subframe supports the following theme formats for import:
 
-### **Step 1: Open your Theme**
+<Tabs>
+  <Tab title="Tailwind CSS (v4)">
+    Paste or upload `.css` files containing `@theme` blocks with CSS custom properties:
 
-**Individual color tokens:** Click **Import** button in the non-palette colors section.
+    ```css
+    @theme {
+      --color-brand-500: #3b82f6;
+      --color-brand-600: #2563eb;
+      --color-neutral-100: #f5f5f5;
+    }
+    ```
 
-**Custom palettes:** Click the import icon on any custom palette. Adds colors to that palette with auto-generated suffixes.
+    Subframe detects Tailwind v4 syntax automatically from `.css`, `.scss`, or `.less` files.
+  </Tab>
+  <Tab title="Tailwind config (v3)">
+    Paste or upload `.js`, `.ts`, `.mjs`, or `.cjs` config files:
 
-<Note>
-  Default palettes (Brand, Neutral, Error, Success, Warning) don't support import. Create a custom palette first.
-</Note>
+    ```js
+    module.exports = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              500: '#3b82f6',
+              600: '#2563eb',
+            },
+          },
+        },
+      },
+    }
+    ```
 
-### **Step 2: Paste CSS variables**
+    Subframe parses the `theme.extend.colors` object from your config.
+  </Tab>
+  <Tab title="CSS variables">
+    Paste CSS custom properties directly:
 
-Paste your CSS variables, one per line:
+    ```css
+    --color-primary-100: #eeeeee;
+    --color-primary-200: #dddddd;
+    --color-primary-300: #cccccc;
+    ```
 
-```css
---color-primary-100: #eeeeee;
---color-primary-200: #dddddd;
---color-primary-300: #cccccc;
-```
+    Color values must be valid hex, rgb, or hsl.
+  </Tab>
+  <Tab title="Design Tokens (JSON)">
+    Upload a `.json` file containing design tokens, following the W3C Design Tokens Format. This works with Figma's **variables** export.
 
-### **Step 3: Review and edit**
+    Subframe reads color values and token structure from the JSON.
+  </Tab>
+</Tabs>
 
-For each detected token:
+## Import your theme
 
-- Edit palette name (applies to all tokens when importing to palette)
-- Edit individual token names
-- Adjust color values via color picker
+<Steps>
+  <Step title="Upload your tokens">
+    Go to the **Theme** page and select **Import** from the sidebar.
 
-New color tokens must have unique names to avoid conflicts.
+    Add your tokens by uploading or pasting:
+    - **Upload files:** Drag and drop or browse for files. Multiple files supported.
+    - **Code editor:** Click **Tailwind CSS (v4)** or **Tailwind CSS (v3)** to paste CSS or JavaScript directly. The editor provides syntax highlighting and detects the format automatically.
+  </Step>
+  <Step title="Review tokens">
+    Subframe parses your input and shows a preview of detected tokens. Each token shows its status:
 
-### **Step 4: Import**
+    - **New** — token will be added to your theme
+    - **Updated** — token matches an existing token name and will update its value
+    - **Unchanged** — token already exists with the same value
 
-Click **Import** to add tokens. New tokens appear immediately in your theme.
+    When your imported tokens reference other variables (e.g. `var(--color-brand-500)`), Subframe automatically maps these as **aliases** — references to other tokens rather than hard-coded values. Aliases can reference other tokens in the same import or existing tokens in your theme. If a referenced variable can't be resolved, it's converted to a direct color value.
+  </Step>
+  <Step title="Import">
+    Click **Import** to update your theme. New tokens appear immediately in your theme, organized into folders matching the structure of your import. Use **Version History** to revert your import.
+  </Step>
+</Steps>
 
-### Supported CSS format
+## Importing from Figma
 
-**Requirements:**
+You can export your Figma variables as design tokens and import them directly into Subframe:
 
-- Must start with `--`
-- Color value must be valid hex, rgb, or hsl
-- Semicolons optional
-- Non-color variables are ignored
+1. Open **Variables** in your Figma file
+2. Right-click on a collection and select **Export modes**
+3. Open the ZIP file to see the JSON files for each mode's tokens
+4. Upload the JSON file in the **Import** dialog in Subframe
 
-Variable names auto-convert to Title Case: `--color-primary-100` becomes "Color Primary 100".
-
-## Exporting from design tools
-
-Subframe doesn't directly integrate with Figma or other design tools. Export your design tokens to CSS format first:
-
-1. Use a Figma plugin to export styles or variables as CSS variables
-2. Paste into Subframe import dialog
+You can upload multiple JSON files from different collections at once.
+### Limitations:
+- Subframe currently supports a single mode. Import one mode (e.g. light OR dark), not both.
+- Figma does not export text styles as variables. Use a Figma plugin to export text tokens separately, or add text styles manually in your theme.
 
 ## Troubleshooting
 
 <AccordionGroup>
-<Accordion title="No color tokens detected">
+<Accordion title="No tokens detected">
 
-Verify:
+Verify your file format:
 
-- CSS variables start with `--`
-- Color values are valid hex, rgb, or hsl
-- Format follows: `--name: value;` or `--name: value`
-- Remove JavaScript syntax or preprocessor variables
-
-</Accordion>
-<Accordion title="Can't import to default palette">
-
-Import only works with custom palettes. Click **New palette** first, then use the import icon on that palette.
+- CSS files should contain `--` prefixed custom properties with valid color values (hex, rgb, hsl)
+- Tailwind configs should export a `theme.extend.colors` object
+- JSON files should contain color values in a supported design token format
+- Remove preprocessor-specific syntax (Sass variables, Less mixins) before importing
 
 </Accordion>
-<Accordion title="Palette name or token names empty">
+<Accordion title="Tokens showing as 'Updated' unexpectedly">
 
-All names must be filled before import. Edit empty names in the preview step, then click **Import**.
+Tokens with the same name as existing tokens in your theme are marked as updates. Rename the token in the preview step if you want to add it as a new token instead.
+
+</Accordion>
+<Accordion title="Aliases not resolving">
+
+Alias references (e.g. `var(--color-brand-500)`) only resolve against other imported tokens or existing tokens in your theme. If the target token doesn't exist in either, the alias is converted to a direct color value.
 
 </Accordion>
 </AccordionGroup>

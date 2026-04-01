@@ -1,0 +1,33 @@
+---
+title: Exporting theme
+description: View your generated Tailwind config and sync theme changes to your codebase.
+---
+
+import CliSyncAllCommand from "/snippets/cli-sync-all-command.mdx"
+
+Your theme generates a Tailwind CSS configuration that your codebase uses for styling. You can view the generated config at any time and sync changes with the CLI.
+
+## View Tailwind config
+
+Click **Export** in the sidebar to view the generated Tailwind configuration for your theme. The dialog has two tabs:
+
+- **Tailwind CSS v3** — Shows a `tailwind.config.js` file with your tokens as a JavaScript module
+- **Tailwind CSS v4** — Shows a `theme.css` file with your tokens as CSS variables inside a `@theme` block
+
+Click **Copy to clipboard** to copy either format.
+
+<img src="/images/theme/theme-tailwind-config.png" alt="Export dialog showing the generated Tailwind configuration with tabs for v3 and v4" />
+
+{/* TODO: Update image for new export dialog */}
+
+The generated config includes colors, font sizes, font families, box shadows, border radius, container settings, and responsive breakpoints.
+
+## Sync to code
+
+Run the CLI to sync your theme and components to your codebase:
+
+<CliSyncAllCommand />
+
+This updates your local Tailwind config with new token values. Components automatically use the updated theme.
+
+See [Installation](/installation) for CLI setup instructions.
