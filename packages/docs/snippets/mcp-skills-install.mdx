@@ -126,6 +126,7 @@
         - **Transport:** HTTP
         - **Authentication:** None required
       </Step>
+
       <Step title="Install agent skills (optional)">
         If your client supports the [Agent Skills](https://agentskills.io) standard, install the Subframe skills with:
 
@@ -140,5 +141,30 @@
         Follow the [Working with AI agents](/learn/guides/working-with-ai-agents) guide to design and implement your first page.
       </Step>
     </Steps>
+
+    ### Client doesn't support OAuth?
+
+    Some clients (e.g. Antigravity) do not support OAuth for custom MCP servers. Instead, authenticate using a Subframe token passed as a header:
+
+    1. Create a token at [**Settings > Access Tokens**](https://app.subframe.com/settings/tokens)
+    2. Use the following MCP server configuration:
+
+    ```json
+    {
+      "mcpServers": {
+        "subframe": {
+          "url": "https://mcp.subframe.com/mcp",
+          "headers": {
+            "Authorization": "Bearer <YOUR_SUBFRAME_TOKEN>"
+          }
+        },
+        "subframe-docs": {
+          "url": "https://docs.subframe.com/mcp"
+        }
+      }
+    }
+    ```
+
+    You may need to restart your client or start a new conversation for it to pick up the configuration.
   </Tab>
 </Tabs>
