@@ -96,6 +96,7 @@
                 "pages": [
                   "learn/theme/customizing-theme",
                   "learn/theme/importing-tokens",
+                  "learn/theme/exporting-theme",
                   "learn/theme/adding-custom-fonts"
                 ]
               },

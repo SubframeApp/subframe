@@ -3,103 +3,72 @@ title: Customizing theme
 description: Define design tokens for colors, typography, borders, corners, and shadows.
 ---
 
-import CliSyncAllCommand from "/snippets/cli-sync-all-command.mdx"
-
 Your theme defines design tokens for your project. Design tokens are reusable values for colors, typography, borders, corners, and shadows. Each project contains its own theme used to generate a custom Tailwind CSS configuration.
 
-## Editing your theme
+## Navigating the theme page
 
-Navigate to the theme page:
+Click **Theme** in the top navigation, or press <kbd>Cmd</kbd> + <kbd>K</kbd> and search "Theme".
 
-1. Click **Theme** in the top navigation, or press <kbd>Cmd</kbd> + <kbd>K</kbd> and search "Theme"
-2. Browse five sections: Colors, Typography, Borders, Corners, Shadows
+The theme page has a left sidebar for navigating between sections: Colors, Typography, Borders, Corners, and Shadows. Click any section to scroll to it.
+
+The Colors section header contains the main actions: **Ask AI**, **Import tokens**, **Export**, and a **⋯** menu with **Reset theme** and **Show version history**.
 
 All changes save automatically and apply immediately across your project.
 
-### Theme presets
+See also: [Importing tokens](/learn/theme/importing-tokens), [Exporting theme](/learn/theme/exporting-theme), [Adding custom fonts](/learn/theme/adding-custom-fonts)
 
-<img src="/images/theme/theme-presets.png" alt="Edit theme dialog with theme preset controls and a preview" />
+## Edit theme with Ask AI
 
-Quickly apply a theme preset:
+<img src="/images/theme/theme-ask-ai.webp" alt="The theme page with Ask AI prompt open, showing 'update the theme to be brutalist with bold blue accents' with the theme sidebar and color tokens visible" />
 
-1. Click **Edit theme** on the Theme page
-2. Browse 10 preset styles
-3. Customize brand colors, fonts, and corner radius
-4. Toggle between Light and Dark mode
+Use Ask AI to update your theme from a prompt:
 
-Each preset configures color palettes (brand, neutral, error, success, warning), typography, and corner radius. Customize further after applying.
+1. Click **Ask AI** in the sidebar
+2. Describe your changes: "warmer tones, rounder corners", "make it brutalist", or "retro theme with muted colors and bold typography"
+3. Review the preview — AI updates colors, typography, corners, and shadows
+4. Click **Apply** to update your theme
 
-<Note>Applying a theme preset will replace values in your current theme.</Note>
+Ask AI can also rename or delete tokens when the changes call for it. All component references update automatically.
 
-### Generate theme with Ask AI
-
-<img src="/images/theme/theme-ask-ai.png" alt="Conversation view of Ask AI generating a theme from a prompt" />
-
-Use Ask AI to generate custom themes from a prompt:
-
-1. Navigate to any page and open **Ask AI**
-2. Describe your desired theme: "Create a retro theme with muted colors and bold typography"
-3. Review the preview and click **Apply** to update your theme
-
-<Note>AI theme generation affects your entire project – use for major theme changes.</Note>
+<Note>AI theme generation affects your entire project. Review the preview before applying.</Note>
 
 ## Colors
 
-Subframe organizes colors into **color tokens** and **palettes**.
+Subframe organizes colors into **color tokens** grouped by **folders**.
 
-<img src="/images/theme/theme-colors.png" alt="Color section of the theme page showing editing a color token" />
+<img src="/images/theme/theme-folders.webp" alt="Colors section showing color tokens organized into folders like Text, Background, and Border, with a context menu for moving tokens between folders" />
 
 ```tsx
 <div className="bg-neutral-100 text-default-font">Neutral background with default text color</div>
 ```
 
-### Color tokens vs. palettes
+**Color tokens** define individual colors for your design system. They can be used for specific UI purposes like Brand Primary, Default Background, or Neutral Border. Tokens can reference other tokens as aliases (e.g. Brand Primary → Brand 700).
 
-**Individual color tokens** define standalone colors:
+**Folders** group related color tokens together. Organize tokens however you want — by brand, by feature, by shade scale, or any grouping that fits your system. A default **Colors** folder holds standalone tokens.
 
-- Used for specific UI purposes: Brand Primary, Default Background, Neutral Border
-- Can reference palette colors as aliases (e.g. Brand Primary → Brand 700)
-- Custom tokens can be created and deleted
+To quickly add tokens from an existing design system, see [Importing tokens](/learn/theme/importing-tokens).
 
-**Color palettes** group related shades with numbered suffixes (e.g. Brand 50, Brand 100... Brand 900):
-
-- Based on Tailwind color presets
-- Cannot reference other tokens (no aliases)
-- Default palettes: Brand, Neutral, Error, Success, Warning
-
-Use palettes for color scales. Use individual tokens for semantic colors that reference palette shades.
-
-### Editing color tokens
-
-**Edit color tokens:** Click any token to open color picker. Set direct color value or reference another token as alias.
-
-**Edit palette colors:** Click any palette color to open color picker.
-
-**Palette presets:** Click palette icon next to palette name. Select from Tailwind color presets to update all shades instantly.
-
-### Creating color tokens
-
-See [Importing tokens](/learn/theme/importing-tokens) to quickly add your own color tokens.
+### Creating color tokens and folders
 
 **New color token:**
 
-1. Click **+** in the color tokens section
+1. Click **New color** in any folder, or click the **+** button at the end of a folder's token row
 2. Name your token descriptively: `accent-primary`, `surface-elevated`
 3. Set color via picker or reference existing token
 
-**New palette:**
+**New folder:**
 
-1. Click **New palette** in Colors section
-2. Name your palette
-3. Add colors manually or
+1. Click **New folder** in the Colors section header
+2. Rename your folder by clicking its name
+3. Add tokens manually or via import
 
-**New palette token:**
+**Reordering:** Drag folders or tokens to reorder. Use the **...** menu on a folder to move it up or down.
 
-1. Click **+** on palette row
-2. Name your color using the palette name as the prefix and the shade as the suffix
-3. Set color via picker
+<Note>Deleting a folder deletes all tokens inside it. Any component references to deleted tokens are detached.</Note>
 
-<Note>Deleting a token detaches its references and converts them to hex values.</Note>
+### Editing color tokens
+
+Click any token to open color picker. Set a direct color value or reference another token as an alias.
 
 ## Typography
 
@@ -111,6 +80,13 @@ Text tokens define typography styles with font family, size, weight, line height
 <span className="text-heading-1 font-heading-1">Heading 1</span>
 ```
 
+### Creating text tokens
+
+1. Click **+** in Typography section
+2. Rename and adjust properties
+
+New tokens duplicate the properties from the first token. Typography tokens auto-sort based on font size on the theme page.
+
 ### Editing text tokens
 
 Click any text token to edit:
@@ -119,13 +95,6 @@ Click any text token to edit:
 - **Line height** — Pixel value
 - **Font weight** — Slider based on font's supported weights
 - **Letter spacing** — Slider from `-0.05em` to `0.05em`
-
-### Creating text tokens
-
-1. Click **+** in Typography section
-2. Rename and adjust properties
-
-New tokens duplicate the properties from the first token. Typography tokens auto-sort based on font size on the theme page.
 
 ### Changing font families
 
@@ -153,6 +122,11 @@ When generating code, border styles turn into explicit values for the border:
 </div>
 ```
 
+### Creating border tokens
+
+1. Click **+** in Borders section
+2. Rename and adjust style, size, color
+
 ### Editing border tokens
 
 Click any border token to edit:
@@ -160,11 +134,6 @@ Click any border token to edit:
 - **Border style** — Solid or dashed
 - **Border size** — Pixel width
 - **Border color** — Color token reference or direct value
-
-### Creating border tokens
-
-1. Click **+** in Borders section
-2. Rename and adjust style, size, color
 
 ## Corners
 
@@ -176,16 +145,16 @@ Corner tokens define border radius values for consistent rounded corners.
 <div className="rounded-medium">Element with medium corner radius</div>
 ```
 
-### Editing corner tokens
-
-Click any corner token to edit radius value in pixels.
-
 ### Creating corner tokens
 
 1. Click **+** in Corners section
 2. Set radius value
 
 Corner tokens auto-sort based on value.
+
+### Editing corner tokens
+
+Click any corner token to edit radius value in pixels.
 
 ## Shadows
 
@@ -196,6 +165,13 @@ Shadow tokens define box shadows with multiple layers for depth and elevation.
 ```tsx
 <div className="shadow-sm">Element with small shadow</div>
 ```
+
+### Creating shadow tokens
+
+1. Click **+** in Shadows section
+2. Add, remove, or edit shadow layers
+
+Shadow tokens auto-sort based on perceived shadow effect.
 
 ### Editing shadow tokens
 
@@ -209,25 +185,33 @@ Click any shadow token to edit individual shadow layers. Each layer has:
 
 Add multiple layers for complex shadow effects.
 
-### Creating shadow tokens
+## Theme presets
 
-1. Click **+** in Shadows section
-2. Add, remove, or edit shadow layers
+<img src="/images/theme/theme-presets.png" alt="Edit theme dialog with theme preset controls and a preview" />
 
-Shadow tokens auto-sort based on perceived shadow effect.
+{/* TODO: Update image */}
 
-## Syncing to code
+Apply a theme preset to start fresh:
 
-After updating your theme, sync changes to your codebase:
+1. Click **⋯** in the sidebar and select **Reset theme**
+2. Browse 10 preset styles
+3. Customize brand colors, fonts, and corner radius
+4. Toggle between Light and Dark mode
 
-<CliSyncAllCommand />
+Each preset configures color palettes (brand, neutral, error, success, warning), typography, and corner radius. Customize further after applying.
 
-This updates your local `tailwind.config.js` with new token values. Components automatically use the updated theme.
+<Note>Applying a theme preset replaces values in your current theme.</Note>
 
-View generated Tailwind config by clicking **tailwind.config.js** at top of Theme page, with support Tailwind v3 and v4 formats.
+## Version history
 
-<img src="/images/theme/theme-tailwind-config.png" alt="Dialog showing the Tailwind configuration" />
+View and restore previous versions of your theme:
+
+1. Click **⋯** in the sidebar and select **Version history**
+2. Browse the timeline and select a version to preview
+3. Click **Restore** to revert to that version
+
+Select **Exit version history** from the same menu to return to editing.
 
 ## Limitations
 
-**Spacing not configurable** — Spacing tokens (padding, gaps) use Tailwind defaults. Extend `tailwind.config.js` manually for custom spacing in your codebase.
+**Spacing not configurable** — Spacing tokens (padding, gaps) use Tailwind defaults. Extend your Tailwind config manually for custom spacing in your codebase.
