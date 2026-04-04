@@ -1,7 +1,5 @@
 <Tabs>
   <Tab title="Claude Code" icon="/images/logos/claude.png">
-    The Subframe plugin for Claude Code sets up the MCP server and agent skills in one install.
-
     <Steps>
       <Step title="Install the Subframe plugin">
         ```bash
@@ -20,6 +18,26 @@
       </Step>
       <Step title="Verify installation">
         Run `/mcp` to check that the Subframe MCP server is connected, then try asking Claude Code to use Subframe.
+      </Step>
+      <Step title="Create your first design">
+        Follow the [Working with AI agents](/learn/guides/working-with-ai-agents) guide to design and implement your first page.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Claude Desktop" icon="/images/logos/claude.png">
+    <Steps>
+      <Step title="Add the Subframe connector">
+        1. Go to [**Customize > Connectors**](https://claude.ai/customize/connectors)
+        2. Click <Icon icon="plus" size={16} /> and select **Add custom connector**
+        3. Set the name to **Subframe**
+        4. For **Remote MCP Server URL**, paste the following URL:
+           ```
+           https://mcp.subframe.com/mcp
+           ```
+        5. Click **Add**
+      </Step>
+      <Step title="Authenticate">
+        Find the Subframe connector in your connectors list and click **Connect**. Follow the instructions on the Subframe website to complete authentication.
       </Step>
       <Step title="Create your first design">
         Follow the [Working with AI agents](/learn/guides/working-with-ai-agents) guide to design and implement your first page.
