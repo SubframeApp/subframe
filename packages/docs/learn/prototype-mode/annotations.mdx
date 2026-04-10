@@ -1,6 +1,6 @@
 ---
 title: Annotations
-description: Add implementation notes to guide AI prototype generation.
+description: Add implementation notes to guide AI prototype generation and code handoff.
 ---
 
 <Frame>
@@ -20,8 +20,14 @@ You should see blue dots on elements for each annotation.
 
 ## Exporting to code
 
-Annotations are also useful for documenting your design for handoff. Any annotation will be exported as comments in code:
+Annotations double as implementation notes for design-to-code handoff. When you export a page, annotations are included as code comments — so any context you leave during design time carries over automatically.
 
 <Frame>
   <img src="/images/prototype-mode/annotation-as-code.png" alt="Annotation persisted as code comment" />
 </Frame>
+
+### Using annotations with AI agents
+
+When an AI coding assistant like Claude Code, Cursor, or Codex fetches your design via the [MCP server](/guides/mcp-server), it reads your annotations as part of the exported code. This means you can leave implementation notes while designing — describing desired behaviors, edge cases, or business logic — and your AI agent will pick them up and act on them during implementation.
+
+<Tip>Use annotations to capture implementation details as you design, so nothing gets lost during handoff. For example, annotate a button with "Submit form and redirect to /dashboard on success" or a list with "Fetch from /api/items, show skeleton loader while loading."</Tip>
