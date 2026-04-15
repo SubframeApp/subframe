@@ -83,17 +83,17 @@ For example, if a page uses `<LoginForm />` and it's not from the Subframe direc
 
 ### Variations
 
-Each variation is a prompt that drives a unique design direction.
+Each variation is an object with a `name` (short name) and `description` (a few sentence prompt describing the design direction).
 
 **When you have reference pages** (`additionalPages`), use fewer variations (1-2) and keep them grounded in the reference. The variations should refine or extend the existing design, not diverge from it. For example:
-- "Follow the same layout as the reference page but adapted for [new content]"
-- "Same structure with a more compact data-dense layout"
+- `{ "name": "Adapted layout", "description": "Follow the same layout as the reference page but adapted for [new content]" }`
+- `{ "name": "Compact data-dense", "description": "Same structure as the reference but with a more compact, data-dense layout." }`
 
 **When starting from scratch** (no `additionalPages`), use more variations (4) to explore the design space:
-- "Compact data table with inline actions and bulk operations"
-- "Card-based layout with visual hierarchy and quick filters"
-- "Minimal single-column design focused on the primary action"
-- "Split-panel layout with sidebar navigation and detail view"
+- `{ "name": "Data table", "description": "Compact data table with inline actions and bulk operations." }`
+- `{ "name": "Card grid", "description": "Card-based layout with visual hierarchy and quick filters." }`
+- `{ "name": "Minimal single-column", "description": "Minimal single-column design focused on the primary action." }`
+- `{ "name": "Split panel", "description": "Split-panel layout with sidebar navigation and detail view." }`
 
 More variations = more exploration. Fewer = more focused. Default to fewer when strong context exists.
 
