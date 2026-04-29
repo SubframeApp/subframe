@@ -150,13 +150,20 @@ Do NOT proactively call `get_variations` after `design_page`. The user reviews a
 
 ### Updating Theme
 
-If the user indicates an issue with their theme and requests changes, use the `edit_theme` tool to update the theme in Subframe. The designs in Subframe will then reflect those changes. `edit_theme` is able to update color, border, corner, and shadow tokens as well as typography. Use `get_theme` to understand the current theme before formulating your changes.
+Use `edit_theme` to update the visual theme of a Subframe project. This tool is designed for **targeted tweaks** and **high-level changes** to an existing theme:
 
-The `description` parameter should describe what changes you want to make to the theme. It can include exact token values if needed.
+- **Targeted tweaks**: Specific adjustments like "make the primary color darker", "increase border radius on all components", "switch the font to Inter", or "make shadows more subtle".
+- **High-level changes**: Broader theme shifts like "switch to a dark theme", "make the design feel more modern and minimal", or "adopt a warm earth-tone palette".
+
+`edit_theme` can update colors, fonts, corners, shadows, and typography tokens. Use `get_theme` to understand the current theme before formulating your changes.
+
+**When NOT to use `edit_theme`:** If the user wants to import or replicate an entire existing design system theme (e.g. "set up our theme to match these design tokens from our codebase"), `edit_theme` is not the right approach. For full theme setup from existing tokens or files, direct the user to the theme import feature in the Subframe UI at `https://app.subframe.com/theme`, where they can upload their theme files directly. For importing a full design system (components + theme), use `/subframe:import` instead — but note that the import feature is only available for certain teams (see the import skill for details).
+
+The `description` parameter should describe what changes you want to make to the theme. It can include exact token values if needed, or it can be a high-level description — the AI will interpret both.
 
 If you are currently working on a page with the user, you should pass that page information into the `edit_theme` tool call.
 
 If a page is provided, the tool will return a URL where the user can review and apply the theme changes.
 If no page is provided, the tool will return a URL where the user can see the updated project theme. The user cannot review the theme changes prior to application in this case, so it is best to provide a page identifier if any is available.
 
-**Important:** The theme affects all pages in the project, so always make the user confirm that they want to update the whole project before using `edit_theme`. If the user only wants to update a particular page, you should use `edit_page` instead.
+**Important:** The theme affects all pages and components in the project, so always make the user confirm that they want to update the whole project before using `edit_theme`. If the user only wants to change the styling of a particular page (not the project-wide theme), use `edit_page` instead.
