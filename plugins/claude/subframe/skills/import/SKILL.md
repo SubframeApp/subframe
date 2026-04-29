@@ -5,7 +5,7 @@ description: Import an existing design system into Subframe. Discovers component
 
 Import an existing design system into Subframe by discovering files on disk, building a manifest, and uploading via the CLI.
 
-> **Availability:** The design system import feature is currently only available for select teams. If the CLI returns an error like `"Design system import is not enabled for this team"`, this means the feature has not been enabled for the user's team. Direct the user to contact [support@subframe.com](mailto:support@subframe.com) to request access. Do not retry or troubleshoot further — this is an access gate, not a bug.
+> **Availability:** The design system import feature is currently only available for select teams. If the CLI returns an error like `"Design system import is not enabled for this team"`, this means the feature has not been enabled for the user's team. Direct the user to [request access here](https://tally.so/r/3jv511). Do not retry or troubleshoot further — this is an access gate, not a bug.
 
 **Goal state**: All design system files are uploaded to Subframe for processing.
 
@@ -137,7 +137,7 @@ If any files are missing the CLI will abort with an error. Otherwise, report to 
 ## Error Handling
 
 - If the CLI exits with an error, show the full error output to the user
-- **Access errors**: If the CLI returns `"Design system import is not enabled for this team"`, this is not a bug or auth issue — the import feature is only available for certain teams. Let the user know and suggest reaching out to [support@subframe.com](mailto:support@subframe.com) to request access. Do not retry with a new token or attempt workarounds.
+- **Access errors**: If the CLI returns `"Design system import is not enabled for this team"`, this is not a bug or auth issue — the import feature is only available for certain teams. Let the user know and direct them to [request access here](https://tally.so/r/3jv511). Do not retry with a new token or attempt workarounds.
 - Auth errors: try generating a new token with `generate_auth_token`, or suggest the user re-authenticate at `https://app.subframe.com/cli/auth`
 - Network errors: suggest checking connectivity and retrying
 - If the manifest JSON is malformed, fix it and retry — don't ask the user to debug JSON
