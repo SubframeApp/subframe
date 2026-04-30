@@ -38,10 +38,10 @@ If the current directory has a `package.json` but no `.subframe/` folder, ask th
 
 Use this workflow when the user chose to use the design as inspiration in an existing non-Subframe project.
 
-1. **Fetch the design** - Use `get_page_info` with the URL, ID, or name to get the design's layout and structure. Use other available Subframe MCP tools as needed to get additional context (e.g., `get_component_info` to understand a component's props, `get_theme` to check theme values).
-2. **Study existing patterns** - Look at the project's existing components, styles, and conventions
-3. **Create the page** - Implement the design using the project's existing UI framework, mapping Subframe components to their equivalents in the codebase (e.g., Subframe `Button` → the project's own button component)
-4. **Add business logic** - Data fetching, forms, events, loading/error states
+1. **Fetch the design** — Use `get_page_info` with the URL, ID, or name to get the page's layout and structure. If you encounter Subframe components or tokens you're unfamiliar with, use `get_component_info` to understand a component's props and behavior, or `get_theme` to see the Subframe project's design tokens (colors, fonts, spacing, shadows).
+2. **Study existing patterns** — Look at the codebase's existing components, styles, and conventions. Identify local equivalents for Subframe components used in the design.
+3. **Create the page** — Implement the design using the codebase's existing UI framework, translating the Subframe layout and component structure into local components and styling.
+4. **Add business logic** — Data fetching, forms, events, loading/error states.
 
 ## Fetching Designs
 
