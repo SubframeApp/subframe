@@ -71,6 +71,7 @@ export interface InitProjectRequest {
 
 export interface InitProjectResponse {
   styleFile: CodeGenFileValid
+  themeCssFile?: CodeGenFileValid
   cssType: CodeGenCSSType
   oldImportAlias: string
   projectInfo: {

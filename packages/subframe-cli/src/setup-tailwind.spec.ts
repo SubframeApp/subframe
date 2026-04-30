@@ -1,6 +1,9 @@
+import { mkdtemp, rm } from "node:fs/promises"
+import { tmpdir } from "node:os"
+import { join } from "node:path"
 import { Project, SourceFile } from "ts-morph"
-import { describe, expect, it, vi } from "vitest"
-import { transformTailwindConfigFile } from "./setup-tailwind-v3"
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
+import { setupTailwindV3, transformTailwindConfigFile } from "./setup-tailwind-v3"
 import { addThemeImportToCss } from "./setup-tailwind-v4"
 
 // Note(Chris): Required for vitest to not crash when running tests:
@@ -11,6 +14,16 @@ vi.mock("ora", () => ({
     return result
   },
 }))
+
+const injectMock = vi.fn(async (_args: unknown) => {})
+vi.mock("./setup/inject-theme-import", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("./setup/inject-theme-import")>()
+  return {
+    ...actual,
+    injectThemeImportIntoGlobals: (args: Parameters<typeof actual.injectThemeImportIntoGlobals>[0]) =>
+      injectMock(args),
+  }
+})
 
 // Taken from Next13's default tailwind config
 const DEFAULT_TAILWIND_CONFIG = {
@@ -185,5 +198,49 @@ body {
     const firstRun = addThemeImportToCss(cssContent, THEME_PATH)
     const secondRun = addThemeImportToCss(firstRun, THEME_PATH)
     expect(secondRun).toEqual(firstRun)
+  })
+})
+
+describe("setupTailwindV3 + themeCssFile", () => {
+  let tmpRoot: string
+
+  beforeEach(async () => {
+    injectMock.mockClear()
+    tmpRoot = await mkdtemp(join(tmpdir(), "subframe-cli-v3-"))
+  })
+
+  afterEach(async () => {
+    await rm(tmpRoot, { recursive: true, force: true })
+  })
+
+  it("does not inject the theme import when themeCssFile is absent", async () => {
+    await setupTailwindV3(
+      { projectPath: tmpRoot, rootPath: join(tmpRoot, "ui") },
+      { tailwind: false },
+    )
+    expect(injectMock).not.toHaveBeenCalled()
+  })
+
+  it("injects the theme import when themeCssFile is present", async () => {
+    await setupTailwindV3(
+      { projectPath: tmpRoot, rootPath: join(tmpRoot, "ui") },
+      {
+        tailwind: false,
+        globalCssPath: "src/index.css",
+        themeCssFile: {
+          fileType: "css",
+          fileName: "theme.css",
+          metadata: { type: "unknown" },
+          contents: ":root { --foo: red; }",
+        },
+      },
+    )
+    expect(injectMock).toHaveBeenCalledTimes(1)
+    expect(injectMock).toHaveBeenCalledWith({
+      projectPath: tmpRoot,
+      subframeDirPath: join(tmpRoot, "ui"),
+      globalCssPath: "src/index.css",
+      tailwindOptInOverride: false,
+    })
   })
 })

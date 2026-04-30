@@ -99,7 +99,9 @@ async function cloneStarterKit({
   return projectPath
 }
 
-export type StyleInfo = { cssType: "tailwind" } | { cssType: "tailwind-v4"; globalCssPath?: string }
+export type StyleInfo =
+  | { cssType: "tailwind"; globalCssPath?: string }
+  | { cssType: "tailwind-v4"; globalCssPath?: string }
 
 async function validateName(value: string): Promise<string | boolean> {
   if (value.length > 128) {
@@ -168,10 +170,7 @@ export async function prepareProject(
     const projectPath = await cloneStarterKit({ name, type, cssType })
     await cliLogger.trackEventAndFlush({ type: "cli:starter-kit_cloned", framework: type, cssType })
 
-    const styleInfo: StyleInfo =
-      cssType === "tailwind"
-        ? { cssType: "tailwind" }
-        : { cssType: "tailwind-v4", globalCssPath: getGlobalCssPath(type) }
+    const styleInfo: StyleInfo = { cssType, globalCssPath: getGlobalCssPath(type) }
 
     return { projectPath, didCreateNewProject: true, styleInfo }
   }
