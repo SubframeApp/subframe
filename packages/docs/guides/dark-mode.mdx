@@ -1,103 +1,166 @@
 ---
 title: Dark mode
-description: Add dark mode to your project using Subframe's built-in theme support
+description: Setting up dark mode using CSS variables
 ---
 
-import CliSyncAllCommand from "/snippets/cli-sync-all-command.mdx"
+Subframe doesn't support dark mode out-of-the-box, but you can easily implement it in your codebase using CSS variables. This guide shows you how to set up dark mode using CSS variables and Tailwind's dark mode support.
 
-Subframe has built-in dark mode support. Enable it in your theme to define light and dark values side by side, then sync to get a fully configured Tailwind setup.
+## Prerequisites
 
-## Enable dark mode
+Before setting up dark mode, ensure you have:
 
-1. Open **Theme** in the top navigation
-2. In the Colors section, click **Add dark mode** (or toggle dark mode on from the theme presets)
-3. Each token now shows light and dark values — edit the dark values to define your dark palette
+- [Installed Subframe](/installation) in your project
+- [Synced your components and theme](/concepts/syncing-components) to your codebase
 
-<Tip>
-  Dark mode colors typically invert the scale: light mode's lightest shade becomes dark mode's darkest, and vice versa.
-</Tip>
+## How it works
 
-To remove dark mode, click **Remove dark mode** in the Colors section. This deletes all dark overrides. You can undo this using version history.
+1. Configure Tailwind to use CSS variables instead of hardcoded colors
+2. Define light mode colors from your Subframe theme as CSS variables
+3. Define dark mode color overrides under an `html.dark` selector
+4. Toggle between modes by adding/removing the `dark` class on the HTML element
 
-## How the generated code works
+This keeps your Subframe workflow unchanged while enabling dark mode in your application.
 
-When dark mode is enabled, Subframe generates theme tokens as CSS variables so light and dark values can switch at runtime.
+## Step 1: Configure Tailwind for CSS variables
 
 <Tabs>
 <Tab title="Tailwind v3">
 
-The CLI syncs two files:
+Modify your `tailwind.config.js` to use CSS variables.
 
-- **`tailwind.config.js`** — references CSS variables instead of hardcoded values, with `darkMode: 'selector'` enabled
-- **`theme.css`** — defines `:root` variables for light mode and `.dark` overrides for dark mode
+<Note>Add `// @subframe/sync-disable` at the top to prevent Subframe from overwriting your changes.</Note>
 
-```js tailwind.config.js
+```js tailwind.config.js {1, 3}
+// @subframe/sync-disable
 module.exports = {
-  darkMode: 'selector',
+  darkMode: "selector", // Enable class-based dark mode
   theme: {
     extend: {
       colors: {
-        "brand-primary": "rgb(var(--color-brand-primary) / <alpha-value>)",
-        // ... all color tokens as CSS variable references
+        brand: {
+          50: "var(--brand-50)",
+          100: "var(--brand-100)",
+          // ... rest of your brand colors as CSS variables
+        },
+        neutral: {
+          0: "var(--neutral-0)",
+          50: "var(--neutral-50)",
+          // ... rest of your neutral colors
+        },
+        // Continue for error, warning, success, etc.
+        "brand-primary": "var(--brand-primary)",
+        "default-font": "var(--default-font)",
+        "subtext-color": "var(--subtext-color)",
+        "neutral-border": "var(--neutral-border)",
+        white: "var(--white)",
+        "default-background": "var(--default-background)",
       },
     },
   },
 }
 ```
 
-```css theme.css
-:root {
-  --color-brand-primary: 26 26 26;
-  --color-default-background: 252 252 252;
-  /* ... light mode values */
-}
-
-.dark {
-  --color-brand-primary: 212 212 212;
-  --color-default-background: 10 10 10;
-  /* ... dark mode overrides */
-}
-```
-
-Import `theme.css` in your global stylesheet or entry point:
-
-```css globals.css
-@import "./subframe/theme.css";
-```
+<Note>
+  Find your theme configuration in the [Theme
+  tab](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV3).
+</Note>
 
 </Tab>
 <Tab title="Tailwind v4">
 
-The generated `theme.css` includes a `@custom-variant` for dark mode and a `.dark` block with overrides:
+Modify your `theme.css` to use CSS variables and add the dark mode custom variant:
 
-```css theme.css
-@custom-variant dark (&:where(.dark, .dark *));
-
+```css theme.css {1-3, 295}
 @theme {
-  --color-brand-primary: rgb(26 26 26);
-  --color-default-background: rgb(252 252 252);
-  /* ... light mode values */
+  /* Replace hardcoded colors with CSS variables */
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  /* ... continue for all colors */
+
+  /* Keep fonts, shadows, borders, spacing as-is */
 }
 
-.dark {
-  --color-brand-primary: rgb(212 212 212);
-  --color-default-background: rgb(10 10 10);
-  /* ... dark mode overrides */
-}
+/* Enable dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
 ```
+
+<Note>
+  Find your theme.css in the [Theme
+  tab](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV4).
+</Note>
 
 </Tab>
 </Tabs>
 
-## Sync to code
+## Step 2: Create CSS variables file
 
-Run the CLI to sync your theme (including dark mode) to your codebase:
+Create a `variables.css` file that defines CSS variables for both light and dark modes:
 
-<CliSyncAllCommand />
+```css variables.css
+/* Light mode */
 
-## Enable dark mode in your app
+html {
+  --brand-50: rgb(250, 250, 250);
+  --brand-100: rgb(245, 245, 245);
+  /* ... rest of brand colors */
 
-To activate dark mode, set the `dark` class on the `<html>` element. Here are a few ways to accomplish that:
+  --neutral-0: rgb(255, 255, 255);
+  --neutral-50: rgb(247, 247, 247);
+  /* ... rest of neutral colors */
+
+  /* Semantic colors */
+  --brand-primary: rgb(26, 26, 26);
+  --default-font: rgb(41, 41, 41);
+  --subtext-color: rgb(117, 117, 117);
+  --neutral-border: rgb(240, 240, 240);
+  --white: rgb(255, 255, 255);
+  --default-background: rgb(252, 252, 252);
+}
+
+/* Dark mode */
+
+html.dark {
+  --brand-50: rgb(23, 23, 23);
+  --brand-100: rgb(38, 38, 38);
+  /* ... inverted brand colors (light becomes dark) */
+
+  --neutral-0: rgb(10, 10, 10);
+  --neutral-50: rgb(23, 23, 23);
+  /* ... inverted neutral colors */
+
+  /* Dark semantic colors */
+  --brand-primary: rgb(212, 212, 212);
+  --default-font: rgb(250, 250, 250);
+  --subtext-color: rgb(163, 163, 163);
+  --neutral-border: rgb(64, 64, 64);
+  --white: rgb(10, 10, 10);
+  --default-background: rgb(10, 10, 10);
+}
+```
+
+<Tip>
+  Dark mode colors typically invert the scale: light mode's `--brand-50` (lightest) becomes dark mode's `--brand-900`
+  (darkest), and vice versa.
+</Tip>
+
+## Step 3: Import variables globally
+
+Import your `variables.css` in your global CSS file (typically `index.css`, `globals.css`, or `App.css` depending on framework):
+
+```css globals.css
+@import "./variables.css";
+@import "tailwindcss";
+```
+
+Or import directly in your entry point:
+
+```tsx main.tsx
+import "./variables.css"
+```
+
+## Step 4: Toggle dark mode
+
+Add or remove the `dark` class on the `<html>` element to switch themes.
 
 ### Next.js with next-themes
 
