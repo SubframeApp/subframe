@@ -134,6 +134,30 @@ const handleSubmit = async (e: FormEvent) => {
 <Card actionSlot={<IconButton onClick={handleDelete} />} />
 ```
 
+## Dark Mode
+
+If the Subframe project has dark mode enabled, the synced theme uses CSS variables with `.dark` class overrides. To activate dark mode in the app, set the `dark` class on the `<html>` element.
+
+For Next.js projects, use `next-themes`:
+
+```bash
+npm install next-themes
+```
+
+```tsx app/layout.tsx
+import { ThemeProvider } from "next-themes"
+
+<ThemeProvider attribute="class" defaultTheme="system">
+  {children}
+</ThemeProvider>
+```
+
+For other React projects, toggle the class manually:
+
+```tsx
+document.documentElement.classList.toggle("dark")
+```
+
 ## Updating Existing Pages
 
 When a design changes:
