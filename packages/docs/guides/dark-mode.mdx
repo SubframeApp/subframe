@@ -5,19 +5,19 @@ description: Add dark mode to your project using Subframe's built-in theme suppo
 
 import CliSyncAllCommand from "/snippets/cli-sync-all-command.mdx"
 
-Subframe has built-in dark mode support. Enable it in your theme to define light and dark color values side by side, then export or sync to get a fully configured Tailwind setup.
+Subframe has built-in dark mode support. Enable it in your theme to define light and dark values side by side, then sync to get a fully configured Tailwind setup.
 
 ## Enable dark mode
 
 1. Open **Theme** in the top navigation
 2. In the Colors section, click **Add dark mode** (or toggle dark mode on from the theme presets)
-3. Each color token now shows light and dark values — edit the dark values to define your dark palette
+3. Each token now shows light and dark values — edit the dark values to define your dark palette
 
 <Tip>
   Dark mode colors typically invert the scale: light mode's lightest shade becomes dark mode's darkest, and vice versa.
 </Tip>
 
-To remove dark mode, click **⋯** in the Colors section and select **Remove dark mode**. This deletes all dark color overrides. You can undo this using version history.
+To remove dark mode, click **Remove dark mode** in the Colors section. This deletes all dark overrides. You can undo this using version history.
 
 ## How the generated code works
 
@@ -95,9 +95,9 @@ Run the CLI to sync your theme (including dark mode) to your codebase:
 
 <CliSyncAllCommand />
 
-## Toggle dark mode in your app
+## Enable dark mode in your app
 
-Add or remove the `dark` class on the `<html>` element to switch between light and dark mode.
+To activate dark mode, set the `dark` class on the `<html>` element. Here are a few ways to accomplish that:
 
 ### Next.js with next-themes
 
@@ -139,7 +139,7 @@ export function ThemeProvider({ children }) {
 
   const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light")
 
-  return <ThemeContext.Provider value=undefined>{children}</ThemeContext.Provider>
+  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>
 }
 
 export const useTheme = () => useContext(ThemeContext)
