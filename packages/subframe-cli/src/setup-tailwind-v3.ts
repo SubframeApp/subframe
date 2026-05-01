@@ -1,8 +1,10 @@
 import { join } from "node:path"
 import ora from "ora"
 import prompts from "prompts"
+import { CodeGenFileValid } from "shared/types"
 import { ObjectLiteralExpression, printNode, Project, QuoteKind, SourceFile, SyntaxKind } from "ts-morph"
 import { abortOnState } from "./prompt-helpers"
+import { injectThemeImportIntoGlobals } from "./setup/inject-theme-import"
 import { makeSubframeContentGlob, makeSubframeRequire } from "./transforms/tailwind"
 
 function printManualTailwindSteps(cwd: string, subframeDirPath: string, prependText: string) {
@@ -36,7 +38,7 @@ function _getQuoteChar(configObject: ObjectLiteralExpression) {
 
 export async function setupTailwindV3(
   { projectPath: cwd, rootPath: subframeDirPath }: { projectPath: string; rootPath: string },
-  opts: { tailwind?: boolean },
+  opts: { tailwind?: boolean; themeCssFile?: CodeGenFileValid; globalCssPath?: string },
 ) {
   const subframePresetRequireAST = makeSubframeRequire(cwd, subframeDirPath)
   const subframeContentGlob = makeSubframeContentGlob(cwd, subframeDirPath)
@@ -56,46 +58,51 @@ export async function setupTailwindV3(
       subframeDirPath,
       "Subframe could not find a tailwind.config.js or tailwind.config.ts file. To configure it manually:",
     )
-    return
+  } else {
+    /** config before transformations */
+    const initialText = tailwindConfig.print()
+
+    // naïve heuristics to check that the
+    // subframe preset and content glob have
+    // been properly set up
+    const alreadyConfigured =
+      initialText.indexOf(
+        // example: require("./<path-to-subframe>/tailwind.config.js")
+        printNode(subframePresetRequireAST),
+      ) !== -1 &&
+      initialText.indexOf(
+        // example: "./<path-to-subframe>/**/*.{tsx,ts,js,jsx}"
+        subframeContentGlob,
+      ) !== -1
+
+    if (!alreadyConfigured) {
+      prompts.override({
+        updateTailwindConfig: opts.tailwind,
+      })
+      const response = await prompts({
+        type: "confirm",
+        name: "updateTailwindConfig",
+        initial: true,
+        message: "Do you want Subframe to configure your Tailwind config?",
+        onState: abortOnState,
+      })
+      if (response.updateTailwindConfig) {
+        const spinner = ora("Updating Tailwind config").start()
+        transformTailwindConfigFile(tailwindConfig, cwd, subframeDirPath)
+        await tailwindConfig.save()
+        spinner.succeed("Tailwind config updated")
+      }
+    }
   }
 
-  /** config before transformations */
-  const initialText = tailwindConfig.print()
-
-  // naïve heuristics to check that the
-  // subframe preset and content glob have
-  // been properly set up
-  if (
-    initialText.indexOf(
-      // example: require("./<path-to-subframe>/tailwind.config.js")
-      printNode(subframePresetRequireAST),
-    ) !== -1 &&
-    initialText.indexOf(
-      // example: "./<path-to-subframe>/**/*.{tsx,ts,js,jsx}"
-      subframeContentGlob,
-    ) !== -1
-  ) {
-    return
+  if (opts.themeCssFile) {
+    await injectThemeImportIntoGlobals({
+      projectPath: cwd,
+      subframeDirPath,
+      globalCssPath: opts.globalCssPath,
+      tailwindOptInOverride: opts.tailwind,
+    })
   }
-
-  prompts.override({
-    updateTailwindConfig: opts.tailwind,
-  })
-  const response = await prompts({
-    type: "confirm",
-    name: "updateTailwindConfig",
-    initial: true,
-    message: "Do you want Subframe to configure your Tailwind config?",
-    onState: abortOnState,
-  })
-  if (!response.updateTailwindConfig) {
-    return
-  }
-
-  const spinner = ora("Updating Tailwind config").start()
-  transformTailwindConfigFile(tailwindConfig, cwd, subframeDirPath)
-  await tailwindConfig.save()
-  spinner.succeed("Tailwind config updated")
 }
 
 // helper function that's exported for testing

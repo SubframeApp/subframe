@@ -71,7 +71,10 @@ export const initCommand = new Command()
       "tailwind-v4",
     ]),
   )
-  .option(`${COMMAND_CSS_PATH_KEY_SHORT}, ${COMMAND_CSS_PATH_KEY} <path>`, "path to global CSS file (for Tailwind v4)")
+  .option(
+    `${COMMAND_CSS_PATH_KEY_SHORT}, ${COMMAND_CSS_PATH_KEY} <path>`,
+    "path to global CSS file (used for Tailwind v4, and for Tailwind v3 when dark mode is enabled)",
+  )
 
 initCommand.action(async (opts) => {
   const cliLogger = makeCLILogger()
@@ -101,7 +104,7 @@ initCommand.action(async (opts) => {
       projectIdOverride: projectIdFromOpts,
     })
 
-    const { styleFile, oldImportAlias, projectInfo } = await initProject({
+    const { styleFile, themeCssFile, oldImportAlias, projectInfo } = await initProject({
       cliLogger,
       accessToken,
       truncatedProjectId: truncatedProjectIdToUse,
@@ -136,6 +139,10 @@ initCommand.action(async (opts) => {
     const absPath = join(rootPath, styleFile.fileName)
     await writeFile(absPath, styleFile.contents)
 
+    if (themeCssFile) {
+      await writeFile(join(rootPath, themeCssFile.fileName), themeCssFile.contents)
+    }
+
     if (oldImportAlias !== importAlias) {
       console.log(`Change in import alias detected. Before: "${oldImportAlias}", After: "${importAlias}"`)
 
@@ -169,12 +176,17 @@ initCommand.action(async (opts) => {
       }
     }
 
+    const globalCssPath = opts.cssPath ?? styleInfo.globalCssPath
+
     switch (styleInfo.cssType) {
       case "tailwind":
-        await setupTailwindV3({ projectPath, rootPath }, opts)
+        await setupTailwindV3(
+          { projectPath, rootPath },
+          { globalCssPath, themeCssFile, tailwind: opts.tailwind },
+        )
         break
       case "tailwind-v4":
-        await setupTailwindV4({ projectPath, rootPath }, { globalCssPath: styleInfo.globalCssPath, ...opts })
+        await setupTailwindV4({ projectPath, rootPath }, { globalCssPath, tailwind: opts.tailwind })
         break
       default:
         throw new Error(`Invalid css type: ${JSON.stringify(styleInfo)}`)
