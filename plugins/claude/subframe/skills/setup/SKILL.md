@@ -199,6 +199,12 @@ After init, verify everything was set up correctly. If the CLI missed something 
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   ```
 
+  If the Subframe project has dark mode enabled, the CLI also syncs a `theme.css` file with CSS variables for light and dark modes. The global CSS file must import it:
+
+  ```css
+  @import "./ui/theme.css";
+  ```
+
 - **Tailwind v4** — Global CSS file should import the theme:
   ```css
   @import "tailwindcss";
