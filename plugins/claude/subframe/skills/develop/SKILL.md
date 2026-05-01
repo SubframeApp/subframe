@@ -49,7 +49,7 @@ Use this workflow when the user chose to use the design as inspiration in an exi
 // By URL
 get_page_info({ url: "https://app.subframe.com/PROJECT_ID/design/PAGE_ID/edit" })
 
-// By ID (e.g., from /subframe:design)
+// By ID (e.g., from get_flow_info on a design_page flowId, or a pasted MCP link)
 get_page_info({ id: "PAGE_ID", projectId: "PROJECT_ID" })
 
 // By name

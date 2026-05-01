@@ -30,11 +30,14 @@ Once configured, your AI assistant can access Subframe automatically when you pr
 | `list_pages`         | Lists all pages in your project              | `projectId`                                       | Array of pages with `id`, `name`, `url`      |
 | `get_component_info` | Gets the code and metadata for a component   | `id`, `name`, or `url`<br/>`projectId`            | `id`, `name`, `files`                        |
 | `get_page_info`      | Gets the code for a page                     | `id`, `name`, or `url`<br/>`projectId`            | `id`, `name`, `files`                        |
+| `get_flow_info`      | Gets a flow with its name and ordered list of pages. A flow groups related pages together (e.g. an onboarding flow). | `id`, `name`, or `url`<br/>`projectId`            | `id`, `name`, `pages` (array of `id`, `name`) |
 | `get_theme`          | Generates the Tailwind theme for the project | `projectId`<br/>`cssType` (optional)              | `theme` config                               |
 | `edit_theme`         | Updates the Tailwind theme for the project   | `id`, `name`, or `url`<br/>`projectId`            | `editUrl`                                    |
-| `design_page`        | Designs UI pages in Subframe. Use to build new UI, iterate on existing UI, explore options, or get a visual starting point to refine. | `description`, `variations` (1, 2, or 4 objects with `name` and `description`), `flowName`<br/>`projectId`, `codeContext` (optional), `additionalPages` (optional) | `pageId`, `reviewUrl` |
+| `design_page`        | Designs UI pages in Subframe. Use to build new UI, iterate on existing UI, explore options, or get a visual starting point to refine. All requested variations land as pages in a single Subframe flow when the user opens the review URL. | `description`, `variations` (1, 2, or 4 objects with `name` and `description`), `flowName`<br/>`projectId`, `codeContext` (optional), `additionalPages` (optional) | `flowId`, `requestId`, `reviewUrl` |
 | `edit_page`          | Edits an existing Subframe page. Use for targeted changes to an existing page. Describe the changes you want, optionally including code snippets for precision. The edit is applied immediately. | `id`, `name`, or `url`<br/>`description`<br/>`projectId` | `pageUrl` |
-| `get_variations`     | Gets the status and generated code for variations from a `design_page` call. Use to retrieve variation code for iterating on designs. | `pageId` | `status`, `currentPageCode` (string or null), `variations` (array of `name`, `state`, `code`) |
+| `get_variations`     | Gets the status and generated code for variations from a `design_page` call. Useful for reading variation code before the user has opened the review URL — once they have, prefer `get_flow_info` + `get_page_info` for the live page state. | `requestId` | `status`, `variations` (array of `name`, `state`, `code`, `pageId` — `pageId` is null until the user opens the review URL and the variation lands in the project) |
+
+`design_page` returns two ids: `flowId` for working with the destination flow (long-lived, shared by multiple `design_page` calls with the same `flowName`) and `requestId` for the specific call (used to poll variation code mid-stream via `get_variations`).
 
 ### Prompt with MCP link
 
