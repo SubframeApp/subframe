@@ -7,6 +7,8 @@ import type {
   InitProjectRequest,
   InitProjectResponse,
   ListProjectsResponse,
+  ListThemesRequest,
+  ListThemesResponse,
   PushComponentRequest,
   PushComponentResponse,
   StartImportRequest,
@@ -70,10 +72,24 @@ export async function apiListProjects(token: string): Promise<ListProjectsRespon
   })
 }
 
-export async function apiInitProject(token: string, { truncatedProjectId, cssType }: InitProjectRequest) {
+export async function apiInitProject(
+  token: string,
+  { truncatedProjectId, cssType, themeId }: InitProjectRequest,
+) {
   return http<InitProjectRequest, InitProjectResponse>(`${BASE_URL}/api/cli/init`, {
     method: "POST",
-    body: { truncatedProjectId, cssType },
+    body: { truncatedProjectId, cssType, themeId },
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+  })
+}
+
+export async function apiListThemes(
+  token: string,
+  { truncatedProjectId }: ListThemesRequest,
+): Promise<ListThemesResponse> {
+  return http<ListThemesRequest, ListThemesResponse>(`${BASE_URL}/api/cli/list-themes`, {
+    method: "POST",
+    body: { truncatedProjectId },
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
   })
 }
@@ -92,11 +108,11 @@ export async function apiUpdateImportAlias(
 
 export async function apiSyncProject(
   token: string,
-  { truncatedProjectId, components, importAlias, cssType }: SyncProjectRequest,
+  { truncatedProjectId, components, importAlias, cssType, themeId }: SyncProjectRequest,
 ) {
   return http<SyncProjectRequest, SyncProjectResponse>(`${BASE_URL}/api/cli/sync`, {
     method: "POST",
-    body: { truncatedProjectId, components, importAlias, cssType },
+    body: { truncatedProjectId, components, importAlias, cssType, themeId },
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
   })
 }

@@ -17,6 +17,7 @@ export interface SyncSettingsConfig {
   projectId?: TruncatedProjectId
   teamId?: number
   cssType?: "tailwind" | "tailwind-v4"
+  themeId?: string
 }
 
 export function getLocalSyncSettings(cwd: string): SyncSettingsConfig | null {
@@ -71,6 +72,7 @@ export async function setupSyncSettings(
     projectId: options.projectId,
     teamId: options.teamId,
     cssType: options.cssType,
+    themeId: options.themeId,
   }
 
   if (!options.directory) {
@@ -136,6 +138,7 @@ export async function setupSyncSettings(
     projectId: options.projectId,
     teamId: options.teamId,
     cssType: options.cssType,
+    themeId: options.themeId,
   }
 }
 

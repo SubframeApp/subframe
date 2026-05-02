@@ -25,6 +25,7 @@ import {
   COMMAND_TAILWIND_KEY,
   COMMAND_TAILWIND_KEY_SHORT,
   COMMAND_TEMPLATE_KEY,
+  COMMAND_THEME_KEY,
   DEFAULT_SUBFRAME_TS_ALIAS,
 } from "shared/constants"
 import { TruncatedProjectId } from "shared/types"
@@ -33,7 +34,7 @@ import { apiUpdateImportAlias } from "./api-endpoints"
 import { localSyncSettings } from "./common"
 import { storeToken } from "./config"
 import { SUBFRAME_INIT_MESSAGE } from "./constants"
-import { initProject, selectProject } from "./init-project"
+import { initProject, selectProject, selectTheme } from "./init-project"
 import { initSync } from "./init-sync"
 import { installDependencies } from "./install-dependencies"
 import { makeCLILogger } from "./logger/logger-cli"
@@ -75,6 +76,10 @@ export const initCommand = new Command()
     `${COMMAND_CSS_PATH_KEY_SHORT}, ${COMMAND_CSS_PATH_KEY} <path>`,
     "path to global CSS file (used for Tailwind v4, and for Tailwind v3 when dark mode is enabled)",
   )
+  .option(
+    `${COMMAND_THEME_KEY} <themeId>`,
+    "theme id to use (defaults to root theme; prompts if multiple themes exist)",
+  )
 
 initCommand.action(async (opts) => {
   const cliLogger = makeCLILogger()
@@ -104,11 +109,18 @@ initCommand.action(async (opts) => {
       projectIdOverride: projectIdFromOpts,
     })
 
+    const themeId = await selectTheme({
+      accessToken,
+      truncatedProjectId: truncatedProjectIdToUse,
+      themeIdOverride: opts.theme,
+    })
+
     const { styleFile, themeCssFile, oldImportAlias, projectInfo } = await initProject({
       cliLogger,
       accessToken,
       truncatedProjectId: truncatedProjectIdToUse,
       cssType: styleInfo.cssType,
+      themeId,
     })
 
     const truncatedProjectId = projectInfo.truncatedProjectId
@@ -125,6 +137,7 @@ initCommand.action(async (opts) => {
         projectId: truncatedProjectId,
         teamId: projectInfo.teamId,
         cssType: styleInfo.cssType,
+        themeId,
       },
       opts,
     )
@@ -193,7 +206,16 @@ initCommand.action(async (opts) => {
     }
 
     const syncDirectory = join(projectPath, directory)
-    await initSync(cliLogger, syncDirectory, truncatedProjectId, accessToken, importAlias, styleInfo.cssType, opts)
+    await initSync(
+      cliLogger,
+      syncDirectory,
+      truncatedProjectId,
+      accessToken,
+      importAlias,
+      styleInfo.cssType,
+      opts,
+      themeId,
+    )
     const { didInstall } = await installDependencies({ cwd: projectPath, didCreateNewProject }, opts)
 
     console.timeEnd(SUBFRAME_INIT_MESSAGE)

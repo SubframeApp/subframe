@@ -3,7 +3,7 @@ import prompts from "prompts"
 import { FAILED_TO_FETCH_PROJECT_ERROR } from "shared/constants"
 import { InitProjectResponse, TruncatedProjectId } from "shared/types"
 import { promptForNewAccessToken } from "./access-token"
-import { apiInitProject, apiListProjects } from "./api-endpoints"
+import { apiInitProject, apiListProjects, apiListThemes } from "./api-endpoints"
 import { CLILogger } from "./logger/logger-cli"
 import { highlight } from "./output/format"
 import { abortOnState } from "./prompt-helpers"
@@ -63,11 +63,13 @@ export async function initProject({
   accessToken,
   truncatedProjectId,
   cssType,
+  themeId,
 }: {
   cliLogger: CLILogger
   accessToken: string
   truncatedProjectId: TruncatedProjectId | undefined
   cssType: "tailwind" | "tailwind-v4"
+  themeId?: string
 }) {
   try {
     // NOTE: Important to return await so that we can catch the errors
@@ -75,6 +77,7 @@ export async function initProject({
       apiInitProject(accessToken, {
         truncatedProjectId,
         cssType,
+        themeId,
       }),
       {
         text: "Initializing Subframe project",
@@ -86,10 +89,52 @@ export async function initProject({
     if (error.message === FAILED_TO_FETCH_PROJECT_ERROR) {
       console.log("> Unable to fetch project. Try authenticating again.")
       const { token: newAccessToken } = await promptForNewAccessToken(cliLogger)
-      return initProject({ cliLogger, accessToken: newAccessToken, truncatedProjectId, cssType })
+      return initProject({ cliLogger, accessToken: newAccessToken, truncatedProjectId, cssType, themeId })
     }
 
     await cliLogger.trackWarningAndFlush("[CLI]: initProject failed", { error: error.toString() })
     throw error
   }
+}
+
+export async function selectTheme({
+  accessToken,
+  truncatedProjectId,
+  themeIdOverride,
+}: {
+  accessToken: string
+  truncatedProjectId: TruncatedProjectId
+  themeIdOverride?: string
+}): Promise<string | undefined> {
+  const { themes } = await oraPromise(apiListThemes(accessToken, { truncatedProjectId }), {
+    text: "Loading themes",
+    successText: "Loaded themes",
+    failText: "Failed to load themes",
+  })
+
+  if (themeIdOverride) {
+    const match = themes.find((t) => t.id === themeIdOverride)
+    if (match) return match.id
+    console.warn(`Theme id "${themeIdOverride}" not found in this project. Falling back to the root theme.`)
+    return undefined
+  }
+
+  if (themes.length <= 1) return undefined
+
+  const choices = themes.map((t) => ({
+    title: t.isRoot ? `${t.name} (root)` : t.name,
+    value: t.id,
+  }))
+
+  const { selectedThemeId } = await prompts({
+    type: "autocomplete",
+    name: "selectedThemeId",
+    message: "Which theme do you want to use?",
+    choices,
+    suggest: (input: string, choices: prompts.Choice[]) =>
+      Promise.resolve(choices.filter((c) => c.title.toLowerCase().includes(input.toLowerCase()))),
+    onState: abortOnState,
+  })
+
+  return selectedThemeId
 }

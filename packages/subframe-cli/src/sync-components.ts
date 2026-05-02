@@ -18,6 +18,7 @@ export async function syncComponents({
   importAlias,
   syncDirectory,
   cssType,
+  themeId,
 }: {
   cliLogger: CLILogger
   components: string[]
@@ -26,6 +27,7 @@ export async function syncComponents({
   importAlias: string
   syncDirectory: string
   cssType: "tailwind" | "tailwind-v4"
+  themeId?: string
 }) {
   const { definitionFiles, otherFiles, missingComponents, projectInfo } = await oraPromise(
     apiSyncProject(accessToken, {
@@ -33,6 +35,7 @@ export async function syncComponents({
       components,
       importAlias,
       cssType,
+      themeId,
     }),
     {
       text: "Syncing Subframe components",

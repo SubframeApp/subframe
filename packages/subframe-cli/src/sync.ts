@@ -68,6 +68,7 @@ export const syncCommand = new Command()
         importAlias,
         syncDirectory,
         cssType: localSyncSettings.cssType ?? "tailwind",
+        themeId: localSyncSettings.themeId,
       })
 
       await installDependencies({ cwd, didCreateNewProject: false }, opts)

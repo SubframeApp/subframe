@@ -12,6 +12,7 @@ export async function initSync(
   importAlias: string,
   cssType: "tailwind" | "tailwind-v4",
   opts: { sync?: boolean },
+  themeId?: string,
 ) {
   prompts.override({
     sync: opts.sync,
@@ -29,5 +30,14 @@ export async function initSync(
     return
   }
 
-  await syncComponents({ cliLogger, components: [], projectId, accessToken, importAlias, syncDirectory, cssType })
+  await syncComponents({
+    cliLogger,
+    components: [],
+    projectId,
+    accessToken,
+    importAlias,
+    syncDirectory,
+    cssType,
+    themeId,
+  })
 }
