@@ -5,24 +5,98 @@ description: Add a dark mode toggle to your app using Subframe's generated theme
 
 import CliSyncAllCommand from "/snippets/cli-sync-all-command.mdx"
 
-When [dark mode](/learn/theme/dark-mode) is enabled in your theme, the CLI generates CSS variables that switch between light and dark values. Activate dark mode by adding the `dark` class to the `<html>` element.
+When you [enable dark mode](/learn/theme/dark-mode) in your theme, the CLI generates your color tokens as CSS variables instead of hardcoded values. Light mode values load by default, and dark mode values activate when a `dark` class is present on the page. This guide covers how to toggle between them.
+
+## How the generated code works
+
+<Tabs>
+<Tab title="Tailwind v3">
+
+The CLI syncs two files:
+
+- **`tailwind.config.js`** — references CSS variables instead of hardcoded values, with `darkMode: 'selector'` enabled
+- **`theme.css`** — defines `:root` variables for light mode and `.dark` overrides for dark mode
+
+```js tailwind.config.js
+module.exports = {
+  darkMode: 'selector',
+  theme: {
+    extend: {
+      colors: {
+        "brand-primary": "rgb(var(--color-brand-primary) / <alpha-value>)",
+        // ... all color tokens as CSS variable references
+      },
+    },
+  },
+}
+```
+
+```css theme.css
+:root {
+  --color-brand-primary: 26 26 26;
+  --color-default-background: 252 252 252;
+  /* ... light mode values */
+}
+
+.dark {
+  --color-brand-primary: 212 212 212;
+  --color-default-background: 10 10 10;
+  /* ... dark mode overrides */
+}
+```
+
+Import `theme.css` in your global stylesheet or entry point:
+
+```css globals.css
+@import "./subframe/theme.css";
+```
+
+</Tab>
+<Tab title="Tailwind v4">
+
+The generated `theme.css` includes a `@custom-variant` for dark mode and a `.dark` block with overrides:
+
+```css theme.css
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand-primary: rgb(26 26 26);
+  --color-default-background: rgb(252 252 252);
+  /* ... light mode values */
+}
+
+.dark {
+  --color-brand-primary: rgb(212 212 212);
+  --color-default-background: rgb(10 10 10);
+  /* ... dark mode overrides */
+}
+```
+
+</Tab>
+</Tabs>
 
 ## Sync your theme
 
-<CliSyncAllCommand />
+Run the CLI to sync your theme (including dark mode) to your codebase:
 
-The CLI generates `:root` variables for light mode and `.dark` overrides for dark mode. See [Exporting theme](/learn/theme/exporting-theme) for details on the generated output.
+<CliSyncAllCommand />
 
 ## Add a toggle
 
+To switch between light and dark mode, your app needs to toggle the `dark` class on the `<html>` element. Here's how to set that up:
+
 <Tabs>
 <Tab title="Next.js (next-themes)">
+
+<Steps>
+  <Step title="Install next-themes">
 
 ```bash
 npm install next-themes
 ```
 
-Wrap your app in the `ThemeProvider`:
+  </Step>
+  <Step title="Wrap your app in the ThemeProvider">
 
 ```tsx app/layout.tsx
 import { ThemeProvider } from "next-themes"
@@ -40,7 +114,8 @@ export default function RootLayout({ children }) {
 }
 ```
 
-Add a toggle button:
+  </Step>
+  <Step title="Add a toggle button">
 
 ```tsx
 import { useTheme } from "next-themes"
@@ -56,10 +131,14 @@ export function ThemeToggle() {
 }
 ```
 
+  </Step>
+</Steps>
+
 </Tab>
 <Tab title="Vite / React">
 
-Use a context provider to manage theme state:
+<Steps>
+  <Step title="Create a ThemeProvider">
 
 ```tsx ThemeProvider.tsx
 import { createContext, useContext, useEffect, useState } from "react"
@@ -86,6 +165,39 @@ export function ThemeProvider({ children }) {
 
 export const useTheme = () => useContext(ThemeContext)
 ```
+
+  </Step>
+  <Step title="Wrap your app">
+
+```tsx main.tsx
+import { ThemeProvider } from "./ThemeProvider"
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <ThemeProvider>
+    <App />
+  </ThemeProvider>
+)
+```
+
+  </Step>
+  <Step title="Add a toggle button">
+
+```tsx
+import { useTheme } from "./ThemeProvider"
+
+export function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme()
+
+  return (
+    <button onClick={toggleTheme}>
+      {theme === "dark" ? "Light mode" : "Dark mode"}
+    </button>
+  )
+}
+```
+
+  </Step>
+</Steps>
 
 </Tab>
 </Tabs>
