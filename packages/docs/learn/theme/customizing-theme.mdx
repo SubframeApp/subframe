@@ -11,7 +11,7 @@ Click **Theme** in the top navigation, or press <kbd>Cmd</kbd> + <kbd>K</kbd> an
 
 The theme page has a left sidebar for navigating between sections: Colors, Typography, Borders, Corners, and Shadows. Click any section to scroll to it.
 
-The Colors section header contains the main actions: **Ask AI**, **Import tokens**, **Export**, and a **⋯** menu with **Reset theme** and **Show version history**.
+The Colors section header contains the main actions: **Ask AI**, **Import tokens**, **Export**, and a **â¯** menu with **Reset theme** and **Show version history**.
 
 All changes save automatically and apply immediately across your project.
 
@@ -25,7 +25,7 @@ Use Ask AI to update your theme from a prompt:
 
 1. Click **Ask AI** in the sidebar
 2. Describe your changes: "warmer tones, rounder corners", "make it brutalist", or "retro theme with muted colors and bold typography"
-3. Review the preview — AI updates colors, typography, corners, and shadows
+3. Review the preview â AI updates colors, typography, corners, and shadows
 4. Click **Apply** to update your theme
 
 Ask AI can also rename or delete tokens when the changes call for it. All component references update automatically.
@@ -42,9 +42,9 @@ Subframe organizes colors into **color tokens** grouped by **folders**.
 <div className="bg-neutral-100 text-default-font">Neutral background with default text color</div>
 ```
 
-**Color tokens** define individual colors for your design system. They can be used for specific UI purposes like Brand Primary, Default Background, or Neutral Border. Tokens can reference other tokens as aliases (e.g. Brand Primary → Brand 700).
+**Color tokens** define individual colors for your design system. They can be used for specific UI purposes like Brand Primary, Default Background, or Neutral Border. Tokens can reference other tokens as aliases (e.g. Brand Primary â Brand 700).
 
-**Folders** group related color tokens together. Organize tokens however you want — by brand, by feature, by shade scale, or any grouping that fits your system. A default **Colors** folder holds standalone tokens.
+**Folders** group related color tokens together. Organize tokens however you want â by brand, by feature, by shade scale, or any grouping that fits your system. A default **Colors** folder holds standalone tokens.
 
 To quickly add tokens from an existing design system, see [Importing tokens](/learn/theme/importing-tokens).
 
@@ -70,6 +70,16 @@ To quickly add tokens from an existing design system, see [Importing tokens](/le
 
 Click any token to open color picker. Set a direct color value or reference another token as an alias.
 
+### Dark mode
+
+Add dark mode to define separate light and dark values for your color tokens.
+
+1. Click **Add dark mode** in the Colors section header
+2. Each token shows light and dark values — edit the dark values to build your dark palette
+3. Preview with the light/dark toggle in the toolbar
+
+For more on designing with dark mode, see [Dark mode](/learn/theme/dark-mode). To add a toggle in your app, see the [Dark mode toggle](/guides/dark-mode) developer guide.
+
 ## Typography
 
 Text tokens define typography styles with font family, size, weight, line height, and letter spacing.
@@ -91,10 +101,10 @@ New tokens duplicate the properties from the first token. Typography tokens auto
 
 Click any text token to edit:
 
-- **Font size** — Pixel value
-- **Line height** — Pixel value
-- **Font weight** — Slider based on font's supported weights
-- **Letter spacing** — Slider from `-0.05em` to `0.05em`
+- **Font size** â Pixel value
+- **Line height** â Pixel value
+- **Font weight** â Slider based on font's supported weights
+- **Letter spacing** â Slider from `-0.05em` to `0.05em`
 
 ### Changing font families
 
@@ -131,9 +141,9 @@ When generating code, border styles turn into explicit values for the border:
 
 Click any border token to edit:
 
-- **Border style** — Solid or dashed
-- **Border size** — Pixel width
-- **Border color** — Color token reference or direct value
+- **Border style** â Solid or dashed
+- **Border size** â Pixel width
+- **Border color** â Color token reference or direct value
 
 ## Corners
 
@@ -177,11 +187,11 @@ Shadow tokens auto-sort based on perceived shadow effect.
 
 Click any shadow token to edit individual shadow layers. Each layer has:
 
-- **Inset** — Whether shadow appears inside element
-- **X/Y offset** — Horizontal and vertical offset in pixels
-- **Blur radius** — Blur amount in pixels
-- **Spread radius** — Spread amount in pixels
-- **Color** — Shadow color with opacity
+- **Inset** â Whether shadow appears inside element
+- **X/Y offset** â Horizontal and vertical offset in pixels
+- **Blur radius** â Blur amount in pixels
+- **Spread radius** â Spread amount in pixels
+- **Color** â Shadow color with opacity
 
 Add multiple layers for complex shadow effects.
 
@@ -193,7 +203,7 @@ Add multiple layers for complex shadow effects.
 
 Apply a theme preset to start fresh:
 
-1. Click **⋯** in the sidebar and select **Reset theme**
+1. Click **â¯** in the sidebar and select **Reset theme**
 2. Browse 10 preset styles
 3. Customize brand colors, fonts, and corner radius
 4. Toggle between Light and Dark mode
@@ -206,7 +216,7 @@ Each preset configures color palettes (brand, neutral, error, success, warning),
 
 View and restore previous versions of your theme:
 
-1. Click **⋯** in the sidebar and select **Version history**
+1. Click **â¯** in the sidebar and select **Version history**
 2. Browse the timeline and select a version to preview
 3. Click **Restore** to revert to that version
 
@@ -214,4 +224,4 @@ Select **Exit version history** from the same menu to return to editing.
 
 ## Limitations
 
-**Spacing not configurable** — Spacing tokens (padding, gaps) use Tailwind defaults. Extend your Tailwind config manually for custom spacing in your codebase.
+**Spacing not configurable** â Spacing tokens (padding, gaps) use Tailwind defaults. Extend your Tailwind config manually for custom spacing in your codebase.

@@ -1,0 +1,38 @@
+---
+title: Dark mode
+description: Define light and dark color values for your theme.
+---
+
+Dark mode lets you define separate color values for light and dark appearances across your project.
+
+## Adding dark mode
+
+1. Open **Theme** in the top navigation
+2. In the Colors section, click **Add dark mode**
+3. Each color token now shows light and dark values side by side
+
+<Frame>
+  <img src="/images/theme/theme-dark-mode.png" alt="Colors section showing light and dark values for each color token" />
+</Frame>
+
+{/* TODO: Add screenshot of dark mode color tokens */}
+
+Edit the dark values to define your dark palette. Dark mode colors typically invert the scale: light mode's lightest shade becomes dark mode's darkest, and vice versa.
+
+You can also use [Ask AI](/learn/ask-ai/prompt-to-design) to generate dark mode values — try "generate dark mode colors" or "make the dark theme warmer."
+
+## Previewing dark mode
+
+Use the light/dark mode toggle in the toolbar to preview your pages and components in both modes. This lets you check contrast, readability, and overall appearance before syncing to code.
+
+## Removing dark mode
+
+In the Colors section, click **Remove dark mode**. This deletes all dark color overrides.
+
+<Warning>Removing dark mode is destructive. Use [version history](/learn/projects/version-history) to restore if needed.</Warning>
+
+## Syncing to code
+
+When dark mode is enabled, the CLI generates CSS variables that switch between light and dark values at runtime. See [Exporting theme](/learn/theme/exporting-theme) for what the generated config looks like.
+
+To add a dark mode toggle to your app, see the [Dark mode toggle](/guides/dark-mode) developer guide.
