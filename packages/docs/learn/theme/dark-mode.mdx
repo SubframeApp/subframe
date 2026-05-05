@@ -1,0 +1,34 @@
+---
+title: Dark mode
+description: Define light and dark color values for your theme.
+---
+
+import CliSyncAllCommand from "/snippets/cli-sync-all-command.mdx"
+
+Your theme supports light and dark color modes. When dark mode is enabled, each color token has separate light and dark values.
+
+## Adding dark mode
+
+1. Open **Theme** in the top navigation
+2. Click **Add dark mode** in the Colors section
+3. Edit the dark value for each color token
+
+{/* TODO: Add screenshot of dark mode color tokens */}
+
+Preview your designs in dark mode using the light/dark toggle in the toolbar.
+
+## Removing dark mode
+
+Click **Remove dark mode** in the Colors section. This deletes all dark color overrides.
+
+<Warning>Removing dark mode is destructive. Use [version history](/learn/projects/version-history) to restore if needed.</Warning>
+
+## Code export
+
+When dark mode is enabled, the CLI generates theme tokens as CSS variables with `:root` and `.dark` blocks so light and dark values switch at runtime. See [Exporting theme](/learn/theme/exporting-theme) for the full generated output.
+
+Run the CLI to sync your theme:
+
+<CliSyncAllCommand />
+
+To add a dark mode toggle to your app, see the [Dark mode toggle](/guides/dark-mode) guide.

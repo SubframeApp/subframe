@@ -1,110 +1,28 @@
 ---
-title: Dark mode
-description: Add dark mode to your project using Subframe's built-in theme support
+title: Dark mode toggle
+description: Add a dark mode toggle to your app using Subframe's generated theme.
 ---
 
 import CliSyncAllCommand from "/snippets/cli-sync-all-command.mdx"
 
-Subframe has built-in dark mode support. Enable it in your theme to define light and dark values side by side, then sync to get a fully configured Tailwind setup.
+When [dark mode](/learn/theme/dark-mode) is enabled in your theme, the CLI generates CSS variables that switch between light and dark values. Activate dark mode by adding the `dark` class to the `<html>` element.
 
-## Enable dark mode
-
-1. Open **Theme** in the top navigation
-2. In the Colors section, click **Add dark mode**
-3. Each token now shows light and dark values — edit the dark values to define your dark palette
-4. Preview your components and pages in both light and dark mode using the light/dark mode toggle in the toolbar
-
-<Tip>
-  Dark mode colors typically invert the scale: light mode's lightest shade becomes dark mode's darkest, and vice versa.
-</Tip>
-
-To remove dark mode, click **Remove dark mode** in the Colors section. This deletes all dark overrides. You can undo this using version history.
-
-## How the generated code works
-
-When dark mode is enabled, Subframe generates theme tokens as CSS variables so light and dark values can switch at runtime.
-
-<Tabs>
-<Tab title="Tailwind v3">
-
-The CLI syncs two files:
-
-- **`tailwind.config.js`** — references CSS variables instead of hardcoded values, with `darkMode: 'selector'` enabled
-- **`theme.css`** — defines `:root` variables for light mode and `.dark` overrides for dark mode
-
-```js tailwind.config.js
-module.exports = {
-  darkMode: 'selector',
-  theme: {
-    extend: {
-      colors: {
-        "brand-primary": "rgb(var(--color-brand-primary) / <alpha-value>)",
-        // ... all color tokens as CSS variable references
-      },
-    },
-  },
-}
-```
-
-```css theme.css
-:root {
-  --color-brand-primary: 26 26 26;
-  --color-default-background: 252 252 252;
-  /* ... light mode values */
-}
-
-.dark {
-  --color-brand-primary: 212 212 212;
-  --color-default-background: 10 10 10;
-  /* ... dark mode overrides */
-}
-```
-
-Import `theme.css` in your global stylesheet or entry point:
-
-```css globals.css
-@import "./subframe/theme.css";
-```
-
-</Tab>
-<Tab title="Tailwind v4">
-
-The generated `theme.css` includes a `@custom-variant` for dark mode and a `.dark` block with overrides:
-
-```css theme.css
-@custom-variant dark (&:where(.dark, .dark *));
-
-@theme {
-  --color-brand-primary: rgb(26 26 26);
-  --color-default-background: rgb(252 252 252);
-  /* ... light mode values */
-}
-
-.dark {
-  --color-brand-primary: rgb(212 212 212);
-  --color-default-background: rgb(10 10 10);
-  /* ... dark mode overrides */
-}
-```
-
-</Tab>
-</Tabs>
-
-## Sync to code
-
-Run the CLI to sync your theme (including dark mode) to your codebase:
+## Sync your theme
 
 <CliSyncAllCommand />
 
-## Enable dark mode in your app
+The CLI generates `:root` variables for light mode and `.dark` overrides for dark mode. See [Exporting theme](/learn/theme/exporting-theme) for details on the generated output.
 
-To activate dark mode, set the `dark` class on the `<html>` element. Here are a few ways to accomplish that:
+## Add a toggle
 
-### Next.js with next-themes
+<Tabs>
+<Tab title="Next.js (next-themes)">
 
 ```bash
 npm install next-themes
 ```
+
+Wrap your app in the `ThemeProvider`:
 
 ```tsx app/layout.tsx
 import { ThemeProvider } from "next-themes"
@@ -122,31 +40,7 @@ export default function RootLayout({ children }) {
 }
 ```
 
-### React with context
-
-```tsx ThemeProvider.tsx
-import { createContext, useContext, useEffect, useState } from "react"
-
-const ThemeContext = createContext({ theme: "light", toggleTheme: () => {} })
-
-export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState("light")
-
-  useEffect(() => {
-    const root = window.document.documentElement
-    root.classList.remove("light", "dark")
-    root.classList.add(theme)
-  }, [theme])
-
-  const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light")
-
-  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>
-}
-
-export const useTheme = () => useContext(ThemeContext)
-```
-
-### Theme toggle button
+Add a toggle button:
 
 ```tsx
 import { useTheme } from "next-themes"
@@ -154,30 +48,44 @@ import { useTheme } from "next-themes"
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
 
-  return <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>{theme === "dark" ? "☀️" : "🌙"}</button>
+  return (
+    <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+      {theme === "dark" ? "Light mode" : "Dark mode"}
+    </button>
+  )
 }
 ```
 
-## Best practices
+</Tab>
+<Tab title="Vite / React">
 
-<AccordionGroup>
-<Accordion title="Test both modes">
+Use a context provider to manage theme state:
 
-Always test your application in both light and dark modes. Check for:
+```tsx ThemeProvider.tsx
+import { createContext, useContext, useEffect, useState } from "react"
 
-- Sufficient contrast ratios (use browser DevTools)
-- Readability of all text
-- Visibility of borders and dividers
-- Proper styling of interactive states
+const ThemeContext = createContext({ theme: "light", toggleTheme: () => {} })
 
-</Accordion>
-<Accordion title="Respect system preferences">
+export function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+    }
+    return "light"
+  })
 
-Use the user's system preference as the default:
+  useEffect(() => {
+    document.documentElement.classList.remove("light", "dark")
+    document.documentElement.classList.add(theme)
+  }, [theme])
 
-```tsx
-<ThemeProvider attribute="class" defaultTheme="system">
+  const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light")
+
+  return <ThemeContext.Provider value=undefined>{children}</ThemeContext.Provider>
+}
+
+export const useTheme = () => useContext(ThemeContext)
 ```
 
-</Accordion>
-</AccordionGroup>
+</Tab>
+</Tabs>
