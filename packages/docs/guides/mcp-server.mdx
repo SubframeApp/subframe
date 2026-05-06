@@ -31,7 +31,7 @@ Once configured, your AI assistant can access Subframe automatically when you pr
 | `get_component_info` | Gets the code and metadata for a component   | `id`, `name`, or `url`<br/>`projectId`            | `id`, `name`, `files`                        |
 | `get_page_info`      | Gets the code for a page                     | `id`, `name`, or `url`<br/>`projectId`            | `id`, `name`, `files`                        |
 | `get_theme`          | Generates the Tailwind theme for the project | `projectId`<br/>`cssType` (optional)              | `theme` config                               |
-| `edit_theme`         | Updates the Tailwind theme for the project   | `id`, `name`, or `url`<br/>`projectId`            | `editUrl`                                    |
+| `edit_theme`         | Edits the visual theme (colors, fonts, corners, shadows) of a project. Best for targeted tweaks or high-level style changes. If a page is specified, returns a preview URL to review and apply; otherwise applies immediately. | `description`<br/>`id`, `name`, or `url` (optional)<br/>`projectId` (optional) | `editUrl` |
 | `design_page`        | Designs UI pages in Subframe. Use to build new UI, iterate on existing UI, explore options, or get a visual starting point to refine. | `description`, `variations` (1, 2, or 4 objects with `name` and `description`), `flowName`<br/>`projectId`, `codeContext` (optional), `additionalPages` (optional) | `pageId`, `reviewUrl` |
 | `edit_page`          | Edits an existing Subframe page. Use for targeted changes to an existing page. Describe the changes you want, optionally including code snippets for precision. The edit is applied immediately. | `id`, `name`, or `url`<br/>`description`<br/>`projectId` | `pageUrl` |
 | `get_variations`     | Gets the status and generated code for variations from a `design_page` call. Use to retrieve variation code for iterating on designs. | `pageId` | `status`, `currentPageCode` (string or null), `variations` (array of `name`, `state`, `code`) |
@@ -123,6 +123,13 @@ Get my Subframe theme configuration
 ## Troubleshooting
 
 <AccordionGroup>
+<Accordion title="Rate limit error on design_page">
+
+The `design_page` tool is rate-limited per user. If you hit the limit, wait a few minutes before calling `design_page` again.
+
+For targeted changes to an existing design, use `edit_page` instead — it is not subject to the same limit.
+
+</Accordion>
 <Accordion title="Authentication failed">
 
 Most clients authenticate via OAuth. If you're seeing authentication errors:
