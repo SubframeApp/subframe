@@ -31,7 +31,8 @@ Once configured, your AI assistant can access Subframe automatically when you pr
 | `get_component_info` | Gets the code and metadata for a component   | `id`, `name`, or `url`<br/>`projectId`            | `id`, `name`, `files`                        |
 | `get_page_info`      | Gets the code for a page                     | `id`, `name`, or `url`<br/>`projectId`            | `id`, `name`, `files`                        |
 | `get_theme`          | Generates the Tailwind theme for the project | `projectId`<br/>`cssType` (optional)              | `theme` config                               |
-| `edit_theme`         | Updates the Tailwind theme for the project   | `id`, `name`, or `url`<br/>`projectId`            | `editUrl`                                    |
+| `edit_theme`         | Edits the visual theme of a project (colors, fonts, corners, shadows) from a natural-language prompt. Best for targeted tweaks or high-level shifts. Optionally pass a page to preview the change before applying. | `description`<br/>`id`, `name`, or `url` (optional, page to preview)<br/>`projectId` | `editUrl`                                    |
+| `get_flow_info`      | Gets information about a flow, including the ordered list of pages it contains. | `id`, `name`, or `url`<br/>`projectId`            | `id`, `name`, `pages` (array of `id`, `name`) |
 | `design_page`        | Designs UI pages in Subframe. Use to build new UI, iterate on existing UI, explore options, or get a visual starting point to refine. | `description`, `variations` (1, 2, or 4 objects with `name` and `description`), `flowName`<br/>`projectId`, `codeContext` (optional), `additionalPages` (optional) | `pageId`, `reviewUrl` |
 | `edit_page`          | Edits an existing Subframe page. Use for targeted changes to an existing page. Describe the changes you want, optionally including code snippets for precision. The edit is applied immediately. | `id`, `name`, or `url`<br/>`description`<br/>`projectId` | `pageUrl` |
 | `get_variations`     | Gets the status and generated code for variations from a `design_page` call. Use to retrieve variation code for iterating on designs. | `pageId` | `status`, `currentPageCode` (string or null), `variations` (array of `name`, `state`, `code`) |
@@ -125,13 +126,12 @@ Get my Subframe theme configuration
 <AccordionGroup>
 <Accordion title="Authentication failed">
 
-Most clients authenticate via OAuth. If you're seeing authentication errors:
+The Subframe MCP server uses OAuth. If you're seeing authentication errors:
 
 - Try re-authenticating by reconnecting to the MCP server in your client
 - Check that you have the correct permissions for the project you're trying to access
 - Make sure your browser session is active when authenticating
-
-If your client doesn't support OAuth (e.g. Antigravity), authenticate using a Subframe token instead. Create a token at [**Settings > Access Tokens**](https://app.subframe.com/settings/tokens) and pass it as a header in your MCP configuration. See the [Other clients](#other-clients) installation tab for details.
+- Confirm your client supports MCP OAuth — Subframe access tokens are not accepted by the MCP server
 
 </Accordion>
 <Accordion title="AI not calling the server">
