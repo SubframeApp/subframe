@@ -134,6 +134,15 @@ Most clients authenticate via OAuth. If you're seeing authentication errors:
 If your client doesn't support OAuth (e.g. Antigravity), authenticate using a Subframe token instead. Create a token at [**Settings > Access Tokens**](https://app.subframe.com/settings/tokens) and pass it as a header in your MCP configuration. See the [Other clients](#other-clients) installation tab for details.
 
 </Accordion>
+<Accordion title="edit_theme, design_page, or edit_page not working">
+
+These tools require write access to your project. If you connected the MCP server before these tools were available, you may need to re-authorize to grant the updated permissions:
+
+1. Disconnect the Subframe MCP server in your client
+2. Reconnect and complete the OAuth flow again
+3. On the consent screen, confirm that the permissions include **Read and edit your project theme**
+
+</Accordion>
 <Accordion title="AI not calling the server">
 
 Make sure your AI tool:
