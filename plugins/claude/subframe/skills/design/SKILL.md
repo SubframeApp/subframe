@@ -4,7 +4,7 @@ description: Design UI pages in Subframe. Use when building new UI, iterating on
 argument-hint: "[description of what to design]"
 ---
 
-Design pages using the `design_page` and `edit_page` MCP tools. `design_page` creates AI-generated design variations that the user can preview and select. `edit_page` applies targeted changes directly to an existing Subframe page. Both produce designs the user can refine visually in the Subframe editor and then implement in code. Update the theme for the entire project using `edit_theme`.
+Design pages using the `design_page` and `edit_page` MCP tools. `design_page` creates a set of AI-generated design variations that auto-apply as pages in a Subframe flow as each variation finishes generating. `edit_page` applies targeted changes directly to an existing Subframe page. Both produce designs the user can refine visually in the Subframe editor and then implement in code. Update the theme for the entire project using `edit_theme`.
 
 **Don't write UI code directly.** Subframe generates production-ready React/Tailwind code that matches the design system. Design first, then implement with `/subframe:develop`.
 
@@ -44,7 +44,7 @@ You do not have to run `/subframe:setup` before designing. The `design_page` MCP
 3. **Decide: `design_page` or `edit_page`?** Then call the respective MCP tool:
    - **`design_page`** → Creating something new, exploring multiple directions, or redesigning existing UI where the user wants options to choose from
    - **`edit_page`** → Making targeted changes to a Subframe page that was just created in this session (via `design_page`) or that the user provided via an MCP link
-4. **Present the review URL** — This is the primary output. The user will preview and choose next steps.
+4. **Present the flow URL** — This is the primary output. The user opens it to watch variations appear as pages on the flow canvas as each one finishes generating.
 
 ## `design_page` — New Pages & Redesigns
 
@@ -68,7 +68,7 @@ How much context to gather and how many variations to generate depends on the ta
 
 **Always include when available:**
 
-- The existing page being discussed and similar existing pages (the single most valuable context). Use `additionalPages` for Subframe pages — pass the `pageId` returned by `design_page`, or the page ID from a pasted MCP link. Use `codeContext` for pages that only exist in the codebase.
+- The existing page being discussed and similar existing pages (the single most valuable context). Use `additionalPages` for Subframe pages — pass the page ID from a pasted MCP link, or a specific variation page ID the user has referenced. Use `codeContext` for pages that only exist in the codebase.
 - Components or patterns the user refers to or explicitly mentions (via `codeContext`)
 - Data types/interfaces for what the page will display (via `codeContext`)
 
@@ -102,7 +102,7 @@ More variations = more exploration. Fewer = more focused. Default to fewer when 
 When designing multiple related pages (flows, CRUD, etc.):
 
 1. Design the primary page first with more variations to establish the direction
-2. After user selects a variation, design remaining pages passing the relevant pages via `additionalPages` as context
+2. After the user has reviewed the variations in the flow editor, design remaining pages passing the relevant variation page(s) via `additionalPages`. Have the user paste an MCP link to the variation they want as reference, or use `get_flow_info` with the `flowId` to enumerate the pages in the flow and ask which to use.
 3. Use the same `flowName` to group related pages together
 
 ## `edit_page` — Targeted Edits to an Existing Page
@@ -123,30 +123,27 @@ The edit is applied immediately. Present the returned `pageUrl` to the user so t
 
 ## After Designing
 
-For `design_page`, present the `reviewUrl` as a clickable markdown link. The user will:
+For `design_page`, present the returned `flowUrl` as a clickable markdown link. The flow opens immediately; each variation appears as a new page on the canvas as it finishes generating. The user reviews them side-by-side on the flow canvas and may keep multiple, edit them, delete some, or just leave them all there — there's no formal "pick one" step.
 
-1. **Preview variations** — See each design option rendered in Subframe
-2. **Select a variation** — Choose the one that best fits their needs
-3. **Open in editor** — Refine visually in Subframe's full design editor
+From there, the user may continue refining in Subframe or return here and ask you to implement the design in code. Do NOT ask the user which variation they prefer or present variation options as a multiple choice in chat. Simply present the flow URL and let them know they can ask you to implement once they're ready.
 
-From there, the user may continue refining in Subframe or return here and ask you to implement the design in code. Do NOT ask the user which variation they prefer or present variation options as a multiple choice in chat. Variation selection happens in the Subframe editor, not here. Simply present the review URL and let them know they can ask you to implement the design once they're ready.
+If you need to enumerate the variation pages programmatically (e.g., to reference one in `additionalPages` or to read its current code with `get_page_info`), call `get_flow_info` with the `flowId` returned by `design_page` once generation has finished. The pages land in the flow as each variation completes, so reading them too early may return only the variations that have finished by that moment.
 
 For `edit_page`, the edit is applied immediately. Present the returned `pageUrl` as a clickable markdown link so the user can view the updated page in Subframe. The user can undo the edit in the editor if needed.
 
-Internally track the `pageId` from the response — you'll need it for `/subframe:develop`, `additionalPages` for future designs, or `edit_page` for future edits — but don't mention it to the user.
+Internally track the `flowId` returned by `design_page`. Don't surface it to the user. Use it with `get_flow_info` for follow-up flow-level operations, or pass the same `flowName` on subsequent `design_page` calls to keep new variations grouped in the same flow.
+
+For `/subframe:develop`, `additionalPages`, or `edit_page`, use specific page IDs the user has referenced (via pasted MCP link or while iterating in the editor), or call `get_flow_info` to look them up by name — `design_page` itself doesn't return individual page IDs since all variations land as separate pages on the canvas.
 
 ### Iterating on Variations
 
-Do NOT proactively call `get_variations` after `design_page`. The user reviews and selects variations in the Subframe editor, not in chat. Only call `get_variations` when the user comes back and explicitly asks to iterate on or combine designs — for example, "I like the layout from variation 1 but the color scheme from variation 3", or "keep the header from the current page but use the card layout from variation 2."
+The user reviews and refines variations in the Subframe editor, not in chat. When they come back asking to combine ideas, refine a specific direction, or iterate further:
 
-`get_variations` returns:
-- **`currentPageCode`** — The current page code if the user has already accepted a variation for this page, or `null` if no variation has been accepted yet. This reflects the live state of the page, including any edits the user made in the Subframe editor.
-- **`variations`** — The generated design variations from the most recent `design_page` call.
+- **They reference a specific variation** (by pasted MCP link, by name, or by describing it). If you need to find the variation's `pageId`, call `get_flow_info` with the `flowId` from the original `design_page` response — it returns the pages in the flow with names and IDs. Then use `edit_page` with that page's id for targeted changes, or call `design_page` with the page passed via `additionalPages` if they want a fresh set of options grounded in that direction.
+- **They want to mix variations** ("I like the layout from variation 1 but the colors from variation 3"). Ask them to paste the MCP links of the variations they want to combine (or use `get_flow_info` to look up page IDs by name), then call `design_page` with those pages via `additionalPages` and a description of the combination.
+- **They want to start over** ("none of these are right"). Call `design_page` again with a refined description and any reference pages via `additionalPages`. Use the same `flowName` to keep related work grouped.
 
-**Important:** The variations can be very token-heavy. After calling `get_variations`, extract `currentPageCode` from the response first — it determines your next step.
-
-- **`currentPageCode` exists** — The user already has a page. Use `edit_page` with a description incorporating ideas from the variations or the user's feedback. You don't need to deeply analyze every variation — just reference the ones the user mentions.
-- **`currentPageCode` is null** — The user hasn't accepted any variation yet. Use `design_page` to iterate, passing the relevant variation code via `codeContext` along with the user's feedback in the description. Note: this creates a new `pageId` — use it for subsequent `get_variations` calls.
+You don't have to read the generated variation code by default — Subframe renders the variations and the user reviews them visually in the flow editor, so summarizing them in chat usually isn't useful. When reading the code would genuinely help (the user asks what was generated, you're picking which variation to extend, etc.), call `get_flow_info` to enumerate the pages in the flow, then `get_page_info` for the specific variation you want to read.
 
 ### Updating Theme
 
