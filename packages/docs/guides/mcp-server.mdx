@@ -26,7 +26,7 @@ Once configured, your AI assistant can access Subframe automatically when you pr
 | -------------------- | -------------------------------------------- | ------------------------------------------------- | -------------------------------------------- |
 | `list_projects`      | Lists all projects you have access to        | —                                                 | Array of projects with `projectId`, `name`, `teamId`, `teamName` |
 | `generate_auth_token`| Generates a CLI auth token for a team        | `teamId`                                          | `authToken`                                  |
-| `get_project_info`   | Gets project info including design documentation written in the project | `projectId`                            | `id`, `name`, `docs` (array of `title`, `contents`) |
+| `get_project_info`   | Gets project info including design documentation | `projectId`                            | `id`, `name`, `docs` (array of `title`, `contents`) |
 | `list_components`    | Lists all components in your project         | `projectId`                                       | Array of components with `id`, `name`, `url` |
 | `list_pages`         | Lists all pages in your project              | `projectId`                                       | Array of pages with `id`, `name`, `url`      |
 | `get_component_info` | Gets the code and metadata for a component   | `id`, `name`, or `url`<br/>`projectId`            | `id`, `name`, `files`                        |
