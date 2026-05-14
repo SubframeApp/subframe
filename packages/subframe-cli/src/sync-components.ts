@@ -1,8 +1,8 @@
-import { mkdir, readFile, rm, writeFile } from "node:fs/promises"
+import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises"
 import { dirname, join } from "node:path"
 import { oraPromise } from "ora"
 import { ensureIsValidCodeGenFile, isCodeGenFileValid } from "shared/code-gen-type-helpers"
-import { IGNORE_UPDATE_KEYWORD } from "shared/constants"
+import { COMPONENT_WRAPPER_FILENAME, IGNORE_UPDATE_KEYWORD } from "shared/constants"
 import { SyncProjectResponse, TruncatedProjectId } from "shared/types"
 import { apiSyncProject } from "./api-endpoints"
 import { CLILogger } from "./logger/logger-cli"
@@ -84,6 +84,42 @@ export async function syncComponents({
   })
 
   /**
+   * Migrating the old flat layout into per-component directories. A component that previously
+   * synced as `components/Button.tsx` now syncs as `components/Button/Button.tsx`; without this
+   * the stale flat file lingers and wins Node module resolution over the new directory.
+   */
+  const migratedSyncDisabledFiles: string[] = []
+  await Promise.all(
+    validDefinitionFiles.map(async ({ file, folderName }) => {
+      // Only the per-component directory layout (nested folderName) supersedes a flat file, and
+      // the wrapper index.tsx is new in this layout so it never had a flat predecessor.
+      if (!folderName.includes("/") || file.fileName === COMPONENT_WRAPPER_FILENAME) {
+        return
+      }
+      const flatPath = join(syncDirectory, dirname(folderName), file.fileName)
+      let contents: Buffer
+      try {
+        contents = await readFile(flatPath)
+      } catch {
+        return // no stale flat file for this component
+      }
+
+      if (isFileContentsWriteable(contents)) {
+        // Not sync-disabled — the freshly generated nested files replace it.
+        return rm(flatPath)
+      }
+
+      // Sync-disabled: preserve the user's file by moving it unchanged to the new nested path.
+      // It stays sync-disabled, so the scan below ignores it and the server's generated file is
+      // skipped — the user's file keeps winning.
+      const newPath = join(syncDirectory, folderName, file.fileName)
+      await mkdir(dirname(newPath), { recursive: true })
+      await rename(flatPath, newPath)
+      migratedSyncDisabledFiles.push(newPath)
+    }),
+  )
+
+  /**
    * Removing all existing files and making map of files to ignore
    */
   const allAbsFilePaths = await getAllAbsFilePaths(syncDirectory)
@@ -120,4 +156,18 @@ export async function syncComponents({
       return writeFile(absFilePath, contents)
     }),
   )
+
+  if (migratedSyncDisabledFiles.length) {
+    await cliLogger.trackWarningAndFlush("[CLI]: migrated sync-disabled files to component directories", {
+      files: migratedSyncDisabledFiles.join(", "),
+      truncatedProjectId: projectInfo.truncatedProjectId,
+    })
+    console.log(
+      warning(
+        `The following sync-disabled files were moved into per-component directories:\n` +
+          migratedSyncDisabledFiles.map((file) => `  ${file}`).join("\n") +
+          `\nTheir relative imports may now be at the wrong depth (e.g. "../utils" needs to become "../../utils") — please review them.\n`,
+      ),
+    )
+  }
 }

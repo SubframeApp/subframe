@@ -226,7 +226,8 @@ describe("setupTailwindV3 + themeCssFile", () => {
         themeCssFile: {
           fileType: "css",
           fileName: "theme.css",
-          metadata: { type: "unknown" },
+          directory: "",
+          metadata: { type: "root-asset" },
           contents: ":root { --foo: red; }",
         },
       },
