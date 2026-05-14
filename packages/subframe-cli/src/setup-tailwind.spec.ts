@@ -20,8 +20,7 @@ vi.mock("./setup/inject-theme-import", async (importOriginal) => {
   const actual = await importOriginal<typeof import("./setup/inject-theme-import")>()
   return {
     ...actual,
-    injectThemeImportIntoGlobals: (args: Parameters<typeof actual.injectThemeImportIntoGlobals>[0]) =>
-      injectMock(args),
+    injectThemeImportIntoGlobals: (args: Parameters<typeof actual.injectThemeImportIntoGlobals>[0]) => injectMock(args),
   }
 })
 
@@ -214,10 +213,7 @@ describe("setupTailwindV3 + themeCssFile", () => {
   })
 
   it("does not inject the theme import when themeCssFile is absent", async () => {
-    await setupTailwindV3(
-      { projectPath: tmpRoot, rootPath: join(tmpRoot, "ui") },
-      { tailwind: false },
-    )
+    await setupTailwindV3({ projectPath: tmpRoot, rootPath: join(tmpRoot, "ui") }, { tailwind: false })
     expect(injectMock).not.toHaveBeenCalled()
   })
 

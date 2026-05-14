@@ -180,10 +180,7 @@ initCommand.action(async (opts) => {
 
     switch (styleInfo.cssType) {
       case "tailwind":
-        await setupTailwindV3(
-          { projectPath, rootPath },
-          { globalCssPath, themeCssFile, tailwind: opts.tailwind },
-        )
+        await setupTailwindV3({ projectPath, rootPath }, { globalCssPath, themeCssFile, tailwind: opts.tailwind })
         break
       case "tailwind-v4":
         await setupTailwindV4({ projectPath, rootPath }, { globalCssPath, tailwind: opts.tailwind })
