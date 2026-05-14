@@ -15,6 +15,10 @@ export const TAILWIND_CSS_EXPORT_FILENAME = "theme.css"
  * CLI-specific constants
  */
 
+export const CLI_VERSION_HEADER = "x-subframe-cli-version"
+
+export const CLI_UPGRADE_STATUS_CODE = 426
+
 /**
  * Commands
  *

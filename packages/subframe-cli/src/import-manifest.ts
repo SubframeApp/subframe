@@ -44,7 +44,12 @@ function parseManifest(raw: unknown) {
     if (!isStringArray(comp.supportingFiles)) {
       throw new Error(`Component '${comp.name}' must have a 'supportingFiles' array of file paths`)
     }
-    components.push({ name: comp.name, entrypoint: comp.entrypoint, sourceFiles: comp.sourceFiles, supportingFiles: comp.supportingFiles })
+    components.push({
+      name: comp.name,
+      entrypoint: comp.entrypoint,
+      sourceFiles: comp.sourceFiles,
+      supportingFiles: comp.supportingFiles,
+    })
   }
 
   return { theme: m.theme, components }

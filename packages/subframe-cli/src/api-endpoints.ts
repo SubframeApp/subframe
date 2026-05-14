@@ -1,5 +1,6 @@
 import nodeFetch, { BodyInit } from "node-fetch"
 import { ProxyAgent } from "proxy-agent"
+import { CLI_UPGRADE_STATUS_CODE, CLI_VERSION_HEADER } from "shared/constants"
 import { makeFetchWithRetries, prepareHttpBody } from "shared/http"
 import type {
   CreateImportSessionRequest,
@@ -17,7 +18,9 @@ import type {
   UpdateImportAliasResponse,
   VerifyTokenResponse,
 } from "shared/types"
+import packageJson from "../package.json"
 import { isDev } from "./common"
+import { error } from "./output/format"
 
 const BASE_URL = isDev ? "http://localhost:6501" : "https://app.subframe.com"
 
@@ -39,19 +42,27 @@ const http = async <TBody, TResponse>(
     },
   }: { method: "GET" | "POST"; body?: TBody; headers?: Record<string, string> },
 ): Promise<TResponse> => {
+  const requestHeaders = { ...headers, [CLI_VERSION_HEADER]: packageJson.version }
   const response = await fetchWithRetries(url, {
     method,
-    headers,
-    body: body ? prepareHttpBody<TBody, BodyInit>(body, headers) : undefined,
+    headers: requestHeaders,
+    body: body ? prepareHttpBody<TBody, BodyInit>(body, requestHeaders) : undefined,
     agent,
   })
 
   if (response.ok) {
     return response.json()
-  } else {
-    const { message } = await response.json()
-    throw new Error(message)
   }
+
+  const { message } = await response.json()
+
+  if (response.status === CLI_UPGRADE_STATUS_CODE) {
+    console.log()
+    console.error(error(message))
+    process.exit(1)
+  }
+
+  throw new Error(message)
 }
 
 export async function apiVerifyToken(token: string): Promise<VerifyTokenResponse> {
