@@ -21,9 +21,15 @@ Subframe supports the following theme formats for import:
       --color-brand-600: #2563eb;
       --color-neutral-100: #f5f5f5;
     }
+
+    .dark {
+      --color-brand-500: #60a5fa;
+      --color-brand-600: #3b82f6;
+      --color-neutral-100: #1f1f1f;
+    }
     ```
 
-    Subframe detects Tailwind v4 syntax automatically from `.css`, `.scss`, or `.less` files.
+    Subframe detects Tailwind v4 syntax automatically from `.css`, `.scss`, or `.less` files. Tokens declared inside a `.dark { }` block are imported as dark-mode values for their matching light tokens. Importing dark-mode tokens enables dark mode on your current theme automatically — see [Dark mode](/guides/dark-mode). Files with only a `.dark { }` block are also supported.
   </Tab>
   <Tab title="Tailwind config (v3)">
     Paste or upload `.js`, `.ts`, `.mjs`, or `.cjs` config files:
@@ -81,6 +87,8 @@ Subframe supports the following theme formats for import:
     - **Unchanged** — token already exists with the same value
 
     When your imported tokens reference other variables (e.g. `var(--color-brand-500)`), Subframe automatically maps these as **aliases** — references to other tokens rather than hard-coded values. Aliases can reference other tokens in the same import or existing tokens in your theme. If a referenced variable can't be resolved, it's converted to a direct color value.
+
+    If your input includes dark-mode tokens, the preview adds a **Light / Dark** toggle so you can review both palettes before importing.
   </Step>
   <Step title="Import">
     Click **Import** to update your theme. New tokens appear immediately in your theme, organized into folders matching the structure of your import. Use **Version History** to revert your import.
