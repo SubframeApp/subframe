@@ -24,6 +24,20 @@ Subframe supports the following theme formats for import:
     ```
 
     Subframe detects Tailwind v4 syntax automatically from `.css`, `.scss`, or `.less` files.
+
+    Include a `.dark` block to import dark mode values alongside their light counterparts. Subframe enables [dark mode](/guides/dark-mode) on the theme and pairs each `.dark` value with its matching light token:
+
+    ```css
+    @theme {
+      --color-brand-500: #3b82f6;
+    }
+
+    .dark {
+      --color-brand-500: #1e40af;
+    }
+    ```
+
+    Files that only contain a `.dark` block are also supported — Subframe creates standalone dark tokens you can later pair with light values.
   </Tab>
   <Tab title="Tailwind config (v3)">
     Paste or upload `.js`, `.ts`, `.mjs`, or `.cjs` config files:
@@ -98,7 +112,7 @@ You can export your Figma variables as design tokens and import them directly in
 
 You can upload multiple JSON files from different collections at once.
 ### Limitations:
-- Subframe currently supports a single mode. Import one mode (e.g. light OR dark), not both.
+- Figma JSON exports currently support a single mode per import. To bring in both light and dark values from Figma, import light first, then re-import dark — or use the [Tailwind CSS (v4)](#supported-formats) format with `.dark` blocks instead.
 - Figma does not export text styles as variables. Use a Figma plugin to export text tokens separately, or add text styles manually in your theme.
 
 ## Troubleshooting
