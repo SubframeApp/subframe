@@ -1,7 +1,7 @@
 import { Distinct } from "shared/ts-type-helpers"
 
-interface CodeGenFileUnknownMetadata {
-  type: "unknown"
+interface CodeGenFileRootAssetMetadata {
+  type: "root-asset"
 }
 
 export interface CodeGenFileDefinitionMetadata {
@@ -10,12 +10,28 @@ export interface CodeGenFileDefinitionMetadata {
   isPageComponent: boolean
 }
 
+export interface CodeGenFileDefinitionWrapperMetadata {
+  type: "definition-wrapper"
+  parentComponentId: string
+}
+
 interface CodeGenFileIconMetadata {
   type: "icon"
   id: string
 }
 
-export type CodeGenFileMetadata = CodeGenFileUnknownMetadata | CodeGenFileDefinitionMetadata | CodeGenFileIconMetadata
+export interface CodeGenFileDocumentMetadata {
+  type: "document"
+  id: string
+  parentComponentId: string
+}
+
+export type CodeGenFileMetadata =
+  | CodeGenFileRootAssetMetadata
+  | CodeGenFileDefinitionMetadata
+  | CodeGenFileDefinitionWrapperMetadata
+  | CodeGenFileIconMetadata
+  | CodeGenFileDocumentMetadata
 
 export type CodeGenErrorType = "format"
 
@@ -25,8 +41,11 @@ export interface CodeGenError {
 }
 
 interface CodeGenFileBase {
-  fileType: "css" | "tsx" | "ts" | "js"
+  fileType: "css" | "tsx" | "ts" | "js" | "md"
   fileName: string
+  // Directory the file should live in, relative to the project root. Empty string means the
+  // project root itself.
+  directory: string
   metadata: CodeGenFileMetadata
 }
 

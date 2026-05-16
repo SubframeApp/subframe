@@ -70,7 +70,7 @@ export default config
 
 ### Install Subframe
 
-We now want to install and configure Subframe in our new package. Let's do so by running the `@subframe/cli init` command.
+We now want to install and configure Subframe in our new package. Let's do so by running the `@subframe/cli@latest init` command.
 
 <CodeGroup>
 
@@ -94,7 +94,7 @@ cd packages/subframe && bunx --bun @subframe/cli@latest init --sync --dir ui
 
 <Warning>
   Make sure that you set the import alias to `@repo/subframe/*` during the initialization process. This will make sure that the code imports from Subframe will work within our UI apps later. 
-  If you forgot to set it, simply edit the importAlias key in your `.subframe/sync.json` file and run `@subframe/cli init` again to sync the changed import alias to your Subframe project.
+  If you forgot to set it, simply edit the importAlias key in your `.subframe/sync.json` file and run `@subframe/cli@latest init` again to sync the changed import alias to your Subframe project.
 
 ```json packages/subframe/.subframe/sync.json {3}
 {
@@ -117,8 +117,8 @@ We can easily achieve this by setting the `exports` field in our `package.json` 
   "private": true,
   "exports": {
     ".": "./ui/index.ts",
-    "./components/*": "./ui/components/*.tsx",
-    "./layouts/*": "./ui/layouts/*.tsx",
+    "./components/*": "./ui/components/*/index.tsx",
+    "./layouts/*": "./ui/layouts/*/index.tsx",
     "./tailwind-config": "./ui/tailwind.config.js"
   },
   "dependencies": {
@@ -130,6 +130,10 @@ We can easily achieve this by setting the `exports` field in our `package.json` 
   }
 }
 ```
+
+<Note>
+  Components and page layouts sync as directories (e.g. `components/Button/`), so each subpath export points at the directory's `index.tsx` wrapper rather than a flat `.tsx` file. Subpath patterns are literal — they don't resolve a directory to its `index`, so the `/index.tsx` must be explicit. See [Component directories](/upgrading/component-directories).
+</Note>
 
 ### Install the `@repo/subframe` package into your app
 

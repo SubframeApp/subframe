@@ -64,6 +64,12 @@
               "frameworks/monorepo",
               "frameworks/manual"
             ]
+          },
+          {
+            "group": "Upgrading",
+            "pages": [
+              "upgrading/component-directories"
+            ]
           }
         ]
       },

@@ -11,17 +11,7 @@
   "plugins": [
     {
       "name": "subframe",
-      "source": "./plugins/claude/subframe",
-      "description": "Design and build UIs with Subframe. Create pixel-perfect React + Tailwind pages using your design system, explore design variations, and implement with business logic.",
-      "version": "1.0.0",
-      "author": {
-        "name": "Subframe"
-      },
-      "homepage": "https://subframe.com",
-      "repository": "https://github.com/SubframeApp/subframe",
-      "keywords": ["design", "ui", "react", "tailwind", "components", "design-system"],
-      "category": "design",
-      "tags": ["design", "ui", "react", "tailwind", "frontend", "components", "design-system"]
+      "source": "./plugins/claude/subframe"
     }
   ]
 }
