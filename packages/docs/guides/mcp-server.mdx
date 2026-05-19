@@ -1,14 +1,14 @@
 ---
 title: MCP server
-description: Let AI coding assistants directly access your Subframe designs and documentation.
+description: Let AI coding assistants directly access and edit your Subframe designs and documentation.
 ---
 
 import McpSkillsInstall from "/snippets/mcp-skills-install.mdx"
 import CopyMcpLink from "/snippets/copy-mcp-link.mdx"
 
-Our MCP server lets AI coding assistants like Claude Code, Cursor, and Codex access your Subframe designs directly. Instead of copying code manually, AI can fetch components, pages, and themes from your projects automatically.
+The Subframe MCP server gives AI coding assistants like Claude Code, Cursor, and Codex direct access to your Subframe projects. AI can read, design, and delete pages, components, and snippets as well as write design documents and edit the theme.
 
-We also have a separate Subframe Docs MCP server that provides access to Subframe documentation (this site).
+A separate Subframe Docs MCP server gives AI access to Subframe documentation (this site).
 
 ## Installation
 
@@ -20,26 +20,86 @@ Once configured, your AI assistant can access Subframe automatically when you pr
 
 <CopyMcpLink />
 
-### Available tools
+## Available tools
 
-| Tool                 | Description                                  | Input Parameters                                  | Returns                                      |
-| -------------------- | -------------------------------------------- | ------------------------------------------------- | -------------------------------------------- |
-| `list_projects`      | Lists all projects you have access to        | —                                                 | Array of projects with `projectId`, `name`, `teamId`, `teamName` |
-| `generate_auth_token`| Generates a CLI auth token for a team        | `teamId`                                          | `authToken`                                  |
-| `get_project_info`   | Gets project info including design documentation | `projectId`                            | `id`, `name`, `docs` (array of `title`, `contents`) |
-| `list_components`    | Lists all components in your project         | `projectId`                                       | Array of components with `id`, `name`, `url` |
-| `list_pages`         | Lists all pages in your project              | `projectId`                                       | Array of pages with `id`, `name`, `url`      |
-| `get_component_info` | Gets the code and metadata for a component   | `id`, `name`, or `url`<br/>`projectId`            | `id`, `name`, `files`                        |
-| `get_page_info`      | Gets the code for a page                     | `id`, `name`, or `url`<br/>`projectId`            | `id`, `name`, `files`                        |
-| `get_flow_info`      | Gets a flow with its name and ordered list of pages. A flow groups related pages together (e.g. an onboarding flow). | `id`, `name`, or `url`<br/>`projectId`            | `id`, `name`, `pages` (array of `id`, `name`) |
-| `get_theme`          | Generates the Tailwind theme for the project | `projectId`<br/>`cssType` (optional)              | `theme` config                               |
-| `edit_theme`         | Edits the visual theme of a project (colors, fonts, corners, shadows) from a natural-language prompt. Best for targeted tweaks or high-level shifts. Optionally pass a page to preview the change before applying. | `description`<br/>`id`, `name`, or `url` (optional, page to preview)<br/>`projectId` | `editUrl`                                    |
-| `design_page`        | Designs UI pages in Subframe. Use to build new UI, iterate on existing UI, explore options, or get a visual starting point to refine. Each requested variation lands as a page in a single Subframe flow as it finishes generating. | `description`, `variations` (1, 2, or 4 objects with `name` and `description`), `flowName`<br/>`projectId`, `codeContext` (optional), `additionalPages` (optional) | `flowId`, `flowUrl` |
-| `edit_page`          | Edits an existing Subframe page. Use for targeted changes to an existing page. Describe the changes you want, optionally including code snippets for precision. The edit is applied immediately. | `id`, `name`, or `url`<br/>`description`<br/>`projectId` | `pageUrl` |
+The Subframe MCP server exposes tools across several categories. Most read tools take a `projectId`. If omitted, the first project the user has access to is used.
 
-`design_page` returns `flowId` for working with the destination flow (long-lived, shared by multiple `design_page` calls with the same `flowName`) and `flowUrl` for opening the flow editor. Read the variation pages via `get_flow_info` once they've finished generating.
+### Discovery
 
-### Prompt with MCP link
+| Tool | Description | Returns |
+| --- | --- | --- |
+| `list_projects` | Lists all projects you have access to | Array of `projectId`, `name`, `teamId`, `teamName` |
+| `generate_auth_token` | Generates a CLI auth token for a team | `authToken` |
+| `get_project_info` | Project metadata plus all project-level design documents | `id`, `name`, `docs` (array of `id`, `title`, `contents`) |
+
+### Pages
+
+| Tool | Description | Key inputs | Returns |
+| --- | --- | --- | --- |
+| `list_pages` | List all pages with the flow each belongs to | `projectId` | Array of `id`, `name`, `url`, `flowId`, `flowName` |
+| `get_page_info` | Generated React/Tailwind code for a page | `id`/`name`/`url`, `projectId` | `id`, `name`, `files` |
+| `design_page` | Generates 1-4 page variations as an asynchronous background job. Variations land as pages in a flow as they finish | `description`, `variations`, `flowName`, `projectId`, `codeContext?`, `additionalPages?` | `flowId`, `flowUrl`, `jobId` |
+| `edit_page` | Apply a targeted change to an existing page; applied immediately | `id`/`name`/`url`, `description`, `projectId` | `pageUrl` |
+| `delete_page` | Delete a page, removing it from its flow and stripping prototype actions referencing it. Refuses by default if referenced in other pages. Use `force: true` to delete anyway | `id`/`name`/`url`, `projectId`, `force?` | `deletedId`, `deletedName`, `references` |
+
+### Components
+
+| Tool | Description | Key inputs | Returns |
+| --- | --- | --- | --- |
+| `list_components` | List all components | `projectId` | Array of `id`, `name`, `url` |
+| `get_component_info` | Generated code plus attached design document | `id`/`name`/`url`, `projectId` | `id`, `name`, `files`, `designDocuments` |
+| `design_component` | Designs a new component as an asynchronous background job | `description`, `name`, `projectId` | `componentId`, `componentUrl`, `jobId` |
+| `edit_component` | Edit an existing component as an asynchronous background job. Propagates to every page using the component | `id`/`name`/`url`, `description`, `projectId` | `componentUrl`, `jobId` |
+| `delete_component` | Delete a component or page layout. Detaches instances or clears layouts. Refuses by default if in use. Use `force: true` to delete anyway | `id`/`name`/`url`, `projectId`, `force?` | `deletedId`, `deletedName`, `references` |
+
+### Snippets
+
+Snippets are small, standalone bits of UI typically embedded inside design documents as live examples (e.g. a "Button variants" snippet showing every Button state). They live within Subframe and do not sync out.
+
+| Tool | Description | Key inputs | Returns |
+| --- | --- | --- | --- |
+| `list_snippets` | List all snippets | `projectId` | Array of `id`, `name`, `url` |
+| `get_snippet_info` | Generated code for a snippet | `id`/`name`/`url`, `projectId` | `id`, `name`, `files` |
+| `design_snippet` | Design a new snippet | `description`, `name?`, `projectId`, `codeContext?`, `references?` | `snippetId`, `snippetUrl` |
+| `edit_snippet` | Edit an existing snippet | `id`/`name`/`url`, `description`, `projectId` | `snippetUrl` |
+| `delete_snippet` | Delete a snippet. Any design document embeds are removed automatically | `id`/`name`/`url`, `projectId` | `deletedId`, `deletedName` |
+
+### Flows
+
+A flow is a collection of related pages (e.g. "Onboarding", "Checkout").
+
+| Tool | Description | Key inputs | Returns |
+| --- | --- | --- | --- |
+| `list_flows` | List all flows | `projectId` | Array of `id`, `name`, `pageCount` |
+| `get_flow_info` | A flow with its name and ordered pages | `id`/`name`/`url`, `projectId` | `id`, `name`, `pages` |
+| `delete_flow` | Delete a flow. Refuses if it contains pages. Use `deleteChildPages: true` to delete the flow plus every page inside it | `id`/`name`/`url`, `projectId`, `deleteChildPages?` | `deletedId`, `deletedName`, `deletedPageIds` |
+
+### Design documents
+
+Design documents are markdown files that convey how to work within your design system — brand voice, design principles, component usage rules ("when to use Toggle vs. Checkbox"), accessibility requirements, do/don't examples. AI automatically reads them when designing or implementing. **Project-scoped** docs (many per project) cover broad guidance; **component-scoped** docs (one per component, attached directly to it) cover specifics for that component.
+
+| Tool | Description | Key inputs | Returns |
+| --- | --- | --- | --- |
+| `write_design_document` | Create or update a markdown design document. Project-scoped if no `componentId`; component-scoped otherwise. Snippet examples can be embedded like so `<div data-type="component-example" data-component-id="..."></div>` | `content`, `id?`, `componentId?`, `title?`, `projectId`, `mode?` (`replace`/`append`) | `documentId`, `documentUrl` |
+
+Read existing docs first via `get_project_info` (project-level) or `get_component_info` (component-level). When updating, always pass the existing `id` — components allow at most one design document, and creating a second is rejected.
+
+### Theme
+
+| Tool | Description | Key inputs | Returns |
+| --- | --- | --- | --- |
+| `get_theme` | Generate the Tailwind theme for the project | `projectId`, `cssType?` | `theme` config |
+| `edit_theme` | Edits the project's visual theme (colors, fonts, corners, shadows, typography) from a natural-language prompt. Applies immediately to the whole project. Supports adding tokens, changing token values, renaming tokens, and **deleting tokens (destructive — references in designs are replaced with the token's concrete value at deletion time)**. | `description`, `projectId` | `themeUrl` |
+
+### Async jobs
+
+| Tool | Description | Key inputs | Returns |
+| --- | --- | --- | --- |
+| `wait_for_jobs` | Wait for background AI jobs to finish. Each result is `running`, `done` (with optional summary), or `not_found`. Call in a loop until every job is `done` | `jobIds` (1-10) | Array of `jobId`, `status` (`running`/`done`/`not_found`), `summary?` |
+
+`design_page`, `design_component`, and `edit_component` return a `jobId` alongside their URL. The URL can be used immediately to view the real-time progress of the job in the editor. Pass the `jobId(s)` to `wait_for_jobs` before reading back the generated content with `get_page_info`, `get_component_info`, `get_snippet_info`, or `get_flow_info` — those reads return empty/stale state until the job is done.
+
+## Prompt with MCP link
 
 When prompting we recommend using the MCP link found in the Code Inspect panel for a page.
 
@@ -52,7 +112,7 @@ Implement the design at https://app.subframe.com/design/...
   components](/concepts/syncing-components).
 </Note>
 
-### Example prompts
+## Example prompts
 
 <AccordionGroup>
 
@@ -67,6 +127,7 @@ Keep it consistent with existing project conventions.
 ```
 
 </Accordion>
+
 <Accordion title="Update an existing page with a new design">
 
 ```text
@@ -77,6 +138,35 @@ Preserve all existing functionality unless the new design requires a change.
 ```
 
 </Accordion>
+
+<Accordion title="Design a new component">
+
+```text
+Design a PrivacyToggle component in Subframe. It should have an on/off state,
+a label, and a description below the label. Use the same toggle styling as
+our existing Toggle component.
+```
+
+</Accordion>
+
+<Accordion title="Write a design document">
+
+```text
+Write a design doc for the Toggle component covering when to use it,
+accessibility considerations, and a snippet showing all variants.
+```
+
+</Accordion>
+
+<Accordion title="Delete unused components">
+
+```text
+List the components in my Subframe project and help me delete any that
+aren't being used in any pages.
+```
+
+</Accordion>
+
 <Accordion title="Add accessibility tags in code">
 
 ```text
@@ -88,6 +178,7 @@ Add ARIA labels, roles, and descriptions, and proper semantic HTML throughout.
 ```
 
 </Accordion>
+
 <Accordion title="Migrate to Subframe's design system">
 
 ```text
@@ -103,29 +194,33 @@ functionality unless the new design requires a change.
 <Accordion title="Fetch a component">
 
 ```text
-Get the Button component from Subframe and use it in this file
+Get the Button component from Subframe and use it in this file.
 ```
 
 </Accordion>
+
 <Accordion title="List available components">
 
 ```text
-Show me all components in my Subframe project
+Show me all components in my Subframe project.
 ```
 
 </Accordion>
+
 <Accordion title="Get the theme">
 
 ```text
-Get my Subframe theme configuration
+Get my Subframe theme configuration.
 ```
 
 </Accordion>
+
 </AccordionGroup>
 
 ## Troubleshooting
 
 <AccordionGroup>
+
 <Accordion title="Authentication failed">
 
 The Subframe MCP server uses OAuth. If you're seeing authentication errors:
@@ -136,6 +231,7 @@ The Subframe MCP server uses OAuth. If you're seeing authentication errors:
 - Confirm your client supports MCP OAuth — Subframe access tokens are not accepted by the MCP server
 
 </Accordion>
+
 <Accordion title="AI not calling the server">
 
 Make sure your AI tool:
@@ -147,17 +243,27 @@ Make sure your AI tool:
 Check your tool's logs for MCP-related errors.
 
 </Accordion>
+
 <Accordion title="Component or page not found">
 
-Use `list_components` or `list_pages` to see what's available.
+Use `list_components`, `list_pages`, `list_snippets`, or `list_flows` to see what's available.
 
 Verify:
 
-- The component/page exists in your Subframe project
+- The component/page/snippet exists in your Subframe project
 - The name or URL matches exactly
 - You have access to the project
 
 </Accordion>
+
+<Accordion title="Background job seems stuck">
+
+`design_page`, `design_component`, and `edit_component` run as background jobs. Check `wait_for_jobs` with the `jobId` returned by the design tool — it reports `running`, `done`, or `not_found`. The URL is live throughout, so opening it in the editor shows real-time progress.
+
+If a job stays `running` longer than ~10 minutes, the server treats it as stalled (worker died, request timed out) and reports it as `done` to unblock polling. Open the URL to see whether anything was actually generated; the chat panel surfaces any errors from the AI agent.
+
+</Accordion>
+
 <Accordion title="Connection errors">
 
 If the MCP server is unreachable:
@@ -167,4 +273,5 @@ If the MCP server is unreachable:
 - Reach out to the Subframe team for support
 
 </Accordion>
+
 </AccordionGroup>

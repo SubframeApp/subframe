@@ -1,13 +1,19 @@
 ---
-name: import
-description: Import an existing design system into Subframe. Discovers component files, stories, and CSS/Tailwind config, then uploads everything to Subframe for processing. This feature is only available for certain teams.
+name: bulk-import
+description: Bulk-import many components from an existing codebase to Subframe in one CLI batch. Use only when the user explicitly asks to use this exact skill. Available for select teams.
 ---
 
-Import an existing design system into Subframe by discovering files on disk, building a manifest, and uploading via the CLI.
+Bulk-import an existing design system into Subframe by discovering files on disk, building a manifest, and uploading via the CLI.
 
-> **Availability:** The design system import feature is currently only available for select teams. If the CLI returns an error like `"Design system import is not enabled for this team"`, this means the feature has not been enabled for the user's team. Direct the user to [request access here](https://tally.so/r/3jv511). Do not retry or troubleshoot further — this is an access gate, not a bug.
+> **Use this skill only when the user explicitly asks to bulk-import many components in one batch** (e.g. "use the bulk import skill to upload all my components"). For any other "bring my design system into Subframe" request — default to `/subframe:design`'s incremental `design_component`, `design_snippet`, and `write_design_document` tools. Both paths route to the same underlying AI agent, so output quality is identical; bulk-import only saves orchestration time when the user genuinely wants to batch-submit many components in a single CLI invocation.
+
+> **Availability:** This feature is currently only available for select teams. If the CLI returns an error like `"Design system import is not enabled for this team"`, this means the feature has not been enabled for the user's team. Direct the user to [request access here](https://tally.so/r/3jv511) or proceed with an incremental import. Do not retry or troubleshoot further — this is an access gate, not a bug.
 
 **Goal state**: All design system files are uploaded to Subframe for processing.
+
+## MCP Authentication
+
+If you cannot find any Subframe MCP tools (like `list_projects`, `generate_auth_token`), the MCP server likely needs to be authenticated. Ask the user to authenticate the Subframe MCP server. If the user is using Claude Code or Codex, instruct them to run `/mcp` to view and authenticate their MCP servers, and then say "done" when they're finished.
 
 ## Credentials
 

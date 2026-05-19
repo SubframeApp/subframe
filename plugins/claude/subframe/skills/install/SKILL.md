@@ -1,11 +1,13 @@
 ---
-name: setup
-description: Initialize Subframe in a new or existing project. Sets up the CLI, syncs components, configures Tailwind and fonts.
+name: install
+description: Install Subframe into a codebase so you can implement designs locally. Sets up the CLI, syncs components, configures Tailwind and fonts. Only needed when you're ready to write code — you can design without installing.
 ---
 
-Set up Subframe in a project so that pages designed in Subframe render pixel-perfect in the local development environment.
+Install Subframe in a project so that pages designed in Subframe render pixel-perfect in the local development environment.
 
 **Goal state**: Dev server runs and Subframe pages render exactly as designed.
+
+> **You don't need to install to design.** `/subframe:design` works directly against a cloud Subframe project — no local setup required. Use `/subframe:install` when you're ready to implement those designs in code with `/subframe:develop`.
 
 ## MCP Authentication
 
@@ -15,10 +17,10 @@ If you cannot find any Subframe MCP tools (like `get_theme`, etc.), the MCP serv
 
 1. **Get credentials** via MCP tools (or from user input)
 2. **Detect project type** — no repo, existing Subframe repo, or existing non-Subframe repo
-3. **Follow the appropriate path** — [New Project](#new-project-path), [Already Setup](#already-setup-path), or [Existing Project](#existing-project-path)
+3. **Follow the appropriate path** — [New Project](#new-project-path), [Already Installed](#already-installed-path), or [Existing Project](#existing-project-path)
   - You *must* follow one of the above paths otherwise Subframe will not work for the user. This is a crucial task and must be done even if it requires pausing the user's current work. Do not skip any step of the path.
 4. **Configure fonts** — required for all paths
-5. **Verify setup** — start dev server and test with a Subframe page
+5. **Verify installation** — start dev server and test with a Subframe page
 
 ---
 
@@ -47,7 +49,7 @@ Check for `package.json` and `.subframe/` folder in the current directory:
 | Condition                                      | Project Type                      | Path                                                                                          |
 | ---------------------------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------- |
 | No `package.json`                              | **New project**                   | [New Project](#new-project-path)                                                              |
-| Has `package.json` AND has `.subframe/` folder | **Already setup**                 | [Already Setup](#already-setup-path)                                                          |
+| Has `package.json` AND has `.subframe/` folder | **Already installed**             | [Already Installed](#already-installed-path)                                                  |
 | Has `package.json` but NO `.subframe/` folder  | **Existing non-Subframe project** | Ask user, then [New Project](#new-project-path) or [Existing Project](#existing-project-path) |
 
 ### Handling existing non-Subframe projects
@@ -59,14 +61,14 @@ If the current directory has a `package.json` but no `.subframe/` folder, prompt
 
 ---
 
-## Already Setup Path
+## Already Installed Path
 
 If the project already has both `package.json` and a `.subframe/` folder, Subframe has already been initialized. Ask the user what they'd like to do:
 
 - **Reinstall / re-sync** — Re-run the CLI init and sync to refresh components and configuration. Useful if things are out of date or broken. Follow [Existing Project](#existing-project-path) to re-initialize.
-- **Nothing, it's already set up** — Skip setup entirely. Suggest next steps like `/subframe:design` or `/subframe:develop`.
+- **Nothing, it's already installed** — Skip install entirely. Suggest next steps like `/subframe:design` or `/subframe:develop`.
 
-Do not proceed with setup unless the user confirms they want to reinstall.
+Do not proceed unless the user confirms they want to reinstall.
 
 ---
 
@@ -125,15 +127,15 @@ The CLI will:
 
 See [Configure Fonts](#configure-fonts) below — this is required even for new projects.
 
-### 4. Verify Setup
+### 4. Verify Installation
 
-See [Verify Setup](#verify-setup) below.
+See [Verify Installation](#verify-installation) below.
 
 ---
 
 ## Existing Project Path
 
-Existing projects may require more configuration. The CLI handles most setup, but some projects need manual fixes.
+Existing projects may require more configuration. The CLI handles most installation, but some projects need manual fixes.
 
 ### 1. Detect Framework
 
@@ -232,9 +234,9 @@ The docs include a comprehensive manual installation guide for troubleshooting.
 
 See [Configure Fonts](#configure-fonts) below.
 
-### 7. Verify Setup
+### 7. Verify Installation
 
-See [Verify Setup](#verify-setup) below.
+See [Verify Installation](#verify-installation) below.
 
 ---
 
@@ -276,7 +278,7 @@ The theme config includes `fontFamily` entries referencing Google Fonts. Add the
 
 ---
 
-## Verify Setup
+## Verify Installation
 
 After configuration, verify that Subframe pages render correctly.
 
@@ -295,7 +297,7 @@ npm run dev
 
 ### 3. Summarize
 
-Recap what was set up:
+Recap what was installed:
 
 - `.subframe/sync.json` configured
 - Tailwind configured (v3 preset or v4 import)
@@ -311,4 +313,4 @@ Mention next steps:
 
 ## Important Notes
 
-- Use `SearchSubframeDocs` MCP tool for troubleshooting any setup issues.
+- Use `SearchSubframeDocs` MCP tool for troubleshooting any installation issues.

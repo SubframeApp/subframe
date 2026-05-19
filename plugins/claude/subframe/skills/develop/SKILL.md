@@ -8,56 +8,76 @@ Implement Subframe designs in the codebase. Fetch the design via MCP, sync compo
 
 ## MCP Authentication
 
-If you cannot find the `get_page_info` tool (or any Subframe MCP tools), the MCP server likely needs to be authenticated. Ask the user to authenticate the Subframe MCP server. If the user is using Claude Code, instruct them to run `/mcp` to view and authenticate their MCP servers, and then say "done" when they're finished.
+If you cannot find the `get_page_info` tool (or any Subframe MCP tools), the MCP server likely needs to be authenticated. Ask the user to authenticate the Subframe MCP server. If the user is using Claude Code or Codex, instruct them to run `/mcp` to view and authenticate their MCP servers, and then say "done" when they're finished.
 
 ## Detect Project State
 
 Before starting, check for `package.json` and `.subframe/` folder in the current directory:
 
-| Condition                                      | Action                                                                  |
-| ---------------------------------------------- | ----------------------------------------------------------------------- |
-| No `package.json`                              | Run `/subframe:setup` first — there's no project to implement into yet. |
-| Has `package.json` AND has `.subframe/` folder | Proceed with the workflow below.                                        |
-| Has `package.json` but NO `.subframe/` folder  | Ask the user (see below).                                               |
+| Condition                                      | Action                                                                    |
+| ---------------------------------------------- | ------------------------------------------------------------------------- |
+| No `package.json`                              | Run `/subframe:install` first — there's no project to implement into yet. |
+| Has `package.json` AND has `.subframe/` folder | Proceed with the workflow below.                                          |
+| Has `package.json` but NO `.subframe/` folder  | Ask the user (see below).                                                 |
 
 ### Existing non-Subframe project
 
 If the current directory has a `package.json` but no `.subframe/` folder, ask the user which approach they prefer:
 
 - **Use the design as inspiration** — Fetch the design via MCP for reference, but implement the page using the existing styles, components, and patterns already in the repo. Translate the Subframe design's layout and structure into whatever UI framework the project already uses (e.g., existing component library, CSS modules, styled-components). Do NOT install Subframe or sync components. Skip to [Inspiration Workflow](#inspiration-workflow).
-- **Use Subframe styles and components** — Install Subframe into the project so the design renders pixel-perfect with Subframe's generated code. Run `/subframe:setup` first, then continue with the [Workflow](#workflow) below.
+- **Use Subframe styles and components** — Install Subframe into the project so the design renders pixel-perfect with Subframe's generated code. Run `/subframe:install` first, then continue with the [Workflow](#workflow) below.
 
 ## Workflow
 
-1. **Fetch the design** - Use `get_page_info` with the URL, ID, or name.
-2. **Sync components if needed** - Only if components don't exist locally
-3. **Create the page** - Put it in the right place per codebase patterns
-4. **Add business logic** - Data fetching, forms, events, loading/error states
+1. **Wait for any in-flight design jobs** — see [Awaiting In-Flight Designs](#awaiting-in-flight-designs)
+2. **Fetch the design** — `get_page_info` with the URL, ID, or name
+3. **Read design documentation** — `get_project_info` and `get_component_info` return any attached design docs; check them for usage guidance, accessibility notes, or constraints before implementing
+4. **Sync any missing components** — Only if components don't exist locally. `npx @subframe/cli sync` for the specific components used in the page
+5. **Create the page** — put it in the right place per codebase patterns
+6. **Add business logic** — data fetching, forms, events, loading/error states
+
+## Awaiting In-Flight Designs
+
+If a design was just kicked off in the same conversation (via `/subframe:design`), the underlying AI job is likely still running. Reading the result via `get_*_info` too early returns empty or stale code.
+
+`design_page`, `design_component`, and `edit_component` return a `jobId`. Before the first read, call:
+
+```
+wait_for_jobs({ jobIds: [jobId1, jobId2, ...] })
+```
+
+Each result is `running`, `done` (with optional summary), or `not_found`. Call in a loop until every job is `done`. Surface progress to the user — "Designs are still generating in Subframe…" then "✓ Designs ready, fetching the code now." — so they understand the wait. (Jobs that stall longer than ~10 minutes are surfaced as `done` so the loop never hangs.)
+
+You don't need `wait_for_jobs` when:
+
+- The user came in with an existing Subframe URL (no in-flight job)
+- You're only working from `id` or `name` and don't need the generated code.
+
+If the user asks to implement immediately after kicking off a design, batch all relevant `jobIds` into a single `wait_for_jobs` call (it accepts up to 10).
 
 ## Inspiration Workflow
 
 Use this workflow when the user chose to use the design as inspiration in an existing non-Subframe project.
 
-1. **Fetch the design** — Use `get_page_info` with the URL, ID, or name to get the page's layout and structure. If you encounter Subframe components or tokens you're unfamiliar with, use `get_component_info` to understand a component's props and behavior, or `get_theme` to see the Subframe project's design tokens (colors, fonts, spacing, shadows).
-2. **Study existing patterns** — Look at the codebase's existing components, styles, and conventions. Identify local equivalents for Subframe components used in the design.
-3. **Create the page** — Implement the design using the codebase's existing UI framework, translating the Subframe layout and component structure into local components and styling.
-4. **Add business logic** — Data fetching, forms, events, loading/error states.
+1. **Wait for any in-flight design jobs** — see [Awaiting In-Flight Designs](#awaiting-in-flight-designs).
+2. **Fetch the design** — Use `get_page_info` with the URL, ID, or name to get the page's layout and structure. If you encounter Subframe components or tokens you're unfamiliar with, use `get_component_info` to understand a component's props and behavior, or `get_theme` to see the Subframe project's design tokens (colors, fonts, spacing, shadows).
+3. **Study existing patterns** — Look at the codebase's existing components, styles, and conventions. Identify local equivalents for Subframe components used in the design.
+4. **Create the page** — Implement the design using the codebase's existing UI framework, translating the Subframe layout and component structure into local components and styling.
+5. **Add business logic** — Data fetching, forms, events, loading/error states.
 
 ## Fetching Designs
 
+Pages are the only resource you fetch into the codebase. Use `get_page_info` with a URL, ID, or name:
+
 ```
-// By URL
 get_page_info({ url: "https://app.subframe.com/PROJECT_ID/design/PAGE_ID/edit" })
-
-// By ID (e.g., from get_flow_info on a design_page flowId, or a pasted MCP link)
 get_page_info({ id: "PAGE_ID", projectId: "PROJECT_ID" })
-
-// By name
 get_page_info({ name: "Settings Page", projectId: "PROJECT_ID" })
-
-// List all pages first if needed
-list_pages({ projectId: "PROJECT_ID" })
 ```
+
+To discover what exists in the project, use `list_pages`, `list_components`, or `list_flows`. Snippets aren't synced to code — they live in Subframe as design system references.
+
+Read design documentation alongside the design: `get_project_info` returns project-level `docs` (broad principles), and `get_component_info` returns each component's `designDocuments` (component-specific usage guidance). Pick these up before implementing so you respect documented constraints.
 
 Get the `projectId` from `.subframe/sync.json`. If `.subframe/sync.json` doesn't exist or doesn't contain a `projectId`, call `list_projects` to get the available projects. Each project includes a `projectId`, `name`, `teamId`, and `teamName`.
 - **One project**: Use it automatically.
@@ -151,10 +171,14 @@ When diffing the updated design against the existing code, if there are design c
 
 ## MCP Tools Reference
 
-| Tool                 | Purpose              | Key Parameters                      |
-| -------------------- | -------------------- | ----------------------------------- |
-| `get_page_info`      | Fetch page code      | `url`, `id`, or `name`; `projectId` |
-| `get_component_info` | Fetch component code | `url`, `id`, or `name`; `projectId` |
-| `list_pages`         | List all pages       | `projectId`                         |
-| `list_components`    | List all components  | `projectId`                         |
-| `get_theme`          | Get Tailwind config  | `projectId`, `cssType`              |
+| Tool                 | Purpose                                                  | Key Parameters                      |
+| -------------------- | -------------------------------------------------------- | ----------------------------------- |
+| `get_page_info`      | Fetch page code                                          | `url`, `id`, or `name`; `projectId` |
+| `get_component_info` | Fetch component code + attached design doc               | `url`, `id`, or `name`; `projectId` |
+| `get_project_info`   | Fetch project metadata + project-level design docs       | `projectId`                         |
+| `get_flow_info`      | Enumerate pages in a flow                                | `id`, `name`, or `url`; `projectId` |
+| `list_pages`         | List all pages                                           | `projectId`                         |
+| `list_components`    | List all components                                      | `projectId`                         |
+| `list_flows`         | List all flows                                           | `projectId`                         |
+| `get_theme`          | Get Tailwind config                                      | `projectId`, `cssType`              |
+| `wait_for_jobs`      | Wait for in-flight design jobs to finish before reading  | `jobIds` (1-10)                     |
