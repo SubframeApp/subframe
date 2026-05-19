@@ -73,6 +73,58 @@ If the project has no codebase context, only the empty-theme check applies — s
 
 **When roles diverge**, ask the user how they would like to proceed as far as keeping the Subframe roles versus matching their codebase ones. Based on their answer, follow the process outlined in [Risk-classify before calling](#risk-classify-before-calling) and, if necessary, [safe consolidation via alias bridging](#safe-consolidation-via-alias-bridging).
 
+## Grounding design calls in real code
+
+Subframe's design AI is far more accurate when the call carries raw code than when it carries paraphrase. "Make the primary darker" leaves a guess; pasting `--color-primary: oklch(0.55 0.18 250)` doesn't. Wherever the codebase already has the source — a component implementation, theme tokens, a similar page — paste it into the call instead of describing it.
+
+**Default to pasting full files when they exist.** Under-including is generally worse than over-including. Use the format:
+
+```
+// src/components/Button.tsx
+<full file content>
+```
+
+Group related files in adjacent blocks (component + stories + CSS module).
+
+**Don't paste what the AI already has.** For `edit_component`, `edit_page`, and `edit_snippet`, the current Subframe code is already on the server — don't echo it back. Read it with `get_component_info` / `get_page_info` / `get_snippet_info` so your description can target exactly what differs. Prefer the most efficient form: plain language when the change doesn't depend on any code the AI hasn't seen ("change padding from 4 to 6, add a hover state"); otherwise reference code scaled to what's needed — a targeted diff or code snippet when the Subframe code already resembles the target, a full file when handing over a wholesale target, a sibling pattern, or related types.
+
+**Soft cap on very large files (~500 LOC combined).** When trimming, keep verbatim:
+
+- Prop / type / interface definitions
+- JSX structure with `className` strings (and any `cva` / variant maps) intact
+- All styling rules — never paraphrase styles ("subtle shadow with rounded corners" → paste `className="rounded-md shadow-sm"`)
+
+Safe to trim:
+
+- Business handlers, event wiring, data fetching, side effects
+- Imports unrelated to structure/styling
+- Test- or dev-only blocks
+- Comments that aren't load-bearing
+
+If the codebase has no source for what you're designing, describe the design from scratch rather than fabricating a reference.
+
+### For component design (`design_component`, `edit_component`)
+
+Include in the description:
+
+1. **The canonical component source file** if it exists in the codebase (e.g. `src/components/Button.tsx`).
+2. **The stories file** (e.g. `Button.stories.tsx` / `.mdx`) — exact variants, sizes, states, and the props that produce each.
+3. **CSS modules or scoped CSS** (e.g. `Button.module.css`) if styling lives outside Tailwind classes.
+4. **Prop-type files** if types are defined separately (e.g. a `types.ts`).
+5. **Theme tokens the component references** — pull the relevant rows from the codebase theme (`tailwind.config.*`, CSS variables) and from `get_theme` so the AI keeps roles aligned.
+
+### For snippet design (`design_snippet`, `edit_snippet`)
+
+See the snippet tool sections below for `codeContext` / `references` parameter use. `edit_snippet` has no `codeContext` parameter — paste outside reference code into `description`.
+
+### For page design (`design_page`, `edit_page`)
+
+See [Preparing codeContext](#preparing-codecontext) below for the page-specific rule about leaving Subframe component references as-is and inlining everything else. The general grounding rules above (default to full files, paste styles verbatim, soft cap with trimming) layer on top.
+
+### For theme edits (`edit_theme`)
+
+See [Preparing the edit_theme description](#preparing-the-edit_theme-description) under the Theme section. The codebase theme source files belong in the description verbatim — don't paraphrase token values.
+
 ## Background jobs and `wait_for_jobs`
 
 `design_page`, `design_component`, and `edit_component` return a `jobId` alongside their URL. The job runs in the background — the URL is live immediately and allows the user to watch the design populate.
@@ -98,10 +150,19 @@ You don't need `wait_for_jobs` when you're only presenting the URL to the user a
 When the user asks you to design, recreate, or redesign a page that uses non-trivial UI components (see [What belongs as a Subframe component](#what-belongs-as-a-subframe-component) for what counts):
 
 1. **Run the project audit** — `list_components` (and `get_project_info` if you haven't yet).
-2. **For each component the target page needs, decide:**
-   - **Missing entirely** → `design_component` to create it.
-   - **Exists but visually doesn't match the source/spec** → `edit_component` to align it. Existing components keep their identity and any existing usages are updated as well.
-   - **Exists and matches** → reference it directly in the page design.
+2. **Inventory the components the page renders with their status and decision.** Output the list verbatim, even when the conclusion seems obvious
+   - **Missing entirely** → `design_component`
+   - **Exists but visually doesn't match the source/spec** → `edit_component` (existing components keep their identity; existing usages are updated)
+   - **Exists and matches** → reference directly in the page design
+
+   Example:
+
+   ```
+   Button: missing → design_component
+   Alert: missing → design_component
+   SettingsCard: missing → design_component
+   ProfileMenu: exists, matches → reference
+   ```
 3. **Write the dependency list before any `design_component`/`edit_component` calls.** For each new or edited component in the batch, list the other components in the batch that it visually embeds. Output it verbatim, even when the list is short. For example:
 
    ```
@@ -150,6 +211,8 @@ How much context to gather and how many variations to generate depends on the ta
 
 #### Preparing `codeContext`
 
+The general "paste real code, soft cap with verbatim styling" rules in [Grounding design calls in real code](#grounding-design-calls-in-real-code) apply here too. The page-specific addition below is the Subframe-vs-non-Subframe component handling rule.
+
 When including code in `codeContext`, distinguish between components in the Subframe project vs not (`list_components` is the source of truth):
 
 - **References to components that already exist in the project** — leave as-is. Subframe will resolve them from the project.
@@ -186,12 +249,7 @@ When designing multiple related pages (flows, CRUD, etc.):
 
 ### `edit_page` — targeted edits to an existing page
 
-Use `edit_page` for targeted changes to a specific Subframe page. Provide a page identifier and a description of the changes — Subframe handles the rest.
-
-- **`description`**: Describe what to change. You can include code snippets for precision, but it's not required.
-- **Page identifier**: `id`, `name`, or `url`. Use `list_pages` to find existing pages if needed.
-
-The edit is applied immediately. Present the returned `pageUrl` to the user so they can view the updated page in Subframe.
+Use `edit_page` for targeted changes to a specific Subframe page. Pass `id`, `name`, or `url` (call `list_pages` first if you need to find it) plus a `description` of the change. Follow the [Grounding](#grounding-design-calls-in-real-code) rules — the AI already has the current page code, so only paste outside reference code when the change depends on something the AI can't see. The edit applies immediately; present the returned `pageUrl` to the user.
 
 #### When to use `edit_page` vs `design_page`
 
@@ -236,7 +294,7 @@ When unsure, quickly read the source. If it imports data-fetching libraries, sto
 
 Use `design_component` to create something that should be a Subframe component (see [What belongs as a Subframe component](#what-belongs-as-a-subframe-component)). Pass:
 
-- `description` — what the component is and how it should look/behave. **Include exact reference code in the description whenever you have it.** A code snippet — the user's existing implementation, a similar component from the codebase, relevant theme tokens/values — gives the design AI a stronger signal than any natural-language description. Don't paraphrase what you can paste literally. Apply the same Subframe-vs-application rule from [Preparing codeContext](#preparing-codecontext): leave references to components that already exist in this Subframe project as-is, inline anything else.
+- `description` — what the component is and how it should look/behave. **Paste real code, don't paraphrase** — see [Grounding design calls in real code](#grounding-design-calls-in-real-code) for what to include (canonical source, stories, CSS modules, prop types, relevant theme tokens) and verbosity rules. Apply the Subframe-vs-application rule from [Preparing codeContext](#preparing-codecontext): leave references to components that already exist in this Subframe project as-is, inline anything else.
 - `name` — the component name (PascalCase, e.g., "PrivacyToggle")
 - `projectId` — usually inferred from `.subframe/sync.json`
 
@@ -244,7 +302,7 @@ Returns `componentId` (immediately referenceable in other tools), `componentUrl`
 
 ### `edit_component` — change an existing component
 
-Use `edit_component` for targeted changes to a component already in the project. For best results, call `get_component_info` first to see the current code, then describe the change with concrete reference to the existing structure. **If the change is "make it match this code" — a codebase implementation, a design spec, a sibling component — paste that target code into the description.** Similar to the reasoning for `design_component`.
+Use `edit_component` for targeted changes to a component already in the project. Call `get_component_info` first so your description can target exactly what differs. The design AI already has the current Subframe code — only paste outside reference code when the change depends on something the AI can't see (a codebase implementation to match, a sibling component, a design spec). See [Grounding design calls in real code](#grounding-design-calls-in-real-code) for what to include and how to trim.
 
 Pass one of `id`, `name`, or `url` plus a `description`. Returns `componentUrl` and `jobId`. Edits propagate to every page using the component, so confirm with the user before making structural changes.
 
@@ -252,7 +310,7 @@ The same component cannot be edited by two agents simultaneously — if another 
 
 **Note:** AI editing is not supported for page layouts. To modify a layout, the user must open it in the Subframe editor directly.
 
-**Use `edit_component` to align existing components with a codebase or spec.** If the project already has a component but it doesn't match the structure or style of the user's source code or design references, that's an `edit_component` job — not a reason to skip the component or design a parallel one. Edits will propagate to every page using the component. If it's unclear whether the edits you want to make are applicable to existing usages, confirm with the user before editing.
+**Use `edit_component` to align existing components with a codebase or spec.** If a project component doesn't match the user's source code or design references, that's an `edit_component` job — don't design a parallel one. If it's unclear whether the edits apply cleanly to existing usages, confirm with the user before editing.
 
 ## Snippets
 
@@ -264,8 +322,8 @@ Use `design_snippet` when the user wants to illustrate something in a design doc
 
 - `description` — what to show
 - `name` — optional; defaults to "AI Generated Snippet"
-- `codeContext` (optional) — same rules as `design_page`: inline non-Subframe components, leave Subframe components as references
-- `references` (optional) — IDs or names of existing Subframe components, pages, or snippets to use as design context (resolved server-side, no need to inline their code)
+- `codeContext` (optional) — raw outside code that grounds the snippet (the codebase implementation it should mirror, related types, the specific usage example it illustrates).
+- `references` (optional) — IDs or names of existing Subframe components, pages, or snippets to use as design context (resolved server-side, no need to inline their code).
 
 Returns `snippetId` and `snippetUrl`. Embed the snippet in a design document with `<div data-type="component-example" data-component-id="<snippetId>"></div>` (see the design documents section).
 
@@ -343,6 +401,19 @@ Use `edit_theme` to update the project's visual theme — colors, fonts, corners
 - **Tweak values** on existing tokens ("make the primary darker," "increase border radius")
 - **Rename** tokens — safe. Components and pages reference tokens by id, so the alias survives the rename.
 - **Delete** tokens — **destructive**. Every page/component that referenced the deleted token gets its alias replaced with the token's concrete value at deletion time. Those usages are now detached (hardcoded), not tracking any token. Theme version history restores the token, but the detached references stay detached — full recovery requires project version history.
+
+### Preparing the `edit_theme` description
+
+When the project has codebase context, the description should carry the **actual theme source files verbatim**, not paraphrased token values. Include every token — do not drop tokens that seem unrelated to the immediate task. The theme is project-wide; what you are about to design isn't the only consumer. Look for:
+
+- `tailwind.config.*` (often `tailwind.config.ts` or `.js`)
+- Global CSS files with `@theme` blocks (Tailwind v4) or `:root { --color-... }` declarations — `globals.css`, `app.css`, `index.css`
+- Token modules (`tokens.ts`, `tokens.json`, `theme.ts`, Style Dictionary exports)
+- Font config (`next/font`, CSS `@font-face`, font import URLs)
+
+Paste each file in a fenced block headed by its path (`// tailwind.config.ts`). Don't summarize token values — the AI's accuracy on color, spacing, and typography depends on the exact strings.
+
+**Only let the design AI invent tokens when there is genuinely no codebase theme source.** In that case, say so explicitly in the description.
 
 ### Risk-classify before calling
 
