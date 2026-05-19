@@ -1,6 +1,6 @@
 ---
 name: design
-description: Design and edit anything in Subframe — pages, components, snippets, design documents, the theme. Also handles deletion of those resources except theme. Always load this skill when building or iterating on UI, evolving the design system, capturing design intent in writing, or cleaning up a project. Don't write UI code directly — design first, then implement with /subframe:develop.
+description: Design and edit anything in Subframe — pages, components, snippets, design documents, the theme. Also handles deletion of those resources except theme. Always load this skill when taking any action through the Subframe MCP server. This includes building or iterating on UI, evolving the design system, capturing design intent in writing, or cleaning up a project. Don't write UI code directly — design first, then implement with /subframe:develop.
 argument-hint: "[what to design or change]"
 ---
 
@@ -15,7 +15,7 @@ The user wants to:
 - Build a new page or screen, or iterate on an existing one
 - Add a new reusable component or snippet to the project or edit existing ones
 - Capture design intent or component usage guidance as written documentation
-- Update the project-wide visual theme (colors, fonts, corners, shadows)
+- Update the project-wide visual theme (colors, fonts, corners, shadows, typography)
 - Remove pages, components, snippets, or flows that are no longer needed
 
 The key value: `/subframe:design` and `/subframe:develop` bridge coding and design. They work in both directions — create designs while coding and then ensure your code exactly reflects your design.
@@ -29,7 +29,7 @@ The key value: `/subframe:design` and `/subframe:develop` bridge coding and desi
 | Build a reusable building block (Button, Card, ListItem) used inside pages | `design_component` (new) / `edit_component` (targeted change) |
 | Build a small example used inside a design document (e.g. a Button-variants demo) | `design_snippet` (new) / `edit_snippet` (targeted change) |
 | Write or update written design / usage documentation | `write_design_document` |
-| Change project-wide colors, fonts, corners, shadows | `edit_theme` |
+| Change project-wide colors, fonts, corners, shadows, typography | `edit_theme` |
 | Remove a page, flow, component, or snippet | `delete_page` / `delete_flow` / `delete_component` / `delete_snippet` |
 
 ## MCP Authentication
@@ -47,12 +47,31 @@ Every design tool takes a `projectId`. Resolve it like this:
 
 ## Audit what already exists
 
-Before deciding what to design, get a picture of the project's current state. On any project where you don't already have explicit knowledge of what's been built, call:
+Before working on any design, get a picture of the project's current state. On any project where you don't already have explicit knowledge of what's been built, call:
 
 - `list_components` — see which components already exist. Some projects may have pre-existing components, some may not have any components yet.
-- `get_project_info` — see the theme and project-level design documents.
+- `get_theme` — see the project's theme tokens (colors, fonts, corners, shadows, typography).
+- `get_project_info` — see project-level design documents.
 
 This audit is cheap and critical to proper project management.
+
+### Verify theme alignment before designing
+
+The first time you're about to call `design_page` / `design_component` / `edit_page` / `edit_component` against a given project in this conversation, follow this process:
+
+1. **If the project has codebase context** (working in a repo, recreating a page, importing a design), locate and read the codebase's theme source — `tailwind.config.*`, theme CSS variables, a tokens module. Also read the codebase's most canonical filled component (typically `Button`) to see which token is used where — names and values can match while roles diverge.
+
+2. **Write the comparison** — a brief alignment summary covering colors, fonts, corners, shadows, typography, **and role** (which token is used for what, on both sides). Flag mismatches even when names/values look the same. Watch specifically for:
+   - **Role divergence** — e.g., the codebase's `brand` token paints focus rings only while a separate `primary` token paints filled-button backgrounds; the Subframe project's convention may have `brand-primary` painting the filled-button background instead. If you need to verify Subframe-side roles, call `get_component_info` on the relevant component to see which tokens it actually references.
+   - **Dual-token systems** — shadcn-style `primary` / `primary-foreground`, `destructive` / `destructive-foreground`, etc., where each role pairs a surface token with a content token. The Subframe theme may not have direct equivalents.
+
+3. **If anything mismatches, or `get_theme` is empty**, stop and ask the user if they would like to set up the theme via `edit_theme` first since any design call is at risk of using hardcoded values and breaking the design system source-of-truth promise. Treat this like destructive-deletion confirmation: required even under autonomy / no-clarifying-questions directives.
+
+4. **If the codebase uses hardcoded values instead of token**, the user may be hoping to start using tokens with Subframe. Ask the user if they want to create a theme in Subframe from their hardcoded values or if they would prefer to stick with hardcoded values.
+
+If the project has no codebase context, only the empty-theme check applies — skip the comparison.
+
+**When roles diverge**, ask the user how they would like to proceed as far as keeping the Subframe roles versus matching their codebase ones. Based on their answer, follow the process outlined in [Risk-classify before calling](#risk-classify-before-calling) and, if necessary, [safe consolidation via alias bridging](#safe-consolidation-via-alias-bridging).
 
 ## Background jobs and `wait_for_jobs`
 
@@ -290,7 +309,7 @@ Restating any of that in a doc is wasted space. Reach instead for the layer abov
 
 **Does NOT belong in a design doc:**
 - Prop tables or API documentation — the design AI reads the component code already
-- Theme token values (hex codes, pixel spacing, shadow definitions, radius values) — the theme already holds these. If the project's theme is wrong or empty, fix the theme via `edit_theme` (or direct the user to the theme UI for a full setup); don't paper over it in a doc.
+- Theme token values (hex codes, pixel spacing, shadow definitions, radius values) — the theme already holds these. If the project's theme is wrong or empty, fix the theme via `edit_theme`; don't paper over it in a doc.
 - Inline JSX or Tailwind class examples — these should be embedded snippets instead
 - Common design standards — if any designer would follow a pattern by default, don't restate it. Only document practices unique to this design system. When a common standard does hold particular importance, write the project-specific angle ("Confirm before destructive actions — restate the noun in the dialog, e.g. 'Delete survey' not 'Are you sure?'"), not the standard itself.
 - Anything trivially derivable from the component source or the theme
@@ -316,23 +335,39 @@ Preserve these tags verbatim when round-tripping through `mode: replace` — los
 
 ## Theme
 
-Use `edit_theme` to update the visual theme of a Subframe project. This tool is designed for **targeted tweaks** and **high-level changes** to an existing theme:
+Use `edit_theme` to update the project's visual theme — colors, fonts, corners, shadows, typography tokens. **Applies immediately to the whole project; there's no preview step.** Always use `get_theme` first to see the current state before formulating changes.
 
-- **Targeted tweaks**: Specific adjustments like "make the primary color darker", "increase border radius on all components", "switch the font to Inter", or "make shadows more subtle".
-- **High-level changes**: Broader theme shifts like "switch to a dark theme", "make the design feel more modern and minimal", or "adopt a warm earth-tone palette".
+### What `edit_theme` can do
 
-`edit_theme` can update colors, fonts, corners, shadows, and typography tokens. Use `get_theme` to understand the current theme before formulating your changes.
+- **Add** new tokens
+- **Tweak values** on existing tokens ("make the primary darker," "increase border radius")
+- **Rename** tokens — safe. Components and pages reference tokens by id, so the alias survives the rename.
+- **Delete** tokens — **destructive**. Every page/component that referenced the deleted token gets its alias replaced with the token's concrete value at deletion time. Those usages are now detached (hardcoded), not tracking any token. Theme version history restores the token, but the detached references stay detached — full recovery requires project version history.
 
-**When NOT to use `edit_theme`:** If the user wants to import or replicate an entire existing design system theme (e.g. "set up our theme to match these design tokens from our codebase"), `edit_theme` is not the right approach. For full theme setup from existing tokens or files, direct the user to the theme import feature in the Subframe UI at `https://app.subframe.com/theme`, where they can upload their theme files directly. For importing a full design system (components + theme), use `/subframe:bulk-import` instead — but note that the import feature is only available for certain teams (see that skill for details).
+### Risk-classify before calling
 
-The `description` parameter should describe what changes you want to make to the theme. It can include exact token values if needed, or it can be a high-level description — the AI will interpret both.
+Read the user's prompt and classify before invoking:
 
-If you are currently working on a page with the user, you should pass that page information into the `edit_theme` tool call.
+| Risk | Operations | Action |
+| --- | --- | --- |
+| Low | Adding tokens, tweaking values | Call directly; mention what changed after |
+| Medium | Renaming tokens, broad multi-token tweaks | Briefly note the scope (whole project) and call |
+| High | Anything that deletes tokens, replaces the palette wholesale, or implies "remove / strip / replace existing X" | **Confirm with the user before calling.** Spell out what will be deleted and that pages/components using those tokens will be updated to use hardcoded values (which would then require project version history to undo). |
 
-If a page is provided, the tool will return a URL where the user can review and apply the theme changes.
-If no page is provided, the tool will return a URL where the user can see the updated project theme. The user cannot review the theme changes prior to application in this case, so it is best to provide a page identifier if any is available.
+When in doubt about the risk of a prompt, assume High risk and confirm.
 
-**Important:** The theme affects all pages and components in the project, so always make the user confirm that they want to update the whole project before using `edit_theme`. If the user only wants to change the styling of a particular page (not the project-wide theme), use `edit_page` instead.
+### Safe consolidation via alias bridging
+
+When the user wants to consolidate tokens (e.g., `brand-50` through `brand-900` → `brand-primary` / `brand-secondary` / `brand-tertiary`), use alias bridging to avoid the destructive-delete cascade for tokens that map cleanly to the new structure. The process takes **two sequential `edit_theme` calls** (can't be combined into one):
+
+1. **First call** — create the new tokens AND re-point each mappable old token as an alias of its matching new token. Example: create `brand-primary` with the desired color, and update `brand-200` to alias `brand-primary` in the same call.
+2. **Second call** — delete the old tokens. Because references in pages/components resolve through the alias to the new tokens, they stay attached — no hardcoded fallback.
+
+**When alias bridging doesn't apply**: some old tokens won't map cleanly to any new one (e.g., `brand-50` is too pale to belong to any of primary/secondary/tertiary). For those, the standard destructive-delete cascade applies — references become hardcoded values. Make a per-token call: bridge what you can, accept detachment (and confirm with the user) for what you can't.
+
+### When NOT to use `edit_theme`
+
+- **Single-page styling change** — if the user wants different styling on just one page, not the project-wide theme, use `edit_page` instead.
 
 ## Deletion
 

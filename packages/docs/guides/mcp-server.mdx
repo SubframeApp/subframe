@@ -89,7 +89,7 @@ Read existing docs first via `get_project_info` (project-level) or `get_componen
 | Tool | Description | Key inputs | Returns |
 | --- | --- | --- | --- |
 | `get_theme` | Generate the Tailwind theme for the project | `projectId`, `cssType?` | `theme` config |
-| `edit_theme` | Edits the visual theme of a project (colors, fonts, corners, shadows) from a natural-language prompt. Affects the whole project. Best for targeted tweaks or high-level shifts. When a page identifier is provided, the user can preview before applying; otherwise, the theme is applied immediately | `description`, `id`/`name`/`url?`, `projectId` | `editUrl` |
+| `edit_theme` | Edits the project's visual theme (colors, fonts, corners, shadows, typography) from a natural-language prompt. Applies immediately to the whole project. Supports adding tokens, changing token values, renaming tokens, and **deleting tokens (destructive — references in designs are replaced with the token's concrete value at deletion time)**. | `description`, `projectId` | `themeUrl` |
 
 ### Async jobs
 

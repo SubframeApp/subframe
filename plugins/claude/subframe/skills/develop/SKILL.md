@@ -30,7 +30,7 @@ If the current directory has a `package.json` but no `.subframe/` folder, ask th
 ## Workflow
 
 1. **Wait for any in-flight design jobs** — see [Awaiting In-Flight Designs](#awaiting-in-flight-designs)
-2. **Fetch the design** — `get_page_info` with the URL, ID, or name.
+2. **Fetch the design** — `get_page_info` with the URL, ID, or name
 3. **Read design documentation** — `get_project_info` and `get_component_info` return any attached design docs; check them for usage guidance, accessibility notes, or constraints before implementing
 4. **Sync any missing components** — Only if components don't exist locally. `npx @subframe/cli sync` for the specific components used in the page
 5. **Create the page** — put it in the right place per codebase patterns
@@ -75,7 +75,7 @@ get_page_info({ id: "PAGE_ID", projectId: "PROJECT_ID" })
 get_page_info({ name: "Settings Page", projectId: "PROJECT_ID" })
 ```
 
-To discover what exists in the project, use `list_pages`, `list_components`, or `list_flows`. Snippets aren't expected to be exported to code - they live in Subframe as design system references.
+To discover what exists in the project, use `list_pages`, `list_components`, or `list_flows`. Snippets aren't synced to code — they live in Subframe as design system references.
 
 Read design documentation alongside the design: `get_project_info` returns project-level `docs` (broad principles), and `get_component_info` returns each component's `designDocuments` (component-specific usage guidance). Pick these up before implementing so you respect documented constraints.
 
