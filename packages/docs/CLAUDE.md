@@ -248,3 +248,10 @@ When updating docs based on product or code changes:
 
 - docs.json schema: https://mintlify.com/docs.json
 - Mintlify components: https://mintlify.com/docs/content/components
+
+## Learnings
+
+- Don't document feature-flagged or unreleased features — wait until they ship to everyone.
+- Verify multi-key keyboard shortcut behavior in code before describing it (e.g. Esc Esc walks the breadcrumb history, not the structural tree).
+- Don't conflate scoped behavior into a general description (e.g. blur-on-Esc is Ask-AI-only, not editor-wide).
+- Step-by-step guides must describe what each step actually does — never write three vague steps that gloss over the dialog.
