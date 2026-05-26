@@ -110,6 +110,21 @@ Because nothing breaks, you can migrate **incrementally** — sync a few compone
     Or sync specific components — `npx @subframe/cli@latest sync Button Alert` — to migrate just those. Either way, the CLI writes the new directory layout and removes the old flat files for the components it syncs.
   </Step>
 
+  <Step title="Update monorepo exports (if applicable)">
+    If you expose Subframe components from a shared package using the `exports` field in `package.json`, update the subpath patterns to point to the new directory layout:
+
+    ```json package.json
+    {
+      "exports": {
+        "./components/*": "./ui/components/*/index.tsx",
+        "./layouts/*": "./ui/layouts/*/index.tsx"
+      }
+    }
+    ```
+
+    The old `"./ui/components/*.tsx"` pattern no longer matches because the flat files have moved into per-component directories. See the [monorepo guide](/frameworks/monorepo) for the full setup.
+  </Step>
+
   <Step title="Review any sync-disabled files">
     If you'd added `@subframe/sync-disable` to a component file under the old layout, the CLI won't delete it — instead it **moves** it into the new directory (e.g. `components/Button.tsx` → `components/Button/Button.tsx`) and prints a warning listing each moved file.
 
