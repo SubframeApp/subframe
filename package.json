@@ -13,13 +13,13 @@
     "turbo": "2.5.6",
     "typescript": "5.8.3"
   },
-  "packageManager": "npm@10.8.2",
+  "packageManager": "npm@11.0.0",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "engines": {
-    "npm": "10.8.2",
-    "node": "20.19.4"
+    "node": "^24.0.0",
+    "npm": "^11.0.0"
   }
 }
