@@ -251,5 +251,4 @@ When updating docs based on product or code changes:
 
 ## Learnings
 
-- Don't document features behind feature flags until they ship publicly
-- Multi-theme is feature-flagged; only document single-theme behavior for now
+- Don't document features behind feature flags until they are widely released
