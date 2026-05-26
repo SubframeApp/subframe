@@ -248,3 +248,7 @@ When updating docs based on product or code changes:
 
 - docs.json schema: https://mintlify.com/docs.json
 - Mintlify components: https://mintlify.com/docs/content/components
+
+## Learnings
+
+- Don't document features behind feature flags until they are widely released
