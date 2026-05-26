@@ -26,14 +26,16 @@ src/ui/components/
 `Button.tsx` is the component Subframe generates, exactly as before. `index.tsx` is a thin wrapper that re-exports it:
 
 ```tsx index.tsx
-import { Button } from "./Button";
+"use client";
+import { Button as ButtonComponent } from "./Button";
 
 /**
  * Add wrapper components and business logic here.
  * If you modify this file, disable Subframe sync for it to prevent overwrites.
+ * Learn more: https://docs.subframe.com/concepts/syncing-components#wrapping-components
  */
 
-export { Button };
+export const Button = ButtonComponent;
 ```
 
 Your imports don't change. `@/ui/components/Button` resolves to the directory's `index.tsx`, so existing code keeps working.
@@ -44,7 +46,7 @@ A per-component directory gives each component a home for everything that should
 
 - **`index.tsx`** — a natural, stable place for your own wrapping logic and wrapper components, kept separate from the source Subframe generates.
 - **`Button.md`** — component documentation describing what the component is and how it should be used.
-- **In the future** — generated `.stories` files for Storybook.
+- **In the future** — generated `.stories` files for Storybook, test files, and more.
 
 It also makes [disabling sync](/concepts/syncing-components#disabling-sync) granular. `@subframe/sync-disable` works per file, so you can freeze your `index.tsx` while `Button.tsx` keeps receiving Subframe's visual updates — instead of having to freeze the whole component.
 

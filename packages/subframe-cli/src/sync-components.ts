@@ -2,7 +2,7 @@ import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises"
 import { dirname, join } from "node:path"
 import { oraPromise } from "ora"
 import { ensureIsValidCodeGenFile, isCodeGenFileValid } from "shared/code-gen-type-helpers"
-import { COMPONENT_WRAPPER_FILENAME, IGNORE_UPDATE_KEYWORD } from "shared/constants"
+import { COMPONENT_WRAPPER_FILENAME, DOCS_COMPONENT_DIRECTORIES_URL, IGNORE_UPDATE_KEYWORD } from "shared/constants"
 import { SyncProjectResponse, TruncatedProjectId } from "shared/types"
 import { apiSyncProject } from "./api-endpoints"
 import { CLILogger } from "./logger/logger-cli"
@@ -166,7 +166,8 @@ export async function syncComponents({
       warning(
         `The following sync-disabled files were moved into per-component directories:\n` +
           migratedSyncDisabledFiles.map((file) => `  ${file}`).join("\n") +
-          `\nTheir relative imports may now be at the wrong depth (e.g. "../utils" needs to become "../../utils") — please review them.\n`,
+          `\nTheir relative imports may now be at the wrong depth (e.g. "../utils" needs to become "../../utils") — please review them.` +
+          `\n\nFor more details, see ${DOCS_COMPONENT_DIRECTORIES_URL}\n`,
       ),
     )
   }
