@@ -14,11 +14,11 @@ jobs:
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref }}
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "24.16.0"
           registry-url: "https://registry.npmjs.org"
@@ -29,7 +29,7 @@ jobs:
         run: npm run update-version --workspace=@subframe/core
       - name: Build
         run: npm run build-for-publish --workspace=@subframe/core
-      - uses: stefanzweifel/git-auto-commit-action@v5
+      - uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: Publish Core
       - name: Publish

@@ -2,6 +2,11 @@
   "name": "@subframe/cli",
   "version": "1.206.0",
   "description": "Subframe's CLI tool for syncing your code with Subframe designs.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SubframeApp/subframe.git",
+    "directory": "packages/subframe-cli"
+  },
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "scripts": {
