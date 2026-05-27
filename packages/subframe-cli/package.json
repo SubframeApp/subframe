@@ -1,7 +1,12 @@
 {
   "name": "@subframe/cli",
-  "version": "1.206.0",
+  "version": "1.207.0",
   "description": "Subframe's CLI tool for syncing your code with Subframe designs.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SubframeApp/subframe.git",
+    "directory": "packages/subframe-cli"
+  },
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "scripts": {
@@ -53,6 +58,7 @@
     "@types/node-fetch": "^2.6.13",
     "@types/prompts": "2.4.5",
     "@types/segment-analytics": "0.0.34",
+    "@types/semver": "^7.7.1",
     "rollup": "3.29.5",
     "rollup-plugin-typescript2": "0.34.1",
     "typescript": "^5.1.3",

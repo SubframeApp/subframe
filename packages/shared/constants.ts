@@ -10,6 +10,11 @@ export const FAILED_TO_FETCH_PROJECT_ERROR = "Unable to fetch project"
 
 export const TAILWIND_CONFIG_EXPORT_FILENAME = "tailwind.config.js"
 export const TAILWIND_CSS_EXPORT_FILENAME = "theme.css"
+export const COMPONENT_WRAPPER_FILENAME = "index.tsx"
+
+// Docs URLs
+export const DOCS_COMPONENT_DIRECTORIES_URL = "https://docs.subframe.com/upgrading/component-directories"
+export const DOCS_WRAPPER_COMPONENTS_URL = "https://docs.subframe.com/concepts/syncing-components#wrapping-components"
 
 /**
  * CLI-specific constants

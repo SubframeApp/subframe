@@ -2,6 +2,11 @@
   "name": "@subframe/core",
   "version": "1.153.0",
   "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SubframeApp/subframe.git",
+    "directory": "packages/subframe-core"
+  },
   "source": "src/index.ts",
   "main": "dist/cjs/index.cjs",
   "module": "dist/esm/index.mjs",
