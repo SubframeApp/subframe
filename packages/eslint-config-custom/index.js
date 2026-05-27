@@ -1,4 +1,5 @@
 module.exports = {
+  parser: "@typescript-eslint/parser",
   extends: ["turbo", "prettier", "plugin:react-hooks/recommended"],
   rules: {
     /** General */
