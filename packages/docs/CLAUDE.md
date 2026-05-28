@@ -252,3 +252,4 @@ When updating docs based on product or code changes:
 ## Learnings
 
 - Don't document features behind feature flags until they are widely released
+- No standalone icon doc; icon import / inline-SVG changes rarely need docs (elements.mdx stays generic)
