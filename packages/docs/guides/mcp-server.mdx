@@ -36,8 +36,8 @@ The Subframe MCP server exposes tools across several categories. Most read tools
 
 | Tool | Description | Key inputs | Returns |
 | --- | --- | --- | --- |
-| `list_pages` | List all pages with the flow each belongs to | `projectId` | Array of `id`, `name`, `url`, `flowId`, `flowName` |
-| `get_page_info` | Generated React/Tailwind code for a page | `id`/`name`/`url`, `projectId` | `id`, `name`, `files` |
+| `list_pages` | List all pages with the flow each belongs to | `projectId` | Array of `id`, `name`, `url`, `lastModifiedAt`, `flowId`, `flowName` |
+| `get_page_info` | Generated React/Tailwind code for a page | `id`/`name`/`url`, `projectId` | `id`, `name`, `lastModifiedAt`, `files` |
 | `design_page` | Generates 1-4 page variations as an asynchronous background job. Variations land as pages in a flow as they finish | `description`, `variations`, `flowName`, `projectId`, `codeContext?`, `additionalPages?` | `flowId`, `flowUrl`, `jobId` |
 | `edit_page` | Apply a targeted change to an existing page; applied immediately | `id`/`name`/`url`, `description`, `projectId` | `pageUrl` |
 | `delete_page` | Delete a page, removing it from its flow and stripping prototype actions referencing it. Refuses by default if referenced in other pages. Use `force: true` to delete anyway | `id`/`name`/`url`, `projectId`, `force?` | `deletedId`, `deletedName`, `references` |
@@ -46,8 +46,8 @@ The Subframe MCP server exposes tools across several categories. Most read tools
 
 | Tool | Description | Key inputs | Returns |
 | --- | --- | --- | --- |
-| `list_components` | List all components | `projectId` | Array of `id`, `name`, `url` |
-| `get_component_info` | Generated code plus attached design document | `id`/`name`/`url`, `projectId` | `id`, `name`, `files`, `designDocuments` |
+| `list_components` | List all components | `projectId` | Array of `id`, `name`, `url`, `lastModifiedAt` |
+| `get_component_info` | Generated code plus attached design document | `id`/`name`/`url`, `projectId` | `id`, `name`, `lastModifiedAt`, `files`, `designDocuments` |
 | `design_component` | Designs a new component as an asynchronous background job | `description`, `name`, `projectId` | `componentId`, `componentUrl`, `jobId` |
 | `edit_component` | Edit an existing component as an asynchronous background job. Propagates to every page using the component | `id`/`name`/`url`, `description`, `projectId` | `componentUrl`, `jobId` |
 | `delete_component` | Delete a component or page layout. Detaches instances or clears layouts. Refuses by default if in use. Use `force: true` to delete anyway | `id`/`name`/`url`, `projectId`, `force?` | `deletedId`, `deletedName`, `references` |
@@ -58,8 +58,8 @@ Snippets are small, standalone bits of UI typically embedded inside design docum
 
 | Tool | Description | Key inputs | Returns |
 | --- | --- | --- | --- |
-| `list_snippets` | List all snippets | `projectId` | Array of `id`, `name`, `url` |
-| `get_snippet_info` | Generated code for a snippet | `id`/`name`/`url`, `projectId` | `id`, `name`, `files` |
+| `list_snippets` | List all snippets | `projectId` | Array of `id`, `name`, `url`, `lastModifiedAt` |
+| `get_snippet_info` | Generated code for a snippet | `id`/`name`/`url`, `projectId` | `id`, `name`, `lastModifiedAt`, `files` |
 | `design_snippet` | Design a new snippet | `description`, `name?`, `projectId`, `codeContext?`, `references?` | `snippetId`, `snippetUrl` |
 | `edit_snippet` | Edit an existing snippet | `id`/`name`/`url`, `description`, `projectId` | `snippetUrl` |
 | `delete_snippet` | Delete a snippet. Any design document embeds are removed automatically | `id`/`name`/`url`, `projectId` | `deletedId`, `deletedName` |
