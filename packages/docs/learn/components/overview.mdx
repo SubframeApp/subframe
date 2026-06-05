@@ -172,9 +172,22 @@ You can detach a component so the rendered elements are no longer linked to the 
 2. Select **Detach component**
 
 <Note>
-  Not all components can be detached; interactive components built on Radix (like accordions, checkboxes, etc) cannot be
-  detached.
+  Components whose structure relies on tightly coupled primitives — dropdowns, selects, dialogs, drawers, charts,
+  tables, and calendars — can't be detached. The **Detach component** action is hidden for these.
 </Note>
+
+## Deleting components
+
+You can delete a component from the **Components** page or from the **...** menu in the component editor.
+
+When a deleted component is used in other designs, Subframe handles existing instances based on the component type. The delete dialog shows what will happen before you confirm:
+
+- **Instances will be detached** — Custom components and most interactive primitives (buttons, switches, checkboxes, sliders, sidebars, navbars). Each instance becomes an independent copy of the rendered elements.
+- **Instances will be deleted** — Components whose structure can't survive on their own (dropdowns, selects, dialogs, drawers, charts, tables, calendars). Customizations inside each instance are removed with it.
+- **Layout assignments will be cleared** — Page layouts. The pages using the layout stay, but lose their layout assignment.
+- **References will be removed** — Custom pages referenced from prototype actions or other pages.
+
+Most deletes can't be undone with <kbd>Cmd</kbd> + <kbd>Z</kbd>. To recover a deleted component, restore an earlier snapshot from [Version history](/learn/projects/version-history).
 
 ## Resetting components
 
