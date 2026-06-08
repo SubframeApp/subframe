@@ -50,7 +50,7 @@ The Subframe MCP server exposes tools across several categories. Most read tools
 | `get_component_info` | Generated code plus attached design document | `id`/`name`/`url`, `projectId` | `id`, `name`, `lastModifiedAt`, `files`, `designDocuments` |
 | `design_component` | Designs a new component as an asynchronous background job | `description`, `name`, `projectId` | `componentId`, `componentUrl`, `jobId` |
 | `edit_component` | Edit an existing component as an asynchronous background job. Propagates to every page using the component | `id`/`name`/`url`, `description`, `projectId` | `componentUrl`, `jobId` |
-| `delete_component` | Delete a component or custom page layout. Detachable components detach their instances; non-detachable ones delete instances (with customizations inside); page layouts clear assignments. Some built-in components can't be deleted (`force` does not override). Refuses by default if in use — pass `force: true` to delete anyway | `id`/`name`/`url`, `projectId`, `force?` | `deletedId`, `deletedName`, `references` |
+| `delete_component` | Delete a component or custom page layout. Detachable components detach their instances; non-detachable ones delete instances; page layouts clear assignments. Some built-in components can't be deleted (`force` does not override). Refuses by default if in use — pass `force: true` to delete anyway | `id`/`name`/`url`, `projectId`, `force?` | `deletedId`, `deletedName`, `references` |
 
 ### Snippets
 
