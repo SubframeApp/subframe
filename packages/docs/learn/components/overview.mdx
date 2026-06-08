@@ -169,12 +169,28 @@ You can add a component instance by
 You can detach a component so the rendered elements are no longer linked to the component.
 
 1. Right-click or press <kbd>/</kbd> to open [quick actions](/learn/design-mode/quick-actions)
-2. Select **Detach component**
+2. Select **Detach instance**
 
 <Note>
   Not all components can be detached; interactive components built on Radix (like accordions, checkboxes, etc) cannot be
   detached.
 </Note>
+
+## Deleting components
+
+Delete a component from the **Components** page, or from the editor by opening the **⋯** menu in the header.
+
+1. Right-click the component (or open the **⋯** menu) and select **Delete...**
+2. Review the confirmation dialog and click **Delete**
+
+If the component is used elsewhere, the dialog lists every usage and explains what happens to those references:
+
+- **Custom components** — existing instances are detached, so the rendered elements stay in place but are no longer linked to the component
+- **Compound components** (tables, dropdown menus, dialogs, charts, etc.) — existing instances are deleted along with any customized content inside them
+- **Page layouts** — the layout assignment is cleared from affected pages
+- **Pages** — references to the page are removed
+
+<Note>Dialogs, drawers, and prebuilt page layouts can't be deleted.</Note>
 
 ## Resetting components
 
