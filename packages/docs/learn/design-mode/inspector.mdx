@@ -22,6 +22,16 @@ Overrides let you customize properties for specific contexts without changing th
 
 When a property has an override, a pink dot appears next to it. Click the pink dot to remove the override and revert to the default value.
 
+## Prebuilt interactive components
+
+When you select an instance of a prebuilt interactive component, the inspector exposes its underlying state so you can preview how the component looks in different conditions:
+
+- **Checkbox**, **Switch** — toggle the **Checked** value
+- **Radio Group**, **Toggle Group** — pick which item is selected via the **Value** dropdown
+- **Text Field**, **Text Area** — type a default **Value** for the input
+
+These controls set the rendered state of the instance in design mode and preview. Runtime state in your generated code is still controlled by your application — see [headless components](/concepts/code-generation#headless-components) for details.
+
 ## Keyboard shortcuts
 
 Most properties in the inspector have a keyboard shortcut. Hover over any edit action to see its shortcut.
