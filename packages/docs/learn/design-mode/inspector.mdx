@@ -22,6 +22,16 @@ Overrides let you customize properties for specific contexts without changing th
 
 When a property has an override, a pink dot appears next to it. Click the pink dot to remove the override and revert to the default value.
 
+## Interactive component state
+
+For interactive primitives, the Inspector exposes the component's underlying state so you can preview a specific configuration without juggling variants:
+
+- **Checkbox**, **Switch** — Toggle **Checked** to set the on/off state.
+- **Radio Group**, **Toggle Group** — Select an item, then toggle **Selected** to mark it as the active option. Only one item can be selected at a time.
+- **Text Field**, **Text Area** — Type into **Value** to set the field's content.
+
+The state you set in the Inspector flows through to preview, prototypes, and generated code.
+
 ## Keyboard shortcuts
 
 Most properties in the inspector have a keyboard shortcut. Hover over any edit action to see its shortcut.
