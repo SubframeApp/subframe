@@ -60,7 +60,7 @@ Subframe supports the following theme formats for import:
     --color-primary-300: #cccccc;
     ```
 
-    Color values must be valid hex, rgb, or hsl.
+    Color values can be hex, rgb, hsl, or modern CSS color syntax like `oklch()`, `lab()`, and `color()`. Wide-gamut colors (such as Display P3) are converted to the closest sRGB value.
   </Tab>
   <Tab title="Design Tokens (JSON)">
     Upload a `.json` file containing design tokens, following the W3C Design Tokens Format. This works with Figma's **variables** export.
@@ -116,7 +116,7 @@ You can upload multiple JSON files from different collections at once.
 
 Verify your file format:
 
-- CSS files should contain `--` prefixed custom properties with valid color values (hex, rgb, hsl)
+- CSS files should contain `--` prefixed custom properties with valid color values — hex, rgb, hsl, or modern syntax like `oklch()` and `color()`
 - Tailwind configs should export a `theme.extend.colors` object
 - JSON files should contain color values in a supported design token format
 - Remove preprocessor-specific syntax (Sass variables, Less mixins) before importing
