@@ -6,7 +6,7 @@ description: Let AI coding assistants directly access and edit your Subframe des
 import McpSkillsInstall from "/snippets/mcp-skills-install.mdx"
 import CopyMcpLink from "/snippets/copy-mcp-link.mdx"
 
-The Subframe MCP server gives AI coding assistants like Claude Code, Cursor, and Codex direct access to your Subframe projects. AI can read, design, and delete pages, components, and snippets as well as write design documents and edit the theme.
+The Subframe MCP server gives AI coding assistants like Claude Code, Cursor, and Codex direct access to your Subframe projects. AI can read, design, and delete pages, components, and snippets, read prototypes, write design documents, and edit the theme.
 
 A separate Subframe Docs MCP server gives AI access to Subframe documentation (this site).
 
@@ -73,6 +73,16 @@ A flow is a collection of related pages (e.g. "Onboarding", "Checkout").
 | `list_flows` | List all flows | `projectId` | Array of `id`, `name`, `pageCount` |
 | `get_flow_info` | A flow with its name and ordered pages | `id`/`name`/`url`, `projectId` | `id`, `name`, `pages` |
 | `delete_flow` | Delete a flow. Refuses if it contains pages. Use `deleteChildPages: true` to delete the flow plus every page inside it | `id`/`name`/`url`, `projectId`, `deleteChildPages?` | `deletedId`, `deletedName`, `deletedPageIds` |
+
+### Prototypes
+
+A prototype is an interactive, AI-built running app — its own React + Vite codebase — created in the Subframe prototyping editor. The read tools below expose a prototype as a standalone, runnable Vite app: internal scaffolding is dropped and the Vite/Tailwind config plus an entrypoint are added, so the file paths and contents you get back are ready to run with `npm install && npm run dev`.
+
+| Tool | Description | Key inputs | Returns |
+| --- | --- | --- | --- |
+| `list_prototypes` | List all prototypes in a project | `projectId` | Array of `id`, `name`, `lastModifiedAt` |
+| `get_prototype_info` | A prototype's metadata and the list of files in its runnable Vite app | `id`, `projectId` | `id`, `name`, `lastBuiltAt`, `files` |
+| `read_prototype_file` | Read the contents of a single file from a prototype's runnable Vite app | `id`, `filePath`, `projectId` | `id`, `filePath`, `contents` |
 
 ### Design documents
 
