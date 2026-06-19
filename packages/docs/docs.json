@@ -124,7 +124,7 @@
                   "learn/ask-ai/prompt-to-design",
                   "learn/ask-ai/making-quick-edits",
                   "learn/ask-ai/image-to-design",
-                  "learn/ask-ai/referencing-pages",
+                  "learn/ask-ai/adding-context",
                   "learn/ask-ai/personalizing-ai"
                 ]
               },
@@ -223,6 +223,10 @@
     }
   },
   "redirects": [
+    {
+      "source": "/learn/ask-ai/referencing-pages",
+      "destination": "/learn/ask-ai/adding-context"
+    },
     {
       "source": "/learn/guides/using-subframe-with-ai-agents",
       "destination": "/learn/guides/working-with-ai-agents"
