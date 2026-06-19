@@ -2,13 +2,11 @@ import { oraPromise } from "ora"
 import prompt from "prompts"
 import { CLI_AUTH_ROUTE } from "shared/routes"
 import { apiVerifyToken } from "./api-endpoints"
-import { isDev } from "./common"
+import { BASE_URL } from "./common"
 import { getToken, storeToken } from "./config"
 import { CLILogger } from "./logger/logger-cli"
 import { link } from "./output/format"
 import { abortOnState } from "./prompt-helpers"
-
-const BASE_URL = isDev ? "http://localhost:6501" : "https://app.subframe.com"
 
 interface TokenWithTeam {
   token: string
