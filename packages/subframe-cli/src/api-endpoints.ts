@@ -19,10 +19,8 @@ import type {
   VerifyTokenResponse,
 } from "shared/types"
 import packageJson from "../package.json"
-import { isDev } from "./common"
+import { BASE_URL } from "./common"
 import { error } from "./output/format"
-
-const BASE_URL = isDev ? "http://localhost:6501" : "https://app.subframe.com"
 
 // NOTE: ProxyAgent handles making HTTP requests through a corporate proxy
 const agent = new ProxyAgent({ keepAlive: true })

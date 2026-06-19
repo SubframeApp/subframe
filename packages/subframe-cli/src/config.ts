@@ -1,12 +1,14 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises"
 import { join } from "node:path"
 import XDGAppPaths from "xdg-app-paths"
-import { isDev } from "./common"
+import { isBeta, isDev } from "./common"
 import { CLILogger } from "./logger/logger-cli"
 import { exists } from "./utils/fs"
 
 const SUBFRAME_DIRECTORY = XDGAppPaths("com.subframe.cli").dataDirs()[0]
-const AUTH_CONFIG_FILENAME = isDev ? "auth.dev.json" : "auth.json"
+// Tokens are scoped per environment since each backend issues its own.
+// Keeping them in separate files prevents beta tokens from clobbering prod tokens.
+const AUTH_CONFIG_FILENAME = isDev ? "auth.dev.json" : isBeta ? "auth.beta.json" : "auth.json"
 const SUBFRAME_AUTH_CONFIG_PATH = join(SUBFRAME_DIRECTORY, AUTH_CONFIG_FILENAME)
 
 interface AuthConfig {
