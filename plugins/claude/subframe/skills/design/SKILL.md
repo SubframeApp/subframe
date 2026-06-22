@@ -115,7 +115,7 @@ Include in the description:
 
 ### For snippet design (`design_snippet`, `edit_snippet`)
 
-See the snippet tool sections below for `codeContext` / `references` parameter use. `edit_snippet` has no `codeContext` parameter — paste outside reference code into `description`.
+See the snippet tool sections below for `codeContext` / `additionalReferences` parameter use. `edit_snippet` has no `codeContext` parameter — paste outside reference code into `description`.
 
 ### For page design (`design_page`, `edit_page`)
 
@@ -199,14 +199,14 @@ How much context to gather and how many variations to generate depends on the ta
 | Task                                | Context                                                                                                                                            | Variations                              |
 | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
 | **New page (open-ended)**           | Data types (`codeContext`)                                                                                                                         | 4 — explore the design space            |
-| **New page (with reference pages)** | Reference pages (`additionalPages` if in Subframe, `codeContext` if not), data types (`codeContext`)                                               | 1-2 — stay close to the reference pages |
-| **Redesigning existing UI**         | The current page (`additionalPages` if in Subframe, `codeContext` if not; note what to keep vs change in the description)                          | 2-4 — depending on how open-ended       |
+| **New page (with reference pages)** | Reference pages (`additionalReferences` if in Subframe, `codeContext` if not), data types (`codeContext`)                                               | 1-2 — stay close to the reference pages |
+| **Redesigning existing UI**         | The current page (`additionalReferences` if in Subframe, `codeContext` if not; note what to keep vs change in the description)                          | 2-4 — depending on how open-ended       |
 | **Recreating an existing UI**       | The current page's exact markup and styles (`codeContext`)                                                                                         | 1 — recreate the UI from code exactly   |
 
 **Always include when available:**
 
-- The existing page being discussed and similar existing pages (the single most valuable context). Use `additionalPages` for Subframe pages — pass the page ID from a pasted MCP link, or a specific variation page ID the user has referenced. Use `codeContext` for pages that only exist in the codebase.
-- Components or patterns the user refers to or explicitly mentions (via `codeContext`)
+- The existing page being discussed and similar existing pages (the single most valuable context) — pass them via `additionalReferences` by ID or name (e.g. a page ID from a pasted MCP link, or a variation page ID the user referenced). `additionalReferences` resolves any Subframe page, snippet, or component; use `codeContext` for code that only exists in the codebase.
+- Components or patterns the user refers to or explicitly mentions — `additionalReferences` for components already in the Subframe project, `codeContext` for patterns or code not yet in Subframe
 - Data types/interfaces for what the page will display (via `codeContext`)
 
 #### Preparing `codeContext`
@@ -225,12 +225,12 @@ When you inline a component, expand it into its JSX markup (inputs, buttons, lay
 
 Each variation is an object with a `name` (short name) and `description` (a few sentence prompt describing the design direction).
 
-**When you have reference pages** (`additionalPages`), use fewer variations (1-2) and keep them grounded in the reference. The variations should refine or extend the existing design, not diverge from it. For example:
+**When you have reference pages** (`additionalReferences`), use fewer variations (1-2) and keep them grounded in the reference. The variations should refine or extend the existing design, not diverge from it. For example:
 
 - `{ "name": "Adapted layout", "description": "Follow the same layout as the reference page but adapted for [new content]" }`
 - `{ "name": "Compact data-dense", "description": "Same structure as the reference but with a more compact, data-dense layout." }`
 
-**When starting from scratch** (no `additionalPages`), use more variations (4) to explore the design space:
+**When starting from scratch** (no `additionalReferences`), use more variations (4) to explore the design space:
 
 - `{ "name": "Data table", "description": "Compact data table with inline actions and bulk operations." }`
 - `{ "name": "Card grid", "description": "Card-based layout with visual hierarchy and quick filters." }`
@@ -244,12 +244,12 @@ More variations = more exploration. Fewer = more focused. Default to fewer when 
 When designing multiple related pages (flows, CRUD, etc.):
 
 1. Design the primary page first with more variations to establish the direction.
-2. After the user has reviewed the variations in the flow editor, design remaining pages passing the relevant variation page(s) via `additionalPages`. Have the user paste an MCP link to the variation they want as reference, or use `get_flow_info` with the `flowId` to enumerate the pages in the flow and ask which to use.
+2. After the user has reviewed the variations in the flow editor, design remaining pages passing the relevant variation page(s) via `additionalReferences`. Have the user paste an MCP link to the variation they want as reference, or use `get_flow_info` with the `flowId` to enumerate the pages in the flow and ask which to use.
 3. Use the same `flowName` to group related pages together.
 
 ### `edit_page` — targeted edits to an existing page
 
-Use `edit_page` for targeted changes to a specific Subframe page. Pass `id`, `name`, or `url` (call `list_pages` first if you need to find it) plus a `description` of the change. Follow the [Grounding](#grounding-design-calls-in-real-code) rules — the AI already has the current page code, so only paste outside reference code when the change depends on something the AI can't see. The edit applies immediately; present the returned `pageUrl` to the user.
+Use `edit_page` for targeted changes to a specific Subframe page. Pass `id`, `name`, or `url` (call `list_pages` first if you need to find it) plus a `description` of the change. Follow the [Grounding](#grounding-design-calls-in-real-code) rules — the AI already has the current page code, so only paste outside reference code when the change depends on something the AI can't see; pass `additionalReferences` to point it at related Subframe pages, snippets, or components. The edit applies immediately; present the returned `pageUrl` to the user.
 
 #### When to use `edit_page` vs `design_page`
 
@@ -264,11 +264,11 @@ For `design_page`, present the returned `flowUrl` as a clickable markdown link. 
 
 From there, the user may continue refining in Subframe or return here and ask you to implement the design in code. Do NOT ask the user which variation they prefer or present variation options as a multiple choice in chat. Simply present the flow URL and let them know they can ask you to implement once they're ready.
 
-If you need to enumerate the variation pages programmatically (e.g., to reference one in `additionalPages` or to read its current code with `get_page_info`), call `wait_for_jobs` with the `jobId` first, then `get_flow_info` with the `flowId`. Reading too early may return only the variations that have finished by that moment.
+If you need to enumerate the variation pages programmatically (e.g., to reference one in `additionalReferences` or to read its current code with `get_page_info`), call `wait_for_jobs` with the `jobId` first, then `get_flow_info` with the `flowId`. Reading too early may return only the variations that have finished by that moment.
 
 Internally track the `flowId` returned by `design_page`. Don't surface it to the user. Use it with `get_flow_info` for follow-up flow-level operations, or pass the same `flowName` on subsequent `design_page` calls to keep new variations grouped in the same flow.
 
-For `/subframe:develop`, `additionalPages`, or `edit_page`, use specific page IDs the user has referenced (via pasted MCP link or while iterating in the editor), or call `get_flow_info` to look them up by name — `design_page` itself doesn't return individual page IDs since all variations land as separate pages on the canvas.
+For `/subframe:develop`, `additionalReferences`, or `edit_page`, use specific page IDs the user has referenced (via pasted MCP link or while iterating in the editor), or call `get_flow_info` to look them up by name — `design_page` itself doesn't return individual page IDs since all variations land as separate pages on the canvas.
 
 ## Components
 
@@ -297,6 +297,7 @@ Use `design_component` to create something that should be a Subframe component (
 - `description` — what the component is and how it should look/behave. **Paste real code, don't paraphrase** — see [Grounding design calls in real code](#grounding-design-calls-in-real-code) for what to include (canonical source, stories, CSS modules, prop types, relevant theme tokens) and verbosity rules. Apply the Subframe-vs-application rule from [Preparing codeContext](#preparing-codecontext): leave references to components that already exist in this Subframe project as-is, inline anything else.
 - `name` — the component name (PascalCase, e.g., "PrivacyToggle")
 - `projectId` — usually inferred from `.subframe/sync.json`
+- `additionalReferences` (optional) — IDs or names of existing Subframe pages, snippets, or components to use as design context (resolved server-side, no need to inline their code).
 
 Returns `componentId` (immediately referenceable in other tools), `componentUrl` (open this in the editor to watch the design happen), and `jobId` (pass to `wait_for_jobs` before reading back via `get_component_info` or referencing in another design call).
 
@@ -304,7 +305,7 @@ Returns `componentId` (immediately referenceable in other tools), `componentUrl`
 
 Use `edit_component` for targeted changes to a component already in the project. Call `get_component_info` first so your description can target exactly what differs. The design AI already has the current Subframe code — only paste outside reference code when the change depends on something the AI can't see (a codebase implementation to match, a sibling component, a design spec). See [Grounding design calls in real code](#grounding-design-calls-in-real-code) for what to include and how to trim.
 
-Pass one of `id`, `name`, or `url` plus a `description`. Returns `componentUrl` and `jobId`. Edits propagate to every page using the component, so confirm with the user before making structural changes.
+Pass one of `id`, `name`, or `url` plus a `description`; optionally `additionalReferences` to point the AI at related Subframe pages, snippets, or components. Returns `componentUrl` and `jobId`. Edits propagate to every page using the component, so confirm with the user before making structural changes.
 
 The same component cannot be edited by two agents simultaneously — if another conversation is already working on it, the tool returns the in-progress URL and you should wait or ask the user.
 
@@ -323,7 +324,7 @@ Use `design_snippet` when the user wants to illustrate something in a design doc
 - `description` — what to show
 - `name` — optional; defaults to "AI Generated Snippet"
 - `codeContext` (optional) — raw outside code that grounds the snippet (the codebase implementation it should mirror, related types, the specific usage example it illustrates).
-- `references` (optional) — IDs or names of existing Subframe components, pages, or snippets to use as design context (resolved server-side, no need to inline their code).
+- `additionalReferences` (optional) — IDs or names of existing Subframe pages, snippets, or components to use as design context (resolved server-side, no need to inline their code).
 
 Returns `snippetId` and `snippetUrl`. Embed the snippet in a design document with `<div data-type="component-example" data-component-id="<snippetId>"></div>` (see the design documents section).
 
@@ -455,9 +456,9 @@ When a delete tool refuses because of references, surface what it would affect t
 
 The user reviews and refines designs in the Subframe editor, not in code. When they come back asking to combine ideas, refine a specific direction, or iterate further:
 
-- **They reference a specific variation** (by pasted MCP link, by name, or by describing it). If you need to find the variation's `pageId`, call `get_flow_info` with the `flowId` from the original `design_page` response — it returns the pages in the flow with names and IDs. Then use `edit_page` with that page's id for targeted changes, or call `design_page` with the page passed via `additionalPages` if they want a fresh set of options grounded in that direction.
-- **They want to mix variations** ("I like the layout from variation 1 but the colors from variation 3"). Ask them to paste the MCP links of the variations they want to combine (or use `get_flow_info` to look up page IDs by name), then call `design_page` with those pages via `additionalPages` and a description of the combination.
-- **They want to start over** ("none of these are right"). Call `design_page` again with a refined description and any reference pages via `additionalPages`. Use the same `flowName` to keep related work grouped.
+- **They reference a specific variation** (by pasted MCP link, by name, or by describing it). If you need to find the variation's `pageId`, call `get_flow_info` with the `flowId` from the original `design_page` response — it returns the pages in the flow with names and IDs. Then use `edit_page` with that page's id for targeted changes, or call `design_page` with the page passed via `additionalReferences` if they want a fresh set of options grounded in that direction.
+- **They want to mix variations** ("I like the layout from variation 1 but the colors from variation 3"). Ask them to paste the MCP links of the variations they want to combine (or use `get_flow_info` to look up page IDs by name), then call `design_page` with those pages via `additionalReferences` and a description of the combination.
+- **They want to start over** ("none of these are right"). Call `design_page` again with a refined description and any reference pages via `additionalReferences`. Use the same `flowName` to keep related work grouped.
 - **They want to iterate on a component or snippet**. Use `edit_component` / `edit_snippet` for targeted changes; the resource keeps its identity and existing usages stay wired up.
 
 You don't have to read the generated code by default — Subframe renders the designs and the user reviews them visually in the editor, so summarizing them in chat usually isn't useful. When reading the code would genuinely help (the user asks what was generated, you're picking which design to extend, etc.), call `wait_for_jobs` if necessary and then the required `get_*_info` calls.
