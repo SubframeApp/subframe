@@ -1,9 +1,9 @@
 import { join } from "node:path"
 import ora from "ora"
-import prompts from "prompts"
+import { COMMAND_NO_TAILWIND_KEY, COMMAND_TAILWIND_KEY } from "shared/constants"
 import { CodeGenFileValid } from "shared/types"
 import { ObjectLiteralExpression, printNode, Project, QuoteKind, SourceFile, SyntaxKind } from "ts-morph"
-import { abortOnState } from "./prompt-helpers"
+import { ask } from "./interactive"
 import { injectThemeImportIntoGlobals } from "./setup/inject-theme-import"
 import { makeSubframeContentGlob, makeSubframeRequire } from "./transforms/tailwind"
 
@@ -76,17 +76,16 @@ export async function setupTailwindV3(
       ) !== -1
 
     if (!alreadyConfigured) {
-      prompts.override({
-        updateTailwindConfig: opts.tailwind,
-      })
-      const response = await prompts({
-        type: "confirm",
-        name: "updateTailwindConfig",
-        initial: true,
-        message: "Do you want Subframe to configure your Tailwind config?",
-        onState: abortOnState,
-      })
-      if (response.updateTailwindConfig) {
+      const updateTailwindConfig = await ask<boolean>(
+        {
+          type: "confirm",
+          name: "updateTailwindConfig",
+          initial: true,
+          message: "Do you want Subframe to configure your Tailwind config?",
+        },
+        { override: opts.tailwind, requiredHint: `Pass ${COMMAND_TAILWIND_KEY} or ${COMMAND_NO_TAILWIND_KEY}.` },
+      )
+      if (updateTailwindConfig) {
         const spinner = ora("Updating Tailwind config").start()
         transformTailwindConfigFile(tailwindConfig, cwd, subframeDirPath)
         await tailwindConfig.save()

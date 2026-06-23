@@ -49,12 +49,34 @@ export async function getToken(cliLogger: CLILogger, { teamId }: { teamId: numbe
   return config?.tokens[teamId] ?? null
 }
 
+/**
+ * Look up the team a token is already cached under, if any. Lets callers reuse a
+ * previously-verified token without another round-trip to the verify endpoint.
+ */
+export async function getTeamIdForToken(cliLogger: CLILogger, token: string): Promise<number | null> {
+  const config = await readAuthConfig(cliLogger)
+  if (!config) {
+    return null
+  }
+  for (const [teamId, cachedToken] of Object.entries(config.tokens)) {
+    if (cachedToken === token) {
+      return Number(teamId)
+    }
+  }
+  return null
+}
+
 export async function storeToken(
   cliLogger: CLILogger,
   { teamId, token }: { teamId: number; token: string },
 ): Promise<void> {
   const config = await readAuthConfig(cliLogger)
   const tokens = config?.tokens ?? {}
+  // Avoid a redundant read-modify-write (and the file race under concurrent jobs)
+  // when the cached token is already identical.
+  if (tokens[teamId] === token) {
+    return
+  }
   tokens[teamId] = token
   await writeAuthConfig({ tokens })
 }

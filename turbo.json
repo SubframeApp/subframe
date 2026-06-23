@@ -1,5 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "globalEnv": ["SUBFRAME_BASE_URL", "SUBFRAME_AUTH_TOKEN"],
   "tasks": {
     "build": {
       "env": ["NODE_ENV", "SEGMENT_WRITE_KEY"],

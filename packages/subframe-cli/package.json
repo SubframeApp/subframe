@@ -12,6 +12,7 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest watch",
+    "test:e2e": "npm run build-for-publish && vitest run --config vitest.e2e.config.ts",
     "build-for-publish": "rollup -c --bundleConfigAsCjs",
     "dev": "rollup -c --bundleConfigAsCjs --watch",
     "update-version": "npm version minor",

@@ -52,6 +52,7 @@
               "guides/component-docs",
               "guides/accessibility",
               "guides/testing",
+              "guides/cli-automation",
               "guides/publish-to-npm"
             ]
           },

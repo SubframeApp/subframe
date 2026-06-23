@@ -1,7 +1,7 @@
-import prompts from "prompts"
+import { COMMAND_NO_SYNC_KEY, COMMAND_SYNC_KEY } from "shared/constants"
 import { TruncatedProjectId } from "shared/types"
+import { ask } from "./interactive"
 import { CLILogger } from "./logger/logger-cli"
-import { abortOnState } from "./prompt-helpers"
 import { syncComponents } from "./sync-components"
 
 export async function initSync(
@@ -13,19 +13,17 @@ export async function initSync(
   cssType: "tailwind" | "tailwind-v4",
   opts: { sync?: boolean },
 ) {
-  prompts.override({
-    sync: opts.sync,
-  })
+  const shouldSync = await ask<boolean>(
+    {
+      type: "confirm",
+      name: "sync",
+      initial: true,
+      message: "Would you like to sync all of your Subframe components?",
+    },
+    { override: opts.sync, requiredHint: `Pass ${COMMAND_SYNC_KEY} or ${COMMAND_NO_SYNC_KEY}.` },
+  )
 
-  const response = await prompts({
-    type: "confirm",
-    name: "sync",
-    initial: true,
-    message: ["Would you like to sync all of your Subframe components?"].join("\n"),
-    onState: abortOnState,
-  })
-
-  if (!response.sync) {
+  if (!shouldSync) {
     return
   }
 

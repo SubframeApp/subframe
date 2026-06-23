@@ -2,12 +2,12 @@ import { downloadTemplate } from "@bluwy/giget-core"
 import { readFile, writeFile } from "node:fs/promises"
 import { join, resolve } from "node:path"
 import ora from "ora"
-import prompts from "prompts"
 import { coerce, gte } from "semver"
+import { COMMAND_CSS_TYPE_KEY, COMMAND_NAME_KEY, COMMAND_TEMPLATE_KEY } from "shared/constants"
 import { cwd } from "../common"
+import { ask } from "../interactive"
 import { CLILogger } from "../logger/logger-cli"
 import { highlight } from "../output/format"
-import { abortOnState } from "../prompt-helpers"
 import { exists } from "../utils/fs"
 import { tryGitInit } from "../utils/git"
 import { getInstalledPackageVersion } from "../utils/package-managers"
@@ -120,17 +120,7 @@ export async function prepareProject(
 ): Promise<{ projectPath: string; didCreateNewProject: boolean; styleInfo: StyleInfo }> {
   // No package.json in current directory - assume they need to set up a new project.
   if (options.template !== undefined || !(await exists(resolve(cwd, "package.json")))) {
-    prompts.override({
-      type: options.template,
-      name: options.name,
-      cssType: options.cssType,
-    })
-
-    // NOTE: We need to pre-validate the name if it was provided because otherwise the overrides will not work with the
-    // async validation function.
-    const providedNameValidateResult = options.name ? await validateName(options.name) : false
-
-    const { type, name, cssType } = await prompts([
+    const type = await ask<"nextjs" | "vite" | "astro">(
       {
         type: "select",
         name: "type",
@@ -143,17 +133,31 @@ export async function prepareProject(
           { title: "Astro", value: "astro" },
         ],
         initial: 0,
-        onState: abortOnState,
       },
+      {
+        override: options.template,
+        required: true,
+        requiredHint: `No package.json found here. Pass ${COMMAND_TEMPLATE_KEY} <vite|nextjs|astro> to scaffold a new project.`,
+      },
+    )
+
+    const name = await ask<string>(
       {
         type: "text",
         name: "name",
         message: "What is your project named?",
         initial: "my-app",
         format: (value: string) => value.trim(),
-        onState: abortOnState,
-        validate: options.name ? () => providedNameValidateResult : validateName,
+        validate: validateName,
       },
+      {
+        override: options.name,
+        required: true,
+        requiredHint: `Pass ${COMMAND_NAME_KEY} <name> to name the new project.`,
+      },
+    )
+
+    const cssType = await ask<"tailwind" | "tailwind-v4">(
       {
         type: "select",
         name: "cssType",
@@ -163,9 +167,9 @@ export async function prepareProject(
           { title: "Tailwind v4", value: "tailwind-v4" },
         ],
         initial: 0,
-        onState: abortOnState,
       },
-    ])
+      { override: options.cssType, requiredHint: `Pass ${COMMAND_CSS_TYPE_KEY} <tailwind|tailwind-v4>.` },
+    )
 
     const projectPath = await cloneStarterKit({ name, type, cssType })
     await cliLogger.trackEventAndFlush({ type: "cli:starter-kit_cloned", framework: type, cssType })
@@ -176,19 +180,24 @@ export async function prepareProject(
   }
 
   const incomingOrDetectedCssType = options.cssType ?? (await detectTailwindVersion(cwd))
-  const { cssType } = incomingOrDetectedCssType
-    ? { cssType: incomingOrDetectedCssType }
-    : await prompts({
-        type: "select",
-        name: "cssType",
-        message: "What version of Tailwind CSS are you using?",
-        choices: [
-          { title: "Tailwind v3", value: "tailwind" },
-          { title: "Tailwind v4", value: "tailwind-v4" },
-        ],
-        initial: 0,
-        onState: abortOnState,
-      })
+  const cssType = incomingOrDetectedCssType
+    ? incomingOrDetectedCssType
+    : await ask<"tailwind" | "tailwind-v4">(
+        {
+          type: "select",
+          name: "cssType",
+          message: "What version of Tailwind CSS are you using?",
+          choices: [
+            { title: "Tailwind v3", value: "tailwind" },
+            { title: "Tailwind v4", value: "tailwind-v4" },
+          ],
+          initial: 0,
+        },
+        {
+          required: true,
+          requiredHint: `Could not detect your Tailwind version. Pass ${COMMAND_CSS_TYPE_KEY} <tailwind|tailwind-v4>.`,
+        },
+      )
 
   return {
     projectPath: cwd,

@@ -3,13 +3,12 @@ import { readFile } from "node:fs/promises"
 import { oraPromise } from "ora"
 import { COMMAND_AUTH_TOKEN_KEY, COMMAND_AUTH_TOKEN_KEY_SHORT } from "shared/constants"
 import { TruncatedProjectId } from "shared/types"
-import { getAccessToken, verifyTokenWithOra } from "./access-token"
+import { resolveAccessToken } from "./access-token"
 import { apiCreateImportSession, apiStartImport, uploadToPresignedUrl } from "./api-endpoints"
 import { localSyncSettings } from "./common"
-import { storeToken } from "./config"
 import { resolveManifest } from "./import-manifest"
-import { makeCLILogger } from "./logger/logger-cli"
 import { success } from "./output/format"
+import { runCommand } from "./run-command"
 
 const PAYLOAD_SIZE_LIMIT = 50 * 1024 * 1024 // 50MB
 
@@ -19,21 +18,12 @@ export const importCommand = new Command()
   .requiredOption("-p, --project-id <projectId>", "Subframe project ID")
   .requiredOption("-m, --manifest <path>", "path to import manifest JSON")
   .option(`${COMMAND_AUTH_TOKEN_KEY_SHORT}, ${COMMAND_AUTH_TOKEN_KEY} <auth-token>`, "auth token to use")
-  .action(async (opts) => {
-    const cliLogger = makeCLILogger()
-
-    try {
-      let accessToken = opts.authToken
-      if (accessToken) {
-        const tokenWithTeam = await verifyTokenWithOra(cliLogger, accessToken)
-        if (!tokenWithTeam) {
-          throw new Error("Failed to authenticate with provided token")
-        }
-        await storeToken(cliLogger, tokenWithTeam)
-      } else {
-        const tokenWithTeam = await getAccessToken(cliLogger, { teamId: localSyncSettings?.teamId })
-        accessToken = tokenWithTeam.token
-      }
+  .action(async (opts) =>
+    runCommand("import", async (cliLogger) => {
+      const { token: accessToken } = await resolveAccessToken(cliLogger, {
+        authTokenFlag: opts.authToken,
+        teamId: localSyncSettings?.teamId,
+      })
 
       const manifestRaw = await readFile(opts.manifest, "utf8")
       let manifestParsed: unknown
@@ -84,9 +74,7 @@ export const importCommand = new Command()
       )
 
       console.log(`\n  ${success("Design system uploaded. Import is now in progress.")}`)
-    } catch (err: any) {
-      await cliLogger.trackWarningAndFlush("[CLI]: import uncaught error", { error: err.toString() })
-      console.error(err)
-      process.exit(1)
-    }
-  })
+
+      return { projectId: opts.projectId, sessionId }
+    }),
+  )

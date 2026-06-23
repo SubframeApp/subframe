@@ -1,4 +1,11 @@
 /**
+ * Environment variable used to supply an access token non-interactively.
+ * Preferred over the --auth-token flag for CI/agents since it doesn't leak the
+ * token into the process list or shell history.
+ */
+export const SUBFRAME_AUTH_TOKEN_ENV = "SUBFRAME_AUTH_TOKEN"
+
+/**
  * Packages included in this list will be automatically installed
  * when running the CLI (if they are not already installed)
  */

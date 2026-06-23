@@ -12,11 +12,11 @@ export const isBeta = !isDev && process.argv.includes("--beta")
 
 // The base URL of the Subframe backend for the selected environment.
 // This is the single source of truth used by all API calls.
-export const BASE_URL = isDev
-  ? "http://localhost:6501"
-  : isBeta
-    ? "https://beta.subframe.com"
-    : "https://app.subframe.com"
+// SUBFRAME_BASE_URL overrides everything (used for tests and self-hosted/staging
+// backends); otherwise --dev/--beta select the environment.
+export const BASE_URL =
+  process.env.SUBFRAME_BASE_URL ||
+  (isDev ? "http://localhost:6501" : isBeta ? "https://beta.subframe.com" : "https://app.subframe.com")
 
 export const cwd = process.cwd()
 

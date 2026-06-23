@@ -1,8 +1,7 @@
 import { readFile, writeFile } from "fs/promises"
 import { dirname, join, relative, resolve } from "node:path"
-import prompts from "prompts"
-import { TAILWIND_CSS_EXPORT_FILENAME } from "shared/constants"
-import { abortOnState } from "../prompt-helpers"
+import { COMMAND_CSS_PATH_KEY, COMMAND_NO_TAILWIND_KEY, COMMAND_TAILWIND_KEY, TAILWIND_CSS_EXPORT_FILENAME } from "shared/constants"
+import { ask } from "../interactive"
 import { exists, posixJoin } from "../utils/fs"
 
 // Exported for testing
@@ -41,41 +40,43 @@ export async function injectThemeImportIntoGlobals({
   globalCssPath?: string
   tailwindOptInOverride?: boolean
 }): Promise<void> {
-  prompts.override({
-    updateTailwindConfig: tailwindOptInOverride,
-  })
+  const shouldUpdate = await ask<boolean>(
+    {
+      type: "confirm",
+      name: "updateTailwindConfig",
+      initial: true,
+      message: "Do you want Subframe to add the theme.css import to your global CSS file?",
+    },
+    { override: tailwindOptInOverride, requiredHint: `Pass ${COMMAND_TAILWIND_KEY} or ${COMMAND_NO_TAILWIND_KEY}.` },
+  )
 
-  const response = await prompts({
-    type: "confirm",
-    name: "updateTailwindConfig",
-    initial: true,
-    message: "Do you want Subframe to add the theme.css import to your global CSS file?",
-    onState: abortOnState,
-  })
-
-  if (!response.updateTailwindConfig) {
+  if (!shouldUpdate) {
     return
   }
 
-  const { globalCssPath: resolvedGlobalCssPath } = globalCssPath
-    ? { globalCssPath }
-    : await prompts({
-        type: "text",
-        name: "globalCssPath",
-        message: "What is the path to your global CSS file? (e.g., src/index.css, src/app/globals.css)",
-        initial: "src/index.css",
-        validate: async (value: string) => {
-          if (!value || value.trim().length === 0) {
-            return "Please provide a path to your global CSS file"
-          }
-          const fullPath = resolve(projectPath, value)
-          if (!(await exists(fullPath))) {
-            return `File not found: ${value}`
-          }
-          return true
-        },
-        onState: abortOnState,
-      })
+  const resolvedGlobalCssPath = await ask<string>(
+    {
+      type: "text",
+      name: "globalCssPath",
+      message: "What is the path to your global CSS file? (e.g., src/index.css, src/app/globals.css)",
+      initial: "src/index.css",
+      validate: async (value: string) => {
+        if (!value || value.trim().length === 0) {
+          return "Please provide a path to your global CSS file"
+        }
+        const fullPath = resolve(projectPath, value)
+        if (!(await exists(fullPath))) {
+          return `File not found: ${value}`
+        }
+        return true
+      },
+    },
+    {
+      override: globalCssPath,
+      required: true,
+      requiredHint: `Pass ${COMMAND_CSS_PATH_KEY} <path> to point at your global CSS file.`,
+    },
+  )
 
   const cssFilePath = join(projectPath, resolvedGlobalCssPath)
   const themeFilePath = join(subframeDirPath, TAILWIND_CSS_EXPORT_FILENAME)
