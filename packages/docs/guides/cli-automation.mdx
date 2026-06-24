@@ -1,0 +1,104 @@
+---
+title: CLI in CI & agents
+description: Run the Subframe CLI non-interactively from CI pipelines and AI coding agents.
+---
+
+The Subframe CLI normally prompts for anything it's missing. When stdin is not a
+TTY — in CI, a Docker build, or an AI coding agent — it switches to
+**non-interactive mode** automatically: instead of hanging on a prompt it uses
+the value from a flag, falls back to a safe default, or exits non-zero with a
+message telling you exactly which flag to pass.
+
+You can also force this mode in an interactive terminal with `--yes`.
+
+## Authentication
+
+Provide a token without the interactive login. Generate one from the
+[CLI auth page ↗](https://app.subframe.com/cli/auth).
+
+<Tabs>
+  <Tab title="Environment variable (recommended)">
+    Preferred for CI and agents — the token never appears in the process list or
+    shell history.
+
+    ```bash
+    export SUBFRAME_AUTH_TOKEN="<your-token>"
+    npx @subframe/cli@latest sync --all
+    ```
+  </Tab>
+  <Tab title="Flag">
+    ```bash
+    npx @subframe/cli@latest sync --all --auth-token "<your-token>"
+    ```
+  </Tab>
+</Tabs>
+
+The `--auth-token` flag takes precedence over `SUBFRAME_AUTH_TOKEN` if both are
+set. Either is verified and cached on first use, so later commands in the same
+environment reuse it without re-supplying or re-verifying it.
+
+## Global flags
+
+| Flag | Description |
+| --- | --- |
+| `-y, --yes` | Accept the safe defaults and never prompt. Implied automatically when stdin is not a TTY. |
+| `--non-interactive` | Strict mode: never prompt **and** never assume a default — fail if any required value is missing. Use this when you want a run to error rather than guess. |
+| `--json` | Print a machine-readable JSON result to stdout. Human logs go to stderr. Implies non-interactive. |
+
+Every command exits non-zero on failure (and, with `--json`, prints an
+`{ "ok": false, "error": ... }` envelope to stdout), so you can rely on either
+the exit code or the JSON in a pipeline.
+
+## Examples
+
+### Sync components in CI
+
+The most common case. After `init` has been run once and committed
+`.subframe/sync.json`, syncing only needs a token:
+
+```bash
+SUBFRAME_AUTH_TOKEN="<your-token>" npx @subframe/cli@latest sync --all
+```
+
+### Initialize an existing project non-interactively
+
+Pass the values the CLI would otherwise prompt for:
+
+```bash
+SUBFRAME_AUTH_TOKEN="<your-token>" npx @subframe/cli@latest init \
+  --yes \
+  --projectId <projectId> \
+  --css-type tailwind-v4 \
+  --dir ./src \
+  --css-path ./src/app/globals.css \
+  --no-install
+```
+
+`init` flags worth knowing:
+
+- `--projectId <id>` — required when your account has more than one project (otherwise the CLI can't choose for you and will list the available ids).
+- `--css-type <tailwind|tailwind-v4>` — required if the CLI can't detect your Tailwind version.
+- `--dir <path>` — where components sync to.
+- `--alias <alias>` — the import alias to use. Must end with `/*` (e.g. `@/ui/*`) so it matches every file in the directory; the CLI rejects an alias without it.
+- `--no-install`, `--no-sync`, `--no-tailwind` — skip a step that would otherwise prompt. The matching `--install` / `--sync` / `--tailwind` force it on.
+- `--no-update-import-alias` — don't change the import alias stored in your Subframe project.
+
+### Scaffold a brand new project
+
+Creating a project from scratch can't guess your framework or name, so pass them:
+
+```bash
+SUBFRAME_AUTH_TOKEN="<your-token>" npx @subframe/cli@latest init \
+  --template nextjs \
+  --name my-app \
+  --projectId <projectId>
+```
+
+### Parse the result
+
+With `--json`, stdout carries only the result object:
+
+```bash
+npx @subframe/cli@latest sync --all --json
+# { "ok": true, "command": "sync", "projectId": "...", "components": "all", ... }
+```

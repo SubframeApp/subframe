@@ -1,9 +1,11 @@
 import { oraPromise } from "ora"
 import prompts from "prompts"
 import { FAILED_TO_FETCH_PROJECT_ERROR } from "shared/constants"
+import { COMMAND_PROJECT_ID_KEY } from "shared/constants"
 import { InitProjectResponse, TruncatedProjectId } from "shared/types"
 import { promptForNewAccessToken } from "./access-token"
 import { apiInitProject, apiListProjects } from "./api-endpoints"
+import { isNonInteractive, NonInteractiveError } from "./interactive"
 import { CLILogger } from "./logger/logger-cli"
 import { highlight } from "./output/format"
 import { abortOnState } from "./prompt-helpers"
@@ -37,6 +39,15 @@ export async function selectProject({
   if (projects.length === 1) {
     // Only one project - use it automatically
     return projects[0].truncatedProjectId
+  }
+
+  // Multiple projects, no way to choose without input - fail with the list so the
+  // caller knows exactly which id to pass. Never guess a project for them.
+  if (isNonInteractive()) {
+    const available = projects.map((p) => `  - ${p.name} (${p.truncatedProjectId})`).join("\n")
+    throw new NonInteractiveError(
+      `Multiple Subframe projects found. Pass ${COMMAND_PROJECT_ID_KEY} <projectId>.\nAvailable projects:\n${available}`,
+    )
   }
 
   // Multiple projects - prompt user to select one

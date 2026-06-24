@@ -1,9 +1,9 @@
 import { execa } from "execa"
 import { oraPromise } from "ora"
-import prompts from "prompts"
 import { coerce, lt } from "semver"
+import { COMMAND_INSTALL_KEY, COMMAND_NO_INSTALL_KEY } from "shared/constants"
 import { AUTOINSTALLED_DEPENDENCIES } from "./constants"
-import { abortOnState } from "./prompt-helpers"
+import { ask } from "./interactive"
 import {
   getInstallCommand,
   getInstalledPackageVersion,
@@ -53,19 +53,17 @@ export async function installDependencies(
     makePackageSpecifier(packageName, packageVersion),
   )
 
-  prompts.override({
-    install: opts.install,
-  })
+  const shouldInstall = await ask<boolean>(
+    {
+      type: "confirm",
+      name: "install",
+      initial: true,
+      message: "Would you like to install dependencies?",
+    },
+    { override: opts.install, requiredHint: `Pass ${COMMAND_INSTALL_KEY} or ${COMMAND_NO_INSTALL_KEY}.` },
+  )
 
-  const response = await prompts({
-    type: "confirm",
-    name: "install",
-    initial: true,
-    message: ["Would you like to install dependencies?"].join("\n"),
-    onState: abortOnState,
-  })
-
-  if (!response.install) {
+  if (!shouldInstall) {
     return { didInstall: false }
   }
 

@@ -53,3 +53,18 @@ export const COMMAND_CSS_TYPE_KEY = "--css-type"
 export const COMMAND_CSS_TYPE_KEY_SHORT = "-c"
 export const COMMAND_CSS_PATH_KEY = "--css-path"
 export const COMMAND_CSS_PATH_KEY_SHORT = "-x"
+
+// Negated forms of the boolean step flags, so a step can be forced off without a prompt.
+export const COMMAND_NO_INSTALL_KEY = "--no-install"
+export const COMMAND_NO_SYNC_KEY = "--no-sync"
+export const COMMAND_NO_TAILWIND_KEY = "--no-tailwind"
+export const COMMAND_UPDATE_IMPORT_ALIAS_KEY = "--update-import-alias"
+export const COMMAND_NO_UPDATE_IMPORT_ALIAS_KEY = "--no-update-import-alias"
+
+// Global, cross-command flags. These are read directly from argv (see the CLI's
+// flags.ts) in addition to being registered with commander, so both spots must
+// reference the same constant.
+export const COMMAND_YES_KEY = "--yes"
+export const COMMAND_YES_KEY_SHORT = "-y"
+export const COMMAND_NON_INTERACTIVE_KEY = "--non-interactive"
+export const COMMAND_JSON_KEY = "--json"

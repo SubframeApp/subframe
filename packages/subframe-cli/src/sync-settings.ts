@@ -1,12 +1,11 @@
 import { existsSync, readFileSync } from "node:fs"
 import { mkdir, rm, writeFile } from "node:fs/promises"
 import { join } from "node:path"
-import prompts from "prompts"
-import { DEFAULT_SUBFRAME_TS_ALIAS, ROOT_FOLDER_NAME } from "shared/constants"
+import { COMMAND_ALIAS_KEY, COMMAND_DIR_KEY, DEFAULT_SUBFRAME_TS_ALIAS, ROOT_FOLDER_NAME } from "shared/constants"
 import { TruncatedProjectId } from "shared/types"
 import { addAliasesToTSConfig, hasAliasSetup } from "./add-tsconfig-alias"
 import { ACCESS_TOKEN_FILENAME, SUBFRAME_DIR, SYNC_SETTINGS_FILENAME } from "./constants"
-import { abortOnState } from "./prompt-helpers"
+import { ask } from "./interactive"
 import { exists, isDirectory, posixJoin } from "./utils/fs"
 
 export const TS_ALIAS_SUFFIX = "/*"
@@ -74,48 +73,52 @@ export async function setupSyncSettings(
   }
 
   if (!options.directory) {
-    prompts.override({
-      directory: initOptions.dir,
-    })
-    const response = await prompts({
-      type: "text",
-      name: "directory",
-      initial: "./src",
-      message: "Where should the Subframe components be synced to?",
-      validate: (value) => {
-        return existsSync(join(cwd, value)) ? true : `Directory ${value} does not exist`
+    const directory = await ask<string>(
+      {
+        type: "text",
+        name: "directory",
+        initial: "./src",
+        message: "Where should the Subframe components be synced to?",
+        validate: (value) => {
+          return existsSync(join(cwd, value)) ? true : `Directory ${value} does not exist`
+        },
       },
-      onState: abortOnState,
-    })
+      {
+        override: initOptions.dir,
+        requiredHint: `Pass ${COMMAND_DIR_KEY} <path> to choose where components are synced.`,
+      },
+    )
 
     // NOTE: join will remove the trailing slash
-    config.directory = "./" + posixJoin(response.directory, ROOT_FOLDER_NAME)
+    config.directory = "./" + posixJoin(directory, ROOT_FOLDER_NAME)
   }
 
   if (!options.importAlias) {
-    prompts.override({
-      componentsDirAlias: initOptions.alias,
-    })
-    const response = await prompts({
-      type: "text",
-      name: "componentsDirAlias",
-      initial: `${DEFAULT_SUBFRAME_TS_ALIAS}${TS_ALIAS_SUFFIX}`,
-      message: `Configure an alias for the subframe component directory (e.g. ${DEFAULT_SUBFRAME_TS_ALIAS})`,
-      validate: (value) => {
-        return typeof value === "string" && value.endsWith(TS_ALIAS_SUFFIX)
-          ? true
-          : `Alias must end with '${TS_ALIAS_SUFFIX}' so that it matches all files in the directory`
+    const componentsDirAlias = await ask<string>(
+      {
+        type: "text",
+        name: "componentsDirAlias",
+        initial: `${DEFAULT_SUBFRAME_TS_ALIAS}${TS_ALIAS_SUFFIX}`,
+        message: `Configure an alias for the subframe component directory (e.g. ${DEFAULT_SUBFRAME_TS_ALIAS})`,
+        validate: (value) => {
+          return typeof value === "string" && value.endsWith(TS_ALIAS_SUFFIX)
+            ? true
+            : `Alias must end with '${TS_ALIAS_SUFFIX}' so that it matches all files in the directory`
+        },
       },
-      onState: abortOnState,
-    })
+      {
+        override: initOptions.alias,
+        requiredHint: `Pass ${COMMAND_ALIAS_KEY} <alias> to set the import alias.`,
+      },
+    )
 
-    if (response.componentsDirAlias && config.directory) {
-      config.importAlias = response.componentsDirAlias
+    if (componentsDirAlias && config.directory) {
+      config.importAlias = componentsDirAlias
 
       const aliases = {
         /** just the one alias for now */
         // NOTE: tsconfig.json requires relative paths (unless baseUrl is set), and posixJoin strips the ./
-        [response.componentsDirAlias]: ["./" + posixJoin(config.directory, TS_ALIAS_SUFFIX)],
+        [componentsDirAlias]: ["./" + posixJoin(config.directory, TS_ALIAS_SUFFIX)],
       }
 
       if (await exists(tsConfigPath)) {

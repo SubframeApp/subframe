@@ -2,7 +2,6 @@ import { Command, Option } from "@commander-js/extra-typings"
 import { writeFile } from "node:fs/promises"
 import path, { join } from "node:path"
 import { oraPromise } from "ora"
-import prompts from "prompts"
 import {
   COMMAND_ALIAS_KEY,
   COMMAND_ALIAS_KEY_SHORT,
@@ -18,6 +17,10 @@ import {
   COMMAND_INSTALL_KEY_SHORT,
   COMMAND_NAME_KEY,
   COMMAND_NAME_KEY_SHORT,
+  COMMAND_NO_INSTALL_KEY,
+  COMMAND_NO_SYNC_KEY,
+  COMMAND_NO_TAILWIND_KEY,
+  COMMAND_NO_UPDATE_IMPORT_ALIAS_KEY,
   COMMAND_PROJECT_ID_KEY,
   COMMAND_PROJECT_ID_KEY_SHORT,
   COMMAND_SYNC_KEY,
@@ -25,18 +28,19 @@ import {
   COMMAND_TAILWIND_KEY,
   COMMAND_TAILWIND_KEY_SHORT,
   COMMAND_TEMPLATE_KEY,
+  COMMAND_UPDATE_IMPORT_ALIAS_KEY,
   DEFAULT_SUBFRAME_TS_ALIAS,
 } from "shared/constants"
 import { TruncatedProjectId } from "shared/types"
-import { getAccessToken, verifyTokenWithOra } from "./access-token"
+import { resolveAccessToken } from "./access-token"
 import { apiUpdateImportAlias } from "./api-endpoints"
 import { localSyncSettings } from "./common"
-import { storeToken } from "./config"
 import { SUBFRAME_INIT_MESSAGE } from "./constants"
 import { initProject, selectProject } from "./init-project"
 import { initSync } from "./init-sync"
 import { installDependencies } from "./install-dependencies"
-import { makeCLILogger } from "./logger/logger-cli"
+import { ask } from "./interactive"
+import { runCommand } from "./run-command"
 import { prepareProject } from "./setup/prepare-project"
 import { setupTailwindV3 } from "./setup-tailwind-v3"
 import { setupTailwindV4 } from "./setup-tailwind-v4"
@@ -65,6 +69,11 @@ export const initCommand = new Command()
   .option(`${COMMAND_TAILWIND_KEY_SHORT}, ${COMMAND_TAILWIND_KEY}`, "setup tailwind with Subframe theme")
   .option(`${COMMAND_ALIAS_KEY_SHORT}, ${COMMAND_ALIAS_KEY} <alias>`, "import alias to use")
   .option(`${COMMAND_SYNC_KEY_SHORT}, ${COMMAND_SYNC_KEY}`, "sync all components")
+  .option(COMMAND_NO_SYNC_KEY, "skip syncing components")
+  .option(COMMAND_NO_INSTALL_KEY, "skip installing dependencies")
+  .option(COMMAND_NO_TAILWIND_KEY, "skip configuring Tailwind")
+  .option(COMMAND_UPDATE_IMPORT_ALIAS_KEY, "update the import alias in your Subframe project when it changed")
+  .option(COMMAND_NO_UPDATE_IMPORT_ALIAS_KEY, "keep the existing import alias in your Subframe project")
   .addOption(
     new Option(`${COMMAND_CSS_TYPE_KEY_SHORT}, ${COMMAND_CSS_TYPE_KEY} <cssType>`, "css type to use").choices([
       "tailwind",
@@ -76,23 +85,22 @@ export const initCommand = new Command()
     "path to global CSS file (used for Tailwind v4, and for Tailwind v3 when dark mode is enabled)",
   )
 
-initCommand.action(async (opts) => {
-  const cliLogger = makeCLILogger()
+initCommand.action(async (opts) =>
+  runCommand("init", async (cliLogger) => {
+    // A flag-provided alias bypasses the interactive prompt (and its validation)
+    // because init pre-fills it into the sync settings, so validate it up front.
+    if (opts.alias && !opts.alias.endsWith(TS_ALIAS_SUFFIX)) {
+      throw new Error(
+        `--alias must end with '${TS_ALIAS_SUFFIX}' so that it matches all files in the directory (e.g. ${opts.alias}${TS_ALIAS_SUFFIX})`,
+      )
+    }
 
-  try {
     const { projectPath, didCreateNewProject, styleInfo } = await prepareProject(cliLogger, opts)
 
-    let accessToken = opts.authToken
-    if (accessToken) {
-      const tokenWithTeam = await verifyTokenWithOra(cliLogger, accessToken)
-      if (!tokenWithTeam) {
-        throw new Error("Failed to authenticate with provided token")
-      }
-      await storeToken(cliLogger, tokenWithTeam)
-    } else {
-      const tokenWithTeam = await getAccessToken(cliLogger, { teamId: localSyncSettings?.teamId })
-      accessToken = tokenWithTeam.token
-    }
+    const { token: accessToken } = await resolveAccessToken(cliLogger, {
+      authTokenFlag: opts.authToken,
+      teamId: localSyncSettings?.teamId,
+    })
 
     console.time(SUBFRAME_INIT_MESSAGE)
 
@@ -146,12 +154,18 @@ initCommand.action(async (opts) => {
     if (oldImportAlias !== importAlias) {
       console.log(`Change in import alias detected. Before: "${oldImportAlias}", After: "${importAlias}"`)
 
-      const { confirmUpdate } = await prompts({
-        type: "confirm",
-        name: "confirmUpdate",
-        message: `Update import alias in your Subframe project? Code will now use the new import alias: import { Button } from "${importAlias}/components/Button";`,
-        initial: true,
-      })
+      const confirmUpdate = await ask<boolean>(
+        {
+          type: "confirm",
+          name: "confirmUpdate",
+          message: `Update import alias in your Subframe project? Code will now use the new import alias: import { Button } from "${importAlias}/components/Button";`,
+          initial: true,
+        },
+        {
+          override: opts.updateImportAlias,
+          requiredHint: `Pass ${COMMAND_UPDATE_IMPORT_ALIAS_KEY} or ${COMMAND_NO_UPDATE_IMPORT_ALIAS_KEY}.`,
+        },
+      )
 
       if (confirmUpdate) {
         try {
@@ -209,8 +223,14 @@ initCommand.action(async (opts) => {
       }
       console.log(`  ${getRunDevCommand(packageManager).join(" ")}`)
     }
-  } catch (err: any) {
-    console.error(err)
-    await cliLogger.trackWarningAndFlush("[CLI] init: uncaught error", { error: err.toString() })
-  }
-})
+
+    return {
+      projectId: truncatedProjectId,
+      directory,
+      importAlias,
+      cssType: styleInfo.cssType,
+      didCreateNewProject,
+      didInstall,
+    }
+  }),
+)

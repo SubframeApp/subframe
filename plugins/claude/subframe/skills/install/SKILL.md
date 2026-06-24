@@ -86,10 +86,11 @@ Prompt the user to choose:
 
 ### 2. Run CLI Init
 
-This command must be run outside of a sandbox, so it can correctly setup all the necessary files. Pass all arguments directly to avoid interactive prompts:
+This command must be run outside of a sandbox, so it can correctly setup all the necessary files. Pass all arguments directly so the CLI doesn't prompt. `--yes` accepts safe defaults for anything not specified:
 
 ```bash
 npx @subframe/cli@latest init \
+  --yes \
   --name {PROJECT_NAME} \
   --auth-token {TOKEN} \
   -p {PROJECT_ID} \
@@ -113,7 +114,7 @@ Where:
   - Next.js: `src/app/globals.css`
   - Astro: `src/styles/global.css`
 
-**Important**: All arguments must be passed explicitly to avoid interactive prompts, which can cause the CLI to exit silently when run non-interactively.
+**Important**: Pass arguments explicitly so the CLI never needs to prompt. When run non-interactively (no TTY, or with `--yes`), it uses your flags and safe defaults; if a required value is genuinely missing it exits non-zero with a message naming the flag to pass (rather than hanging or exiting silently).
 
 The CLI will:
 
@@ -159,10 +160,11 @@ If any are missing, let the user know before proceeding.
 
 ### 3. Run CLI Init
 
-This command must be run outside of a sandbox, so it can correctly setup all the necessary files. Pass all arguments directly to avoid interactive prompts:
+This command must be run outside of a sandbox, so it can correctly setup all the necessary files. Pass all arguments directly so the CLI doesn't prompt. `--yes` accepts safe defaults for anything not specified:
 
 ```bash
 npx @subframe/cli@latest init \
+  --yes \
   --auth-token {TOKEN} \
   -p {PROJECT_ID} \
   --dir ./src/ui \
@@ -171,7 +173,7 @@ npx @subframe/cli@latest init \
   --sync
 ```
 
-**Important**: All arguments must be passed explicitly to avoid interactive prompts, which can cause the CLI to exit silently when run non-interactively.
+**Important**: Pass arguments explicitly so the CLI never needs to prompt. When run non-interactively (no TTY, or with `--yes`), it uses your flags and safe defaults; if a required value is genuinely missing it exits non-zero with a message naming the flag to pass (rather than hanging or exiting silently).
 
 The CLI will attempt to:
 
