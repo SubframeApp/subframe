@@ -86,7 +86,7 @@ Subframe's design AI is far more accurate when the call carries raw code than wh
 
 Group related files in adjacent blocks (component + stories + CSS module).
 
-**Don't paste what the AI already has.** For `edit_component`, `edit_page`, and `edit_snippet`, the current Subframe code is already on the server — don't echo it back. Read it with `get_component_info` / `get_page_info` / `get_snippet_info` so your description can target exactly what differs. Prefer the most efficient form: plain language when the change doesn't depend on any code the AI hasn't seen ("change padding from 4 to 6, add a hover state"); otherwise reference code scaled to what's needed — a targeted diff or code snippet when the Subframe code already resembles the target, a full file when handing over a wholesale target, a sibling pattern, or related types.
+**Don't paste what the AI already has.** For `edit_component`, the current Subframe code is already on the server — don't echo it back. Read it with `get_component_info` so your description can target exactly what differs. Prefer the most efficient form: plain language when the change doesn't depend on any code the AI hasn't seen ("change padding from 4 to 6, add a hover state"); otherwise reference code scaled to what's needed — a targeted diff or code snippet when the Subframe code already resembles the target, a full file when handing over a wholesale target, a sibling pattern, or related types. (`edit_page` and `edit_snippet` use a different, node-targeted model — see their own sections.)
 
 **Soft cap on very large files (~500 LOC combined).** When trimming, keep verbatim:
 
@@ -113,13 +113,13 @@ Include in the description:
 4. **Prop-type files** if types are defined separately (e.g. a `types.ts`).
 5. **Theme tokens the component references** — pull the relevant rows from the codebase theme (`tailwind.config.*`, CSS variables) and from `get_theme` so the AI keeps roles aligned.
 
-### For snippet design (`design_snippet`, `edit_snippet`)
+### For snippet design (`design_snippet`)
 
-See the snippet tool sections below for `codeContext` / `additionalReferences` parameter use. `edit_snippet` has no `codeContext` parameter — paste outside reference code into `description`.
+See the `design_snippet` section below for `codeContext` / `additionalReferences` parameter use. `edit_snippet` takes no grounding context — it's a node-targeted edit (see its section below).
 
-### For page design (`design_page`, `edit_page`)
+### For page design (`design_page`)
 
-See [Preparing codeContext](#preparing-codecontext) below for the page-specific rule about leaving Subframe component references as-is and inlining everything else. The general grounding rules above (default to full files, paste styles verbatim, soft cap with trimming) layer on top.
+See [Preparing codeContext](#preparing-codecontext) below for the page-specific rule about leaving Subframe component references as-is and inlining everything else. The general grounding rules above (default to full files, paste styles verbatim, soft cap with trimming) layer on top. (`edit_page` is a node-targeted edit, not a `codeContext`-grounded design call — see its section below.)
 
 ### For theme edits (`edit_theme`)
 
@@ -131,7 +131,7 @@ See [Preparing the edit_theme description](#preparing-the-edit_theme-description
 
 **Surface job status to the user.** When you kick off a design, tell them you've started ("Designing your settings page in Subframe…") and present the URL. When the job finishes, tell them a relevant message like "✓ Variations are ready to review.". The user already sees live progress in the editor, but they should not have to go to the editor to know when the design is done.
 
-**Present the URL verbatim** — don't strip query parameters. The URLs returned by `design_page`, `design_component`, and `edit_component` (and the inline-AI tools like `edit_page`) embed a conversation ID that opens the AI chat panel preloaded with the conversation that produced the design. That gives the user reasoning, intermediate steps, and a place to keep iterating with the AI directly — far more useful context than the bare resource URL.
+**Present the URL verbatim** — don't strip query parameters. The URLs returned by `design_page`, `design_component`, and `edit_component` embed a conversation ID that opens the AI chat panel preloaded with the conversation that produced the design. That gives the user reasoning, intermediate steps, and a place to keep iterating with the AI directly — far more useful context than the bare resource URL.
 
 **When to call `wait_for_jobs`:**
 
@@ -249,7 +249,16 @@ When designing multiple related pages (flows, CRUD, etc.):
 
 ### `edit_page` — targeted edits to an existing page
 
-Use `edit_page` for targeted changes to a specific Subframe page. Pass `id`, `name`, or `url` (call `list_pages` first if you need to find it) plus a `description` of the change. Follow the [Grounding](#grounding-design-calls-in-real-code) rules — the AI already has the current page code, so only paste outside reference code when the change depends on something the AI can't see; pass `additionalReferences` to point it at related Subframe pages, snippets, or components. The edit applies immediately; present the returned `pageUrl` to the user.
+Use `edit_page` to change one node of an existing Subframe page. It's a structured edit, not a prose description:
+
+1. Call `get_page_info` with `includeNodeIds: true` to get the page JSX with a `data-node-id` on every element.
+2. Pick the `nodeId` you want to change.
+3. Choose an `operation`: `replace` (swap the node and its subtree), `insert-above` / `insert-below` (add your `code` as a new sibling), or `delete` (remove it).
+4. Pass the new or replacement subtree as `code` — a JSX fragment with a single root element. Don't include `data-node-id` attributes (new nodes are assigned ids automatically); leave `code` empty for `delete`.
+
+Identify the page with `id`, `name`, or `url` (call `list_pages` first if you need to find it). The edit applies immediately and returns `pageUrl`, `appliedCode` (the canonical code after parsing — compare it to what you sent to confirm nothing was dropped or normalized), and any parser `warnings`. Call `get_page_info` again to see the updated code and node ids. The user can undo via page version history in the Subframe editor.
+
+`code` must be valid Subframe JSX: a single root element and static markup only — no `.map()`, hooks, state, or conditional rendering (these are rejected, not silently dropped), and no `<html>`/`<body>` wrappers. Style with Tailwind `className`s; inline `style={{…}}`, event handlers, and most `data-*` attributes are dropped. The `includeNodeIds: true` output is already in this shape — use it as your template.
 
 #### When to use `edit_page` vs `design_page`
 
@@ -330,7 +339,7 @@ Returns `snippetId` and `snippetUrl`. Embed the snippet in a design document wit
 
 ### `edit_snippet` — change an existing snippet
 
-Same shape as `edit_component` but for snippets. Use when the embedded example needs to evolve alongside the component it documents.
+Same node-targeted model as `edit_page`, but for snippets. Call `get_snippet_info` with `includeNodeIds: true` to see each element's `data-node-id`, then pass `nodeId`, an `operation` (`replace` / `insert-above` / `insert-below` / `delete`), and a single-root `code` fragment (same JSX constraints as `edit_page`). The edit applies immediately and returns `snippetUrl`, `appliedCode`, and any `warnings`. Use when the embedded example needs to evolve alongside the component it documents.
 
 ## Design documents
 
