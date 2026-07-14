@@ -80,6 +80,7 @@ To discover what exists in the project, use `list_pages`, `list_components`, or 
 Read design documentation alongside the design: `get_project_info` returns project-level `docs` (broad principles), and `get_component_info` returns each component's `designDocuments` (component-specific usage guidance). Pick these up before implementing so you respect documented constraints.
 
 Get the `projectId` from `.subframe/sync.json`. If `.subframe/sync.json` doesn't exist or doesn't contain a `projectId`, call `list_projects` to get the available projects. Each project includes a `projectId`, `name`, `teamId`, and `teamName`.
+
 - **One project**: Use it automatically.
 - **Multiple projects**: Always ask the user which project to use. Present each project with its `teamName` to disambiguate. If the user already mentioned a specific team or project name, match it against the `teamName` and `name` fields — but still confirm before proceeding. Never silently pick a project when multiple exist.
 
@@ -179,14 +180,14 @@ When diffing the updated design against the existing code, if there are design c
 
 ## MCP Tools Reference
 
-| Tool                 | Purpose                                                  | Key Parameters                      |
-| -------------------- | -------------------------------------------------------- | ----------------------------------- |
-| `get_page_info`      | Fetch page code                                          | `url`, `id`, or `name`; `projectId` |
-| `get_component_info` | Fetch component code + attached design doc               | `url`, `id`, or `name`; `projectId` |
-| `get_project_info`   | Fetch project metadata + project-level design docs       | `projectId`                         |
-| `get_flow_info`      | Enumerate pages in a flow                                | `id`, `name`, or `url`; `projectId` |
-| `list_pages`         | List all pages                                           | `projectId`                         |
-| `list_components`    | List all components                                      | `projectId`                         |
-| `list_flows`         | List all flows                                           | `projectId`                         |
-| `get_theme`          | Get Tailwind config                                      | `projectId`, `cssType`              |
-| `wait_for_jobs`      | Wait for in-flight design jobs to finish before reading  | `jobIds` (1-10)                     |
+| Tool                 | Purpose                                                 | Key Parameters                      |
+| -------------------- | ------------------------------------------------------- | ----------------------------------- |
+| `get_page_info`      | Fetch page code                                         | `url`, `id`, or `name`; `projectId` |
+| `get_component_info` | Fetch component code + attached design doc              | `url`, `id`, or `name`; `projectId` |
+| `get_project_info`   | Fetch project metadata + project-level design docs      | `projectId`                         |
+| `get_flow_info`      | Enumerate pages in a flow                               | `id`, `name`, or `url`; `projectId` |
+| `list_pages`         | List all pages                                          | `projectId`                         |
+| `list_components`    | List all components                                     | `projectId`                         |
+| `list_flows`         | List all flows                                          | `projectId`                         |
+| `get_theme`          | Get Tailwind config                                     | `projectId`, `cssType`              |
+| `wait_for_jobs`      | Wait for in-flight design jobs to finish before reading | `jobIds` (1-10)                     |

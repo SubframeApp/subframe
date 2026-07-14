@@ -37,12 +37,14 @@ The project ID is also visible in any Subframe URL: `app.subframe.com/<PROJECT_I
 We only want **visual/presentational layer** files — the reusable UI primitives that make up the design system. Skip anything that's deeply coupled to business logic, data models, API calls, or application state.
 
 **Include:**
+
 - Pure UI components (buttons, inputs, cards, modals, badges, etc.)
 - Layout primitives (containers, grids, stacks, etc.)
 - Theme/styling files
 - Stories
 
 **Exclude:**
+
 - Components that fetch data, call APIs, or manage application state
 - Page-level components that wire together business logic
 - Utility functions, hooks, or helpers that aren't visual
@@ -51,16 +53,19 @@ We only want **visual/presentational layer** files — the reusable UI primitive
 Use Glob and Read tools to find files. Look for:
 
 **Theme files** (global styling):
+
 - `tailwind.config.*`
 - Global CSS files (e.g. `globals.css`, `global.css`, `app.css`, `index.css`)
 - Design token files (e.g. `tokens.json`, `tokens.ts`, `theme.ts`)
 
 **Component files**:
+
 - React component files (`.tsx`, `.jsx`) in component directories
 - Story files (`.stories.tsx`, `.stories.jsx`, `.stories.ts`)
 - Component CSS modules
 
 Use these search strategies:
+
 1. Look for `tailwind.config.*` at the project root
 2. Look for global CSS in `src/styles/`, `src/`, `app/`, `styles/`
 3. Look for components in common directories: `src/components/`, `components/`, `src/ui/`, `ui/`, `lib/components/`
@@ -74,9 +79,11 @@ For each component, separate files into two categories:
 **`entrypoint`** — the path to the main component file. Must reference one of the `sourceFiles`.
 
 **`sourceFiles`** — the primary component implementation:
+
 - The component source file(s) (`.tsx`, `.jsx`) containing markup and styles
 
 **`supportingFiles`** — everything else that helps understand the component:
+
 - Story files (`.stories.tsx`, `.stories.jsx`, `.stories.ts`)
 - CSS modules (`.module.css`, `.module.scss`)
 - Documentation files (`.md`)
@@ -95,21 +102,13 @@ Write the manifest to `.subframe/import-design-system.json`:
 
 ```json
 {
-  "theme": [
-    "tailwind.config.ts",
-    "src/styles/globals.css"
-  ],
+  "theme": ["tailwind.config.ts", "src/styles/globals.css"],
   "components": [
     {
       "name": "Button",
       "entrypoint": "src/components/Button.tsx",
-      "sourceFiles": [
-        "src/components/Button.tsx"
-      ],
-      "supportingFiles": [
-        "src/components/Button.stories.tsx",
-        "src/components/Button.module.css"
-      ]
+      "sourceFiles": ["src/components/Button.tsx"],
+      "supportingFiles": ["src/components/Button.stories.tsx", "src/components/Button.module.css"]
     }
   ]
 }
@@ -120,6 +119,7 @@ Component names must be unique. If there are conflicting component names, ask th
 ### 4. Show summary before uploading
 
 Before running the CLI, print a summary so the user can spot any issues:
+
 - List of component names
 - List of theme files
 - Total file count
