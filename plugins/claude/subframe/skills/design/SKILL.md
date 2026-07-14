@@ -22,15 +22,15 @@ The key value: `/subframe:design` and `/subframe:develop` bridge coding and desi
 
 ## Picking the right tool
 
-| Intent | Tool |
-| --- | --- |
-| Find out what already exists in the project | `list_components`, `list_pages`, `list_snippets`, `list_flows`, `get_project_info` |
-| Build a screen the user navigates to | `design_page` (new) / `edit_page` (targeted change) |
-| Build a reusable building block (Button, Card, ListItem) used inside pages | `design_component` (new) / `edit_component` (targeted change) |
-| Build a small example used inside a design document (e.g. a Button-variants demo) | `design_snippet` (new) / `edit_snippet` (targeted change) |
-| Write or update written design / usage documentation | `write_design_document` |
-| Change project-wide colors, fonts, corners, shadows, typography | `edit_theme` |
-| Remove a page, flow, component, or snippet | `delete_page` / `delete_flow` / `delete_component` / `delete_snippet` |
+| Intent                                                                            | Tool                                                                               |
+| --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Find out what already exists in the project                                       | `list_components`, `list_pages`, `list_snippets`, `list_flows`, `get_project_info` |
+| Build a screen the user navigates to                                              | `design_page` (new) / `edit_page` (targeted change)                                |
+| Build a reusable building block (Button, Card, ListItem) used inside pages        | `design_component` (new) / `edit_component` (targeted change)                      |
+| Build a small example used inside a design document (e.g. a Button-variants demo) | `design_snippet` (new) / `edit_snippet` (targeted change)                          |
+| Write or update written design / usage documentation                              | `write_design_document`                                                            |
+| Change project-wide colors, fonts, corners, shadows, typography                   | `edit_theme`                                                                       |
+| Remove a page, flow, component, or snippet                                        | `delete_page` / `delete_flow` / `delete_component` / `delete_snippet`              |
 
 ## MCP Authentication
 
@@ -62,6 +62,7 @@ The first time you're about to call `design_page` / `design_component` / `edit_p
 1. **If the project has codebase context** (working in a repo, recreating a page, importing a design), locate and read the codebase's theme source — `tailwind.config.*`, theme CSS variables, a tokens module. Also read the codebase's most canonical filled component (typically `Button`) to see which token is used where — names and values can match while roles diverge.
 
 2. **Write the comparison** — a brief alignment summary covering colors, fonts, corners, shadows, typography, **and role** (which token is used for what, on both sides). Flag mismatches even when names/values look the same. Watch specifically for:
+
    - **Role divergence** — e.g., the codebase's `brand` token paints focus rings only while a separate `primary` token paints filled-button backgrounds; the Subframe project's convention may have `brand-primary` painting the filled-button background instead. If you need to verify Subframe-side roles, call `get_component_info` on the relevant component to see which tokens it actually references.
    - **Dual-token systems** — shadcn-style `primary` / `primary-foreground`, `destructive` / `destructive-foreground`, etc., where each role pairs a surface token with a content token. The Subframe theme may not have direct equivalents.
 
@@ -75,18 +76,26 @@ If the project has no codebase context, only the empty-theme check applies — s
 
 ## Grounding design calls in real code
 
-Subframe's design AI is far more accurate when the call carries raw code than when it carries paraphrase. "Make the primary darker" leaves a guess; pasting `--color-primary: oklch(0.55 0.18 250)` doesn't. Wherever the codebase already has the source — a component implementation, theme tokens, a similar page — paste it into the call instead of describing it.
+Subframe's design AI is far more accurate when the call carries raw code than when it carries paraphrase. "Make the primary darker" leaves a guess; pasting `--color-primary: oklch(0.55 0.18 250)` doesn't. Wherever the codebase already has the source — a component implementation, theme tokens, a similar page — pass it into the call instead of describing it.
 
-**Default to pasting full files when they exist.** Under-including is generally worse than over-including. Use the format:
+`design_page`, `design_component`, and `edit_component` take grounding through the `references` parameter — a list of `{ source, usage }` entries where `source` is one of:
+
+- `{ kind: "subframe", id }` — an existing Subframe page, component, or snippet (by ID or name; resolved server-side, no need to inline its code)
+- `{ kind: "code", content }` — raw code from the codebase (the surface to recreate, data types, usage patterns)
+- `{ kind: "image", url }` — a Subframe-hosted upload URL (e.g. an image the user pasted from Subframe). Uploads only happen inside the Subframe app — there is no MCP or CLI upload, so skip this kind unless you were given an upload URL. Local files or arbitrary URLs are rejected; up to 5 images are used per call, each applied per its own `usage` note.
+
+`usage` says how the generator should use THAT reference — e.g. "match this page's layout and header" or "recreate this mockup exactly". Always write it: the generator sees only the description plus the references, not your reasoning. (`edit_page` / `edit_snippet` are node-targeted and take no grounding.)
+
+**Default to pasting full files when they exist.** Under-including is generally worse than over-including. Head each `content` with its path:
 
 ```
 // src/components/Button.tsx
 <full file content>
 ```
 
-Group related files in adjacent blocks (component + stories + CSS module).
+Group related files as separate `code` references (component + stories + CSS module), each with its own usage note.
 
-**Don't paste what the AI already has.** For `edit_component`, the current Subframe code is already on the server — don't echo it back. Read it with `get_component_info` so your description can target exactly what differs. Prefer the most efficient form: plain language when the change doesn't depend on any code the AI hasn't seen ("change padding from 4 to 6, add a hover state"); otherwise reference code scaled to what's needed — a targeted diff or code snippet when the Subframe code already resembles the target, a full file when handing over a wholesale target, a sibling pattern, or related types. (`edit_page` and `edit_snippet` use a different, node-targeted model — see their own sections.)
+**Don't paste what the AI already has.** For `edit_component`, the current Subframe code is already on the server — don't echo it back. Read it with `get_component_info` so your description can target exactly what differs. Prefer the most efficient form: plain language when the change doesn't depend on any code the AI hasn't seen ("change padding from 4 to 6, add a hover state"); otherwise pass reference code scaled to what's needed — a targeted diff or code snippet when the Subframe code already resembles the target, a full file when handing over a wholesale target, a sibling pattern, or related types — as `code` references with usage notes. (`edit_page` and `edit_snippet` use a different, node-targeted model — see their own sections.)
 
 **Soft cap on very large files (~500 LOC combined).** When trimming, keep verbatim:
 
@@ -115,11 +124,11 @@ Include in the description:
 
 ### For snippet design (`design_snippet`)
 
-See the `design_snippet` section below for `codeContext` / `additionalReferences` parameter use. `edit_snippet` takes no grounding context — it's a node-targeted edit (see its section below).
+`design_snippet` takes the same `references` input as the other design tools — ground it the same way (the codebase implementation the snippet should mirror as `code`, existing Subframe entities as `subframe`). `edit_snippet` takes no grounding context — it's a node-targeted edit (see its section below).
 
 ### For page design (`design_page`)
 
-See [Preparing codeContext](#preparing-codecontext) below for the page-specific rule about leaving Subframe component references as-is and inlining everything else. The general grounding rules above (default to full files, paste styles verbatim, soft cap with trimming) layer on top. (`edit_page` is a node-targeted edit, not a `codeContext`-grounded design call — see its section below.)
+See [Preparing references](#preparing-references) below for the page-specific rule about leaving Subframe component references as-is and inlining everything else. The general grounding rules above (default to full files, paste styles verbatim, soft cap with trimming) layer on top. (`edit_page` is a node-targeted edit, not a reference-grounded design call — see its section below.)
 
 ### For theme edits (`edit_theme`)
 
@@ -151,6 +160,7 @@ When the user asks you to design, recreate, or redesign a page that uses non-tri
 
 1. **Run the project audit** — `list_components` (and `get_project_info` if you haven't yet).
 2. **Inventory the components the page renders with their status and decision.** Output the list verbatim, even when the conclusion seems obvious
+
    - **Missing entirely** → `design_component`
    - **Exists but visually doesn't match the source/spec** → `edit_component` (existing components keep their identity; existing usages are updated)
    - **Exists and matches** → reference directly in the page design
@@ -163,6 +173,7 @@ When the user asks you to design, recreate, or redesign a page that uses non-tri
    SettingsCard: missing → design_component
    ProfileMenu: exists, matches → reference
    ```
+
 3. **Write the dependency list before any `design_component`/`edit_component` calls.** For each new or edited component in the batch, list the other components in the batch that it visually embeds. Output it verbatim, even when the list is short. For example:
 
    ```
@@ -172,9 +183,11 @@ When the user asks you to design, recreate, or redesign a page that uses non-tri
    ```
 
    Many components embed other components — a Card with an action footer holds a Button, a Form holds Text Fields, a ListItem holds an Avatar. If you skip writing the list, you will miss these.
+
 4. **Group into waves from the dependency list, then run waves sequentially.** A component goes in Wave N if all its deps are in waves < N or already ready as-is. Kick off everything in a wave in parallel, `wait_for_jobs` on the whole wave, then start the next wave. `wait_for_jobs` on the final wave before kicking off the page, so the page design sees up-to-date components.
 
    Example: page needs a new `Button`, a new `Alert`, and a new `SettingsCard` (whose footer renders a Save Button).
+
    - Wave 1: `Button` + `Alert` in parallel → `wait_for_jobs` both.
    - Wave 2: `SettingsCard` → `wait_for_jobs`.
    - Then `design_page`.
@@ -196,27 +209,28 @@ Use `design_page` when:
 
 How much context to gather and how many variations to generate depends on the task:
 
-| Task                                | Context                                                                                                                                            | Variations                              |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
-| **New page (open-ended)**           | Data types (`codeContext`)                                                                                                                         | 4 — explore the design space            |
-| **New page (with reference pages)** | Reference pages (`additionalReferences` if in Subframe, `codeContext` if not), data types (`codeContext`)                                               | 1-2 — stay close to the reference pages |
-| **Redesigning existing UI**         | The current page (`additionalReferences` if in Subframe, `codeContext` if not; note what to keep vs change in the description)                          | 2-4 — depending on how open-ended       |
-| **Recreating an existing UI**       | The current page's exact markup and styles (`codeContext`)                                                                                         | 1 — recreate the UI from code exactly   |
+| Task                                | Context                                                                                                                             | Variations                              |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------- |
+| **New page (open-ended)**           | Data types (`code` reference)                                                                                                       | 4 — explore the design space            |
+| **New page (with reference pages)** | Reference pages (`subframe` reference if in Subframe, `code` if not), data types (`code`)                                           | 1-2 — stay close to the reference pages |
+| **Redesigning existing UI**         | The current page (`subframe` reference if in Subframe, `code` if not; the usage note says what to keep vs change)                    | 2-4 — depending on how open-ended       |
+| **Recreating an existing UI**       | The current page's exact markup and styles (`code` reference, usage "recreate this exactly")                                        | 1 — recreate the UI from code exactly   |
 
 **Always include when available:**
 
-- The existing page being discussed and similar existing pages (the single most valuable context) — pass them via `additionalReferences` by ID or name (e.g. a page ID from a pasted MCP link, or a variation page ID the user referenced). `additionalReferences` resolves any Subframe page, snippet, or component; use `codeContext` for code that only exists in the codebase.
-- Components or patterns the user refers to or explicitly mentions — `additionalReferences` for components already in the Subframe project, `codeContext` for patterns or code not yet in Subframe
-- Data types/interfaces for what the page will display (via `codeContext`)
+- The existing page being discussed and similar existing pages (the single most valuable context) — pass them as `subframe` references by ID or name (e.g. a page ID from a pasted MCP link, or a variation page ID the user referenced). A `subframe` reference resolves any Subframe page, snippet, or component; use a `code` reference for code that only exists in the codebase.
+- Components or patterns the user refers to or explicitly mentions — `subframe` references for components already in the Subframe project, `code` references for patterns or code not yet in Subframe
+- Data types/interfaces for what the page will display (as a `code` reference)
+- A mockup or screenshot the user supplied through Subframe — as an `image` reference (Subframe-hosted upload URLs only)
 
-#### Preparing `codeContext`
+#### Preparing references
 
 The general "paste real code, soft cap with verbatim styling" rules in [Grounding design calls in real code](#grounding-design-calls-in-real-code) apply here too. The page-specific addition below is the Subframe-vs-non-Subframe component handling rule.
 
-When including code in `codeContext`, distinguish between components in the Subframe project vs not (`list_components` is the source of truth):
+When including code in a `code` reference, distinguish between components in the Subframe project vs not (`list_components` is the source of truth):
 
 - **References to components that already exist in the project** — leave as-is. Subframe will resolve them from the project.
-- **References to components that don't exist in the project yet** — either design them first with `design_component` (see [Before designing a page](#before-designing-a-page)), or inline their rendered JSX + Tailwind classes into `codeContext`.
+- **References to components that don't exist in the project yet** — either design them first with `design_component` (see [Before designing a page](#before-designing-a-page)), or inline their rendered JSX + Tailwind classes into the reference content.
 - **References to non-component application code** — always inline. See [What belongs as a Subframe component](#what-belongs-as-a-subframe-component) for the distinction.
 
 When you inline a component, expand it into its JSX markup (inputs, buttons, layout, Tailwind classes). If that expanded markup has more component references, evaluate those using the same process.
@@ -225,12 +239,12 @@ When you inline a component, expand it into its JSX markup (inputs, buttons, lay
 
 Each variation is an object with a `name` (short name) and `description` (a few sentence prompt describing the design direction).
 
-**When you have reference pages** (`additionalReferences`), use fewer variations (1-2) and keep them grounded in the reference. The variations should refine or extend the existing design, not diverge from it. For example:
+**When you have reference pages** (`references`), use fewer variations (1-2) and keep them grounded in the reference. The variations should refine or extend the existing design, not diverge from it. For example:
 
 - `{ "name": "Adapted layout", "description": "Follow the same layout as the reference page but adapted for [new content]" }`
 - `{ "name": "Compact data-dense", "description": "Same structure as the reference but with a more compact, data-dense layout." }`
 
-**When starting from scratch** (no `additionalReferences`), use more variations (4) to explore the design space:
+**When starting from scratch** (no `references`), use more variations (4) to explore the design space:
 
 - `{ "name": "Data table", "description": "Compact data table with inline actions and bulk operations." }`
 - `{ "name": "Card grid", "description": "Card-based layout with visual hierarchy and quick filters." }`
@@ -244,8 +258,8 @@ More variations = more exploration. Fewer = more focused. Default to fewer when 
 When designing multiple related pages (flows, CRUD, etc.):
 
 1. Design the primary page first with more variations to establish the direction.
-2. After the user has reviewed the variations in the flow editor, design remaining pages passing the relevant variation page(s) via `additionalReferences`. Have the user paste an MCP link to the variation they want as reference, or use `get_flow_info` with the `flowId` to enumerate the pages in the flow and ask which to use.
-3. Use the same `flowName` to group related pages together.
+2. After the user has reviewed the variations in the flow editor, design each remaining page passing the chosen page's ID as `sourcePageId` — the generation starts from that page's EXACT structure and changes only what the description asks, so shared header, nav, and layout carry over by construction. Have the user paste an MCP link to the variation they want, or use `get_flow_info` with the `flowId` to enumerate the pages in the flow and ask which to use. Add `references` for anything else the new screen should draw on.
+3. Use the same `flowName` to group related pages together. Don't pack multiple screens into variations — variations are independent alternatives of the SAME screen.
 
 ### `edit_page` — targeted edits to an existing page
 
@@ -273,11 +287,11 @@ For `design_page`, present the returned `flowUrl` as a clickable markdown link. 
 
 From there, the user may continue refining in Subframe or return here and ask you to implement the design in code. Do NOT ask the user which variation they prefer or present variation options as a multiple choice in chat. Simply present the flow URL and let them know they can ask you to implement once they're ready.
 
-If you need to enumerate the variation pages programmatically (e.g., to reference one in `additionalReferences` or to read its current code with `get_page_info`), call `wait_for_jobs` with the `jobId` first, then `get_flow_info` with the `flowId`. Reading too early may return only the variations that have finished by that moment.
+If you need to enumerate the variation pages programmatically (e.g., to reference one in `references` or `sourcePageId`, or to read its current code with `get_page_info`), call `wait_for_jobs` with the `jobId` first, then `get_flow_info` with the `flowId`. Reading too early may return only the variations that have finished by that moment.
 
 Internally track the `flowId` returned by `design_page`. Don't surface it to the user. Use it with `get_flow_info` for follow-up flow-level operations, or pass the same `flowName` on subsequent `design_page` calls to keep new variations grouped in the same flow.
 
-For `/subframe:develop`, `additionalReferences`, or `edit_page`, use specific page IDs the user has referenced (via pasted MCP link or while iterating in the editor), or call `get_flow_info` to look them up by name — `design_page` itself doesn't return individual page IDs since all variations land as separate pages on the canvas.
+For `/subframe:develop`, `references`, `sourcePageId`, or `edit_page`, use specific page IDs the user has referenced (via pasted MCP link or while iterating in the editor), or call `get_flow_info` to look them up by name — `design_page` itself doesn't return individual page IDs since all variations land as separate pages on the canvas.
 
 ## Components
 
@@ -288,10 +302,12 @@ Components are reusable UI building blocks (Button, Card, ListItem, Toggle, etc.
 Subframe components are **visual/presentational primitives** — the reusable UI building blocks that get composed into pages. Be deliberate about what gets promoted to a component vs. what stays inline in a page.
 
 **Make it a component if it:**
+
 - Renders pure UI: buttons, inputs, cards, modals, badges, alerts, list items, layout primitives (containers, stacks, grids), etc.
 - Will be reused across multiple pages, or has variants worth defining once
 
 **Keep it inline (in the page, not a component) if it:**
+
 - Fetches data, calls APIs, or manages application state
 - Wires together business logic (form submission handlers, validation flows, page-level orchestration)
 - Is a one-off composition specific to a single page
@@ -303,10 +319,10 @@ When unsure, quickly read the source. If it imports data-fetching libraries, sto
 
 Use `design_component` to create something that should be a Subframe component (see [What belongs as a Subframe component](#what-belongs-as-a-subframe-component)). Pass:
 
-- `description` — what the component is and how it should look/behave. **Paste real code, don't paraphrase** — see [Grounding design calls in real code](#grounding-design-calls-in-real-code) for what to include (canonical source, stories, CSS modules, prop types, relevant theme tokens) and verbosity rules. Apply the Subframe-vs-application rule from [Preparing codeContext](#preparing-codecontext): leave references to components that already exist in this Subframe project as-is, inline anything else.
+- `description` — what the component is and how it should look/behave.
+- `references` (optional) — the grounding material with per-reference usage notes. **Pass real code, don't paraphrase** — see [Grounding design calls in real code](#grounding-design-calls-in-real-code) for what to include (canonical source, stories, CSS modules, prop types, relevant theme tokens) and verbosity rules, plus a mockup/screenshot as an `image` reference when the user supplied one through Subframe. Apply the Subframe-vs-application rule from [Preparing references](#preparing-references): pass components that already exist in this Subframe project as `subframe` references, inline anything else as `code`.
 - `name` — the component name (PascalCase, e.g., "PrivacyToggle")
 - `projectId` — usually inferred from `.subframe/sync.json`
-- `additionalReferences` (optional) — IDs or names of existing Subframe pages, snippets, or components to use as design context (resolved server-side, no need to inline their code).
 
 Returns `componentId` (immediately referenceable in other tools), `componentUrl` (open this in the editor to watch the design happen), and `jobId` (pass to `wait_for_jobs` before reading back via `get_component_info` or referencing in another design call).
 
@@ -314,7 +330,7 @@ Returns `componentId` (immediately referenceable in other tools), `componentUrl`
 
 Use `edit_component` for targeted changes to a component already in the project. Call `get_component_info` first so your description can target exactly what differs. The design AI already has the current Subframe code — only paste outside reference code when the change depends on something the AI can't see (a codebase implementation to match, a sibling component, a design spec). See [Grounding design calls in real code](#grounding-design-calls-in-real-code) for what to include and how to trim.
 
-Pass one of `id`, `name`, or `url` plus a `description`; optionally `additionalReferences` to point the AI at related Subframe pages, snippets, or components. Returns `componentUrl` and `jobId`. Edits propagate to every page using the component, so confirm with the user before making structural changes.
+Pass one of `id`, `name`, or `url` plus a `description`; optionally `references` to point the AI at related Subframe pages/snippets/components, outside code, or an image to match. Returns `componentUrl` and `jobId`. Edits propagate to every page using the component, so confirm with the user before making structural changes.
 
 The same component cannot be edited by two agents simultaneously — if another conversation is already working on it, the tool returns the in-progress URL and you should wait or ask the user.
 
@@ -332,8 +348,7 @@ Use `design_snippet` when the user wants to illustrate something in a design doc
 
 - `description` — what to show
 - `name` — optional; defaults to "AI Generated Snippet"
-- `codeContext` (optional) — raw outside code that grounds the snippet (the codebase implementation it should mirror, related types, the specific usage example it illustrates).
-- `additionalReferences` (optional) — IDs or names of existing Subframe pages, snippets, or components to use as design context (resolved server-side, no need to inline their code).
+- `references` (optional) — the same grounding input as the other design tools: outside code as `code` entries (the codebase implementation the snippet should mirror, related types, the usage example it illustrates), existing Subframe pages/snippets/components as `subframe` entries (resolved server-side, no need to inline their code), plus an `image` when the user supplied one through Subframe — each with a `usage` note.
 
 Returns `snippetId` and `snippetUrl`. Embed the snippet in a design document with `<div data-type="component-example" data-component-id="<snippetId>"></div>` (see the design documents section).
 
@@ -367,6 +382,7 @@ Design documents are for **design judgment that Subframe's structured data can't
 Restating any of that in a doc is wasted space. Reach instead for the layer above: when to use what, how to compose, what it should say, what to avoid.
 
 **Belongs in a design doc:**
+
 - Usage hierarchy and taxonomy
 - Variant meaning — what each variant communicates to the user
 - Sizing rules
@@ -376,12 +392,12 @@ Restating any of that in a doc is wasted space. Reach instead for the layer abov
 - Do's and don'ts framed as design judgment
 
 **Does NOT belong in a design doc:**
+
 - Prop tables or API documentation — the design AI reads the component code already
 - Theme token values (hex codes, pixel spacing, shadow definitions, radius values) — the theme already holds these. If the project's theme is wrong or empty, fix the theme via `edit_theme`; don't paper over it in a doc.
 - Inline JSX or Tailwind class examples — these should be embedded snippets instead
 - Common design standards — if any designer would follow a pattern by default, don't restate it. Only document practices unique to this design system. When a common standard does hold particular importance, write the project-specific angle ("Confirm before destructive actions — restate the noun in the dialog, e.g. 'Delete survey' not 'Are you sure?'"), not the standard itself.
 - Anything trivially derivable from the component source or the theme
-
 
 ### `write_design_document`
 
@@ -429,11 +445,11 @@ Paste each file in a fenced block headed by its path (`// tailwind.config.ts`). 
 
 Read the user's prompt and classify before invoking:
 
-| Risk | Operations | Action |
-| --- | --- | --- |
-| Low | Adding tokens, tweaking values | Call directly; mention what changed after |
-| Medium | Renaming tokens, broad multi-token tweaks | Briefly note the scope (whole project) and call |
-| High | Anything that deletes tokens, replaces the palette wholesale, or implies "remove / strip / replace existing X" | **Confirm with the user before calling.** Spell out what will be deleted and that pages/components using those tokens will be updated to use hardcoded values (which would then require project version history to undo). |
+| Risk   | Operations                                                                                                     | Action                                                                                                                                                                                                                    |
+| ------ | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Low    | Adding tokens, tweaking values                                                                                 | Call directly; mention what changed after                                                                                                                                                                                 |
+| Medium | Renaming tokens, broad multi-token tweaks                                                                      | Briefly note the scope (whole project) and call                                                                                                                                                                           |
+| High   | Anything that deletes tokens, replaces the palette wholesale, or implies "remove / strip / replace existing X" | **Confirm with the user before calling.** Spell out what will be deleted and that pages/components using those tokens will be updated to use hardcoded values (which would then require project version history to undo). |
 
 When in doubt about the risk of a prompt, assume High risk and confirm.
 
@@ -465,9 +481,9 @@ When a delete tool refuses because of references, surface what it would affect t
 
 The user reviews and refines designs in the Subframe editor, not in code. When they come back asking to combine ideas, refine a specific direction, or iterate further:
 
-- **They reference a specific variation** (by pasted MCP link, by name, or by describing it). If you need to find the variation's `pageId`, call `get_flow_info` with the `flowId` from the original `design_page` response — it returns the pages in the flow with names and IDs. Then use `edit_page` with that page's id for targeted changes, or call `design_page` with the page passed via `additionalReferences` if they want a fresh set of options grounded in that direction.
-- **They want to mix variations** ("I like the layout from variation 1 but the colors from variation 3"). Ask them to paste the MCP links of the variations they want to combine (or use `get_flow_info` to look up page IDs by name), then call `design_page` with those pages via `additionalReferences` and a description of the combination.
-- **They want to start over** ("none of these are right"). Call `design_page` again with a refined description and any reference pages via `additionalReferences`. Use the same `flowName` to keep related work grouped.
+- **They reference a specific variation** (by pasted MCP link, by name, or by describing it). If you need to find the variation's `pageId`, call `get_flow_info` with the `flowId` from the original `design_page` response — it returns the pages in the flow with names and IDs. Then use `edit_page` with that page's id for targeted changes, or call `design_page` with the page as `sourcePageId` (to evolve its exact structure) or as a `subframe` reference (for a fresh set of options grounded in that direction).
+- **They want to mix variations** ("I like the layout from variation 1 but the colors from variation 3"). Ask them to paste the MCP links of the variations they want to combine (or use `get_flow_info` to look up page IDs by name), then call `design_page` with those pages as `subframe` references whose usage notes say what to take from each, and a description of the combination.
+- **They want to start over** ("none of these are right"). Call `design_page` again with a refined description and any reference pages as `subframe` references. Use the same `flowName` to keep related work grouped.
 - **They want to iterate on a component or snippet**. Use `edit_component` / `edit_snippet` for targeted changes; the resource keeps its identity and existing usages stay wired up.
 
 You don't have to read the generated code by default — Subframe renders the designs and the user reviews them visually in the editor, so summarizing them in chat usually isn't useful. When reading the code would genuinely help (the user asks what was generated, you're picking which design to extend, etc.), call `wait_for_jobs` if necessary and then the required `get_*_info` calls.

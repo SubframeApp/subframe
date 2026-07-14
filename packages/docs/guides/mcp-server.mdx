@@ -6,7 +6,7 @@ description: Let AI coding assistants directly access and edit your Subframe des
 import McpSkillsInstall from "/snippets/mcp-skills-install.mdx"
 import CopyMcpLink from "/snippets/copy-mcp-link.mdx"
 
-The Subframe MCP server gives AI coding assistants like Claude Code, Cursor, and Codex direct access to your Subframe projects. AI can read, design, and delete pages, components, and snippets, read prototypes, write design documents, and edit the theme.
+The Subframe MCP server gives AI coding assistants like Claude Code, Cursor, and Codex direct access to your Subframe projects. AI can read, design, and delete pages, components, and snippets, screenshot pages, read prototypes, write design documents, edit the theme, and search the Subframe docs.
 
 A separate Subframe Docs MCP server gives AI access to Subframe documentation (this site).
 
@@ -31,6 +31,7 @@ The Subframe MCP server exposes tools across several categories. Most read tools
 | `list_projects` | Lists all projects you have access to | Array of `projectId`, `name`, `teamId`, `teamName` |
 | `generate_auth_token` | Generates a CLI auth token for a team | `authToken` |
 | `get_project_info` | Project metadata plus all project-level design documents | `id`, `name`, `docs` (array of `id`, `title`, `contents`) |
+| `search_docs` | Searches the Subframe documentation (this site) for product and workflow questions | `results` (matching documentation content with titles and links) |
 
 ### Pages
 
@@ -38,8 +39,9 @@ The Subframe MCP server exposes tools across several categories. Most read tools
 | --- | --- | --- | --- |
 | `list_pages` | List all pages with the flow each belongs to | `projectId` | Array of `id`, `name`, `url`, `lastModifiedAt`, `flowId`, `flowName` |
 | `get_page_info` | Generated React/Tailwind code for a page. Pass `includeNodeIds: true` to get a `data-node-id` on every element for use with `edit_page` | `id`/`name`/`url`, `projectId`, `includeNodeIds?` | `id`, `name`, `lastModifiedAt`, `files` |
-| `design_page` | Generates 1-4 page variations as an asynchronous background job. Variations land as pages in a flow as they finish | `description`, `variations`, `flowName`, `projectId`, `codeContext?`, `additionalReferences?` | `flowId`, `flowUrl`, `jobId` |
+| `design_page` | Generates 1-4 page variations as an asynchronous background job. Variations land as pages in a flow as they finish | `description`, `variations`, `flowName`, `projectId`, `references?`, `sourcePageId?` | `flowId`, `flowUrl`, `jobId` |
 | `edit_page` | Apply a targeted edit to one node of an existing page — `replace` the node and its subtree, `insert-above`/`insert-below` a new sibling, or `delete` it. Call `get_page_info` with `includeNodeIds: true` first to get each element's `data-node-id`. Applied immediately | `id`/`name`/`url`, `nodeId`, `operation`, `code`, `projectId` | `pageUrl`, `appliedCode?`, `warnings?` |
+| `screenshot_page` | Renders a page and returns a screenshot so AI can check the result against the intended design. Use after `design_page`/`edit_page`, once background jobs finish | `id`/`name`/`url`, `projectId`, `darkMode?` | Screenshot image, `pageId`, `width`, `height` |
 | `delete_page` | Delete a page, removing it from its flow and stripping prototype actions referencing it. Refuses by default if referenced in other pages. Use `force: true` to delete anyway | `id`/`name`/`url`, `projectId`, `force?` | `deletedId`, `deletedName`, `references` |
 
 ### Components
@@ -48,8 +50,8 @@ The Subframe MCP server exposes tools across several categories. Most read tools
 | --- | --- | --- | --- |
 | `list_components` | List all components | `projectId` | Array of `id`, `name`, `url`, `lastModifiedAt` |
 | `get_component_info` | Generated code plus attached design document | `id`/`name`/`url`, `projectId` | `id`, `name`, `lastModifiedAt`, `files`, `designDocuments` |
-| `design_component` | Designs a new component as an asynchronous background job | `description`, `name`, `projectId`, `additionalReferences?` | `componentId`, `componentUrl`, `jobId` |
-| `edit_component` | Edit an existing component as an asynchronous background job. Propagates to every page using the component | `id`/`name`/`url`, `description`, `projectId`, `additionalReferences?` | `componentUrl`, `jobId` |
+| `design_component` | Designs a new component as an asynchronous background job | `description`, `name`, `projectId`, `references?` | `componentId`, `componentUrl`, `jobId` |
+| `edit_component` | Edit an existing component as an asynchronous background job. Propagates to every page using the component | `id`/`name`/`url`, `description`, `projectId`, `references?` | `componentUrl`, `jobId` |
 | `delete_component` | Delete a component or custom page layout. Detachable components detach their instances; non-detachable ones delete instances; page layouts clear assignments. Some built-in components can't be deleted (`force` does not override). Refuses by default if in use — pass `force: true` to delete anyway | `id`/`name`/`url`, `projectId`, `force?` | `deletedId`, `deletedName`, `references` |
 
 ### Snippets
@@ -60,7 +62,7 @@ Snippets are small, standalone bits of UI typically embedded inside design docum
 | --- | --- | --- | --- |
 | `list_snippets` | List all snippets | `projectId` | Array of `id`, `name`, `url`, `lastModifiedAt` |
 | `get_snippet_info` | Generated code for a snippet. Pass `includeNodeIds: true` to get a `data-node-id` on every element for use with `edit_snippet` | `id`/`name`/`url`, `projectId`, `includeNodeIds?` | `id`, `name`, `lastModifiedAt`, `files` |
-| `design_snippet` | Design a new snippet | `description`, `name?`, `projectId`, `codeContext?`, `additionalReferences?` | `snippetId`, `snippetUrl` |
+| `design_snippet` | Design a new snippet | `description`, `name?`, `projectId`, `references?` | `snippetId`, `snippetUrl` |
 | `edit_snippet` | Apply a targeted edit to one node of an existing snippet (same model as `edit_page`). Call `get_snippet_info` with `includeNodeIds: true` first | `id`/`name`/`url`, `nodeId`, `operation`, `code`, `projectId` | `snippetUrl`, `appliedCode?`, `warnings?` |
 | `delete_snippet` | Delete a snippet. Any design document embeds are removed automatically | `id`/`name`/`url`, `projectId` | `deletedId`, `deletedName` |
 
@@ -100,6 +102,25 @@ Read existing docs first via `get_project_info` (project-level) or `get_componen
 | --- | --- | --- | --- |
 | `get_theme` | Generate the Tailwind theme for the project | `projectId`, `cssType?` | `theme` config |
 | `edit_theme` | Edits the project's visual theme (colors, fonts, corners, shadows, typography) from a natural-language prompt. Applies immediately to the whole project. Supports adding tokens, changing token values, renaming tokens, and **deleting tokens (destructive — references in designs are replaced with the token's concrete value at deletion time)**. | `description`, `projectId` | `themeUrl` |
+
+### Design references
+
+`design_page`, `design_component`, `edit_component`, and `design_snippet` accept an optional `references` array that grounds the generation in real material. Each entry pairs a `source` with a `usage` note telling the generator how to use that reference:
+
+```json
+{
+  "source": { "kind": "subframe", "id": "..." },
+  "usage": "Match this page's layout and header"
+}
+```
+
+| Source kind | Shape | Use for |
+| --- | --- | --- |
+| `subframe` | `{ "kind": "subframe", "id": "..." }` | An existing page, component, or snippet in the project, by ID or name. Resolved server-side — no need to inline its code |
+| `code` | `{ "kind": "code", "content": "..." }` | Raw code from your codebase: a surface to recreate, data types/interfaces, or usage patterns |
+| `image` | `{ "kind": "image", "url": "..." }` | A mockup or screenshot uploaded to Subframe. Only Subframe upload URLs work — external URLs are rejected — and up to 5 images are used per call |
+
+Invalid references are dropped with a warning in the tool result rather than failing the design.
 
 ### Async jobs
 

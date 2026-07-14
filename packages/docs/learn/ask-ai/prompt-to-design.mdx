@@ -4,13 +4,16 @@ description: Use AI to generate page designs, make edits, and update your theme.
 ---
 
 <Frame>
-  <img src="/images/ask-ai/ask-ai-mode.png" alt="Ask AI mode showing the mode switcher and the prompt area" />
+  <img src="/images/ask-ai/ask-ai-mode.png" alt="The Ask AI panel docked to the right side of the editor" />
 </Frame>
+
+{/* TODO: Update image — Ask AI is now a docked panel toggled from the toolbar, not an editor mode */}
 
 You can prompt AI to generate page designs, edit your existing designs, or update your theme.
 
 - **Design new pages** — Generate multiple variations of page designs
 - **Edit your page directly** — Make targeted changes to your current page
+- **Design components and snippets** — Create reusable building blocks and design system examples
 - **Update your theme** — Modify colors, fonts, and tokens project-wide
 - **Answer questions** — Search Subframe docs for help with features and development workflows
 
@@ -18,57 +21,42 @@ Ask AI is for creating and updating designs. For adding interactivity and state,
 
 ## Getting started
 
-1. Click **Ask AI** in the mode switcher (top-right) of the page editor or press <kbd>Cmd</kbd> + <kbd>K</kbd> and select **Mode > Ask AI**
+1. Click the **Ask AI** button in the toolbar or press <kbd>Cmd</kbd> + <kbd>/</kbd>
 2. Type a prompt and press <kbd>Enter</kbd> or click the send button
 3. Ask AI will create a new conversation and responds to your prompt
 
-<video
-  autoPlay
-  muted
-  loop
-  playsInline
-  className="w-full"
-  src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/ask-ai-plus-drag-drop.mp4"
-/>
+The Ask AI panel docks to the right side of the editor and follows you across your project — it's available on all project level pages.
+
+{/* TODO: Add video of prompting in the docked Ask AI panel */}
 
 Our AI will choose how to respond based on your prompt:
 
 - **Variations** — For new designs, creative exploration, or prompts requiring new components. Ask AI will generate 1-4 variations for you to choose from.
 - **Direct edits** — For simple changes to existing elements like colors, text, or layout tweaks
 
-## Apply designs
+<Tip>You can keep prompting while AI is working — follow-up messages queue and send when the current response finishes. Click the stop button (or press <kbd>Esc</kbd>) to stop a running response.</Tip>
 
-After generations finish streaming, click each thumbnail to open a preview.
+## Review designs
 
-<Frame>
-  <img src="/images/ask-ai/apply-designs.png" alt="Ask AI variations showing the generated variations" />
-</Frame>
+Variations land as real pages in a flow on your canvas as each one finishes generating. The chat shows a live tile for each variation — click a tile to jump to that page on the canvas.
 
-From the preview, you can:
+{/* TODO: Add screenshot of variation tiles in the chat and applied pages in the flow */}
 
-- **Apply design** — Replace your current page
-- **Save as new page** — Create a new page with this design
-- **Ask follow-up** — Refine with another prompt
+From there you can:
 
-You can even **mix and match elements** from different variations by dragging elements from the preview onto your canvas.
-
-<video
-  autoPlay
-  muted
-  loop
-  playsInline
-  controls
-  className="w-full"
-  src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/Mintlify/ai-drag-to-insert-BKAcupQ453HXKXmsKaDGp6dw8cLmbW.mp4"
-/>
-
-After generating, send follow-up prompts or switch to [design mode](/learn/design-mode/layers) for manual edits. Each follow-up can reference the current page and previous generations.
+- **Ask a follow-up** — Refine a variation or combine ideas from different ones ("use the header from variation 1 with the layout from variation 3")
+- **Edit visually** — Open any variation in [design mode](/learn/design-mode/layers) for manual edits
+- **Delete** the variations you don't want
 
 ## Conversation history
 
-Recent conversations appear at the bottom of the Ask AI panel. Click **Show all history** to see older conversations grouped by date.
-
 Your conversations persist across sessions and pages so you can reference past generations.
+
+Click the history button at the top of the Ask AI panel to see every chat in the project, grouped by recency — or hover over it to peek at the list. An animated indicator means a chat is still working, and a dot marks unread results. Click the **+** button to start a new chat.
+
+Each chat is labeled with the page, component, or flow it last worked on. Click the label in the chat header to jump to that resource.
+
+{/* TODO: Add screenshot of the chat history menu in the Ask AI panel */}
 
 ## Ask AI toolbar
 
@@ -76,7 +64,6 @@ Ask AI includes additional tools:
 
 - **[Adding context with @](/learn/ask-ai/adding-context)** — Reference other pages, components, snippets, and docs in your prompt
 - **[Upload image](/learn/ask-ai/image-to-design)** — Add reference images
-- **[Reference a URL](/learn/ask-ai/image-to-design#reference-a-url)** — Paste a public URL to use a live page as a reference
 - **[Import from Figma](/learn/ask-ai/image-to-design#import-from-figma)** — Import Figma designs using the image model
 - **[Personalize AI](/learn/ask-ai/personalizing-ai)** — Configure project-wide context
 
@@ -90,7 +77,9 @@ Ask AI is great for generating new designs or making broad changes to your page.
 </Accordion>
 
 <Accordion title="How do I use AI with components?">
-  Open the component editor, then right-click or press <kbd>/</kbd> to open [quick actions](/learn/design-mode/quick-actions) and select **Ask AI to edit...**. You can insert elements, create variants, and refactor components directly in the component editor.
+  Open the component editor and use the same Ask AI panel to insert elements, create variants, and refactor components.
+  You can also right-click or press <kbd>/</kbd> to open [quick actions](/learn/design-mode/quick-actions) and select
+  **Ask AI to edit...**.
 </Accordion>
 
 <Accordion title="How do I undo changes?">
