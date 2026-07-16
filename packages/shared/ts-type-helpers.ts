@@ -41,6 +41,9 @@ export type ExtractWithKey<T, K extends string | number | symbol> = T extends { 
 
 export type RequiredKeys<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>
 
+// Makes all properties of T allow null
+export type Nullable<T> = { [K in keyof T]: T[K] | null }
+
 export type DeepWriteable<T> = T extends object
   ? { -readonly [P in keyof T]: DeepWriteable<T[P]> }
   : T extends Array<any>

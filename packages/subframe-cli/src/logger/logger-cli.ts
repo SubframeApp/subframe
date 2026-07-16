@@ -13,7 +13,11 @@ export type CLILogger = NodeLogger<CLITrackEventType> & {
 }
 
 export function makeCLILogger(): CLILogger {
-  const nodeLogger = makeNodeLogger<CLITrackEventType>({ userId: ANONYMOUS_CLI_USER_ID, teamId: null })
+  const nodeLogger = makeNodeLogger<CLITrackEventType>({
+    userId: ANONYMOUS_CLI_USER_ID,
+    teamId: null,
+    location: "CLI",
+  })
 
   return {
     identify: nodeLogger.identify,

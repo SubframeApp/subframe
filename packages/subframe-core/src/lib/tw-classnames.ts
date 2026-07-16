@@ -21,10 +21,15 @@ export function createTwClassNames(subframeFontMixins: string[]) {
         // "text-color": ["subframe-colors"],
 
         // font mixins
-        "subframe-font-mixins": ["font-size", "leading", "font-weight"],
+        // Applying a mixin replaces the individual typography utilities it bundles
+        // (font-size, leading, font-weight, tracking). The reverse is only bidirectional
+        // for font-size: a font-size utility replaces the whole mixin because both set
+        // font-size and their cascade order is ambiguous. An explicit font-weight,
+        // leading, or tracking is intentionally left to win via the cascade (Tailwind
+        // emits those after font-size), so overriding one property preserves the rest
+        // of the mixin.
+        "subframe-font-mixins": ["font-size", "leading", "font-weight", "tracking"],
         "font-size": ["subframe-font-mixins"],
-        leading: ["subframe-font-mixins"],
-        "font-weight": ["subframe-font-mixins"],
       },
     }
   })

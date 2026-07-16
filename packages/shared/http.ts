@@ -9,12 +9,16 @@ export function prepareHttpBody<TBody, TBodyInit = BodyInit>(body: TBody, header
 }
 
 const MAX_RETRIES = 1
+const STATUS_CODES_TO_NOT_RETRY = [501]
 export function makeFetchWithRetries<T extends FetchLibrary>(fetch: T) {
   return retry(fetch, {
     retries: MAX_RETRIES,
     retryDelay: (attempt) => Math.pow(2, attempt) * 1000,
     retryOn: (attempt, error, response) =>
-      attempt < MAX_RETRIES && Boolean(error !== null || (response && response.status >= 400)),
+      attempt < MAX_RETRIES &&
+      Boolean(
+        error !== null || (response && response.status >= 400 && !STATUS_CODES_TO_NOT_RETRY.includes(response.status)),
+      ),
   })
 }
 const fetchWithRetries = makeFetchWithRetries<typeof fetch>(fetch)

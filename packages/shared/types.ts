@@ -90,9 +90,12 @@ export interface InitProjectRequest {
 
 export interface InitProjectResponse {
   styleFile: CodeGenFileValid
+  // Present for v3 + hasDarkMode. The CLI must write this file under
+  // <importAlias>/theme.css and inject `@import "<rel-path>/theme.css";`
+  // into the user's global stylesheet — same flow as the v4 styleFile.
   themeCssFile?: CodeGenFileValid
   cssType: CodeGenCSSType
-  oldImportAlias: string
+  oldImportAlias?: string
   projectInfo: {
     teamId: number
     truncatedProjectId: TruncatedProjectId
@@ -184,6 +187,7 @@ export interface StartImportRequest {
 
 export interface StartImportResponse {
   success: true
+  importId: string
 }
 
 export interface ComponentFilesUploadRequest {

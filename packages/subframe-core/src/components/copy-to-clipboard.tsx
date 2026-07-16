@@ -8,7 +8,7 @@ import { composeRefs } from "../lib/compose-react-refs"
 // as a functional component and with forwarding refs, minus a few useless props
 interface Props extends React.HTMLAttributes<HTMLElement> {
   clipboardText?: string
-  children?: React.ReactElement
+  children?: React.ReactElement<any>
   onCopy?: () => void // NOTE: deviating from react-copy-to-clipboard here
   // NOTE: a smaller set of options
   options?: {
