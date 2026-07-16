@@ -102,6 +102,7 @@ Read existing docs first via `get_project_info` (project-level) or `get_componen
 | --- | --- | --- | --- |
 | `get_theme` | Generate the Tailwind theme for the project | `projectId`, `cssType?` | `theme` config |
 | `edit_theme` | Edits the project's visual theme (colors, fonts, corners, shadows, typography) from a natural-language prompt. Applies immediately to the whole project. Supports adding tokens, changing token values, renaming tokens, and **deleting tokens (destructive — references in designs are replaced with the token's concrete value at deletion time)**. | `description`, `projectId` | `themeUrl` |
+| `search_icons` | Search the project's icon library by describing what you want (e.g. "warning triangle", "shopping cart"). Icon sets vary by project, so use this to find real names rather than assuming a set — reference a result's exact name in the code you pass to `edit_page`, `edit_snippet`, or a design tool | `query`, `projectId?` | `iconLibraryStatus`, `iconLibrarySize`, `icons` (array of `name`, `hints`) |
 
 ### Design references
 
