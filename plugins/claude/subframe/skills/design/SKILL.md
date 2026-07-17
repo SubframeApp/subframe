@@ -150,7 +150,7 @@ See [Preparing the edit_theme description](#preparing-the-edit_theme-description
 
 You don't need `wait_for_jobs` when you're only presenting the URL to the user and stopping there.
 
-`wait_for_jobs` accepts multiple `jobIds` at once — batch them when you've kicked off multiple designs. Each result is `running`, `done` (with an optional summary), or `not_found`. Call in a loop until every job reads `done`. The server treats jobs that stall longer than ~10 minutes as `done` so the loop never hangs.
+`wait_for_jobs` accepts multiple `jobIds` at once — batch them when you've kicked off multiple designs. Each result is `running`, `done`, `error`, or `not_found`. Call in a loop until every job reads `done` or `error`. For `design_page`, the summary reports how many requested pages were actually applied: partial success is `done` with the count, while zero applied pages is `error`. Inspect the flow and decide whether retrying missing variations is useful. A job that stops reporting eventually becomes `error`; never treat an unverifiable job as completed work.
 
 ## Pages
 
@@ -270,7 +270,7 @@ Use `edit_page` to change one node of an existing Subframe page. It's a structur
 3. Choose an `operation`: `replace` (swap the node and its subtree), `insert-above` / `insert-below` (add your `code` as a new sibling), or `delete` (remove it).
 4. Pass the new or replacement subtree as `code` — a JSX fragment with a single root element. Don't include `data-node-id` attributes (new nodes are assigned ids automatically); leave `code` empty for `delete`.
 
-Identify the page with `id`, `name`, or `url` (call `list_pages` first if you need to find it). The edit applies immediately and returns `pageUrl`, `appliedCode` (the canonical code after parsing — compare it to what you sent to confirm nothing was dropped or normalized), and any parser `warnings`. Call `get_page_info` again to see the updated code and node ids. The user can undo via page version history in the Subframe editor.
+Identify the page with `id`, `name`, or `url` (call `list_pages` first if you need to find it). The edit applies immediately and returns `pageUrl`, `appliedCode` (the canonical code after parsing — compare it to what you sent to confirm nothing was dropped or normalized), and any parser `warnings`. `appliedCode` carries each element's `data-node-id`, so target those nodes in follow-up edits directly instead of re-reading the page. The user can undo via page version history in the Subframe editor.
 
 `code` must be valid Subframe JSX: a single root element and static markup only — no `.map()`, hooks, state, or conditional rendering (these are rejected, not silently dropped), and no `<html>`/`<body>` wrappers. Style with Tailwind `className`s; inline `style={{…}}`, event handlers, and most `data-*` attributes are dropped. The `includeNodeIds: true` output is already in this shape — use it as your template.
 
@@ -287,11 +287,11 @@ For `design_page`, present the returned `flowUrl` as a clickable markdown link. 
 
 From there, the user may continue refining in Subframe or return here and ask you to implement the design in code. Do NOT ask the user which variation they prefer or present variation options as a multiple choice in chat. Simply present the flow URL and let them know they can ask you to implement once they're ready.
 
-If you need to enumerate the variation pages programmatically (e.g., to reference one in `references` or `sourcePageId`, or to read its current code with `get_page_info`), call `wait_for_jobs` with the `jobId` first, then `get_flow_info` with the `flowId`. Reading too early may return only the variations that have finished by that moment.
+If you need to enumerate the variation pages programmatically (e.g., to reference one in `references` or `sourcePageId`, or to read its current code with `get_page_info`), call `wait_for_jobs` with the `jobId` first, check its applied-page count, then call `get_flow_info` with the `flowId`. Reading too early may return only the variations that have finished by that moment.
 
 Internally track the `flowId` returned by `design_page`. Don't surface it to the user. Use it with `get_flow_info` for follow-up flow-level operations, or pass the same `flowName` on subsequent `design_page` calls to keep new variations grouped in the same flow.
 
-For `/subframe:develop`, `references`, `sourcePageId`, or `edit_page`, use specific page IDs the user has referenced (via pasted MCP link or while iterating in the editor), or call `get_flow_info` to look them up by name — `design_page` itself doesn't return individual page IDs since all variations land as separate pages on the canvas.
+For `/subframe:develop`, `references`, `sourcePageId`, or `edit_page`, use specific page IDs the user has referenced (via pasted MCP link or while iterating in the editor), or call `get_flow_info` to look them up by name — `design_page` itself doesn't return individual page IDs since successful variations land as separate pages on the canvas.
 
 ## Components
 
@@ -354,7 +354,7 @@ Returns `snippetId` and `snippetUrl`. Embed the snippet in a design document wit
 
 ### `edit_snippet` — change an existing snippet
 
-Same node-targeted model as `edit_page`, but for snippets. Call `get_snippet_info` with `includeNodeIds: true` to see each element's `data-node-id`, then pass `nodeId`, an `operation` (`replace` / `insert-above` / `insert-below` / `delete`), and a single-root `code` fragment (same JSX constraints as `edit_page`). The edit applies immediately and returns `snippetUrl`, `appliedCode`, and any `warnings`. Use when the embedded example needs to evolve alongside the component it documents.
+Same node-targeted model as `edit_page`, but for snippets. Call `get_snippet_info` with `includeNodeIds: true` to see each element's `data-node-id`, then pass `nodeId`, an `operation` (`replace` / `insert-above` / `insert-below` / `delete`), and a single-root `code` fragment (same JSX constraints as `edit_page`). The edit applies immediately and returns `snippetUrl`, `appliedCode` (with each element's `data-node-id` for follow-up edits), and any `warnings`. Use when the embedded example needs to evolve alongside the component it documents.
 
 ## Design documents
 

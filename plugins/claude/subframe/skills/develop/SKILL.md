@@ -46,7 +46,7 @@ If a design was just kicked off in the same conversation (via `/subframe:design`
 wait_for_jobs({ jobIds: [jobId1, jobId2, ...] })
 ```
 
-Each result is `running`, `done` (with optional summary), or `not_found`. Call in a loop until every job is `done`. Surface progress to the user — "Designs are still generating in Subframe…" then "✓ Designs ready, fetching the code now." — so they understand the wait. (Jobs that stall longer than ~10 minutes are surfaced as `done` so the loop never hangs.)
+Each result is `running`, `done` (with a summary — for `design_page` it reports how many requested pages were actually applied), `error` (the job failed or stopped reporting; don't assume the design exists — check the summary), or `not_found`. Call in a loop until every job is `done` or `error`. Surface progress to the user — "Designs are still generating in Subframe…" then "✓ Designs ready, fetching the code now." — so they understand the wait.
 
 You don't need `wait_for_jobs` when:
 
