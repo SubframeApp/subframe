@@ -39,8 +39,8 @@ The Subframe MCP server exposes tools across several categories. Most read tools
 | --- | --- | --- | --- |
 | `list_pages` | List all pages with the flow each belongs to | `projectId` | Array of `id`, `name`, `url`, `lastModifiedAt`, `flowId`, `flowName` |
 | `get_page_info` | Generated React/Tailwind code for a page. Pass `includeNodeIds: true` to get a `data-node-id` on every element for use with `edit_page` | `id`/`name`/`url`, `projectId`, `includeNodeIds?` | `id`, `name`, `lastModifiedAt`, `files` |
-| `design_page` | Generates 1-4 page variations as an asynchronous background job. Variations land as pages in a flow as they finish | `description`, `variations`, `flowName`, `projectId`, `references?`, `sourcePageId?` | `flowId`, `flowUrl`, `jobId` |
-| `edit_page` | Apply a targeted edit to one node of an existing page — `replace` the node and its subtree, `insert-above`/`insert-below` a new sibling, or `delete` it. Call `get_page_info` with `includeNodeIds: true` first to get each element's `data-node-id`. Applied immediately | `id`/`name`/`url`, `nodeId`, `operation`, `code`, `projectId` | `pageUrl`, `appliedCode?`, `warnings?` |
+| `design_page` | Generates 1-4 page variations as an asynchronous background job. Successful variations land as pages in a flow as they finish; `wait_for_jobs` reports how many were applied | `description`, `variations`, `flowName`, `projectId`, `references?`, `sourcePageId?` | `flowId`, `flowUrl`, `jobId` |
+| `edit_page` | Apply a targeted edit to one node of an existing page — `replace` the node and its subtree, `insert-above`/`insert-below` a new sibling, or `delete` it. Call `get_page_info` with `includeNodeIds: true` first to get each element's `data-node-id`. Applied immediately; `appliedCode` carries each element's `data-node-id` for follow-up edits | `id`/`name`/`url`, `nodeId`, `operation`, `code`, `projectId` | `pageUrl`, `appliedCode?`, `warnings?` |
 | `screenshot_page` | Renders a page and returns a screenshot so AI can check the result against the intended design. Use after `design_page`/`edit_page`, once background jobs finish | `id`/`name`/`url`, `projectId`, `darkMode?` | Screenshot image, `pageId`, `width`, `height` |
 | `delete_page` | Delete a page, removing it from its flow and stripping prototype actions referencing it. Refuses by default if referenced in other pages. Use `force: true` to delete anyway | `id`/`name`/`url`, `projectId`, `force?` | `deletedId`, `deletedName`, `references` |
 
@@ -127,7 +127,7 @@ Invalid references are dropped with a warning in the tool result rather than fai
 
 | Tool | Description | Key inputs | Returns |
 | --- | --- | --- | --- |
-| `wait_for_jobs` | Wait for background AI jobs to finish. Each result is `running`, `done` (with optional summary), or `not_found`. Call in a loop until every job is `done` | `jobIds` (1-10) | Array of `jobId`, `status` (`running`/`done`/`not_found`), `summary?` |
+| `wait_for_jobs` | Wait for background AI jobs to finish. Each result is `running`, `done` (finished with at least one usable result — for `design_page` the summary reports how many pages were applied), `error` (the job failed, produced nothing, or stopped reporting — check the summary and don't assume the edit happened), or `not_found`. Call in a loop until every job is `done` or `error` | `jobIds` (1-10) | Array of `jobId`, `status` (`running`/`done`/`error`/`not_found`), `summary?` |
 
 `design_page`, `design_component`, and `edit_component` return a `jobId` alongside their URL. The URL can be used immediately to view the real-time progress of the job in the editor. Pass the `jobId(s)` to `wait_for_jobs` before reading back the generated content with `get_page_info`, `get_component_info`, `get_snippet_info`, or `get_flow_info` — those reads return empty/stale state until the job is done.
 
@@ -290,9 +290,9 @@ Verify:
 
 <Accordion title="Background job seems stuck">
 
-`design_page`, `design_component`, and `edit_component` run as background jobs. Check `wait_for_jobs` with the `jobId` returned by the design tool — it reports `running`, `done`, or `not_found`. The URL is live throughout, so opening it in the editor shows real-time progress.
+`design_page`, `design_component`, and `edit_component` run as background jobs. Check `wait_for_jobs` with the `jobId` returned by the design tool — it reports `running`, `done`, `error`, or `not_found`. The URL is live throughout, so opening it in the editor shows real-time progress.
 
-If a job stays `running` longer than ~10 minutes, the server treats it as stalled (worker died, request timed out) and reports it as `done` to unblock polling. Open the URL to see whether anything was actually generated; the chat panel surfaces any errors from the AI agent.
+If a job stops reporting progress for ~10 minutes, the server treats it as stalled (worker died, request timed out) and reports it as `error` so polling never hangs — its summary explains that the result could not be verified. Open the URL to see whether anything was actually generated; the chat panel surfaces any errors from the AI agent.
 
 </Accordion>
 
