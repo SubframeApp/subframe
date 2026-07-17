@@ -1,54 +1,81 @@
 ---
 title: Responsive design
-description: Design for mobile and desktop breakpoints.
+description: Design across custom breakpoints for every screen size.
 ---
 
-Subframe has two breakpoints:
+Every project starts with two breakpoints, and you can add as many as you need:
 
-- **Default** — Desktop and tablet (768px and above)
-- **Mobile** <Icon icon="smartphone" size={16} /> — 767px and below
+- **Desktop** <Icon icon="monitor" size={16} /> — The base layer. Applies at every width and owns everything wider than your largest breakpoint.
+- **Mobile** <Icon icon="smartphone" size={16} /> — Applies at 767px and below.
+
+Each breakpoint other than Desktop is a **max-width** breakpoint: it applies from the next-narrower breakpoint up to its own width. The base **Desktop** layer has no media query, so its styles apply everywhere unless a narrower breakpoint overrides them.
 
 ## Switching breakpoints
 
 <Frame>
-  <img src="/images/editor/editor-breakpoints.png" alt="Breakpoint selector showing desktop and mobile views" />
+  <img src="/images/editor/editor-breakpoints.png" alt="Breakpoint selector in the Inspector panel listing Desktop and Mobile with their width ranges" />
 </Frame>
 
-Click the device selector in the top toolbar to switch between default and mobile views.
+{/* TODO: Update image to show the breakpoint Select and management popover */}
 
-## Creating mobile overrides
+Use the **Breakpoint** selector at the top of the Inspector to switch the breakpoint you're viewing and editing. Each option shows the breakpoint's device icon, name, and the width range it covers.
 
-You can add mobile overrides to both pages and components.
+You can also:
 
-1. Switch to mobile view <Icon icon="smartphone" size={16} />
+- Press <kbd>Cmd</kbd> + <kbd>K</kbd> and search for a breakpoint by name
+- Drag the handles on either edge of the page stage to resize it—the stage snaps to the breakpoint matching the width you release at
+
+## Managing breakpoints
+
+Click the <Icon icon="ellipsis" size={16} /> button next to the **Breakpoint** selector to open the **Edit breakpoints** popover.
+
+- **Add** — Click <Icon icon="plus" size={16} /> to add a breakpoint, then set its name and max width.
+- **Rename** — Edit the name field. The name becomes the prefix in your exported code, so keep it short (for example, `Tablet` exports as `tablet:`).
+- **Set width** — Edit the width field to change the max width a breakpoint covers.
+- **Delete** — Open the row's <Icon icon="ellipsis" size={16} /> menu and select **Delete**.
+
+The base **Desktop** breakpoint can't be deleted, and its width range is derived from your other breakpoints.
+
+## Creating breakpoint overrides
+
+You can override properties at any breakpoint, on both pages and components.
+
+1. Switch to the breakpoint you want to override
 2. Select an element
 3. Modify any property in the Inspector
 4. An override indicator (pink dot) appears next to the property
 
 <Frame>
-  <img src="/images/design-mode/overrides.png" alt="Inspector showing mobile override with pink dot indicator" />
+  <img src="/images/design-mode/overrides.png" alt="Inspector showing a breakpoint override with a pink dot indicator" />
 </Frame>
 
-To remove a mobile override, click the pink dot to reset to the default value.
+While a non-base breakpoint is active, a **Making edits to** bar appears at the top of the canvas. Use it to toggle between editing the **current** breakpoint and **All breakpoints** at once.
+
+Click the pink dot to open its menu:
+
+- **Reset override** — Remove the override and fall back to the value from a wider breakpoint.
+- **Apply to all breakpoints** — Promote the overridden value to the base layer so it applies everywhere, clearing that override from every breakpoint.
 
 ## Code export
 
-When there is a mobile override, the exported code uses a `mobile:` prefix in Tailwind, which adds a media query:
+Each breakpoint exports as a max-width Tailwind variant named after the breakpoint. An override on the **Mobile** breakpoint uses a `mobile:` prefix; an override on a breakpoint you named **Tablet** uses a `tablet:` prefix:
 
 {/* prettier-ignore */}
 ```tsx
-<div className="flex mobile:flex-col">
-  {/* Horizontal on desktop, vertical on mobile */}
+<div className="flex tablet:flex-col mobile:gap-2">
+  {/* Row on desktop, column at tablet and below, tighter gap on mobile */}
 </div>
 ```
+
+The generated Tailwind config registers each breakpoint under `screens` with its max width, so the variants map to standard media queries.
 
 ## FAQ
 
 <AccordionGroup>
   <Accordion title="Why can't I override this property?">
-    If you don't see a pink dot, no mobile override is being set.
+    If you don't see a pink dot, no override is being set.
     {/* prettier-ignore */}
-    Mobile overrides only work for styles that translate to CSS, so some properties without a CSS equivalent cannot have
-    a mobile override.
+    Overrides only work for styles that translate to CSS, so some properties without a CSS equivalent cannot have
+    a breakpoint override.
   </Accordion>
 </AccordionGroup>

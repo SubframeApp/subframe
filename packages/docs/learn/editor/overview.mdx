@@ -52,7 +52,7 @@ You have the following panels available to you:
 
 ### Canvas (center)
 
-Your design surface where elements appear at their actual rendered size. The canvas shows exactly how your design will look at the current breakpoint (desktop or mobile).
+Your design surface where elements appear at their actual rendered size. The canvas shows exactly how your design will look at the current breakpoint.
 
 Unlike infinite canvas tools, Subframe uses flexbox for layout (not absolute positioning). Elements flow and arrange using Stacks, resize responsively, and adapt to different screen sizes automatically. If you're familiar with Figma, this works similarly to auto-layout.
 
@@ -68,17 +68,17 @@ Press <kbd>Cmd</kbd> + <kbd>\\</kbd> to cycle through panel layouts: both panels
 
 ## Responsive breakpoints
 
-Switch between desktop (default) and mobile views using the device selector in the Inspector panel.
+Switch between breakpoints using the **Breakpoint** selector in the Inspector panel. Every project starts with **Desktop** and **Mobile**, and you can add custom breakpoints for any screen size.
 
 <Frame>
-  <img src="/images/editor/editor-breakpoints.png" alt="Editor breakpoints showing the desktop and mobile views" />
+  <img src="/images/editor/editor-breakpoints.png" alt="Breakpoint selector in the Inspector panel listing Desktop and Mobile with their width ranges" />
 </Frame>
 
-**Desktop view (default)** — Design for desktop and tablet screens. Elements use their base flex properties.
+**Desktop (base)** — Applies at every width. Elements use their base flex properties.
 
-**Mobile view (768px)** — Add mobile-specific overrides for properties that need different values on small screens.
+**Mobile and custom breakpoints** — Add overrides for properties that need different values below a given width.
 
-We recommend you design for desktop first, then add mobile overrides only where needed.
+We recommend you design for desktop first, then add overrides only where needed. For details, see [Responsive design](/learn/design-mode/responsive-design).
 
 ## Collaboration
 
