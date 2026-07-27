@@ -6,7 +6,7 @@ description: Let AI coding assistants directly access and edit your Subframe des
 import McpSkillsInstall from "/snippets/mcp-skills-install.mdx"
 import CopyMcpLink from "/snippets/copy-mcp-link.mdx"
 
-The Subframe MCP server gives AI coding assistants like Claude Code, Cursor, and Codex direct access to your Subframe projects. AI can read, design, and delete pages, components, and snippets, screenshot pages, read prototypes, write design documents, edit the theme, and search the Subframe docs.
+The Subframe MCP server gives AI coding assistants like Claude Code, Cursor, and Codex direct access to your Subframe projects. AI can read, design, and delete pages, components, and snippets, screenshot pages and components, read prototypes, write design documents, edit the theme, and search the Subframe docs.
 
 A separate Subframe Docs MCP server gives AI access to Subframe documentation (this site).
 
@@ -41,7 +41,7 @@ The Subframe MCP server exposes tools across several categories. Most read tools
 | `get_page_info` | Generated React/Tailwind code for a page. Pass `includeNodeIds: true` to get a `data-node-id` on every element for use with `edit_page` | `id`/`name`/`url`, `projectId`, `includeNodeIds?` | `id`, `name`, `lastModifiedAt`, `files` |
 | `design_page` | Generates 1-4 page variations as an asynchronous background job. Successful variations land as pages in a flow as they finish; `wait_for_jobs` reports how many were applied | `description`, `variations`, `flowName`, `projectId`, `references?`, `sourcePageId?` | `flowId`, `flowUrl`, `jobId` |
 | `edit_page` | Apply a targeted edit to one node of an existing page — `replace` the node and its subtree, `insert-above`/`insert-below` a new sibling, or `delete` it. Call `get_page_info` with `includeNodeIds: true` first to get each element's `data-node-id`. Applied immediately; `appliedCode` carries each element's `data-node-id` for follow-up edits | `id`/`name`/`url`, `nodeId`, `operation`, `code`, `projectId` | `pageUrl`, `appliedCode?`, `warnings?` |
-| `screenshot_page` | Renders a page and returns a screenshot so AI can check the result against the intended design. Use after `design_page`/`edit_page`, once background jobs finish | `id`/`name`/`url`, `projectId`, `darkMode?` | Screenshot image, `pageId`, `width`, `height` |
+| `screenshot_page` | Renders a page and returns a screenshot so AI can check the result against the intended design. Use after `design_page`/`edit_page`, once background jobs finish. Pass `nodeId` (from `get_page_info` with `includeNodeIds: true`) to capture one element, `breakpointId` (from `get_theme`) to render a responsive breakpoint, or `offsetX`/`offsetY` to cover a page taller or wider than one capture | `id`/`name`/`url`, `projectId`, `darkMode?`, `nodeId?`, `breakpointId?`, `offsetX?`, `offsetY?` | Screenshot image, `pageId`, `width`, `height` |
 | `delete_page` | Delete a page, removing it from its flow and stripping prototype actions referencing it. Refuses by default if referenced in other pages. Use `force: true` to delete anyway | `id`/`name`/`url`, `projectId`, `force?` | `deletedId`, `deletedName`, `references` |
 
 ### Components
@@ -50,6 +50,7 @@ The Subframe MCP server exposes tools across several categories. Most read tools
 | --- | --- | --- | --- |
 | `list_components` | List all components | `projectId` | Array of `id`, `name`, `url`, `lastModifiedAt` |
 | `get_component_info` | Generated code plus attached design document | `id`/`name`/`url`, `projectId` | `id`, `name`, `lastModifiedAt`, `files`, `designDocuments` |
+| `screenshot_component` | Renders a component's variants and interaction states and returns a screenshot so AI can validate the result against the intended design. Use after `design_component`/`edit_component`, once background jobs finish. Pass `breakpointId` (from `get_theme`) to render a responsive breakpoint | `id`/`name`/`url`, `projectId`, `darkMode?`, `breakpointId?` | Screenshot image, `componentId`, `width`, `height` |
 | `design_component` | Designs a new component as an asynchronous background job | `description`, `name`, `projectId`, `references?` | `componentId`, `componentUrl`, `jobId` |
 | `edit_component` | Edit an existing component as an asynchronous background job. Propagates to every page using the component | `id`/`name`/`url`, `description`, `projectId`, `references?` | `componentUrl`, `jobId` |
 | `delete_component` | Delete a component or custom page layout. Detachable components detach their instances; non-detachable ones delete instances; page layouts clear assignments. Some built-in components can't be deleted (`force` does not override). Refuses by default if in use — pass `force: true` to delete anyway | `id`/`name`/`url`, `projectId`, `force?` | `deletedId`, `deletedName`, `references` |
