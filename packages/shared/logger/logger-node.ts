@@ -1,12 +1,15 @@
 import { Analytics } from "@segment/analytics-node"
 import { WithRequired } from "../type-helpers"
 import { SEGMENT_GROUP_KEY } from "./constants"
-import { isAnonymousUserId } from "./helpers"
+import { isSharedAnonymousUserId } from "./helpers"
 import { BaseEvent, EXCEPTION_EVENT_NAME, IdentifyArgs, TypedLogger } from "./types"
 
 function shouldEnableLogger() {
-  // disable in dev
-  return process.env.NODE_ENV === "production"
+  return !!process.env.SEGMENT_WRITE_KEY
+}
+
+function shouldConsoleLog() {
+  return process.env.NODE_ENV !== "production"
 }
 
 export type NodeLogger<T extends BaseEvent = BaseEvent> = WithRequired<TypedLogger<T>, "flush">
@@ -14,9 +17,14 @@ export type NodeLogger<T extends BaseEvent = BaseEvent> = WithRequired<TypedLogg
 export function makeNodeLogger<T extends BaseEvent = BaseEvent>({
   userId,
   teamId,
+  location,
+  defaultProperties,
 }: {
   userId: string
   teamId: number | null
+  location: "CLI" | "Server" | "Desktop"
+  // Flat properties added to every event; event-specific fields take precedence.
+  defaultProperties?: Record<string, string | number | boolean>
 }): NodeLogger<T> {
   /**
    * Local variables
@@ -48,8 +56,8 @@ export function makeNodeLogger<T extends BaseEvent = BaseEvent>({
       return
     }
 
-    // ignore anonymous users; nothing to identify
-    if (isAnonymousUserId(user.userId)) {
+    // ignore non team specific anonymous users; nothing to identify
+    if (isSharedAnonymousUserId(user.userId)) {
       return
     }
 
@@ -77,8 +85,11 @@ export function makeNodeLogger<T extends BaseEvent = BaseEvent>({
 
   function trackEventRaw({ event, additionalData = {} }: { event: string; additionalData?: object }): Promise<void> {
     return new Promise((resolve) => {
+      if (shouldConsoleLog()) {
+        console.log("[Track Event]", event, { ...defaultProperties, ...additionalData })
+      }
+
       if (!shouldEnableLogger()) {
-        console.log("[Track Event]", event, additionalData)
         resolve()
         return
       }
@@ -88,7 +99,7 @@ export function makeNodeLogger<T extends BaseEvent = BaseEvent>({
           userId: currentUserId || "",
           event,
           // Posthog requires specifying the group on all Segment events: https://posthog.com/docs/libraries/segment
-          properties: { ...additionalData, ...currentGroupDetails },
+          properties: { ...defaultProperties, ...additionalData, ...currentGroupDetails },
         },
         () => resolve(),
       )
@@ -102,7 +113,7 @@ export function makeNodeLogger<T extends BaseEvent = BaseEvent>({
 
   function trackWarning(event: string, additionalData: { [key: string]: string | number | boolean } = {}) {
     return trackEventRaw({
-      event: `[Warning]: ${event}`,
+      event: `[Warning]: ${location} - ${event}`,
       additionalData: {
         ...additionalData,
         warning: true,
