@@ -1,10 +1,5 @@
 import { program } from "@commander-js/extra-typings"
-import {
-  COMMAND_JSON_KEY,
-  COMMAND_NON_INTERACTIVE_KEY,
-  COMMAND_YES_KEY,
-  COMMAND_YES_KEY_SHORT,
-} from "shared/constants"
+import { COMMAND_JSON_KEY, COMMAND_NON_INTERACTIVE_KEY, COMMAND_YES_KEY, COMMAND_YES_KEY_SHORT } from "shared/constants"
 import packageJson from "../package.json"
 import { isBeta, isDev } from "./common"
 import { importCommand } from "./import"
@@ -20,8 +15,14 @@ program.version(packageJson.version).description("Subframe CLI")
 // subcommand; registering them here keeps commander from rejecting them and
 // surfaces them in `subframe --help`.
 program
-  .option(`${COMMAND_YES_KEY_SHORT}, ${COMMAND_YES_KEY}`, "accept defaults and never prompt (also implied when stdin is not a TTY)")
-  .option(COMMAND_NON_INTERACTIVE_KEY, "strict: never prompt and never assume defaults; fail if a required value is missing")
+  .option(
+    `${COMMAND_YES_KEY_SHORT}, ${COMMAND_YES_KEY}`,
+    "accept defaults and never prompt (also implied when stdin is not a TTY)",
+  )
+  .option(
+    COMMAND_NON_INTERACTIVE_KEY,
+    "strict: never prompt and never assume defaults; fail if a required value is missing",
+  )
   .option(COMMAND_JSON_KEY, "print a machine-readable JSON result on stdout")
 
 // Route human chatter to stderr (and emit JSON results) when requested.

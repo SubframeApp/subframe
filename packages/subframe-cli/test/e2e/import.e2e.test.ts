@@ -45,7 +45,10 @@ describe("import", () => {
     await writeProjectFile(
       dir,
       "manifest.json",
-      JSON.stringify({ theme: [], components: [{ name: "Button", entrypoint: "Button.tsx", sourceFiles: [], supportingFiles: [] }] }),
+      JSON.stringify({
+        theme: [],
+        components: [{ name: "Button", entrypoint: "Button.tsx", sourceFiles: [], supportingFiles: [] }],
+      }),
     )
 
     const result = await runCli(["import", "-p", "proj_1", "-m", "manifest.json"], { cwd: dir, token: TOKEN })
