@@ -53,7 +53,11 @@ export default {
       inject: { insertAt: "top" },
     }),
     commonjs(),
-    typescript({ tsconfig: "./tsconfig.json" }),
+    typescript({
+      tsconfig: "./tsconfig.json",
+      // rpt2's default include glob breaks with picomatch >= 2.3.2
+      include: ["*.ts", "**/*.ts", "*.tsx", "**/*.tsx"],
+    }),
     preserveDirectives.default(),
   ],
   onwarn(warning, warn) {

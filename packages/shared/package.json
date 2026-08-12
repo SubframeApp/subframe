@@ -5,13 +5,13 @@
   "types": "./index.ts",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint \"**/*.{ts,tsx}\"",
-    "lint:fix": "eslint --fix \"**/*.{ts,tsx}\"",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --fix --report-unused-disable-directives --max-warnings 0",
     "ts": "tsc --noEmit",
     "ts:watch": "tsc --watch --incremental --noEmit"
   },
   "devDependencies": {
-    "eslint": "8.57.0",
+    "eslint": "^9",
     "eslint-config-custom": "*",
     "tsconfig": "*",
     "typescript": "5.8.3"
