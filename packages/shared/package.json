@@ -5,13 +5,15 @@
   "types": "./index.ts",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint \"**/*.{ts,tsx}\"",
-    "lint:fix": "eslint --fix \"**/*.{ts,tsx}\"",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --report-unused-disable-directives --max-warnings 0 --fix",
     "ts": "tsc --noEmit",
-    "ts:watch": "tsc --watch --incremental --noEmit"
+    "ts:watch": "tsc --watch --incremental --noEmit",
+    "format": "prettier --cache --loglevel warn --write .",
+    "format:ci": "prettier --check ."
   },
   "devDependencies": {
-    "eslint": "8.57.0",
+    "eslint": "^9",
     "eslint-config-custom": "*",
     "tsconfig": "*",
     "typescript": "5.8.3"

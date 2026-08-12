@@ -13,10 +13,10 @@ describe("init (existing project)", () => {
     const dir = makeProjectDir()
     await scaffoldProject(dir, { dependencies: { tailwindcss: "^3.4.0" }, dirs: ["src"] })
 
-    const result = await runCli(
-      ["init", "--projectId", "proj_1", "--dir", "./src", "--alias", "@/ui/*", ...SAFE],
-      { cwd: dir, token: TOKEN },
-    )
+    const result = await runCli(["init", "--projectId", "proj_1", "--dir", "./src", "--alias", "@/ui/*", ...SAFE], {
+      cwd: dir,
+      token: TOKEN,
+    })
 
     expect(result.timedOut).toBe(false)
     expect(result.exitCode).toBe(0)
@@ -156,7 +156,19 @@ describe("init (import alias update)", () => {
     getMock().routes["POST /api/cli/init"] = initWithOldAlias
 
     const result = await runCli(
-      ["init", "--projectId", "proj_1", "--dir", "./src", "--alias", "@/ui/*", "--update-import-alias", "--no-install", "--no-sync", "--json"],
+      [
+        "init",
+        "--projectId",
+        "proj_1",
+        "--dir",
+        "./src",
+        "--alias",
+        "@/ui/*",
+        "--update-import-alias",
+        "--no-install",
+        "--no-sync",
+        "--json",
+      ],
       { cwd: dir, token: TOKEN },
     )
 
@@ -172,7 +184,19 @@ describe("init (import alias update)", () => {
     getMock().routes["POST /api/cli/init"] = initWithOldAlias
 
     const result = await runCli(
-      ["init", "--projectId", "proj_1", "--dir", "./src", "--alias", "@/ui/*", "--no-update-import-alias", "--no-install", "--no-sync", "--json"],
+      [
+        "init",
+        "--projectId",
+        "proj_1",
+        "--dir",
+        "./src",
+        "--alias",
+        "@/ui/*",
+        "--no-update-import-alias",
+        "--no-install",
+        "--no-sync",
+        "--json",
+      ],
       { cwd: dir, token: TOKEN },
     )
 
@@ -187,7 +211,19 @@ describe("init (sync step)", () => {
     await scaffoldProject(dir, { dependencies: { tailwindcss: "^3.4.0" }, dirs: ["src"] })
 
     const result = await runCli(
-      ["init", "--projectId", "proj_1", "--dir", "./src", "--alias", "@/ui/*", "--no-sync", "--no-install", "--no-update-import-alias", "--json"],
+      [
+        "init",
+        "--projectId",
+        "proj_1",
+        "--dir",
+        "./src",
+        "--alias",
+        "@/ui/*",
+        "--no-sync",
+        "--no-install",
+        "--no-update-import-alias",
+        "--json",
+      ],
       { cwd: dir, token: TOKEN },
     )
 
@@ -200,7 +236,19 @@ describe("init (sync step)", () => {
     await scaffoldProject(dir, { dependencies: { tailwindcss: "^3.4.0" }, dirs: ["src"] })
 
     const result = await runCli(
-      ["init", "--projectId", "proj_1", "--dir", "./src", "--alias", "@/ui/*", "--sync", "--no-install", "--no-update-import-alias", "--json"],
+      [
+        "init",
+        "--projectId",
+        "proj_1",
+        "--dir",
+        "./src",
+        "--alias",
+        "@/ui/*",
+        "--sync",
+        "--no-install",
+        "--no-update-import-alias",
+        "--json",
+      ],
       { cwd: dir, token: TOKEN },
     )
 
@@ -214,10 +262,10 @@ describe("init (validation & strict mode)", () => {
     const dir = makeProjectDir()
     await scaffoldProject(dir, { dependencies: { tailwindcss: "^3.4.0" }, dirs: ["src"] })
 
-    const result = await runCli(
-      ["init", "--projectId", "proj_1", "--alias", "@/ui", "--dir", "./src", ...SAFE],
-      { cwd: dir, token: TOKEN },
-    )
+    const result = await runCli(["init", "--projectId", "proj_1", "--alias", "@/ui", "--dir", "./src", ...SAFE], {
+      cwd: dir,
+      token: TOKEN,
+    })
 
     expect(result.exitCode).toBe(1)
     expect((result.json() as { error?: string }).error ?? "").toMatch(/alias/i)

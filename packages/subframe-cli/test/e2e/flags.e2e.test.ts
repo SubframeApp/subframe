@@ -44,7 +44,18 @@ describe("flag interactions", () => {
   })
 
   it("the later of --sync / --no-sync wins (negatable flag precedence)", async () => {
-    const base = ["init", "--projectId", "proj_1", "--dir", "./src", "--alias", "@/ui/*", "--no-install", "--no-update-import-alias", "--json"]
+    const base = [
+      "init",
+      "--projectId",
+      "proj_1",
+      "--dir",
+      "./src",
+      "--alias",
+      "@/ui/*",
+      "--no-install",
+      "--no-update-import-alias",
+      "--json",
+    ]
 
     const noSyncWins = await runCli([...base, "--sync", "--no-sync"], { cwd: await initProject(), token: TOKEN })
     expect(noSyncWins.exitCode).toBe(0)
@@ -107,10 +118,13 @@ describe("flag interactions", () => {
     })
 
     // No --projectId and multiple projects: would prompt interactively, but --json must not.
-    const result = await runCli(["init", "--dir", "./src", "--alias", "@/ui/*", "--no-install", "--no-sync", "--json"], {
-      cwd: dir,
-      token: TOKEN,
-    })
+    const result = await runCli(
+      ["init", "--dir", "./src", "--alias", "@/ui/*", "--no-install", "--no-sync", "--json"],
+      {
+        cwd: dir,
+        token: TOKEN,
+      },
+    )
 
     expect(result.timedOut).toBe(false)
     expect(result.exitCode).toBe(1)

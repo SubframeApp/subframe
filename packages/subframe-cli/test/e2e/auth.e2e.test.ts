@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { makeHome, makeProjectDir, PROJECT_SETTINGS, runCli, scaffoldProject, setupMockServer,TOKEN } from "./harness"
+import { makeHome, makeProjectDir, PROJECT_SETTINGS, runCli, scaffoldProject, setupMockServer, TOKEN } from "./harness"
 
 const getMock = setupMockServer()
 

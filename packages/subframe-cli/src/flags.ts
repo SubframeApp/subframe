@@ -10,12 +10,7 @@
  * (The environment flags --dev/--beta live in common.ts because they also gate
  * BASE_URL and the telemetry env; they are intentionally not duplicated here.)
  */
-import {
-  COMMAND_JSON_KEY,
-  COMMAND_NON_INTERACTIVE_KEY,
-  COMMAND_YES_KEY,
-  COMMAND_YES_KEY_SHORT,
-} from "shared/constants"
+import { COMMAND_JSON_KEY, COMMAND_NON_INTERACTIVE_KEY, COMMAND_YES_KEY, COMMAND_YES_KEY_SHORT } from "shared/constants"
 
 const argv = process.argv
 
