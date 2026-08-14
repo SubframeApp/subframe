@@ -252,3 +252,4 @@ When updating docs based on product or code changes:
 ## Learnings
 
 - Don't document features behind feature flags until they are widely released
+- Keep the Comments doc scoped to pages; don't document commenting in flows / on the canvas
