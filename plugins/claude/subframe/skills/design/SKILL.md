@@ -1,22 +1,22 @@
 ---
 name: design
-description: Design and edit anything in Subframe — pages, components, snippets, design documents, the theme. Also handles deletion of those resources except theme. Always load this skill when taking any action through the Subframe MCP server. This includes building or iterating on UI, evolving the design system, capturing design intent in writing, or cleaning up a project. Don't write UI code directly — design first, then implement with /subframe:develop.
+description: Design and edit anything in Subframe — pages, components, snippets, design documents, the theme. Use when the user explicitly wants a resource in the Subframe design tool created or changed, asks to explore visual directions in Subframe, or invokes /subframe:design. Do not use for implementation-only work in an existing codebase. Always load this skill when taking any action through the Subframe MCP server. This includes building or iterating on UI, evolving the design system, capturing design intent in writing, or cleaning up a project. Don't write UI code directly — design first, then implement with /subframe:develop.
 argument-hint: "[what to design or change]"
 ---
 
 The Subframe MCP server exposes tools for the full design surface — pages, components, snippets, design documents, theme — and this skill teaches you when to reach for each one. Each tool returns a URL the user can open to see the result. The heaviest ones (`design_page`, `design_component`, `edit_component`) run as background AI jobs and also return a `jobId` — pass it to `wait_for_jobs` if you need to ensure completion.
 
-**Don't write UI code directly.** Subframe generates production-ready React/Tailwind code that matches the design system. Design in Subframe first, then implement with `/subframe:develop`.
+**Treat a Subframe design as an explicit output, not a prerequisite for UI coding.** When the user requests a Subframe design artifact or meaningful design exploration, design in Subframe first and then implement with `/subframe:develop` if requested. For implementation-only requests, edit the code directly.
 
 ## When to use this skill
 
-The user wants to:
+Use this skill when the user wants to:
 
-- Build a new page or screen, or iterate on an existing one
-- Add a new reusable component or snippet to the project or edit existing ones
-- Capture design intent or component usage guidance as written documentation
-- Update the project-wide visual theme (colors, fonts, corners, shadows, typography)
-- Remove pages, components, snippets, or flows that are no longer needed
+- Create a page or screen in Subframe, materially redesign one, or explore visual directions
+- Add or edit a reusable Subframe component or snippet
+- Capture design intent or component usage guidance as a Subframe design document
+- Update the Subframe project's visual theme (colors, fonts, corners, shadows, typography)
+- Remove Subframe pages, components, snippets, or flows that are no longer needed
 
 The key value: `/subframe:design` and `/subframe:develop` bridge coding and design. They work in both directions — create designs while coding and then ensure your code exactly reflects your design.
 
