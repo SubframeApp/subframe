@@ -84,8 +84,12 @@ Ask AI is great for generating new designs or making broad changes to your page.
 </Accordion>
 
 <Accordion title="How do I undo changes?">
-  Press <kbd>Cmd</kbd> + <kbd>Z</kbd> to undo. Subframe maintains full undo history, so you can step back through
-  multiple changes. You can also use [Version history](/learn/projects/version-history) to restore a previous state.
+  <kbd>Cmd</kbd> + <kbd>Z</kbd> undoes changes made directly in the visual editor. It does not revert
+  changes applied through MCP or API tools.
+
+  To revert a tool-applied change, restore the affected page, component, snippet, or theme using
+  [Version history](/learn/projects/version-history). Use project version history for deleted resources
+  or changes spanning multiple resources.
 </Accordion>
 
 </AccordionGroup>
