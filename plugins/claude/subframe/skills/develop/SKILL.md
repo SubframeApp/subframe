@@ -6,9 +6,21 @@ argument-hint: "[page URL, page ID, or 'the design I just made']"
 
 Implement Subframe designs in the codebase. Fetch the design via MCP, sync components, and add business logic.
 
-## MCP Authentication
+## Connect to Subframe MCP before implementing
 
-If you cannot find the `get_page_info` tool (or any Subframe MCP tools), the MCP server likely needs to be authenticated. Ask the user to authenticate the Subframe MCP server. If the user is using Claude Code or Codex, instruct them to run `/mcp` to view and authenticate their MCP servers, and then say "done" when they're finished.
+Before installing dependencies, syncing components, or editing code for a linked design, discover the Subframe `get_page_info` tool (use tool search if your client loads MCP tools on demand). The Subframe Docs MCP server only provides documentation; it cannot fetch the user's designs.
+
+If `get_page_info` is unavailable, tell the user that you cannot access the linked design yet and help them connect the **Subframe MCP server**:
+
+- **Not installed/configured:** Direct them to the [Subframe MCP setup guide](https://docs.subframe.com/guides/mcp-server) for their client. The design server URL is `https://mcp.subframe.com/mcp`.
+- **Already configured:** Ask them to enable/connect the server and complete OAuth authentication in their client's MCP settings.
+- **Status unknown:** Explain that the server may need installation, enabling, or authentication. Provide the setup guide and ask them to check their client's MCP settings.
+
+Pause the design-dependent work until the tools are available. Do not silently fall back to opening or scraping the design in a browser, guessing from the prompt, or implementing from existing code alone. This also applies when using the design as inspiration in a non-Subframe project; connecting MCP does not require installing Subframe components into that project.
+
+After the user reports that setup is complete, discover the tool again and successfully fetch the requested design with `get_page_info` before implementing it.
+
+Only switch to a workflow without the linked design if the user explicitly chooses that alternative.
 
 ## Detect Project State
 
