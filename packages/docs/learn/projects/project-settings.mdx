@@ -1,6 +1,6 @@
 ---
 title: Project settings
-description: Configure project settings like code generation and AI preferences.
+description: Configure how Subframe generates and exports code for your project.
 ---
 
 ## Access project settings
@@ -8,7 +8,7 @@ description: Configure project settings like code generation and AI preferences.
 <Frame>
   <img
     src="/images/projects/project-settings-entrypoint.png"
-    alt="The Design System section in the left sidebar with the Project settings gear icon highlighted"
+    alt="The Design System section in the left sidebar with the Configure code export gear icon highlighted"
   />
 </Frame>
 
@@ -16,13 +16,15 @@ description: Configure project settings like code generation and AI preferences.
 
 1. Open your project in the editor
 2. In the left sidebar, find the **Design System** section
-3. Click the **Settings** <Icon icon="settings" size={16} /> icon next to **Design System**
+3. Click the **Configure code export** <Icon icon="settings" size={16} /> icon next to **Design System**
 
-You should see the project settings dialog.
+The **Code export settings** dialog opens.
 
 <Frame>
-  <img src="/images/projects/project-settings.png" alt="Project settings showing the project settings dialog" />
+  <img src="/images/projects/project-settings.png" alt="The Code export settings dialog showing import alias and icon import options" />
 </Frame>
+
+{/* TODO: Update image — the dialog is now titled "Code export settings" and no longer includes company context fields */}
 
 ## Import alias
 
@@ -37,25 +39,6 @@ import { Button } from "@/ui/components/Button"
 ```
 
 Change this to match your project's directory structure and TypeScript path aliases.
-
-## Company context
-
-Provide context to help AI generate designs that are more relevant to your product.
-
-#### Company name
-
-Your company or product name. AI uses this to personalize generated content and copy.
-
-#### Description
-
-Describe your company, product, and design preferences. This helps AI understand:
-
-- What your product does
-- Your target audience
-- Tone and style preferences
-- Any specific design guidelines
-
-<Tip>The more context you provide, the better AI can tailor designs to your brand and product.</Tip>
 
 ## Icon imports
 
