@@ -252,3 +252,4 @@ When updating docs based on product or code changes:
 ## Learnings
 
 - Don't document features behind feature flags until they are widely released
+- Keep MCP tool tables to one-line human descriptions — no params, returns, or agent instructions
