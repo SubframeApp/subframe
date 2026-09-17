@@ -70,6 +70,10 @@ Subframe serves designers and engineers simultaneously. Documentation must be:
 - H3 (###): Subsection headers (use sparingly)
 - No deeper nesting (avoid H4+)
 
+**Verb form in titles:**
+- Article titles and navigation group names use the -ing form: "Adding elements," "Using the editor," "Customizing your theme"
+- Step titles and instructions use the imperative: "Download the desktop app," "Click **Export**"
+
 **Frontmatter (required):**
 ```yaml
 ---

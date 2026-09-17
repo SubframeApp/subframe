@@ -82,18 +82,91 @@
         "tab": "Learn Subframe",
         "icon": "circle-question-mark",
         "pages": [
-          {
-            "group": "Getting started",
-            "pages": [
-              "learn-v2/introduction",
-              "learn-v2/quickstart",
-              "learn-v2/faq"
-            ]
-          },
+          "learn-v2/introduction",
+          "learn-v2/quickstart",
+          "learn-v2/faq",
           {
             "group": "Design",
             "pages": [
-              "learn-v2/design/overview"
+              "learn-v2/design/overview",
+              {
+                "group": "Core Concepts",
+                "pages": [
+                  "learn-v2/design/elements",
+                  {
+                    "group": "Components",
+                    "pages": [
+                      "learn-v2/design/components/overview",
+                      "learn-v2/design/components/subcomponents",
+                      "learn-v2/design/components/props-and-slots",
+                      "learn-v2/design/components/variants",
+                      "learn-v2/design/components/states",
+                      "learn-v2/design/components/importing"
+                    ]
+                  },
+                  "learn-v2/design/pages",
+                  {
+                    "group": "Theme",
+                    "pages": [
+                      "learn-v2/design/theme/customizing-theme",
+                      "learn-v2/design/theme/importing-tokens",
+                      "learn-v2/design/theme/exporting-theme",
+                      "learn-v2/design/theme/adding-custom-fonts"
+                    ]
+                  },
+                  "learn-v2/design/flows",
+                  "learn-v2/design/snippets",
+                  {
+                    "group": "Projects",
+                    "pages": [
+                      "learn-v2/design/projects/overview",
+                      "learn-v2/design/projects/project-settings",
+                      "learn-v2/design/projects/version-history"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Using the editor",
+                "pages": [
+                  "learn-v2/design/design-mode/layers",
+                  "learn-v2/design/design-mode/inspector",
+                  "learn-v2/design/design-mode/adding-elements",
+                  "learn-v2/design/design-mode/working-with-stacks",
+                  "learn-v2/design/design-mode/page-layouts",
+                  "learn-v2/design/design-mode/preview",
+                  "learn-v2/design/design-mode/responsive-design",
+                  "learn-v2/design/design-mode/quick-actions",
+                  "learn-v2/design/design-mode/keyboard-shortcuts",
+                  "learn-v2/design/design-mode/comments",
+                  "learn-v2/design/design-mode/share-designs",
+                  "learn-v2/design/design-mode/custom-css"
+                ]
+              },
+              {
+                "group": "Designing with AI",
+                "pages": [
+                  "learn-v2/design/ask-ai/prompt-to-design",
+                  "learn-v2/design/ask-ai/making-quick-edits",
+                  "learn-v2/design/ask-ai/image-to-design",
+                  "learn-v2/design/ask-ai/adding-context",
+                  "learn-v2/design/ask-ai/personalizing-ai"
+                ]
+              },
+              {
+                "group": "Exporting code",
+                "pages": [
+                  "learn-v2/design/code-mode/overview"
+                ]
+              },
+              {
+                "group": "Prototype mode",
+                "pages": [
+                  "learn-v2/design/prototype-mode/overview",
+                  "learn-v2/design/prototype-mode/annotations",
+                  "learn-v2/design/prototype-mode/click-through-prototypes"
+                ]
+              }
             ]
           },
           {

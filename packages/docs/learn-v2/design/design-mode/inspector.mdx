@@ -1,0 +1,43 @@
+---
+title: Inspector
+description: Configure element properties in the right sidebar.
+---
+
+The Inspector panel shows all editable properties for the selected element. Select any element on the canvas to see its properties in the right sidebar.
+
+<Frame>
+  <img src="/images/design-mode/inspector.png" alt="Inspector panel showing the element properties" />
+</Frame>
+
+## Overrides properties
+
+Overrides let you customize properties for specific contexts without changing the base element. There are two types of overrides:
+
+- **[Responsive overrides](/learn/design-mode/responsive-design)** — breakpoint overrides for properties that need different values at specific screen sizes
+- **[Variant overrides](/learn/components/variants)** — different values for component instances
+
+<Frame>
+  <img src="/images/design-mode/overrides.png" alt="Inspector panel showing the element properties" />
+</Frame>
+
+When a property has an override, a pink dot appears next to it. Click the pink dot to remove the override and revert to the default value.
+
+## Prebuilt interactive components
+
+The inspector lets you set the default state for some prebuilt components, so you can preview how they look in different conditions:
+
+- **Checkbox**, **Switch**, **Radio Group item**, **Toggle Group item** — toggle the **Checked** prop
+- **Text Field**, **Text Area** — type into the **Value** prop
+
+These controls only affect how the instance renders in design mode and preview. Runtime state in generated code is controlled by your application — see [headless components](/concepts/code-generation#headless-components).
+
+## Keyboard shortcuts
+
+Most properties in the inspector have a keyboard shortcut. Hover over any edit action to see its shortcut.
+
+<Frame>
+  <img src="/images/design-mode/inspector-shortcuts.png" alt="Inspector panel showing the element properties" />
+</Frame>
+
+For the full list, see [Keyboard shortcuts](/learn/design-mode/keyboard-shortcuts).
+

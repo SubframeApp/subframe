@@ -1,0 +1,59 @@
+---
+title: Flows
+description: Organize pages into flows.
+---
+
+Flows are folders for grouping related pages together. Flows are the set of pages used to create [prototypes](/learn/prototype-mode/overview).
+
+## Creating a flow
+
+1. Open the **Pages** section in the left sidebar
+2. Click **New flow** at the bottom of the left sidebar
+
+## Renaming a flow
+
+Double-click a flow name in the pages sidebar to rename it. Press <kbd>Enter</kbd> to confirm or <kbd>Esc</kbd> to cancel.
+
+## Adding pages to a flow
+
+1. Click <Icon icon="ellipsis" size={16} /> on a page
+2. Select **Move to...** > select the flow (or **New flow...**)
+
+You can also drag pages directly into a flow from the pages list when editing a page.
+
+## Editing pages on the flow canvas
+
+You can edit pages directly on the flow canvas without opening them:
+
+- Click an element on any page to select it, then edit its properties in the Inspector panel
+- Drag an element from one page to another to move it between pages
+- Use the **Layers** section in the left panel to view and navigate each page's element hierarchy
+
+To open a page in its dedicated editor, click **Open page editor** in the page's header.
+
+## Duplicating a flow
+
+1. Click <Icon icon="ellipsis" size={16} /> on a flow in the pages sidebar
+2. Select **Duplicate**
+
+Duplicating a flow copies all of its pages along with the flow's [prototype](/learn/prototype-mode/overview).
+
+## Deleting a flow
+
+1. Click <Icon icon="ellipsis" size={16} /> on a flow in the pages sidebar
+2. Select **Delete flow...**
+3. Confirm in the dialog
+
+Deleting a flow also deletes every page inside it. To keep those pages, move them to another flow with **Move to...** before deleting.
+
+<Warning>Deleting a flow can only be undone using project-level version history</Warning>
+
+## FAQ
+
+<AccordionGroup>
+<Accordion title="When should I create a new flow vs use an existing one?">
+
+Up to you. We usually recommend organizing screens that are part of one user journey into a single flow. This includes all page states such as loading, error, and empty states.
+
+</Accordion>
+</AccordionGroup>
