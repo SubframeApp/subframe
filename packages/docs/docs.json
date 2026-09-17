@@ -2,7 +2,11 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Subframe Docs",
-  "colors": { "primary": "#111111", "light": "#dddddd", "dark": "#111111" },
+  "colors": {
+    "primary": "#111111",
+    "light": "#dddddd",
+    "dark": "#111111"
+  },
   "favicon": "/favicon.png",
   "icons": {
     "library": "lucide"
@@ -78,6 +82,44 @@
         "tab": "Learn Subframe",
         "icon": "circle-question-mark",
         "pages": [
+          {
+            "group": "Getting started",
+            "pages": [
+              "learn-v2/introduction",
+              "learn-v2/quickstart",
+              "learn-v2/faq"
+            ]
+          },
+          {
+            "group": "Design",
+            "pages": [
+              "learn-v2/design/overview"
+            ]
+          },
+          {
+            "group": "Browser",
+            "pages": [
+              "learn-v2/browser/overview"
+            ]
+          },
+          {
+            "group": "Agent",
+            "pages": [
+              "learn-v2/agent/overview"
+            ]
+          },
+          {
+            "group": "Admin and billing",
+            "pages": [
+              "learn-v2/admin/overview"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Learn Subframe (old)",
+        "icon": "archive",
+        "pages": [
           "learn/introduction",
           "learn/quickstart",
           "learn/concepts",
@@ -111,7 +153,11 @@
               "learn/snippets/snippets",
               {
                 "group": "Projects",
-                "pages": ["learn/projects/overview", "learn/projects/project-settings", "learn/projects/version-history"]
+                "pages": [
+                  "learn/projects/overview",
+                  "learn/projects/project-settings",
+                  "learn/projects/version-history"
+                ]
               }
             ]
           },
@@ -148,11 +194,17 @@
               },
               {
                 "group": "Prototype mode",
-                "pages": ["learn/prototype-mode/overview", "learn/prototype-mode/annotations", "learn/prototype-mode/click-through-prototypes"]
+                "pages": [
+                  "learn/prototype-mode/overview",
+                  "learn/prototype-mode/annotations",
+                  "learn/prototype-mode/click-through-prototypes"
+                ]
               },
               {
                 "group": "Code mode",
-                "pages": ["learn/code-mode/overview"]
+                "pages": [
+                  "learn/code-mode/overview"
+                ]
               }
             ]
           },
@@ -170,7 +222,9 @@
               "learn/admin/auth-tokens",
               {
                 "group": "Single sign-on (SSO)",
-                "pages": ["learn/admin/sso/okta"]
+                "pages": [
+                  "learn/admin/sso/okta"
+                ]
               }
             ]
           }
@@ -207,7 +261,12 @@
     }
   },
   "contextual": {
-    "options": ["copy", "chatgpt", "claude", "perplexity"]
+    "options": [
+      "copy",
+      "chatgpt",
+      "claude",
+      "perplexity"
+    ]
   },
   "seo": {
     "indexing": "all"

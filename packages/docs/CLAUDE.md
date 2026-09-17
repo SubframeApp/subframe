@@ -48,6 +48,8 @@ Subframe serves designers and engineers simultaneously. Documentation must be:
 - Second-person ("you"), present tense, active voice
 - Professional yet approachable
 - Write for scanning, not reading
+- Use em-dashes sparingly. They have a stylistic use, but overuse reads as AI-generated. Default to periods, commas, or parentheses.
+- No filler or embellishment (e.g. "a seamless transition in both directions"). Every word must add information.
 
 **Active voice over passive:**
 ```markdown
