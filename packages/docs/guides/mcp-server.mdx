@@ -105,7 +105,7 @@ A component can have at most one design document. Snippets can be embedded as li
 | `edit_theme` | Edit a theme's colors, fonts, corners, shadows, and typography |
 | `search_icons` | Search the project's icon library |
 
-A project can hold several themes that share token names but differ in values. Theme edits apply immediately across every page and component.
+A project can hold several themes that share token names but differ in values. `get_theme` lists every theme with its id; pass a `themeId` to `get_theme` or `edit_theme` to target a specific theme, or omit it to use the default. Value changes stay in the targeted theme, while adding, renaming, or deleting a token applies across all themes. Theme edits apply immediately across every page and component.
 
 <Warning>
   Deleting a theme token is destructive. Every reference to it in your designs is replaced with the token's value at
