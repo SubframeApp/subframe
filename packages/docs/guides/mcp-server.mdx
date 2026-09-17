@@ -22,7 +22,7 @@ Once configured, your AI assistant can access Subframe automatically when you pr
 
 ## Available tools
 
-Most tools take a `projectId` — omit it and the first project you have access to is used. You can find a project's ID in its editor URL (`app.subframe.com/PROJECT_ID/...`), or in `.subframe/sync.json` once you've run the CLI.
+The Subframe MCP server exposes tools across several categories. Most read tools take a `projectId`. If omitted, the first project the user has access to is used.
 
 ### Discovery
 
@@ -116,7 +116,7 @@ A project can hold several themes that share token names but differ in values. T
 
 The design tools can ground a generation in real material — an existing page, component, or snippet in your project, raw code from your codebase, or a mockup uploaded to Subframe. Each reference comes with a note telling the generator how to use it, like "Match this page's layout and header".
 
-Images must be uploaded to Subframe; external URLs are rejected, and up to 5 images are used per call.
+Invalid references are dropped with a warning in the tool result rather than failing the design.
 
 ### Async jobs
 
