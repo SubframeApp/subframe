@@ -50,6 +50,9 @@ Subframe serves designers and engineers simultaneously. Documentation must be:
 - Write for scanning, not reading
 - Use em-dashes sparingly. They have a stylistic use, but overuse reads as AI-generated. Default to periods, commas, or parentheses.
 - No filler or embellishment (e.g. "a seamless transition in both directions"). Every word must add information.
+- Write as a helpful coach. Test every sentence: would a coach say this aloud to someone learning Subframe? If not, cut or rewrite it.
+- No nothing-words like "things" (e.g. "the desktop app adds three things"). Say what it is; the list carries its own count.
+- Readers are in the docs to learn. Frame content so they understand the value of Subframe and get the answer they came for.
 
 **Active voice over passive:**
 ```markdown
@@ -75,11 +78,14 @@ description: Concise summary for SEO/navigation
 ---
 ```
 
+The description renders at the top of the page, so it counts as page copy. Never repeat its phrasing in the body.
+
 **Instructions:**
 - Imperative voice: "Click," "Select," "Drag," "Type"
 - Numbered steps for sequences
 - Bold clickable UI elements: "Click **Apply**"
 - Prerequisites at start of procedural content
+- Frame every list: before any steps or bullet list, add 1-2 sentences max explaining what the list covers and the outcome. Framing is documentation, not marketing: be direct and concrete, never salesy or abstract.
 
 **Introductions and conclusions:**
 - Open with immediate value statement or use cases
