@@ -50,7 +50,7 @@ Subframe serves designers and engineers simultaneously. Documentation must be:
 - Write for scanning, not reading
 - Use em-dashes sparingly. They have a stylistic use, but overuse reads as AI-generated. Default to periods, commas, or parentheses.
 - No filler or embellishment (e.g. "a seamless transition in both directions"). Every word must add information.
-- Write as a helpful coach. Test every sentence: would a coach say this aloud to someone learning Subframe? If not, cut or rewrite it.
+- Write like a helpful coach. Prefer short, common words and direct verbs. Read each sentence aloud; if it sounds formal or clunky, simplify it.
 - No nothing-words like "things" (e.g. "the desktop app adds three things"). Say what it is; the list carries its own count.
 - Readers are in the docs to learn. Frame content so they understand the value of Subframe and get the answer they came for.
 
@@ -66,9 +66,9 @@ Subframe serves designers and engineers simultaneously. Documentation must be:
 ### Article structure
 
 **Heading structure:**
-- H2 (##): Main section headers (3-5 per article)
-- H3 (###): Subsection headers (use sparingly)
-- No deeper nesting (avoid H4+)
+- Use H2s to divide an article into distinct user stories, intended uses, or workflows. Headings should make the article easy to scan.
+- Organize sections around user goals, not individual controls or modes. Combine tools or modes when they are consecutive parts of the same task.
+- Use H3s sparingly and avoid deeper nesting.
 
 **Verb form in titles:**
 - Article titles and navigation group names use the -ing form: "Adding elements," "Using the editor," "Customizing your theme"
@@ -89,7 +89,9 @@ The description renders at the top of the page, so it counts as page copy. Never
 - Numbered steps for sequences
 - Bold clickable UI elements: "Click **Apply**"
 - Prerequisites at start of procedural content
-- Frame every list: before any steps or bullet list, add 1-2 sentences max explaining what the list covers and the outcome. Framing is documentation, not marketing: be direct and concrete, never salesy or abstract.
+- Write procedures in the order users perform them, from entering a mode through completing or handing off the work. Include required actions such as **Save** or **Send**.
+- Don't describe what the interface looks like unless the user needs that information to take the next step or confirm that an action worked.
+- Add a short sentence before a list when it clarifies the purpose, value, or outcome. Don't repeat the heading or preview obvious steps.
 
 **Introductions and conclusions:**
 - Open with immediate value statement or use cases
@@ -143,7 +145,7 @@ The description renders at the top of the page, so it counts as page copy. Never
 </Steps>
 ```
 
-Steps walk the user through using ONE feature. Each H2 section covers one feature; use Steps or a numbered list inside that section for its walkthrough. Never chain separate features into a single Steps sequence just because a user might do them in order.
+Steps walk the user through one goal or workflow. Use Steps or a numbered list inside the relevant section. Combine tools or modes when they are part of that workflow, but don't chain separate tasks into one sequence just because a user might do them in order.
 
 **CodeGroup—for package manager variations:**
 ```mdx
