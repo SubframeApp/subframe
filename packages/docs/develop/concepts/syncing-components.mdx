@@ -33,7 +33,7 @@ npx @subframe/cli@latest sync Button Alert Accordion
 
 The CLI pulls all components into your configured directory in your [project settings](/learn/projects/project-settings).
 
-Note that **sync is one-way** from Subframe to your codebase. Local changes to synced files will be overwritten on the next sync. If you don't want to overwrite local changes, you can [disable sync](/developer-docs/concepts/syncing-components#disabling-sync) for the component. In the future, we'll support syncing code changes back to Subframe.
+Note that **sync is one-way** from Subframe to your codebase. Local changes to synced files will be overwritten on the next sync. If you don't want to overwrite local changes, you can [disable sync](/develop/concepts/syncing-components#disabling-sync) for the component. In the future, we'll support syncing code changes back to Subframe.
 
 ## Adding business logic
 
@@ -105,7 +105,7 @@ export function Button({ onSubmit, ...props }) {
 
 `Button.tsx` keeps syncing, so Subframe stays the source of truth for the visual layer — while `index.tsx` gives you the flexibility of code to add any business logic. Anything importing `@/ui/components/Button` gets your wrapped version, with no import changes.
 
-See [Component directories](/developer-docs/upgrading/component-directories) for the full layout and migration details.
+See [Component directories](/develop/upgrading/component-directories) for the full layout and migration details.
 
 <Note>In the future, we'll let you add component logic directly in Subframe.</Note>
 
@@ -119,7 +119,7 @@ Add the `@subframe/sync-disable` comment anywhere in a file to tell the CLI to s
 
 The marker applies per file, so which file you add it to matters:
 
-- **The wrapper `index.tsx`** — the usual choice once you've added [wrapping logic](/developer-docs/concepts/syncing-components#wrapping-components). Your wrapper is preserved, while `Button.tsx` keeps receiving Subframe's updates.
+- **The wrapper `index.tsx`** — the usual choice once you've added [wrapping logic](/develop/concepts/syncing-components#wrapping-components). Your wrapper is preserved, while `Button.tsx` keeps receiving Subframe's updates.
 - **The main `Button.tsx`** — a last resort that fully freezes the file Subframe generates, so the component stops receiving updates. Prefer wrapping in `index.tsx` instead.
 
 You can alternatively copy/paste component code directly from Subframe if you need a one-off version.

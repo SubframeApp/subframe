@@ -48,7 +48,7 @@ A per-component directory gives each component a home for everything that should
 - **`Button.md`** — component documentation describing what the component is and how it should be used.
 - **In the future** — generated `.stories` files for Storybook, test files, and more.
 
-It also makes [disabling sync](/developer-docs/concepts/syncing-components#disabling-sync) granular. `@subframe/sync-disable` works per file, so you can freeze your `index.tsx` while `Button.tsx` keeps receiving Subframe's visual updates — instead of having to freeze the whole component.
+It also makes [disabling sync](/develop/concepts/syncing-components#disabling-sync) granular. `@subframe/sync-disable` works per file, so you can freeze your `index.tsx` while `Button.tsx` keeps receiving Subframe's visual updates — instead of having to freeze the whole component.
 
 ## Adding business logic
 
@@ -124,7 +124,7 @@ Because nothing breaks, you can migrate **incrementally** — sync a few compone
     }
     ```
 
-    The old `"./ui/components/*.tsx"` pattern no longer matches because the flat files have moved into per-component directories. See the [monorepo guide](/developer-docs/frameworks/monorepo) for the full setup.
+    The old `"./ui/components/*.tsx"` pattern no longer matches because the flat files have moved into per-component directories. See the [monorepo guide](/develop/frameworks/monorepo) for the full setup.
 
   </Step>
 

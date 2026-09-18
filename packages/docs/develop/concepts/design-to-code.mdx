@@ -15,10 +15,10 @@ This guide explains Subframe's design-to-code workflow in detail.
 
 As a developer, you should treat **components** and **pages** differently:
 
-- **Components** are your design system (e.g. buttons, inputs, cards). They are [synced via CLI](/developer-docs/concepts/syncing-components) to a folder in your codebase (default: `./ui/components`). Each component syncs as a directory — a source file that Subframe generates and you don't modify, plus a wrapper `index.tsx` that you can extend (see [Component directories](/developer-docs/upgrading/component-directories)).
+- **Components** are your design system (e.g. buttons, inputs, cards). They are [synced via CLI](/develop/concepts/syncing-components) to a folder in your codebase (default: `./ui/components`). Each component syncs as a directory — a source file that Subframe generates and you don't modify, plus a wrapper `index.tsx` that you can extend (see [Component directories](/develop/upgrading/component-directories)).
 - **Pages** are screens built from components. They are [exported](/design/code-mode/overview#inspecting-page-code) as copyable React code or using the MCP server and are meant to be modified after export.
 
-In a nutshell, **components are synced, pages are exported**. This is because pages are typically modified with business logic like API calls after export. If your component needs logic after syncing, see our guide on best practices for [exporting components](/developer-docs/concepts/syncing-components).
+In a nutshell, **components are synced, pages are exported**. This is because pages are typically modified with business logic like API calls after export. If your component needs logic after syncing, see our guide on best practices for [exporting components](/develop/concepts/syncing-components).
 
 ## Design handoff
 
@@ -76,7 +76,7 @@ src/ui/
      └─ index.tsx
 ```
 
-Each component syncs as a directory: the source file Subframe generates (`Button.tsx`) plus a wrapper `index.tsx` that re-exports it and is the import entrypoint. See [Component directories](/developer-docs/upgrading/component-directories) for why, and how to add your own logic in the wrapper.
+Each component syncs as a directory: the source file Subframe generates (`Button.tsx`) plus a wrapper `index.tsx` that re-exports it and is the import entrypoint. See [Component directories](/develop/upgrading/component-directories) for why, and how to add your own logic in the wrapper.
 
 <Accordion title="View synced code">
 
@@ -94,7 +94,7 @@ import SocialSignInButtonCode from "/snippets/social-signin-button-code.mdx"
 
 </Accordion>
 
-For more information on syncing components, see the [Syncing components](/developer-docs/concepts/syncing-components) guide.
+For more information on syncing components, see the [Syncing components](/develop/concepts/syncing-components) guide.
 
 ### Exporting pages
 
@@ -144,7 +144,7 @@ AI will fetch the latest design and merge it with your existing code, preserving
 
 Often times, you will need to add or modify the component behavior after handoff.
 
-The best practice is to add your logic to the component's [wrapper `index.tsx`](/developer-docs/concepts/syncing-components#wrapping-components). You probably don't need to sync code back to Subframe, since the source file that Subframe generates stays untouched and keeps receiving design updates. As a last resort, you can [disable sync](/developer-docs/concepts/syncing-components#disabling-sync) for the source file itself.
+The best practice is to add your logic to the component's [wrapper `index.tsx`](/develop/concepts/syncing-components#wrapping-components). You probably don't need to sync code back to Subframe, since the source file that Subframe generates stays untouched and keeps receiving design updates. As a last resort, you can [disable sync](/develop/concepts/syncing-components#disabling-sync) for the source file itself.
 
 In the near future, we will add CLI commands to sync component code back to Subframe. If you are interested in this feature, please let us know by [joining our Slack community](https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ).
 

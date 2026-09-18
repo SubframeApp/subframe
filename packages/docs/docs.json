@@ -141,35 +141,35 @@
       {
         "group": "Building from scratch",
         "pages": [
-          "developer-docs/overview",
-          "developer-docs/installation",
+          "develop/overview",
+          "develop/installation",
           {
             "group": "How it works",
             "pages": [
-              "developer-docs/concepts/design-to-code",
-              "developer-docs/concepts/code-generation",
-              "developer-docs/concepts/syncing-components"
+              "develop/concepts/design-to-code",
+              "develop/concepts/code-generation",
+              "develop/concepts/syncing-components"
             ]
           },
           {
             "group": "Developer guides",
             "pages": [
-              "developer-docs/guides/dark-mode",
-              "developer-docs/guides/accessibility",
-              "developer-docs/guides/testing",
-              "developer-docs/guides/cli-automation",
-              "developer-docs/guides/publish-to-npm",
-              "developer-docs/upgrading/component-directories"
+              "develop/guides/dark-mode",
+              "develop/guides/accessibility",
+              "develop/guides/testing",
+              "develop/guides/cli-automation",
+              "develop/guides/publish-to-npm",
+              "develop/upgrading/component-directories"
             ]
           },
           {
             "group": "Troubleshooting",
             "pages": [
-              "developer-docs/frameworks/nextjs",
-              "developer-docs/frameworks/vite",
-              "developer-docs/frameworks/astro",
-              "developer-docs/frameworks/monorepo",
-              "developer-docs/frameworks/manual"
+              "develop/frameworks/nextjs",
+              "develop/frameworks/vite",
+              "develop/frameworks/astro",
+              "develop/frameworks/monorepo",
+              "develop/frameworks/manual"
             ]
           }
         ]
@@ -248,11 +248,11 @@
     },
     {
       "source": "/framework-guides/:slug*",
-      "destination": "/developer-docs/frameworks/:slug*"
+      "destination": "/develop/frameworks/:slug*"
     },
     {
       "source": "/developing/:slug*",
-      "destination": "/developer-docs/guides/:slug*"
+      "destination": "/develop/guides/:slug*"
     }
   ],
   "metadata": {
