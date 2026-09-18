@@ -52,7 +52,8 @@
                   "design/components/props-and-slots",
                   "design/components/variants",
                   "design/components/states",
-                  "design/components/importing"
+                  "design/components/importing",
+                  "design/components/component-docs"
                 ]
               },
               "design/pages",
@@ -133,6 +134,7 @@
         "pages": [
           "agent/overview",
           "agent/connecting-an-agent",
+          "agent/mcp-server",
           "agent/connecting-your-codebase",
           "agent/giving-your-agent-context",
           "agent/making-code-changes",
@@ -162,17 +164,13 @@
             "pages": [
               "developer-docs/concepts/design-to-code",
               "developer-docs/concepts/code-generation",
-              "developer-docs/concepts/syncing-components",
-              "developer-docs/concepts/exporting-pages"
+              "developer-docs/concepts/syncing-components"
             ]
           },
           {
             "group": "Guides",
             "pages": [
-              "developer-docs/guides/mcp-server",
-              "developer-docs/guides/skills",
               "developer-docs/guides/dark-mode",
-              "developer-docs/guides/component-docs",
               "developer-docs/guides/accessibility",
               "developer-docs/guides/testing",
               "developer-docs/guides/cli-automation",

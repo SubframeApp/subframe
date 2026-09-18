@@ -16,7 +16,7 @@ This guide explains Subframe's design-to-code workflow in detail.
 As a developer, you should treat **components** and **pages** differently:
 
 - **Components** are your design system (e.g. buttons, inputs, cards). They are [synced via CLI](/developer-docs/concepts/syncing-components) to a folder in your codebase (default: `./ui/components`). Each component syncs as a directory — a source file that Subframe generates and you don't modify, plus a wrapper `index.tsx` that you can extend (see [Component directories](/developer-docs/upgrading/component-directories)).
-- **Pages** are screens built from components. They are [exported](/developer-docs/concepts/exporting-pages) as copyable React code or using the MCP server and are meant to be modified after export.
+- **Pages** are screens built from components. They are [exported](/design/code-mode/overview#inspecting-page-code) as copyable React code or using the MCP server and are meant to be modified after export.
 
 In a nutshell, **components are synced, pages are exported**. This is because pages are typically modified with business logic like API calls after export. If your component needs logic after syncing, see our guide on best practices for [exporting components](/developer-docs/concepts/syncing-components).
 
@@ -104,7 +104,7 @@ Subframe generates page code with stubs for business logic that need to be fille
 
 The page code can be exported in two ways:
 
-- **MCP server (recommended)** - install Subframe MCP server and ask your AI tool to integrate the page code directly using the [page link](/developer-docs/guides/mcp-server#using-the-mcp-server).
+- **MCP server** - connect an external AI tool to Subframe and ask it to integrate the page code using the [page link](/agent/mcp-server#using-the-mcp-server).
 - **Copy/paste** - Open **Code** > **Inspect** in Subframe and copy the React code.
 
 We recommend using the MCP server because you can also ask AI to add business logic or update the page code based on code changes. Once exported, refactor the code or add any business logic as needed.

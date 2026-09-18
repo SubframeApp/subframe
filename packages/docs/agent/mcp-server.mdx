@@ -1,6 +1,6 @@
 ---
 title: MCP server
-description: Let AI coding assistants directly access and edit your Subframe designs and documentation.
+description: Connect an external AI agent to Subframe and teach it how to design and implement with your project.
 ---
 
 import McpSkillsInstall from "/snippets/mcp-skills-install.mdx"
@@ -10,9 +10,57 @@ The Subframe MCP server gives AI coding assistants like Claude Code, Cursor, and
 
 A separate Subframe Docs MCP server gives AI access to Subframe documentation (this site).
 
-## Installation
+## Installing the MCP server and Agent skills
 
 <McpSkillsInstall />
+
+## Using Agent skills
+
+Agent skills are guided workflows that teach your AI agent how to use Subframe. The MCP server gives the agent access to Subframe, while the skills teach it what to do with that access.
+
+Subframe provides three skills:
+
+- **`/subframe:design`** designs and edits pages, components, snippets, design documents, and themes in Subframe
+- **`/subframe:develop`** implements a Subframe design in your codebase and adds the required application logic
+- **`/subframe:install`** installs Subframe in a codebase and configures its theme, fonts, and components
+
+Agent skills use the [Agent Skills open standard ↗](https://agentskills.io).
+
+### Keeping Agent skills up to date
+
+The Subframe plugin for Claude Code can update itself automatically. For Cursor, Codex, and other clients, check for updates with:
+
+```bash
+npx skills check
+```
+
+Install available updates with:
+
+```bash
+npx skills update
+```
+
+### Enabling the Claude Code plugin for your team
+
+Add the following to `.claude/settings.json` so team members are prompted to install the Subframe plugin:
+
+```json .claude/settings.json
+{
+  "enabledPlugins": {
+    "subframe@subframe": true
+  },
+  "extraKnownMarketplaces": {
+    "subframe": {
+      "source": {
+        "source": "github",
+        "repo": "SubframeApp/subframe"
+      }
+    }
+  }
+}
+```
+
+Commit this file to your repository.
 
 ## Using the MCP server
 
@@ -126,9 +174,9 @@ Invalid references are dropped with a warning in the tool result rather than fai
 
 `design_page`, `design_component`, and `edit_component` run in the background and return a URL you can open right away to watch progress in the editor. Reading a page or component back before its job finishes returns stale content.
 
-## Prompt with MCP link
+## Prompting with an MCP link
 
-When prompting we recommend using the MCP link found in the Code Inspect panel for a page.
+To reference a page in an external agent, copy its MCP link from the Code panel.
 
 ```text
 Implement the design at https://app.subframe.com/design/...
