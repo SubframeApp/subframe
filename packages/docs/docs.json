@@ -142,24 +142,12 @@
         ]
       },
       {
-        "group": "Admin and billing",
-        "pages": [
-          "admin/managing-team",
-          "admin/pricing-and-plans",
-          "admin/auth-tokens",
-          {
-            "group": "Single sign-on (SSO)",
-            "pages": ["admin/sso/okta"]
-          }
-        ]
-      },
-      {
-        "group": "Developer docs",
+        "group": "Starting your design system",
         "pages": [
           "developer-docs/overview",
           "developer-docs/installation",
           {
-            "group": "Core concepts",
+            "group": "How it works",
             "pages": [
               "developer-docs/concepts/design-to-code",
               "developer-docs/concepts/code-generation",
@@ -167,13 +155,14 @@
             ]
           },
           {
-            "group": "Guides",
+            "group": "Developer guides",
             "pages": [
               "developer-docs/guides/dark-mode",
               "developer-docs/guides/accessibility",
               "developer-docs/guides/testing",
               "developer-docs/guides/cli-automation",
-              "developer-docs/guides/publish-to-npm"
+              "developer-docs/guides/publish-to-npm",
+              "developer-docs/upgrading/component-directories"
             ]
           },
           {
@@ -185,10 +174,18 @@
               "developer-docs/frameworks/monorepo",
               "developer-docs/frameworks/manual"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "group": "Admin and billing",
+        "pages": [
+          "admin/managing-team",
+          "admin/pricing-and-plans",
+          "admin/auth-tokens",
           {
-            "group": "Upgrading",
-            "pages": ["developer-docs/upgrading/component-directories"]
+            "group": "Single sign-on (SSO)",
+            "pages": ["admin/sso/okta"]
           }
         ]
       }
