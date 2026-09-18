@@ -212,7 +212,7 @@ yarn dlx @subframe/cli@latest sync
 ## Terminology
 
 **Consistent terms:**
-- Ask AI
+- Agent chat (replaces "Ask AI"—never use the old name)
 - Design mode, Prototype mode, Code mode
 - Inspector panel, Layers panel
 - Component library
