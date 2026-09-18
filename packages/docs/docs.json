@@ -52,8 +52,7 @@
                   "design/components/props-and-slots",
                   "design/components/variants",
                   "design/components/states",
-                  "design/components/importing",
-                  "design/components/component-docs"
+                  "design/components/importing"
                 ]
               },
               "design/pages",

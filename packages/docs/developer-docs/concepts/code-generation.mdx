@@ -36,7 +36,9 @@ Subframe's exported code is designed to work well with AI coding tools like Clau
 Tailwind CSS is a popular, robust CSS framework that, in our testing, is very AI-friendly:
 
 - Tailwind's utility classes make it easy to copy, paste, and refactor code after AI edits.
-- A well-architected Tailwind theme give guardrails to AI tools, which dissuades it from inventing arbitrary colors or spacing. Subframe generates a robust Tailwind theme for you automatically.
+- A well-architected Tailwind theme gives AI tools guardrails, reducing invented colors or spacing. Subframe generates a robust Tailwind theme for you automatically.
+
+See the [Tailwind v3 documentation](https://v3.tailwindcss.com/docs) or [Tailwind v4 documentation](https://tailwindcss.com/docs) for available utilities and configuration options.
 
 ### Headless components
 
@@ -46,7 +48,7 @@ Subframe uses headless components for interactivity because we believe [they are
 - **Composability** — Mix and match primitives, without reinventing the wheel
 - **Accessibility** — Built-in ARIA support and keyboard navigation
 
-Subframe publishes an [open-source ↗](https://github.com/SubframeApp/subframe/tree/main/packages/subframe-core) package called `@subframe/core` that's a thin wrapper around [Radix ↗](https://www.radix-ui.com/). We use this package instead of Radix directly to support other headless libraries like [BaseUI](https://base-ui.com/) and [React Aria](https://react-aria.adobe.com/) in the future.
+Subframe publishes an open-source package called [`@subframe/core` ↗](https://github.com/SubframeApp/subframe/tree/main/packages/subframe-core) that's a thin wrapper around Radix. See the [Radix documentation](https://www.radix-ui.com/primitives/docs/overview/introduction) for primitive APIs and examples. We use `@subframe/core` instead of Radix directly to support other headless libraries like [Base UI](https://base-ui.com/) and [React Aria](https://react-aria.adobe.com/) in the future.
 
 We also found headless components to be AI-friendly. Relying on an open-source, battle-tested library for component logic—rather than asking AI to build dropdowns, modals, and accordions from scratch—produces higher quality, more consistent code that is easier to modify with AI.
 
