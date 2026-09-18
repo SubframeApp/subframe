@@ -172,7 +172,11 @@
           {
             "group": "Browser",
             "pages": [
-              "learn-v2/browser/overview"
+              "learn-v2/browser/overview",
+              "learn-v2/browser/previewing-your-local-app",
+              "learn-v2/browser/making-live-edits",
+              "learn-v2/browser/capturing-as-designs",
+              "learn-v2/browser/troubleshooting"
             ]
           },
           {
