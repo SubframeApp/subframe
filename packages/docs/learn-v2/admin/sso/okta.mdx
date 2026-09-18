@@ -1,0 +1,71 @@
+---
+title: Setting up Okta SSO
+description: Configure Okta single sign-on for your Subframe team.
+---
+
+<Info>
+  SSO is available on the Custom plan. After completing the Okta setup, contact Subframe to enable it for your team.
+</Info>
+
+<Steps>
+  <Step title="Create an app integration">
+    Open **Applications** in the Okta admin console and click **Create App Integration**.
+
+    ![Okta Applications dashboard with the Create App Integration button](/images/sso/okta/step-1.png)
+
+  </Step>
+  <Step title="Select SAML 2.0">
+    Select **SAML 2.0**, then continue.
+
+    ![Okta app integration dialog with SAML 2.0 selected](/images/sso/okta/step-2.png)
+
+  </Step>
+  <Step title="Enter the app details">
+    Name the app **Subframe**. You can also download and upload the Subframe logo below.
+
+    ![Okta general settings form with Subframe entered as the app name](/images/sso/okta/step-3.png)
+
+    ![Subframe logo for the Okta app](/images/sso/okta/logo.png)
+
+  </Step>
+  <Step title="Configure SAML">
+    Enter these values exactly:
+
+    | Setting                                        | Value                                                |
+    | ---------------------------------------------- | ---------------------------------------------------- |
+    | Single sign-on URL                             | `https://api.subframe.com/auth/v1/sso/saml/acs`      |
+    | Use this for Recipient URL and Destination URL | Enabled                                              |
+    | Audience URI (SP Entity ID)                    | `https://api.subframe.com/auth/v1/sso/saml/metadata` |
+    | Default RelayState                             | `https://app.subframe.com`                           |
+    | Name ID format                                 | `EmailAddress`                                       |
+    | Application username                           | Email                                                |
+    | Update application username on                 | Create and update                                    |
+
+    ![Okta SAML settings with Subframe's sign-on URL and Audience URI](/images/sso/okta/step-4.png)
+
+  </Step>
+  <Step title="Add the email attribute">
+    Add an attribute statement that maps `email` to `user.email`. Other mappings are optional.
+
+    ![Okta Attribute Statements with email mapped to user.email](/images/sso/okta/step-5.png)
+
+  </Step>
+  <Step title="Send your metadata URL to Subframe">
+    Finish creating the app, then copy its **Metadata URL** and send it to your Subframe contact or [support@subframe.com](mailto:support@subframe.com).
+
+    The URL usually follows this format:
+
+    ```text
+    https://<okta-org>.okta.com/apps/<app-id>/sso/saml/metadata
+    ```
+
+    ![Okta Sign On settings showing the Metadata URL](/images/sso/okta/step-6.png)
+
+  </Step>
+  <Step title="Test single sign-on">
+    Wait for Subframe to confirm that SSO is enabled. Then ask a user to select SSO and sign in with their work email address.
+
+    Contact your Subframe representative if sign-in does not work.
+
+  </Step>
+</Steps>
