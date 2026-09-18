@@ -31,180 +31,172 @@
         }
       ]
     },
-    "tabs": [
+    "pages": [
+      "overview",
+      "quickstart",
+      "desktop-app",
+      "faq",
       {
-        "tab": "Developer docs",
-        "icon": "code",
+        "group": "Design",
         "pages": [
-          "overview",
-          "installation",
+          "design/overview",
+          {
+            "group": "Core Concepts",
+            "pages": [
+              "design/elements",
+              {
+                "group": "Components",
+                "pages": [
+                  "design/components/overview",
+                  "design/components/subcomponents",
+                  "design/components/props-and-slots",
+                  "design/components/variants",
+                  "design/components/states",
+                  "design/components/importing"
+                ]
+              },
+              "design/pages",
+              {
+                "group": "Theme",
+                "pages": [
+                  "design/theme/customizing-theme",
+                  "design/theme/importing-tokens",
+                  "design/theme/exporting-theme",
+                  "design/theme/adding-custom-fonts"
+                ]
+              },
+              "design/flows",
+              "design/snippets",
+              {
+                "group": "Projects",
+                "pages": [
+                  "design/projects/overview",
+                  "design/projects/project-settings",
+                  "design/projects/version-history"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Using the editor",
+            "pages": [
+              "design/design-mode/layers",
+              "design/design-mode/inspector",
+              "design/design-mode/adding-elements",
+              "design/design-mode/working-with-stacks",
+              "design/design-mode/page-layouts",
+              "design/design-mode/preview",
+              "design/design-mode/responsive-design",
+              "design/design-mode/quick-actions",
+              "design/design-mode/keyboard-shortcuts",
+              "design/design-mode/comments",
+              "design/design-mode/share-designs",
+              "design/design-mode/custom-css"
+            ]
+          },
+          {
+            "group": "Designing with AI",
+            "pages": [
+              "design/ask-ai/prompt-to-design",
+              "design/ask-ai/making-quick-edits",
+              "design/ask-ai/image-to-design",
+              "design/ask-ai/adding-context",
+              "design/ask-ai/personalizing-ai"
+            ]
+          },
+          {
+            "group": "Exporting code",
+            "pages": ["design/code-mode/overview"]
+          },
+          {
+            "group": "Prototype mode",
+            "pages": [
+              "design/prototype-mode/overview",
+              "design/prototype-mode/annotations",
+              "design/prototype-mode/click-through-prototypes"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Browser",
+        "pages": [
+          "browser/overview",
+          "browser/previewing-your-local-app",
+          "browser/making-live-edits",
+          "browser/capturing-as-designs",
+          "browser/troubleshooting"
+        ]
+      },
+      {
+        "group": "Agent",
+        "pages": [
+          "agent/overview",
+          "agent/connecting-an-agent",
+          "agent/connecting-your-codebase",
+          "agent/giving-your-agent-context",
+          "agent/making-code-changes",
+          "agent/managing-chats",
+          "agent/troubleshooting"
+        ]
+      },
+      {
+        "group": "Admin and billing",
+        "pages": [
+          "admin/managing-team",
+          "admin/pricing-and-plans",
+          "admin/auth-tokens",
+          {
+            "group": "Single sign-on (SSO)",
+            "pages": ["admin/sso/okta"]
+          }
+        ]
+      },
+      {
+        "group": "Developer docs",
+        "pages": [
+          "developer-docs/overview",
+          "developer-docs/installation",
           {
             "group": "Core concepts",
             "pages": [
-              "concepts/design-to-code",
-              "concepts/code-generation",
-              "concepts/syncing-components",
-              "concepts/exporting-pages"
+              "developer-docs/concepts/design-to-code",
+              "developer-docs/concepts/code-generation",
+              "developer-docs/concepts/syncing-components",
+              "developer-docs/concepts/exporting-pages"
             ]
           },
           {
             "group": "Guides",
             "pages": [
-              "guides/mcp-server",
-              "guides/skills",
-              "guides/dark-mode",
-              "guides/component-docs",
-              "guides/accessibility",
-              "guides/testing",
-              "guides/cli-automation",
-              "guides/publish-to-npm"
+              "developer-docs/guides/mcp-server",
+              "developer-docs/guides/skills",
+              "developer-docs/guides/dark-mode",
+              "developer-docs/guides/component-docs",
+              "developer-docs/guides/accessibility",
+              "developer-docs/guides/testing",
+              "developer-docs/guides/cli-automation",
+              "developer-docs/guides/publish-to-npm"
             ]
           },
           {
             "group": "Troubleshooting",
             "pages": [
-              "frameworks/nextjs",
-              "frameworks/vite",
-              "frameworks/astro",
-              "frameworks/monorepo",
-              "frameworks/manual"
+              "developer-docs/frameworks/nextjs",
+              "developer-docs/frameworks/vite",
+              "developer-docs/frameworks/astro",
+              "developer-docs/frameworks/monorepo",
+              "developer-docs/frameworks/manual"
             ]
           },
           {
             "group": "Upgrading",
-            "pages": ["upgrading/component-directories"]
+            "pages": ["developer-docs/upgrading/component-directories"]
           }
         ]
       },
       {
-        "tab": "Learn Subframe",
-        "icon": "circle-question-mark",
-        "pages": [
-          "learn-v2/introduction",
-          "learn-v2/quickstart",
-          "learn-v2/desktop-app",
-          "learn-v2/faq",
-          {
-            "group": "Design",
-            "pages": [
-              "learn-v2/design/overview",
-              {
-                "group": "Core Concepts",
-                "pages": [
-                  "learn-v2/design/elements",
-                  {
-                    "group": "Components",
-                    "pages": [
-                      "learn-v2/design/components/overview",
-                      "learn-v2/design/components/subcomponents",
-                      "learn-v2/design/components/props-and-slots",
-                      "learn-v2/design/components/variants",
-                      "learn-v2/design/components/states",
-                      "learn-v2/design/components/importing"
-                    ]
-                  },
-                  "learn-v2/design/pages",
-                  {
-                    "group": "Theme",
-                    "pages": [
-                      "learn-v2/design/theme/customizing-theme",
-                      "learn-v2/design/theme/importing-tokens",
-                      "learn-v2/design/theme/exporting-theme",
-                      "learn-v2/design/theme/adding-custom-fonts"
-                    ]
-                  },
-                  "learn-v2/design/flows",
-                  "learn-v2/design/snippets",
-                  {
-                    "group": "Projects",
-                    "pages": [
-                      "learn-v2/design/projects/overview",
-                      "learn-v2/design/projects/project-settings",
-                      "learn-v2/design/projects/version-history"
-                    ]
-                  }
-                ]
-              },
-              {
-                "group": "Using the editor",
-                "pages": [
-                  "learn-v2/design/design-mode/layers",
-                  "learn-v2/design/design-mode/inspector",
-                  "learn-v2/design/design-mode/adding-elements",
-                  "learn-v2/design/design-mode/working-with-stacks",
-                  "learn-v2/design/design-mode/page-layouts",
-                  "learn-v2/design/design-mode/preview",
-                  "learn-v2/design/design-mode/responsive-design",
-                  "learn-v2/design/design-mode/quick-actions",
-                  "learn-v2/design/design-mode/keyboard-shortcuts",
-                  "learn-v2/design/design-mode/comments",
-                  "learn-v2/design/design-mode/share-designs",
-                  "learn-v2/design/design-mode/custom-css"
-                ]
-              },
-              {
-                "group": "Designing with AI",
-                "pages": [
-                  "learn-v2/design/ask-ai/prompt-to-design",
-                  "learn-v2/design/ask-ai/making-quick-edits",
-                  "learn-v2/design/ask-ai/image-to-design",
-                  "learn-v2/design/ask-ai/adding-context",
-                  "learn-v2/design/ask-ai/personalizing-ai"
-                ]
-              },
-              {
-                "group": "Exporting code",
-                "pages": ["learn-v2/design/code-mode/overview"]
-              },
-              {
-                "group": "Prototype mode",
-                "pages": [
-                  "learn-v2/design/prototype-mode/overview",
-                  "learn-v2/design/prototype-mode/annotations",
-                  "learn-v2/design/prototype-mode/click-through-prototypes"
-                ]
-              }
-            ]
-          },
-          {
-            "group": "Browser",
-            "pages": [
-              "learn-v2/browser/overview",
-              "learn-v2/browser/previewing-your-local-app",
-              "learn-v2/browser/making-live-edits",
-              "learn-v2/browser/capturing-as-designs",
-              "learn-v2/browser/troubleshooting"
-            ]
-          },
-          {
-            "group": "Agent",
-            "pages": [
-              "learn-v2/agent/overview",
-              "learn-v2/agent/connecting-an-agent",
-              "learn-v2/agent/connecting-your-codebase",
-              "learn-v2/agent/giving-your-agent-context",
-              "learn-v2/agent/making-code-changes",
-              "learn-v2/agent/managing-chats",
-              "learn-v2/agent/troubleshooting"
-            ]
-          },
-          {
-            "group": "Admin and billing",
-            "pages": [
-              "learn-v2/admin/managing-team",
-              "learn-v2/admin/pricing-and-plans",
-              "learn-v2/admin/auth-tokens",
-              {
-                "group": "Single sign-on (SSO)",
-                "pages": ["learn-v2/admin/sso/okta"]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Learn Subframe (old)",
-        "icon": "archive",
+        "group": "Learn Subframe (old)",
         "pages": [
           "learn/concepts",
           {
@@ -271,27 +263,11 @@
     },
     {
       "source": "/framework-guides/:slug*",
-      "destination": "/frameworks/:slug*"
+      "destination": "/developer-docs/frameworks/:slug*"
     },
     {
       "source": "/developing/:slug*",
-      "destination": "/guides/:slug*"
-    },
-    {
-      "source": "/learn/admin/managing-team",
-      "destination": "/learn-v2/admin/managing-team"
-    },
-    {
-      "source": "/learn/admin/pricing-and-plans",
-      "destination": "/learn-v2/admin/pricing-and-plans"
-    },
-    {
-      "source": "/learn/admin/auth-tokens",
-      "destination": "/learn-v2/admin/auth-tokens"
-    },
-    {
-      "source": "/learn/admin/sso/okta",
-      "destination": "/learn-v2/admin/sso/okta"
+      "destination": "/developer-docs/guides/:slug*"
     }
   ],
   "metadata": {
