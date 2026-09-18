@@ -191,16 +191,6 @@
             "pages": ["developer-docs/upgrading/component-directories"]
           }
         ]
-      },
-      {
-        "group": "Learn Subframe (old)",
-        "pages": [
-          "learn/concepts",
-          {
-            "group": "Guides",
-            "pages": ["learn/guides/working-with-ai-agents"]
-          }
-        ]
       }
     ]
   },
@@ -256,7 +246,11 @@
     },
     {
       "source": "/learn/guides/using-subframe-with-ai-agents",
-      "destination": "/learn/guides/working-with-ai-agents"
+      "destination": "/agent/mcp-server"
+    },
+    {
+      "source": "/learn/guides/working-with-ai-agents",
+      "destination": "/agent/mcp-server"
     },
     {
       "source": "/framework-guides/:slug*",
