@@ -104,10 +104,7 @@
               "design/ask-ai/personalizing-ai"
             ]
           },
-          {
-            "group": "Exporting code",
-            "pages": ["design/code-mode/overview"]
-          },
+          "design/code-mode/overview",
           {
             "group": "Prototype mode",
             "pages": [

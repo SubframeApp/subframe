@@ -70,6 +70,9 @@ Subframe serves designers and engineers simultaneously. Documentation must be:
 - Organize sections around user goals, not individual controls or modes. Combine tools or modes when they are consecutive parts of the same task.
 - Use H3s sparingly and avoid deeper nesting.
 
+**Navigation structure:**
+- If a navigation group contains exactly one page, collapse the group. Add the page directly to its parent and use the intended group label as the page title.
+
 **Verb form in titles:**
 - Article titles and navigation group names use the -ing form: "Adding elements," "Using the editor," "Customizing your theme"
 - Step titles and instructions use the imperative: "Download the desktop app," "Click **Export**"
