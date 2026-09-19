@@ -2,7 +2,11 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Subframe Docs",
-  "colors": { "primary": "#111111", "light": "#dddddd", "dark": "#111111" },
+  "colors": {
+    "primary": "#111111",
+    "light": "#dddddd",
+    "dark": "#111111"
+  },
   "favicon": "/favicon.png",
   "icons": {
     "library": "lucide"
@@ -27,152 +31,158 @@
         }
       ]
     },
-    "tabs": [
+    "pages": [
+      "overview",
+      "quickstart",
+      "desktop-app",
+      "faq",
       {
-        "tab": "Developer docs",
-        "icon": "code",
+        "group": "Design",
         "pages": [
-          "overview",
-          "installation",
+          "design/overview",
           {
-            "group": "Core concepts",
+            "group": "Core Concepts",
             "pages": [
-              "concepts/design-to-code",
-              "concepts/code-generation",
-              "concepts/syncing-components",
-              "concepts/exporting-pages"
+              "design/elements",
+              {
+                "group": "Components",
+                "pages": [
+                  "design/components/overview",
+                  "design/components/subcomponents",
+                  "design/components/props-and-slots",
+                  "design/components/variants",
+                  "design/components/states",
+                  "design/components/importing"
+                ]
+              },
+              "design/pages",
+              {
+                "group": "Theme",
+                "pages": [
+                  "design/theme/customizing-theme",
+                  "design/theme/importing-tokens",
+                  "design/theme/exporting-theme",
+                  "design/theme/adding-custom-fonts"
+                ]
+              },
+              "design/flows",
+              "design/snippets",
+              {
+                "group": "Projects",
+                "pages": [
+                  "design/projects/overview",
+                  "design/projects/project-settings",
+                  "design/projects/version-history"
+                ]
+              }
             ]
           },
           {
-            "group": "Guides",
+            "group": "Using the editor",
             "pages": [
-              "guides/mcp-server",
-              "guides/skills",
-              "guides/dark-mode",
-              "guides/component-docs",
-              "guides/accessibility",
-              "guides/testing",
-              "guides/cli-automation",
-              "guides/publish-to-npm"
+              "design/design-mode/layers",
+              "design/design-mode/inspector",
+              "design/design-mode/adding-elements",
+              "design/design-mode/working-with-stacks",
+              "design/design-mode/page-layouts",
+              "design/design-mode/preview",
+              "design/design-mode/responsive-design",
+              "design/design-mode/quick-actions",
+              "design/design-mode/keyboard-shortcuts",
+              "design/design-mode/comments",
+              "design/design-mode/share-designs",
+              "design/design-mode/custom-css"
             ]
           },
           {
-            "group": "Troubleshooting",
+            "group": "Designing with AI",
             "pages": [
-              "frameworks/nextjs",
-              "frameworks/vite",
-              "frameworks/astro",
-              "frameworks/monorepo",
-              "frameworks/manual"
+              "design/ask-ai/prompt-to-design",
+              "design/ask-ai/making-quick-edits",
+              "design/ask-ai/image-to-design",
+              "design/ask-ai/adding-context",
+              "design/ask-ai/personalizing-ai"
             ]
           },
+          "design/code-mode/overview",
           {
-            "group": "Upgrading",
+            "group": "Prototype mode",
             "pages": [
-              "upgrading/component-directories"
+              "design/prototype-mode/overview",
+              "design/prototype-mode/annotations",
+              "design/prototype-mode/click-through-prototypes"
             ]
           }
         ]
       },
       {
-        "tab": "Learn Subframe",
-        "icon": "circle-question-mark",
+        "group": "Browser",
         "pages": [
-          "learn/introduction",
-          "learn/quickstart",
-          "learn/concepts",
-          "learn/faq",
+          "browser/overview",
+          "browser/previewing-your-local-app",
+          "browser/making-live-edits",
+          "browser/capturing-as-designs",
+          "browser/troubleshooting"
+        ]
+      },
+      {
+        "group": "Agent",
+        "pages": [
+          "agent/overview",
+          "agent/connecting-an-agent",
+          "agent/mcp-server",
+          "agent/connecting-your-codebase",
+          "agent/giving-your-agent-context",
+          "agent/making-code-changes",
+          "agent/managing-chats",
+          "agent/troubleshooting"
+        ]
+      },
+      {
+        "group": "Building from scratch",
+        "pages": [
+          "develop/overview",
+          "develop/installation",
           {
-            "group": "Core Concepts",
+            "group": "How it works",
             "pages": [
-              "learn/elements/elements",
-              {
-                "group": "Components",
-                "pages": [
-                  "learn/components/overview",
-                  "learn/components/subcomponents",
-                  "learn/components/props-and-slots",
-                  "learn/components/variants",
-                  "learn/components/states",
-                  "learn/components/importing"
-                ]
-              },
-              "learn/pages/pages",
-              {
-                "group": "Theme",
-                "pages": [
-                  "learn/theme/customizing-theme",
-                  "learn/theme/importing-tokens",
-                  "learn/theme/exporting-theme",
-                  "learn/theme/adding-custom-fonts"
-                ]
-              },
-              "learn/flows/flows",
-              "learn/snippets/snippets",
-              {
-                "group": "Projects",
-                "pages": ["learn/projects/overview", "learn/projects/project-settings", "learn/projects/version-history"]
-              }
+              "develop/concepts/design-to-code",
+              "develop/concepts/code-generation",
+              "develop/concepts/syncing-components"
             ]
           },
           {
-            "group": "Editor",
+            "group": "Developer guides",
             "pages": [
-              "learn/editor/overview",
-              {
-                "group": "Ask AI",
-                "pages": [
-                  "learn/ask-ai/prompt-to-design",
-                  "learn/ask-ai/making-quick-edits",
-                  "learn/ask-ai/image-to-design",
-                  "learn/ask-ai/adding-context",
-                  "learn/ask-ai/personalizing-ai"
-                ]
-              },
-              {
-                "group": "Design mode",
-                "pages": [
-                  "learn/design-mode/layers",
-                  "learn/design-mode/inspector",
-                  "learn/design-mode/adding-elements",
-                  "learn/design-mode/working-with-stacks",
-                  "learn/design-mode/page-layouts",
-                  "learn/design-mode/preview",
-                  "learn/design-mode/responsive-design",
-                  "learn/design-mode/quick-actions",
-                  "learn/design-mode/keyboard-shortcuts",
-                  "learn/design-mode/comments",
-                  "learn/design-mode/share-designs",
-                  "learn/design-mode/custom-css"
-                ]
-              },
-              {
-                "group": "Prototype mode",
-                "pages": ["learn/prototype-mode/overview", "learn/prototype-mode/annotations", "learn/prototype-mode/click-through-prototypes"]
-              },
-              {
-                "group": "Code mode",
-                "pages": ["learn/code-mode/overview"]
-              }
+              "develop/guides/dark-mode",
+              "develop/guides/accessibility",
+              "develop/guides/testing",
+              "develop/guides/cli-automation",
+              "develop/guides/publish-to-npm",
+              "develop/upgrading/component-directories"
             ]
           },
           {
-            "group": "Guides",
+            "group": "Troubleshooting",
             "pages": [
-              "learn/guides/working-with-ai-agents"
+              "develop/frameworks/nextjs",
+              "develop/frameworks/vite",
+              "develop/frameworks/astro",
+              "develop/frameworks/monorepo",
+              "develop/frameworks/manual"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "group": "Admin and billing",
+        "pages": [
+          "admin/managing-team",
+          "admin/pricing-and-plans",
+          "admin/auth-tokens",
           {
-            "group": "Admin and billing",
-            "pages": [
-              "learn/admin/managing-team",
-              "learn/admin/pricing-and-plans",
-              "learn/admin/auth-tokens",
-              {
-                "group": "Single sign-on (SSO)",
-                "pages": ["learn/admin/sso/okta"]
-              }
-            ]
+            "group": "Single sign-on (SSO)",
+            "pages": ["admin/sso/okta"]
           }
         ]
       }
@@ -230,15 +240,19 @@
     },
     {
       "source": "/learn/guides/using-subframe-with-ai-agents",
-      "destination": "/learn/guides/working-with-ai-agents"
+      "destination": "/agent/mcp-server"
+    },
+    {
+      "source": "/learn/guides/working-with-ai-agents",
+      "destination": "/agent/mcp-server"
     },
     {
       "source": "/framework-guides/:slug*",
-      "destination": "/frameworks/:slug*"
+      "destination": "/develop/frameworks/:slug*"
     },
     {
       "source": "/developing/:slug*",
-      "destination": "/guides/:slug*"
+      "destination": "/develop/guides/:slug*"
     }
   ],
   "metadata": {

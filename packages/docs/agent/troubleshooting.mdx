@@ -1,0 +1,40 @@
+---
+title: Troubleshooting
+description: Fix common agent, model, chat, and codebase connection problems.
+---
+
+## Agent won't connect
+
+Claude Code and Codex subscriptions require the Subframe [desktop app](/desktop-app).
+
+1. Open **Agent** chat, click the model name, then select **Manage agents**
+2. Click **Sign in again** or **Try again** for that provider
+3. Open **Connection details** if the problem continues
+
+You can use [Subframe AI credits](/agent/connecting-an-agent#using-subframe-ai-credits) without connecting a subscription.
+
+## Codebase is unavailable
+
+The connected folder may have moved, been renamed, or be on a drive that is not mounted. Restore the folder at its original path or [change the connected folder](/agent/connecting-your-codebase#changing-the-connected-folder).
+
+## A model is missing
+
+Open the model menu and select **Check connection** or **Manage agents**. Reconnect the subscription if needed, then open the model menu again.
+
+Only the models available through your connected subscription or Subframe plan appear in the menu.
+
+## A message won't send
+
+Make sure you have selected an available model. If you attached images, wait for them to finish uploading before sending.
+
+If a codebase is connected, select either your subscription or **Subframe Credits** in the model menu.
+
+## A connected agent keeps retrying
+
+If Claude Code or Codex keeps retrying, switch to a model under **Subframe Credits** and send the request again.
+
+If the request works with Subframe AI credits, your connected agent session probably needs a refresh. Open **Manage agents**, then click **Sign in again** or **Try again** for that provider.
+
+## Requests fail behind a firewall
+
+If agent requests fail on a restricted network, ask your network admin whether a firewall is blocking access to Subframe or your connected AI provider.

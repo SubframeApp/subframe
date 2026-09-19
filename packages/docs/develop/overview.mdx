@@ -1,0 +1,41 @@
+---
+sidebarTitle: Overview
+title: Starting your design system in Subframe
+description: Build and manage your design system visually in Subframe, then sync it to code.
+---
+
+If you don't have a design system today, Subframe gives you a visual editor for building one from scratch. Designers can create and edit the components that ship in your product, and every change maps directly to production-ready React code.
+
+There is no translation layer between design and code, and no AI interpreting a mockup. In Subframe, you are designing with code: the component in the editor and the component you sync into your codebase are the same thing.
+
+Teams ranging from small startups to large enterprises use Subframe to build and manage their design systems. It gives designers ownership of the visual layer while engineers can extend those components with application logic in code.
+
+<Info>
+  If your design system already lives in code, start with [importing components](/design/components/importing) instead.
+</Info>
+
+## Why Subframe
+
+- **Visual component editing** — Designers can create and update production components without working directly in code.
+- **No translation step** — Designs map deterministically to React and Tailwind code without an LLM interpreting them.
+- **Shared ownership** — Designers own the visual layer while engineers add product-specific behavior in the codebase.
+- **Built for design system teams** — Teams from small startups to large enterprises use Subframe to keep their components consistent as they grow.
+- **Code you own** — Generated components live in your codebase and remain available if you stop using Subframe.
+
+## How the workflow works
+
+1. **Create your theme** — Define your [colors, type, spacing, and other design tokens](/design/theme/customizing-theme) in Subframe.
+2. **Build your components** — Create the [buttons, inputs, cards, and other components](/design/components/overview) that make up your design system.
+3. **Install Subframe** — Run the [CLI setup](/develop/installation) in your codebase and choose where your components should live.
+4. **Sync your components** — Pull every component into your codebase with:
+
+   ```bash
+   npx @subframe/cli@latest sync --all
+   ```
+
+5. **Add application logic** — Keep Subframe responsible for presentation, then add API calls, state, and other product behavior in component wrappers or application code.
+6. **Keep the system in sync** — When a component changes in Subframe, run the CLI again to update its generated code.
+
+Components stay connected to Subframe through the CLI. Pages follow a different path: design them with your shared components, then implement them in your app with **Agent chat** or copy their code from Subframe. See the [design-to-code workflow](/develop/concepts/design-to-code) for the full process.
+
+Next, [install Subframe in your codebase](/develop/installation).

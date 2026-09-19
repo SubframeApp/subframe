@@ -7,7 +7,7 @@ Components let you reuse UI across your designs.
 
 - **Same as code** — Components in Subframe are the same building blocks your engineers use
 - **Always in sync** — When you update a component, all instances update and sync to code
-- **Interactive when needed** — Some components like checkboxes and accordions have built-in interaction logic using `@subframe/core`, our Radix-based headless component library. Learn more about [headless components](/concepts/code-generation#headless-components).
+- **Interactive when needed** — Some components like checkboxes and accordions have built-in interaction logic using `@subframe/core`, our Radix-based headless component library. Learn more about [headless components](/develop/concepts/code-generation#headless-components).
 
 <Frame>
   <img src="/images/components/create-component-dialog.png" alt="Create a new component dialog" />
@@ -28,6 +28,7 @@ We recommend [importing your theme](/learn/theme/importing-tokens) first so that
     4. Press <kbd>Enter</kbd> or click the send button — the AI agent will take a few minutes to import your component
 
     <Accordion title="Example prompt">
+
 ```
 Recreate the Button component from the following code:
 
@@ -92,6 +93,7 @@ function Button({
 
 export { Button, buttonVariants }
 ```
+
     </Accordion>
 
   </Tab>
@@ -103,6 +105,7 @@ export { Button, buttonVariants }
     3. Take a screenshot of the component and its states from Figma and paste it into the prompt
 
     4. Press <kbd>Enter</kbd> or click the send button — the AI agent will take a few minutes to import your component
+
   </Tab>
 </Tabs>
 
@@ -227,7 +230,7 @@ To view them, navigate to **Components**, click on the component.
 2. Select **Inspect**
 3. Copy and paste the `npx @subframe/cli@latest` command
 
-For more information, see [syncing components](/concepts/syncing-components).
+For more information, see [syncing components](/develop/concepts/syncing-components).
 
 ## Importing from another project
 
