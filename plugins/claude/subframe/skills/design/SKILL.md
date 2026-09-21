@@ -26,15 +26,18 @@ The key value: `/subframe:design` and `/subframe:develop` bridge coding and desi
 | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | Find out what already exists in the project                                       | `list_components`, `list_pages`, `list_snippets`, `list_flows`, `get_project_info` |
 | Build a screen the user navigates to                                              | `design_page` (new) / `edit_page` (targeted change)                                |
+| Change only the styles of existing page or snippet elements                       | `update_node_styles`                                                               |
 | Build a reusable building block (Button, Card, ListItem) used inside pages        | `design_component` (new) / `edit_component` (targeted change)                      |
 | Build a small example used inside a design document (e.g. a Button-variants demo) | `design_snippet` (new) / `edit_snippet` (targeted change)                          |
 | Write or update written design / usage documentation                              | `write_design_document`                                                            |
 | Change project-wide colors, fonts, corners, shadows, typography                   | `edit_theme`                                                                       |
 | Remove a page, flow, component, or snippet                                        | `delete_page` / `delete_flow` / `delete_component` / `delete_snippet`              |
 
-## MCP Authentication
+## MCP access
 
-If you cannot find the design tools (or any Subframe MCP tools), the MCP server likely needs to be authenticated. Ask the user to authenticate the Subframe MCP server. If the user is using Claude Code or Codex, instruct them to run `/mcp` to view and authenticate their MCP servers, and then say "done" when they're finished.
+Discover the Subframe MCP tools first if your client loads them on demand. If no Subframe MCP tools are available, help the user install, enable, or authenticate the server using the [MCP setup guide](https://docs.subframe.com/agent/mcp-server). In Claude Code or Codex, `/mcp` shows the server's connection and authentication status.
+
+If read tools work but design or editing tools are unavailable, check the user's project permissions. Viewers have read-only MCP access, including screenshots and search; designing or editing requires an editor seat. Explain that permission requirement when it is the cause instead of asking the user to authenticate again.
 
 ## Find the projectId
 
@@ -57,7 +60,7 @@ This audit is cheap and critical to proper project management.
 
 ### Verify theme alignment before designing
 
-The first time you're about to call `design_page` / `design_component` / `edit_page` / `edit_component` against a given project in this conversation, follow this process:
+The first time you're about to call `design_page` / `design_component` / `edit_page` / `edit_component` / `update_node_styles` against a given project in this conversation, follow this process:
 
 1. **If the project has codebase context** (working in a repo, recreating a page, importing a design), locate and read the codebase's theme source — `tailwind.config.*`, theme CSS variables, a tokens module. Also read the codebase's most canonical filled component (typically `Button`) to see which token is used where — names and values can match while roles diverge.
 
@@ -261,14 +264,30 @@ When designing multiple related pages (flows, CRUD, etc.):
 2. After the user has reviewed the variations in the flow editor, design each remaining page passing the chosen page's ID as `sourcePageId` — the generation starts from that page's EXACT structure and changes only what the description asks, so shared header, nav, and layout carry over by construction. Have the user paste an MCP link to the variation they want, or use `get_flow_info` with the `flowId` to enumerate the pages in the flow and ask which to use. Add `references` for anything else the new screen should draw on.
 3. Use the same `flowName` to group related pages together. Don't pack multiple screens into variations — variations are independent alternatives of the SAME screen.
 
+### `update_node_styles` — restyle elements on a page or snippet
+
+Prefer `update_node_styles` when only the Tailwind styles of existing page or snippet elements need to change. It updates classes in place while preserving content, structure, instance props, and node IDs. Untargeted descendants are unaffected. To change a reusable component definition, use `edit_component`; page layouts must be edited in the Subframe editor.
+
+1. Call `get_page_info` or `get_snippet_info` with `includeNodeIds: true` to read the current classes and each element's `data-node-id`.
+2. Identify the page or snippet with `id`, `name`, or `url`, and pass its `projectId`.
+3. Pass `nodeIds` (an array of 1–100 node IDs) and the complete new `className`. Use a one-item array for a single element.
+
+**The class list is replaced in full.** Include every class that should remain, including sizing, layout, responsive, and state classes. For example, changing the padding of `flex w-full flex-col gap-4 p-4` requires `flex w-full flex-col gap-4 p-6`, not just `p-6`.
+
+Batch elements from the same page or snippet only when they should share the entire new class list. If their final classes differ, use separate calls even when the requested change is the same.
+
+The edit applies immediately and returns `url` plus `results`, one entry per unique target in request order. Check each entry's `nodeId`, `appliedClassName`, and optional `warnings` for dropped or unsupported styling. Canonical classes may be normalized; compare the intended styles, not just the exact string.
+
 ### `edit_page` — targeted edits to an existing page
 
-Use `edit_page` to change one node of an existing Subframe page. It's a structured edit, not a prose description:
+Use `edit_page` for targeted changes to an existing page element's content, structure, styles, or a combination of these. It takes a structured edit:
 
 1. Call `get_page_info` with `includeNodeIds: true` to get the page JSX with a `data-node-id` on every element.
 2. Pick the `nodeId` you want to change.
 3. Choose an `operation`: `replace` (swap the node and its subtree), `insert-above` / `insert-below` (add your `code` as a new sibling), or `delete` (remove it).
 4. Pass the new or replacement subtree as `code` — a JSX fragment with a single root element. Don't include `data-node-id` attributes (new nodes are assigned ids automatically); leave `code` empty for `delete`.
+
+**`replace` removes the target and its entire subtree.** Include every descendant that should remain in the replacement JSX. Never send an empty replacement wrapper just to change styling.
 
 Identify the page with `id`, `name`, or `url` (call `list_pages` first if you need to find it). The edit applies immediately and returns `pageUrl`, `appliedCode` (the canonical code after parsing — compare it to what you sent to confirm nothing was dropped or normalized), and any parser `warnings`. `appliedCode` carries each element's `data-node-id`, so target those nodes in follow-up edits directly instead of re-reading the page. The user can undo via page version history in the Subframe editor.
 
@@ -276,7 +295,7 @@ Identify the page with `id`, `name`, or `url` (call `list_pages` first if you ne
 
 #### When to use `edit_page` vs `design_page`
 
-- **`edit_page`**: Targeted changes to an existing Subframe page. Fast and precise.
+- **`edit_page`**: Targeted changes to an existing Subframe page.
 - **`design_page`**: New pages, redesigns, or exploring multiple design directions.
 
 **When NOT to use `edit_page`:** If the user has existing UI in their codebase but no corresponding Subframe page, or if they want to explore multiple design options, use `design_page` instead.
@@ -291,7 +310,7 @@ If you need to enumerate the variation pages programmatically (e.g., to referenc
 
 Internally track the `flowId` returned by `design_page`. Don't surface it to the user. Use it with `get_flow_info` for follow-up flow-level operations, or pass the same `flowName` on subsequent `design_page` calls to keep new variations grouped in the same flow.
 
-For `/subframe:develop`, `references`, `sourcePageId`, or `edit_page`, use specific page IDs the user has referenced (via pasted MCP link or while iterating in the editor), or call `get_flow_info` to look them up by name — `design_page` itself doesn't return individual page IDs since successful variations land as separate pages on the canvas.
+When referencing, implementing, or editing a page, use specific page IDs the user has referenced (via pasted MCP link or while iterating in the editor), or call `get_flow_info` to look them up by name — `design_page` itself doesn't return individual page IDs since successful variations land as separate pages on the canvas.
 
 ## Components
 
@@ -354,7 +373,7 @@ Returns `snippetId` and `snippetUrl`. Embed the snippet in a design document wit
 
 ### `edit_snippet` — change an existing snippet
 
-Same node-targeted model as `edit_page`, but for snippets. Call `get_snippet_info` with `includeNodeIds: true` to see each element's `data-node-id`, then pass `nodeId`, an `operation` (`replace` / `insert-above` / `insert-below` / `delete`), and a single-root `code` fragment (same JSX constraints as `edit_page`). The edit applies immediately and returns `snippetUrl`, `appliedCode` (with each element's `data-node-id` for follow-up edits), and any `warnings`. Use when the embedded example needs to evolve alongside the component it documents.
+Same node-targeted model, JSX constraints, and replacement rules as `edit_page`, but for snippets. Call `get_snippet_info` with `includeNodeIds: true` to see each element's `data-node-id`, then pass `nodeId`, an `operation` (`replace` / `insert-above` / `insert-below` / `delete`), and a single-root `code` fragment. The edit applies immediately and returns `snippetUrl`, `appliedCode` (with each element's `data-node-id` for follow-up edits), and any `warnings`. Use when the embedded example needs to evolve alongside the component it documents.
 
 ## Design documents
 
@@ -464,7 +483,7 @@ When the user wants to consolidate tokens (e.g., `brand-50` through `brand-900` 
 
 ### When NOT to use `edit_theme`
 
-- **Single-page styling change** — if the user wants different styling on just one page, not the project-wide theme, use `edit_page` instead.
+- **Styling individual pages or snippets** — edit those resources directly; theme token changes apply project-wide.
 
 ## Deletion
 
@@ -481,7 +500,7 @@ When a delete tool refuses because of references, surface what it would affect t
 
 The user reviews and refines designs in the Subframe editor, not in code. When they come back asking to combine ideas, refine a specific direction, or iterate further:
 
-- **They reference a specific variation** (by pasted MCP link, by name, or by describing it). If you need to find the variation's `pageId`, call `get_flow_info` with the `flowId` from the original `design_page` response — it returns the pages in the flow with names and IDs. Then use `edit_page` with that page's id for targeted changes, or call `design_page` with the page as `sourcePageId` (to evolve its exact structure) or as a `subframe` reference (for a fresh set of options grounded in that direction).
+- **They reference a specific variation** (by pasted MCP link, by name, or by describing it). If you need to find the variation's `pageId`, call `get_flow_info` with the `flowId` from the original `design_page` response — it returns the pages in the flow with names and IDs. Make targeted edits to that page, or call `design_page` with the page as `sourcePageId` (to evolve its exact structure) or as a `subframe` reference (for a fresh set of options grounded in that direction).
 - **They want to mix variations** ("I like the layout from variation 1 but the colors from variation 3"). Ask them to paste the MCP links of the variations they want to combine (or use `get_flow_info` to look up page IDs by name), then call `design_page` with those pages as `subframe` references whose usage notes say what to take from each, and a description of the combination.
 - **They want to start over** ("none of these are right"). Call `design_page` again with a refined description and any reference pages as `subframe` references. Use the same `flowName` to keep related work grouped.
 - **They want to iterate on a component or snippet**. Use `edit_component` / `edit_snippet` for targeted changes; the resource keeps its identity and existing usages stay wired up.
