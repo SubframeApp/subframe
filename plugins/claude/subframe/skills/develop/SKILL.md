@@ -12,7 +12,7 @@ Before installing dependencies, syncing components, or editing code for a linked
 
 If `get_page_info` is unavailable, tell the user that you cannot access the linked design yet and help them connect the **Subframe MCP server**:
 
-- **Not installed/configured:** Direct them to the [Subframe MCP setup guide](https://docs.subframe.com/guides/mcp-server) for their client. The design server URL is `https://mcp.subframe.com/mcp`.
+- **Not installed/configured:** Direct them to the [Subframe MCP setup guide](https://docs.subframe.com/agent/mcp-server) for their client. The design server URL is `https://mcp.subframe.com/mcp`.
 - **Already configured:** Ask them to enable/connect the server and complete OAuth authentication in their client's MCP settings.
 - **Status unknown:** Explain that the server may need installation, enabling, or authentication. Provide the setup guide and ask them to check their client's MCP settings.
 

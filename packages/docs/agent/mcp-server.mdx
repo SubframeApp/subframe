@@ -85,14 +85,15 @@ The Subframe MCP server exposes tools across several categories. Most read tools
 
 ### Pages
 
-| Tool              | Description                                          |
-| ----------------- | ---------------------------------------------------- |
-| `list_pages`      | List all pages and the flows they belong to          |
-| `get_page_info`   | Get a page's generated React and Tailwind code       |
-| `design_page`     | Generate new page designs from a description         |
-| `edit_page`       | Edit a single element on a page                      |
-| `screenshot_page` | Screenshot a page, a single element, or a breakpoint |
-| `delete_page`     | Delete a page                                        |
+| Tool                 | Description                                                               |
+| -------------------- | ------------------------------------------------------------------------- |
+| `list_pages`         | List all pages and the flows they belong to                               |
+| `get_page_info`      | Get a page's generated React and Tailwind code                            |
+| `design_page`        | Generate new page designs from a description                              |
+| `edit_page`          | Edit a page element's content, structure, and styles                      |
+| `update_node_styles` | Replace elements' Tailwind classes while preserving content and structure |
+| `screenshot_page`    | Screenshot a page, a single element, or a breakpoint                      |
+| `delete_page`        | Delete a page                                                             |
 
 ### Components
 
@@ -109,13 +110,14 @@ The Subframe MCP server exposes tools across several categories. Most read tools
 
 Snippets are small, standalone bits of UI typically embedded inside design documents as live examples (e.g. a "Button variants" snippet showing every Button state). They live within Subframe and do not sync out.
 
-| Tool               | Description                                              |
-| ------------------ | -------------------------------------------------------- |
-| `list_snippets`    | List all snippets                                        |
-| `get_snippet_info` | Get a snippet's generated code                           |
-| `design_snippet`   | Design a new snippet from a description                  |
-| `edit_snippet`     | Edit a single element in a snippet                       |
-| `delete_snippet`   | Delete a snippet and remove it from any design documents |
+| Tool                 | Description                                                               |
+| -------------------- | ------------------------------------------------------------------------- |
+| `list_snippets`      | List all snippets                                                         |
+| `get_snippet_info`   | Get a snippet's generated code                                            |
+| `design_snippet`     | Design a new snippet from a description                                   |
+| `edit_snippet`       | Edit a snippet element's content, structure, and styles                   |
+| `update_node_styles` | Replace elements' Tailwind classes while preserving content and structure |
+| `delete_snippet`     | Delete a snippet and remove it from any design documents                  |
 
 ### Flows
 
