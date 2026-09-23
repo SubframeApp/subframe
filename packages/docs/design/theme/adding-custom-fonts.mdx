@@ -7,14 +7,16 @@ Upload custom font files to use proprietary or licensed fonts in your project.
 
 ## Uploading fonts
 
+{/* TODO: Update image — custom fonts UI was redesigned */}
 ![Dialog showing a list of fonts uploaded for review](/images/theme/theme-custom-fonts.png)
 
 1. Navigate to **Theme \> Typography**
-2. Click **Upload font**
+2. Click **Custom fonts**. If you haven't added any fonts yet, the upload dialog opens right away. If you already have custom fonts, the manager opens instead. Click **Upload fonts** to add more.
 3. Select or drag font files into the dialog
-4. Review and edit font metadata:
-   - **Font family name** — Editable per font group
+4. Review each file in the upload table:
+   - **Font Family** — Editable per file; files that share a name become one family
    - **Weight** — Dropdown for static fonts, range display for variable fonts
+   - **Style** — Detected as **Normal** or **Italic** from the file
 5. Click **Add fonts**
 
 ## Supported formats
@@ -41,13 +43,20 @@ If validation fails, edit the font family name or remove conflicting files.
 
 Custom fonts require additional setup in your project to load correctly. See [Loading fonts](/develop/installation#install-fonts) for instructions.
 
-## Updating fonts
+## Editing fonts
 
-To add weights to an existing custom font:
+To change a custom font after adding it:
 
-1. Upload additional font files for each new weight
-2. Make sure the font family name matches the original font
-3. After adding, additional weights will be available for the font
+1. Navigate to **Theme \> Typography** and click **Custom fonts**
+2. Click the edit icon on the font you want to change
+3. Add files for new weights or styles, or remove existing ones
+4. Save your changes
+
+## Removing fonts
+
+1. Navigate to **Theme \> Typography** and click **Custom fonts**
+2. Click the delete icon on the font you want to remove
+3. If the font is used anywhere in your theme, pick a replacement before deleting so those styles switch to it
 
 ## Troubleshooting
 
@@ -69,10 +78,10 @@ To add weights to an existing custom font:
     - No CORS errors in browser console
 
   </Accordion>
-  <Accordion title="Weight slider not showing all weights">
-    For static fonts, the slider only shows uploaded weights. Upload additional font files to enable more weight options.
+  <Accordion title="Weight dropdown not showing all weights">
+    For static fonts, the weight dropdown only shows uploaded weights. Upload additional font files to enable more weight options.
 
-    For variable fonts, the slider shows the full supported range from the font file metadata.
+    For variable fonts, the range comes from the font file metadata.
 
   </Accordion>
   <Accordion title="Can't mix fonts in same family">
