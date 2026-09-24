@@ -87,7 +87,7 @@ get_page_info({ id: "PAGE_ID", projectId: "PROJECT_ID" })
 get_page_info({ name: "Settings Page", projectId: "PROJECT_ID" })
 ```
 
-To discover what exists in the project, use `list_pages`, `list_components`, or `list_flows`. Snippets aren't synced to code — they live in Subframe as design system references.
+To discover what exists in the project, use `list_pages`, `list_components`, or `list_canvases`. Snippets aren't synced to code — they live in Subframe as design system references.
 
 Read design documentation alongside the design: `get_project_info` returns project-level `docs` (broad principles), and `get_component_info` returns each component's `designDocuments` (component-specific usage guidance). Pick these up before implementing so you respect documented constraints.
 
@@ -197,9 +197,9 @@ When diffing the updated design against the existing code, if there are design c
 | `get_page_info`      | Fetch page code                                         | `url`, `id`, or `name`; `projectId` |
 | `get_component_info` | Fetch component code + attached design doc              | `url`, `id`, or `name`; `projectId` |
 | `get_project_info`   | Fetch project metadata + project-level design docs      | `projectId`                         |
-| `get_flow_info`      | Enumerate pages in a flow                               | `id`, `name`, or `url`; `projectId` |
+| `get_canvas_info`    | Enumerate pages on a canvas                             | `id`, `name`, or `url`; `projectId` |
 | `list_pages`         | List all pages                                          | `projectId`                         |
 | `list_components`    | List all components                                     | `projectId`                         |
-| `list_flows`         | List all flows                                          | `projectId`                         |
+| `list_canvases`      | List all canvases                                       | `projectId`                         |
 | `get_theme`          | Get Tailwind config                                     | `projectId`, `cssType`              |
 | `wait_for_jobs`      | Wait for in-flight design jobs to finish before reading | `jobIds` (1-10)                     |
