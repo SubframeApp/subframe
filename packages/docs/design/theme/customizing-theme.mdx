@@ -9,7 +9,7 @@ Your theme defines design tokens for your project. Design tokens are reusable va
 
 Open **Theme** under **Design System** in the left sidebar, or press <kbd>Cmd</kbd> + <kbd>K</kbd> and search "Theme". Expand the **Theme** tab to jump to any section (Colors, Typography, Borders, Corners, Shadows).
 
-A toolbar at the top of the theme page holds the main actions — **Ask AI**, **Import**, **Export** — plus a **⋯** menu with **Version history**, **Reset theme**, and **Add dark mode** / **Add light mode**. When dark mode is enabled, the menu shows **Remove dark mode** / **Remove light mode** instead. See [Dark mode](/develop/guides/dark-mode) for details.
+A toolbar at the top of the theme page holds the main actions, **Import** and **Export**, plus a **⋯** menu with **Version history**, **Reset theme**, and **Add dark mode** / **Add light mode**. When dark mode is enabled, the menu shows **Remove dark mode** / **Remove light mode** instead. See [Dark mode](/develop/guides/dark-mode) for details.
 
 All changes save automatically and apply immediately across your project.
 
@@ -21,23 +21,24 @@ Right-click any color, typography, border, corner, or shadow token and select **
 
 Check usage before renaming or deleting a token so you know what your changes will affect.
 
-## Edit theme with Ask AI
+## Edit theme with the agent
+
+{/* TODO: Update image — theme edits now happen in the docked agent chat */}
 
 <img
   src="/images/theme/theme-ask-ai.webp"
-  alt="The theme page with Ask AI prompt open, showing 'update the theme to be brutalist with bold blue accents' with the theme sidebar and color tokens visible"
+  alt="The theme page with an agent prompt open, showing 'update the theme to be brutalist with bold blue accents' with the theme sidebar and color tokens visible"
 />
 
-Use Ask AI to update your theme from a prompt:
+Use [agent chat](/design/ask-ai/prompt-to-design) to update your theme from a prompt:
 
-1. Click **Ask AI** in the sidebar
+1. Press <kbd>Cmd</kbd> + <kbd>/</kbd> to open agent chat
 2. Describe your changes: "warmer tones, rounder corners", "make it brutalist", or "retro theme with muted colors and bold typography"
-3. Review the preview — AI updates colors, typography, corners, and shadows
-4. Click **Apply** to update your theme
+3. Send the prompt. The agent updates colors, typography, corners, and shadows
 
-Ask AI can also rename or delete tokens when the changes call for it. All component references update automatically.
+The agent can also rename or delete tokens when the changes call for it. All component references update automatically.
 
-<Note>AI theme generation affects your entire project. Review the preview before applying.</Note>
+<Note>Theme changes affect your entire project. To undo them, restore an earlier theme from [version history](#version-history).</Note>
 
 ## Colors
 
