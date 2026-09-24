@@ -4,12 +4,12 @@ description: Use AI to generate page designs, make edits, and update your theme.
 ---
 
 <Frame>
-  <img src="/images/ask-ai/ask-ai-mode.png" alt="The Ask AI panel docked to the right side of the editor" />
+  <img src="/images/ask-ai/ask-ai-mode.png" alt="Agent chat docked to the right side of the editor" />
 </Frame>
 
-{/* TODO: Update image — Ask AI is now a docked panel toggled from the toolbar, not an editor mode */}
+{/* TODO: Update image — agent chat is a docked panel toggled with the **Agent** button, not an editor mode */}
 
-You can prompt AI to generate page designs, edit your existing designs, or update your theme.
+You can prompt the agent to generate page designs, edit your existing designs, or update your theme.
 
 - **Design new pages** — Generate multiple variations of page designs
 - **Edit your page directly** — Make targeted changes to your current page
@@ -17,33 +17,33 @@ You can prompt AI to generate page designs, edit your existing designs, or updat
 - **Update your theme** — Modify colors, fonts, and tokens project-wide
 - **Answer questions** — Search Subframe docs for help with features and development workflows
 
-Ask AI is for creating and updating designs. For adding interactivity and state, use [Prototype mode](/learn/prototype-mode/overview).
+Agent chat is for creating and updating designs. For adding interactivity and state, use [Prototype mode](/learn/prototype-mode/overview).
 
 ## Getting started
 
-1. Click the **Ask AI** button in the toolbar or press <kbd>Cmd</kbd> + <kbd>/</kbd>
+1. Click the **Agent** button in the toolbar or press <kbd>Cmd</kbd> + <kbd>/</kbd>
 2. Type a prompt and press <kbd>Enter</kbd> or click the send button
-3. Ask AI will create a new conversation and responds to your prompt
+3. The agent creates a new conversation and responds to your prompt
 
-The Ask AI panel docks to the right side of the editor and follows you across your project — it's available on all project level pages.
+Agent chat docks to the right side of the editor and follows you across your project — it's available on all project level pages.
 
-{/* TODO: Add video of prompting in the docked Ask AI panel */}
+{/* TODO: Add video of prompting in the docked agent chat */}
 
-Our AI will choose how to respond based on your prompt:
+The agent chooses how to respond based on your prompt:
 
-- **Variations** — For new designs, creative exploration, or prompts requiring new components. Ask AI will generate 1-4 variations for you to choose from.
+- **Variations** — For new designs, creative exploration, or prompts requiring new components. The agent generates 1-4 variations for you to choose from.
 - **Direct edits** — For simple changes to existing elements like colors, text, or layout tweaks
 
 <Tip>
-  You can keep prompting while AI is working — follow-up messages queue and send when the current response finishes.
+  You can keep prompting while the agent is working — follow-up messages queue and send when the current response finishes.
   Click the stop button (or press <kbd>Esc</kbd>) to stop a running response.
 </Tip>
 
 ## Review designs
 
-Variations land as real pages in a flow on your canvas as each one finishes generating. The chat shows a live tile for each variation — click a tile to jump to that page on the canvas.
+Variations land as real pages on a [canvas](/design/flows) as each one finishes generating. The chat shows a live tile for each variation — click a tile to jump to that page on the canvas.
 
-{/* TODO: Add screenshot of variation tiles in the chat and applied pages in the flow */}
+{/* TODO: Add screenshot of variation tiles in the chat and applied pages on the canvas */}
 
 From there you can:
 
@@ -55,15 +55,15 @@ From there you can:
 
 Your conversations persist across sessions and pages so you can reference past generations.
 
-Click the history button at the top of the Ask AI panel to see every chat in the project, grouped by recency — or hover over it to peek at the list. An animated indicator means a chat is still working, and a dot marks unread results. Click the **+** button to start a new chat.
+Click the history button at the top of agent chat to see every chat in the project, grouped by recency — or hover over it to peek at the list. An animated indicator means a chat is still working, and a dot marks unread results. Click the **+** button to start a new chat.
 
-Each chat is labeled with the page, component, or flow it last worked on. Click the label in the chat header to jump to that resource.
+Each chat is labeled with the page, component, or canvas it last worked on. Click the label in the chat header to jump to that resource.
 
-{/* TODO: Add screenshot of the chat history menu in the Ask AI panel */}
+{/* TODO: Add screenshot of the chat history menu in agent chat */}
 
-## Ask AI toolbar
+## Agent chat toolbar
 
-Ask AI includes additional tools:
+Agent chat includes additional tools:
 
 - **[Adding context with @](/learn/ask-ai/adding-context)** — Reference other pages, components, snippets, and docs in your prompt
 - **[Upload image](/learn/ask-ai/image-to-design)** — Add reference images
@@ -71,19 +71,19 @@ Ask AI includes additional tools:
 - **[Reference a web page](/learn/ask-ai/image-to-design#reference-a-web-page)** — Paste a URL to use a live web page as a reference
 - **[Personalize AI](/learn/ask-ai/personalizing-ai)** — Configure project-wide context
 
-You can also use [quick edits](/learn/ask-ai/making-quick-edits) to make targeted edits to specific elements using AI.
+You can also use [quick edits](/learn/ask-ai/making-quick-edits) to make targeted edits to specific elements using the agent.
 
 ## Troubleshooting
 
 <AccordionGroup>
-<Accordion title="AI is not applying changes where I want them">
-Ask AI is great for generating new designs or making broad changes to your page. But for more targeted edits, you may want to use [quick edits](/learn/ask-ai/making-quick-edits).
+<Accordion title="The agent is not applying changes where I want them">
+Agent chat is great for generating new designs or making broad changes to your page. But for more targeted edits, you may want to use [quick edits](/learn/ask-ai/making-quick-edits).
 </Accordion>
 
-<Accordion title="How do I use AI with components?">
-  Open the component editor and use the same Ask AI panel to insert elements, create variants, and refactor components.
+<Accordion title="How do I use the agent with components?">
+  Open the component editor and use the same agent chat to insert elements, create variants, and refactor components.
   You can also right-click or press <kbd>/</kbd> to open [quick actions](/learn/design-mode/quick-actions) and select
-  **Ask AI to edit...**.
+  **Ask agent to edit...**.
 </Accordion>
 
 <Accordion title="How do I undo changes?">

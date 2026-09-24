@@ -87,7 +87,7 @@ The Subframe MCP server exposes tools across several categories. Most read tools
 
 | Tool                 | Description                                                               |
 | -------------------- | ------------------------------------------------------------------------- |
-| `list_pages`         | List all pages and the flows they belong to                               |
+| `list_pages`         | List all pages and the canvases they belong to                            |
 | `get_page_info`      | Get a page's generated React and Tailwind code                            |
 | `design_page`        | Generate new page designs from a description                              |
 | `edit_page`          | Edit a page element's content, structure, and styles                      |
@@ -119,15 +119,15 @@ Snippets are small, standalone bits of UI typically embedded inside design docum
 | `update_node_styles` | Replace elements' Tailwind classes while preserving content and structure |
 | `delete_snippet`     | Delete a snippet and remove it from any design documents                  |
 
-### Flows
+### Canvases
 
-A flow is a collection of related pages (e.g. "Onboarding", "Checkout").
+A [canvas](/design/flows) is a collection of related pages (e.g. "Onboarding", "Checkout"). Canvas tools, parameters, and URLs use the name "flow".
 
-| Tool            | Description                                        |
-| --------------- | -------------------------------------------------- |
-| `list_flows`    | List all flows                                     |
-| `get_flow_info` | Get a flow and its ordered pages                   |
-| `delete_flow`   | Delete a flow, optionally with the pages inside it |
+| Tool            | Description                                          |
+| --------------- | ---------------------------------------------------- |
+| `list_flows`    | List all canvases                                    |
+| `get_flow_info` | Get a canvas and its ordered pages                   |
+| `delete_flow`   | Delete a canvas, optionally with the pages on it     |
 
 ### Prototypes
 
