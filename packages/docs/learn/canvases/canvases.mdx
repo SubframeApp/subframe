@@ -1,0 +1,59 @@
+---
+title: Canvases
+description: Organize related pages on a canvas.
+---
+
+Canvases group related pages together. The pages on a canvas are used to create [prototypes](/learn/prototype-mode/overview).
+
+## Creating a canvas
+
+1. Open the **Pages** section in the left sidebar
+2. Click **New canvas** at the bottom of the left sidebar
+
+## Renaming a canvas
+
+Double-click a canvas name in the pages sidebar to rename it. Press <kbd>Enter</kbd> to confirm or <kbd>Esc</kbd> to cancel.
+
+## Adding pages to a canvas
+
+1. Click <Icon icon="ellipsis" size={16} /> on a page
+2. Select **Move to canvas** > select the canvas (or **New canvas...**)
+
+You can also drag pages directly onto a canvas from the pages list when editing a page.
+
+## Editing pages on the canvas
+
+You can edit pages directly on the canvas without opening them:
+
+- Click an element on any page to select it, then edit its properties in the Inspector panel
+- Drag an element from one page to another to move it between pages
+- Use the **Layers** section in the left panel to view and navigate each page's element hierarchy
+
+To open a page in its dedicated editor, click **Open page editor** in the page's header.
+
+## Duplicating a canvas
+
+1. Click <Icon icon="ellipsis" size={16} /> on a canvas in the pages sidebar
+2. Select **Duplicate canvas**
+
+Duplicating a canvas copies all of its pages along with the canvas's [prototype](/learn/prototype-mode/overview).
+
+## Deleting a canvas
+
+1. Click <Icon icon="ellipsis" size={16} /> on a canvas in the pages sidebar
+2. Select **Delete canvas...**
+3. Confirm in the dialog
+
+Deleting a canvas also deletes every page on it. To keep those pages, move them to another canvas with **Move to canvas** before deleting.
+
+<Warning>Deleting a canvas can only be undone using project-level version history</Warning>
+
+## FAQ
+
+<AccordionGroup>
+<Accordion title="When should I create a new canvas vs use an existing one?">
+
+Up to you. We usually recommend putting screens that are part of one user journey on a single canvas. This includes all page states such as loading, error, and empty states.
+
+</Accordion>
+</AccordionGroup>

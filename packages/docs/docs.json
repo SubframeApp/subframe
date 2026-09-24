@@ -65,7 +65,7 @@
                   "design/theme/adding-custom-fonts"
                 ]
               },
-              "design/flows",
+              "design/canvases",
               "design/snippets",
               {
                 "group": "Projects",
@@ -234,6 +234,14 @@
     }
   },
   "redirects": [
+    {
+      "source": "/design/flows",
+      "destination": "/design/canvases"
+    },
+    {
+      "source": "/learn/flows/flows",
+      "destination": "/learn/canvases/canvases"
+    },
     {
       "source": "/learn/ask-ai/referencing-pages",
       "destination": "/learn/ask-ai/adding-context"
