@@ -16,22 +16,22 @@ Use this skill when the user wants to:
 - Add or edit a reusable Subframe component or snippet
 - Capture design intent or component usage guidance as a Subframe design document
 - Update the Subframe project's visual theme (colors, fonts, corners, shadows, typography)
-- Remove Subframe pages, components, snippets, or flows that are no longer needed
+- Remove Subframe pages, components, snippets, or canvases that are no longer needed
 
 The key value: `/subframe:design` and `/subframe:develop` bridge coding and design. They work in both directions — create designs while coding and then ensure your code exactly reflects your design.
 
 ## Picking the right tool
 
-| Intent                                                                            | Tool                                                                               |
-| --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| Find out what already exists in the project                                       | `list_components`, `list_pages`, `list_snippets`, `list_flows`, `get_project_info` |
-| Build a screen the user navigates to                                              | `design_page` (new) / `edit_page` (targeted change)                                |
-| Change only the styles of existing page or snippet elements                       | `update_node_styles`                                                               |
-| Build a reusable building block (Button, Card, ListItem) used inside pages        | `design_component` (new) / `edit_component` (targeted change)                      |
-| Build a small example used inside a design document (e.g. a Button-variants demo) | `design_snippet` (new) / `edit_snippet` (targeted change)                          |
-| Write or update written design / usage documentation                              | `write_design_document`                                                            |
-| Change project-wide colors, fonts, corners, shadows, typography                   | `edit_theme`                                                                       |
-| Remove a page, flow, component, or snippet                                        | `delete_page` / `delete_flow` / `delete_component` / `delete_snippet`              |
+| Intent                                                                            | Tool                                                                                  |
+| --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Find out what already exists in the project                                       | `list_components`, `list_pages`, `list_snippets`, `list_canvases`, `get_project_info` |
+| Build a screen the user navigates to                                              | `design_page` (new) / `edit_page` (targeted change)                                   |
+| Change only the styles of existing page or snippet elements                       | `update_node_styles`                                                                  |
+| Build a reusable building block (Button, Card, ListItem) used inside pages        | `design_component` (new) / `edit_component` (targeted change)                         |
+| Build a small example used inside a design document (e.g. a Button-variants demo) | `design_snippet` (new) / `edit_snippet` (targeted change)                             |
+| Write or update written design / usage documentation                              | `write_design_document`                                                               |
+| Change project-wide colors, fonts, corners, shadows, typography                   | `edit_theme`                                                                          |
+| Remove a page, canvas, component, or snippet                                      | `delete_page` / `delete_canvas` / `delete_component` / `delete_snippet`               |
 
 ## MCP access
 
@@ -79,7 +79,7 @@ If the project has no codebase context, only the empty-theme check applies — s
 
 ## Grounding design calls in real code
 
-Subframe's design AI is far more accurate when the call carries raw code than when it carries paraphrase. "Make the primary darker" leaves a guess; pasting `--color-primary: oklch(0.55 0.18 250)` doesn't. Wherever the codebase already has the source — a component implementation, theme tokens, a similar page — pass it into the call instead of describing it.
+Subframe's agent is far more accurate when the call carries raw code than when it carries paraphrase. "Make the primary darker" leaves a guess; pasting `--color-primary: oklch(0.55 0.18 250)` doesn't. Wherever the codebase already has the source — a component implementation, theme tokens, a similar page — pass it into the call instead of describing it.
 
 `design_page`, `design_component`, and `edit_component` take grounding through the `references` parameter — a list of `{ source, usage }` entries where `source` is one of:
 
@@ -98,7 +98,7 @@ Subframe's design AI is far more accurate when the call carries raw code than wh
 
 Group related files as separate `code` references (component + stories + CSS module), each with its own usage note.
 
-**Don't paste what the AI already has.** For `edit_component`, the current Subframe code is already on the server — don't echo it back. Read it with `get_component_info` so your description can target exactly what differs. Prefer the most efficient form: plain language when the change doesn't depend on any code the AI hasn't seen ("change padding from 4 to 6, add a hover state"); otherwise pass reference code scaled to what's needed — a targeted diff or code snippet when the Subframe code already resembles the target, a full file when handing over a wholesale target, a sibling pattern, or related types — as `code` references with usage notes. (`edit_page` and `edit_snippet` use a different, node-targeted model — see their own sections.)
+**Don't paste what the agent already has.** For `edit_component`, the current Subframe code is already on the server — don't echo it back. Read it with `get_component_info` so your description can target exactly what differs. Prefer the most efficient form: plain language when the change doesn't depend on any code the agent hasn't seen ("change padding from 4 to 6, add a hover state"); otherwise pass reference code scaled to what's needed — a targeted diff or code snippet when the Subframe code already resembles the target, a full file when handing over a wholesale target, a sibling pattern, or related types — as `code` references with usage notes. (`edit_page` and `edit_snippet` use a different, node-targeted model — see their own sections.)
 
 **Soft cap on very large files (~500 LOC combined).** When trimming, keep verbatim:
 
@@ -123,7 +123,7 @@ Include in the description:
 2. **The stories file** (e.g. `Button.stories.tsx` / `.mdx`) — exact variants, sizes, states, and the props that produce each.
 3. **CSS modules or scoped CSS** (e.g. `Button.module.css`) if styling lives outside Tailwind classes.
 4. **Prop-type files** if types are defined separately (e.g. a `types.ts`).
-5. **Theme tokens the component references** — pull the relevant rows from the codebase theme (`tailwind.config.*`, CSS variables) and from `get_theme` so the AI keeps roles aligned.
+5. **Theme tokens the component references** — pull the relevant rows from the codebase theme (`tailwind.config.*`, CSS variables) and from `get_theme` so the agent keeps roles aligned.
 
 ### For snippet design (`design_snippet`)
 
@@ -143,17 +143,17 @@ See [Preparing the edit_theme description](#preparing-the-edit_theme-description
 
 **Surface job status to the user.** When you kick off a design, tell them you've started ("Designing your settings page in Subframe…") and present the URL. When the job finishes, tell them a relevant message like "✓ Variations are ready to review.". The user already sees live progress in the editor, but they should not have to go to the editor to know when the design is done.
 
-**Present the URL verbatim** — don't strip query parameters. The URLs returned by `design_page`, `design_component`, and `edit_component` embed a conversation ID that opens the AI chat panel preloaded with the conversation that produced the design. That gives the user reasoning, intermediate steps, and a place to keep iterating with the AI directly — far more useful context than the bare resource URL.
+**Present the URL verbatim** as a clickable link. Opening the URL returned by `design_page`, `design_component`, or `edit_component` shows the design in Subframe, where the user can watch it generate and keep iterating with the agent in agent chat.
 
 **When to call `wait_for_jobs`:**
 
-- **Before reading back the generated content** with `get_page_info`, `get_component_info`, `get_snippet_info`, or `get_flow_info`. The read returns empty/stale state until the job finishes.
+- **Before reading back the generated content** with `get_page_info`, `get_component_info`, `get_snippet_info`, or `get_canvas_info`. The read returns empty/stale state until the job finishes.
 - **Before a downstream design call that needs the new resource as context** (e.g., designing a page that should reference a component you just created).
 - **Before handing off to `/subframe:develop`** if the user immediately asks to implement.
 
 You don't need `wait_for_jobs` when you're only presenting the URL to the user and stopping there.
 
-`wait_for_jobs` accepts multiple `jobIds` at once — batch them when you've kicked off multiple designs. Each result is `running`, `done`, `error`, or `not_found`. Call in a loop until every job reads `done` or `error`. For `design_page`, the summary reports how many requested pages were actually applied: partial success is `done` with the count, while zero applied pages is `error`. Inspect the flow and decide whether retrying missing variations is useful. A job that stops reporting eventually becomes `error`; never treat an unverifiable job as completed work.
+`wait_for_jobs` accepts multiple `jobIds` at once — batch them when you've kicked off multiple designs. Each result is `running`, `done`, `error`, or `not_found`. Call in a loop until every job reads `done` or `error`. For `design_page`, the summary reports how many requested pages were actually applied: partial success is `done` with the count, while zero applied pages is `error`. Inspect the canvas and decide whether retrying missing variations is useful. A job that stops reporting eventually becomes `error`; never treat an unverifiable job as completed work.
 
 ## Pages
 
@@ -208,6 +208,8 @@ Use `design_page` when:
 - Recreating an existing UI from code exactly as a starting point to design in Subframe
 - The user wants options to choose from (multiple variations)
 
+Always pass a `canvasName` (required); variations land as pages on that canvas. Returns `canvasId`, `canvasUrl`, and `jobId`.
+
 #### Context and variations
 
 How much context to gather and how many variations to generate depends on the task:
@@ -258,11 +260,11 @@ More variations = more exploration. Fewer = more focused. Default to fewer when 
 
 #### Multi-page requests
 
-When designing multiple related pages (flows, CRUD, etc.):
+When designing multiple related pages (user flows, CRUD, etc.):
 
 1. Design the primary page first with more variations to establish the direction.
-2. After the user has reviewed the variations in the flow editor, design each remaining page passing the chosen page's ID as `sourcePageId` — the generation starts from that page's EXACT structure and changes only what the description asks, so shared header, nav, and layout carry over by construction. Have the user paste an MCP link to the variation they want, or use `get_flow_info` with the `flowId` to enumerate the pages in the flow and ask which to use. Add `references` for anything else the new screen should draw on.
-3. Use the same `flowName` to group related pages together. Don't pack multiple screens into variations — variations are independent alternatives of the SAME screen.
+2. After the user has reviewed the variations on the canvas, design each remaining page passing the chosen page's ID as `sourcePageId` — the generation starts from that page's EXACT structure and changes only what the description asks, so shared header, nav, and layout carry over by construction. Have the user paste an MCP link to the variation they want, or use `get_canvas_info` with the `canvasId` to enumerate the pages on the canvas and ask which to use. Add `references` for anything else the new screen should draw on.
+3. Use the same `canvasName` so related pages land on the same canvas. Don't pack multiple screens into variations — variations are independent alternatives of the SAME screen.
 
 ### `update_node_styles` — restyle elements on a page or snippet
 
@@ -302,15 +304,15 @@ Identify the page with `id`, `name`, or `url` (call `list_pages` first if you ne
 
 ### After a page design
 
-For `design_page`, present the returned `flowUrl` as a clickable markdown link. The flow opens immediately; each variation appears as a new page on the canvas as it finishes generating. The user reviews them side-by-side on the flow canvas and may keep multiple, edit them, delete some, or just leave them all there — there's no formal "pick one" step.
+For `design_page`, present the returned `canvasUrl` as a clickable markdown link. The canvas opens immediately; each variation appears as a new page on the canvas as it finishes generating. The user reviews them side-by-side on the canvas and may keep multiple, edit them, delete some, or just leave them all there — there's no formal "pick one" step.
 
-From there, the user may continue refining in Subframe or return here and ask you to implement the design in code. Do NOT ask the user which variation they prefer or present variation options as a multiple choice in chat. Simply present the flow URL and let them know they can ask you to implement once they're ready.
+From there, the user may continue refining in Subframe or return here and ask you to implement the design in code. Do NOT ask the user which variation they prefer or present variation options as a multiple choice in chat. Simply present the canvas URL and let them know they can ask you to implement once they're ready.
 
-If you need to enumerate the variation pages programmatically (e.g., to reference one in `references` or `sourcePageId`, or to read its current code with `get_page_info`), call `wait_for_jobs` with the `jobId` first, check its applied-page count, then call `get_flow_info` with the `flowId`. Reading too early may return only the variations that have finished by that moment.
+If you need to enumerate the variation pages programmatically (e.g., to reference one in `references` or `sourcePageId`, or to read its current code with `get_page_info`), call `wait_for_jobs` with the `jobId` first, check its applied-page count, then call `get_canvas_info` with the `canvasId`. Reading too early may return only the variations that have finished by that moment.
 
-Internally track the `flowId` returned by `design_page`. Don't surface it to the user. Use it with `get_flow_info` for follow-up flow-level operations, or pass the same `flowName` on subsequent `design_page` calls to keep new variations grouped in the same flow.
+Internally track the `canvasId` returned by `design_page`. Don't surface it to the user. Use it with `get_canvas_info` for follow-up canvas-level operations, or pass the same `canvasName` on subsequent `design_page` calls so new variations land on the same canvas.
 
-When referencing, implementing, or editing a page, use specific page IDs the user has referenced (via pasted MCP link or while iterating in the editor), or call `get_flow_info` to look them up by name — `design_page` itself doesn't return individual page IDs since successful variations land as separate pages on the canvas.
+When referencing, implementing, or editing a page, use specific page IDs the user has referenced (via pasted MCP link or while iterating in the editor), or call `get_canvas_info` to look them up by name — `design_page` itself doesn't return individual page IDs since successful variations land as separate pages on the canvas.
 
 ## Components
 
@@ -347,13 +349,13 @@ Returns `componentId` (immediately referenceable in other tools), `componentUrl`
 
 ### `edit_component` — change an existing component
 
-Use `edit_component` for targeted changes to a component already in the project. Call `get_component_info` first so your description can target exactly what differs. The design AI already has the current Subframe code — only paste outside reference code when the change depends on something the AI can't see (a codebase implementation to match, a sibling component, a design spec). See [Grounding design calls in real code](#grounding-design-calls-in-real-code) for what to include and how to trim.
+Use `edit_component` for targeted changes to a component already in the project. Call `get_component_info` first so your description can target exactly what differs. The agent already has the current Subframe code — only paste outside reference code when the change depends on something the agent can't see (a codebase implementation to match, a sibling component, a design spec). See [Grounding design calls in real code](#grounding-design-calls-in-real-code) for what to include and how to trim.
 
-Pass one of `id`, `name`, or `url` plus a `description`; optionally `references` to point the AI at related Subframe pages/snippets/components, outside code, or an image to match. Returns `componentUrl` and `jobId`. Edits propagate to every page using the component, so confirm with the user before making structural changes.
+Pass one of `id`, `name`, or `url` plus a `description`; optionally `references` to point the agent at related Subframe pages/snippets/components, outside code, or an image to match. Returns `componentUrl` and `jobId`. Edits propagate to every page using the component, so confirm with the user before making structural changes.
 
 The same component cannot be edited by two agents simultaneously — if another conversation is already working on it, the tool returns the in-progress URL and you should wait or ask the user.
 
-**Note:** AI editing is not supported for page layouts. To modify a layout, the user must open it in the Subframe editor directly.
+**Note:** Agent editing is not supported for page layouts. To modify a layout, the user must open it in the Subframe editor directly.
 
 **Use `edit_component` to align existing components with a codebase or spec.** If a project component doesn't match the user's source code or design references, that's an `edit_component` job — don't design a parallel one. If it's unclear whether the edits apply cleanly to existing usages, confirm with the user before editing.
 
@@ -377,7 +379,7 @@ Same node-targeted model, JSX constraints, and replacement rules as `edit_page`,
 
 ## Design documents
 
-Design documents are markdown files that convey how to work within your design system — brand voice, design principles, component usage rules, accessibility requirements, do/don't examples. They're read by you (and other AI agents) when designing or implementing. There are two kinds:
+Design documents are markdown files that convey how to work within your design system — brand voice, design principles, component usage rules, accessibility requirements, do/don't examples. They're read by you (and other coding agents) when designing or implementing. There are two kinds:
 
 - **Project-scoped docs** — cover broad guidance like design principles, project-wide conventions, onboarding notes. A project can have many.
 - **Component-scoped docs** — attached directly to a specific component; cover specifics for that component like "when to use this" and do/don't examples. **A component can have at most one design document.**
@@ -393,7 +395,7 @@ Read existing docs first via `get_project_info` (returns project-level `docs`) o
 
 ### What belongs in a design document
 
-Design documents are for **design judgment that Subframe's structured data can't carry**. They should be concise and contain information that is unobvious to a consumer of the design system. The Subframe design AI already has access to:
+Design documents are for **design judgment that Subframe's structured data can't carry**. They should be concise and contain information that is unobvious to a consumer of the design system. Subframe's agent already has access to:
 
 - **Component code** (props, JSX, styles)
 - **The theme** (colors, fonts, corners, shadows, typography tokens)
@@ -412,7 +414,7 @@ Restating any of that in a doc is wasted space. Reach instead for the layer abov
 
 **Does NOT belong in a design doc:**
 
-- Prop tables or API documentation — the design AI reads the component code already
+- Prop tables or API documentation — the agent reads the component code already
 - Theme token values (hex codes, pixel spacing, shadow definitions, radius values) — the theme already holds these. If the project's theme is wrong or empty, fix the theme via `edit_theme`; don't paper over it in a doc.
 - Inline JSX or Tailwind class examples — these should be embedded snippets instead
 - Common design standards — if any designer would follow a pattern by default, don't restate it. Only document practices unique to this design system. When a common standard does hold particular importance, write the project-specific angle ("Confirm before destructive actions — restate the noun in the dialog, e.g. 'Delete survey' not 'Are you sure?'"), not the standard itself.
@@ -456,9 +458,9 @@ When the project has codebase context, the description should carry the **actual
 - Token modules (`tokens.ts`, `tokens.json`, `theme.ts`, Style Dictionary exports)
 - Font config (`next/font`, CSS `@font-face`, font import URLs)
 
-Paste each file in a fenced block headed by its path (`// tailwind.config.ts`). Don't summarize token values — the AI's accuracy on color, spacing, and typography depends on the exact strings.
+Paste each file in a fenced block headed by its path (`// tailwind.config.ts`). Don't summarize token values — the agent's accuracy on color, spacing, and typography depends on the exact strings.
 
-**Only let the design AI invent tokens when there is genuinely no codebase theme source.** In that case, say so explicitly in the description.
+**Only let the agent invent tokens when there is genuinely no codebase theme source.** In that case, say so explicitly in the description.
 
 ### Risk-classify before calling
 
@@ -489,10 +491,10 @@ When the user wants to consolidate tokens (e.g., `brand-50` through `brand-900` 
 
 Four tools, one per resource type. **Always confirm with the user before calling any delete tool** — these are irreversible from MCP (the Subframe editor retains version history for restore, but recovery is manual and may require reverting changes that occurred after).
 
-- `delete_page({ id|name|url, projectId, force? })` — deletes a page, removing it from its flow and stripping prototype actions referencing it. Refuses by default if referenced in other pages. Use `force: true` to delete anyway. Page layouts can't be deleted with this tool — use `delete_component` (it cascades to clear `pageOptions.layout` on every page using the layout).
+- `delete_page({ id|name|url, projectId, force? })` — deletes a page, removing it from its canvas and stripping prototype actions referencing it. Refuses by default if referenced in other pages. Use `force: true` to delete anyway. Page layouts can't be deleted with this tool — use `delete_component` (it cascades to clear `pageOptions.layout` on every page using the layout).
 - `delete_component({ id|name|url, projectId, force? })` — deletes a component or page layout. Detaches instances or clears layouts. Refuses by default if in use. Use `force: true` to delete anyway.
 - `delete_snippet({ id|name|url, projectId })` — deletes a snippet. Any design document embeds are removed automatically.
-- `delete_flow({ id|name|url, projectId, deleteChildPages? })` — deletes a flow. Refuses if it contains pages. Use `deleteChildPages: true` to delete the flow plus every page inside it.
+- `delete_canvas({ id|name|url, projectId, deleteChildPages? })` — deletes a canvas. Refuses if it has pages on it. Use `deleteChildPages: true` to delete the canvas plus every page on it.
 
 When a delete tool refuses because of references, surface what it would affect to the user before retrying with `force: true` / `deleteChildPages: true`. Don't auto-escalate to force-mode without confirmation.
 
@@ -500,9 +502,9 @@ When a delete tool refuses because of references, surface what it would affect t
 
 The user reviews and refines designs in the Subframe editor, not in code. When they come back asking to combine ideas, refine a specific direction, or iterate further:
 
-- **They reference a specific variation** (by pasted MCP link, by name, or by describing it). If you need to find the variation's `pageId`, call `get_flow_info` with the `flowId` from the original `design_page` response — it returns the pages in the flow with names and IDs. Make targeted edits to that page, or call `design_page` with the page as `sourcePageId` (to evolve its exact structure) or as a `subframe` reference (for a fresh set of options grounded in that direction).
-- **They want to mix variations** ("I like the layout from variation 1 but the colors from variation 3"). Ask them to paste the MCP links of the variations they want to combine (or use `get_flow_info` to look up page IDs by name), then call `design_page` with those pages as `subframe` references whose usage notes say what to take from each, and a description of the combination.
-- **They want to start over** ("none of these are right"). Call `design_page` again with a refined description and any reference pages as `subframe` references. Use the same `flowName` to keep related work grouped.
+- **They reference a specific variation** (by pasted MCP link, by name, or by describing it). If you need to find the variation's `pageId`, call `get_canvas_info` with the `canvasId` from the original `design_page` response — it returns the pages on the canvas with names and IDs. Make targeted edits to that page, or call `design_page` with the page as `sourcePageId` (to evolve its exact structure) or as a `subframe` reference (for a fresh set of options grounded in that direction).
+- **They want to mix variations** ("I like the layout from variation 1 but the colors from variation 3"). Ask them to paste the MCP links of the variations they want to combine (or use `get_canvas_info` to look up page IDs by name), then call `design_page` with those pages as `subframe` references whose usage notes say what to take from each, and a description of the combination.
+- **They want to start over** ("none of these are right"). Call `design_page` again with a refined description and any reference pages as `subframe` references. Use the same `canvasName` to keep related work on the same canvas.
 - **They want to iterate on a component or snippet**. Use `edit_component` / `edit_snippet` for targeted changes; the resource keeps its identity and existing usages stay wired up.
 
 You don't have to read the generated code by default — Subframe renders the designs and the user reviews them visually in the editor, so summarizing them in chat usually isn't useful. When reading the code would genuinely help (the user asks what was generated, you're picking which design to extend, etc.), call `wait_for_jobs` if necessary and then the required `get_*_info` calls.
