@@ -3,7 +3,7 @@ title: Overview
 description: Learn the Subframe editor interface and navigate between editing modes.
 ---
 
-The Subframe editor is where you design pages, build components, and export production-ready code. Switch between three modes depending on your task, and open Ask AI from any of them.
+The Subframe editor is where you design pages, build components, and export production-ready code. Switch between three modes depending on your task, and open agent chat from any of them.
 
 ## Editor modes
 
@@ -14,9 +14,9 @@ The Subframe editor is where you design pages, build components, and export prod
   />
 </Frame>
 
-{/* TODO: Update image — the mode switcher now shows Design, Prototype, and Code; Ask AI is a docked panel toggled from the toolbar */}
+{/* TODO: Update image — the Design, Prototype, and Code tabs now sit at the top of the Inspector panel */}
 
-You can use the mode buttons in the top-right of the editor to switch between the following modes:
+Use the mode tabs at the top of the Inspector panel to switch between the following modes:
 
 <CardGroup cols={2}>
   <Card title="Design Mode" icon="square-mouse-pointer">
@@ -30,7 +30,7 @@ You can use the mode buttons in the top-right of the editor to switch between th
   </Card>
 </CardGroup>
 
-[Ask AI](/learn/ask-ai/prompt-to-design) is available in every mode — click the **Ask AI** button in the toolbar or press <kbd>Cmd</kbd> + <kbd>/</kbd> to open the docked panel and generate pages, components, and theme changes from a prompt.
+[Agent chat](/design/ask-ai/prompt-to-design) is available in every mode. Click the **Agent** button in the toolbar or press <kbd>Cmd</kbd> + <kbd>/</kbd> to open the docked panel and generate pages, components, and theme changes from a prompt.
 
 ## Editor layout
 
@@ -44,7 +44,7 @@ The editor consists of three main areas: left panel, canvas (center), and Inspec
 
 You have the following panels available to you:
 
-**Pages** — Switch between pages and flows in your project. Navigate to different designs or subcomponents when editing components.
+**Pages** — Switch between pages and canvases in your project. Navigate to different designs or subcomponents when editing components.
 
 **Layers** — View and organize the element hierarchy for the current page. Select, reorder, or group elements. Shows the complete component tree.
 
@@ -58,13 +58,13 @@ A toolbar at the bottom of the canvas gives you quick access to actions: the **S
 
 ### Inspector (right panel)
 
-This is the context-aware properties panel that changes based on editor mode and selected element.
+This is the context-aware properties panel that changes based on editor mode and selected element. The top of the Inspector holds the **Share** button, collaborator avatars, and the mode tabs.
 
 For example, in design mode, you'll see layout, sizing, colors, backgrounds, borders, shadows, padding, overflow, and component properties. In code mode, you'll see the Inspect tab, which shows the code for the selected element.
 
 ### Show and hide panels
 
-Press <kbd>Cmd</kbd> + <kbd>\\</kbd> to cycle through panel layouts: both panels visible, left panel collapsed, then both panels hidden. Press <kbd>Cmd</kbd> + <kbd>.</kbd> to show or hide all panels at once, including the Ask AI panel.
+Press <kbd>Cmd</kbd> + <kbd>\\</kbd> to cycle through panel layouts: both panels visible, left panel collapsed, then both panels hidden. Press <kbd>Cmd</kbd> + <kbd>.</kbd> to show or hide all panels at once, including agent chat. On the web, click the panel icon <Icon icon="panel-right" size={16} /> next to the **Agent** button to show or hide the Inspector.
 
 ## Responsive breakpoints
 
@@ -85,12 +85,12 @@ We recommend you design for desktop first, then add overrides only where needed.
 
 ## Collaboration
 
-Multiple team members can edit simultaneously. See who's viewing or editing with avatars at the top of the left panel.
+Multiple team members can edit simultaneously. See who's viewing or editing with avatars at the top of the Inspector panel.
 
 <Frame>
   <img src="/images/editor/editor-collaborators.png" alt="Editor collaboration showing the team members and avatars" />
 </Frame>
 
-Click the **Share** button in the top left, next to your avatar, to invite team members or create view-only links. Set roles (viewer/editor) and toggle public preview access.
+Click the **Share** button at the top of the Inspector panel to invite team members or create view-only links. Set roles (viewer/editor) and toggle public preview access.
 
-{/* TODO: Update screenshot — the Share control is now a text **Share** button in the top left, next to your avatar */}
+{/* TODO: Update screenshot — the **Share** button and avatars now sit at the top of the Inspector panel */}
