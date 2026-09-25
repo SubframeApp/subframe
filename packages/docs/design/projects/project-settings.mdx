@@ -63,26 +63,26 @@ Choose how icons are imported in generated code.
 
 #### Import as component
 
-Icons are imported as React components:
+Icons are imported as React components and passed as elements:
 
 ```tsx
-import { FeatherIcon } from "@/ui/components/FeatherIcon"
+import { FeatherCheck } from "@subframe/core"
 ```
 
 ```tsx
-<FeatherIcon name="check" />
+<Button icon={<FeatherCheck />} />
 ```
 
 #### Import as string
 
-Icons are referenced by name as strings:
+For legacy projects. Icons are referenced by name as strings:
 
 ```tsx
-import { Icon } from "@/ui/components/Icon"
+import * as SubframeCore from "@subframe/core"
 ```
 
 ```tsx
-<Icon name="FeatherCheck" />
+<SubframeCore.Icon name="FeatherCheck" />
 ```
 
 <Info>
