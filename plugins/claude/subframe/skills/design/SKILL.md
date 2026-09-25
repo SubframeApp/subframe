@@ -32,6 +32,9 @@ The key value: `/subframe:design` and `/subframe:develop` bridge coding and desi
 | Write or update written design / usage documentation                              | `write_design_document`                                                               |
 | Change project-wide colors, fonts, corners, shadows, typography                   | `edit_theme`                                                                          |
 | Remove a page, canvas, component, or snippet                                      | `delete_page` / `delete_canvas` / `delete_component` / `delete_snippet`               |
+| Rename a page, component, snippet, or canvas                                      | `rename`                                                                              |
+| Move a page to a different grid cell or canvas                                    | `move`                                                                                |
+| Make an exact copy of a page, component, snippet, or canvas                       | `duplicate`                                                                           |
 
 ## MCP access
 
@@ -497,6 +500,10 @@ Four tools, one per resource type. **Always confirm with the user before calling
 - `delete_canvas({ id|name|url, projectId, deleteChildPages? })` — deletes a canvas. Refuses if it has pages on it. Use `deleteChildPages: true` to delete the canvas plus every page on it.
 
 When a delete tool refuses because of references, surface what it would affect to the user before retrying with `force: true` / `deleteChildPages: true`. Don't auto-escalate to force-mode without confirmation.
+
+## Renaming, moving, and duplicating
+
+Use `rename` to rename a page, component, snippet, or canvas by id/name/url. Use `move` to move one or more pages to a different grid cell or canvas in a single, all-or-nothing call — pass both pages' target cells to swap them. Use `duplicate` for an exact copy of a page, component, snippet, or canvas (for a copy you then change with AI, use `design_page` with `sourcePageId` instead). Duplicating a canvas copies its pages, not its prototype.
 
 ## Iterating
 
