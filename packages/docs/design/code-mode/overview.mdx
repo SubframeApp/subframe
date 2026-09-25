@@ -7,21 +7,15 @@ Subframe generates high-quality React code [deterministically](/develop/concepts
 
 <Note>For a complete guide to working with Subframe code, see the [developer docs](/develop/overview).</Note>
 
-There are three tabs in code mode:
-
-- **Inspect** — Get code from your designs
-- **Installation** — Install MCP servers or get setup with an existing codebase or Replit
-- **Prompts** — Get prebuilt prompts after you install MCP server
-
 <Note>The canvas stays editable in code mode. You can insert elements and adjust the design without leaving code view, and the inspected code updates to match.</Note>
 
-## Installation
+## Setting up agents and your codebase
 
-Use the **Installation** tab for the following:
+Click **Connect MCP** in the **Code** tab to open **Agents** settings. You can also open it from your account menu. Use it to:
 
-- Setting up Subframe in your codebase
-- Setting up Claude Code, Cursor, or Codex MCP servers
-- Setting up a new Replit project
+- Connect Claude Code, Codex, Cursor, or Replit through the [MCP server](/agent/mcp-server)
+- Set up Subframe in your codebase with the [CLI](/develop/installation)
+- Sync components into your codebase
 
 ## Inspecting page code
 
@@ -29,10 +23,9 @@ Pages are screens built from components. After designing a page in Subframe, you
 
 1. Open the page in Subframe
 2. Click the **Code** tab at the top of the Inspector panel
-3. Open **Inspect**
-4. Copy the React code
+3. Copy the React code
 
-To copy code for part of a page, select the elements first. **Inspect** shows code for your selection.
+To copy code for part of a page, select the elements first. The **Code** tab shows code for your selection.
 
 <video
   autoPlay
@@ -46,7 +39,7 @@ To copy code for part of a page, select the elements first. **Inspect** shows co
 
 ## Inspecting elements
 
-1. Click on **Inspect** tab
+1. Click the **Code** tab
 2. Click on element you want to inspect
 3. Use dropdown to select what code format you want:
    - React + Tailwind code
@@ -55,7 +48,7 @@ To copy code for part of a page, select the elements first. **Inspect** shows co
 
 ## Syncing components
 
-1. Click on **Inspect** tab
+1. Click the **Code** tab
 2. Copy the `npx @subframe/cli@latest` command for syncing all components in the page or your selection
 
 To learn more about how syncing works, see [syncing components](/develop/concepts/syncing-components).
@@ -75,7 +68,7 @@ Agent chat automatically includes the page or canvas you are viewing and the pag
 
 ## Implementing a page with an external agent
 
-If your team already uses an external agent connected through the [MCP server](/agent/mcp-server), copy the MCP link from **Prompts** and paste it into your agent with your implementation request.
+If your team already uses an external agent connected through the [MCP server](/agent/mcp-server), copy the link under **Copy MCP link** in the **Code** tab and paste it into your agent with your implementation request.
 
 <Note>For new workflows, use Agent chat to implement the page.</Note>
 
