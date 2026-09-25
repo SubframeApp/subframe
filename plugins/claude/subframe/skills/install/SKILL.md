@@ -223,11 +223,11 @@ After init, verify everything was set up correctly. If the CLI missed something 
 
 ### 5. Troubleshooting
 
-If issues arise, use the `SearchSubframeDocs` MCP tool to find solutions:
+If issues arise, use the `search_subframe_docs` MCP tool to find solutions:
 
 ```
-SearchSubframeDocs({ query: "tailwind configuration troubleshooting" })
-SearchSubframeDocs({ query: "manual installation" })
+search_subframe_docs({ query: "tailwind configuration troubleshooting" })
+search_subframe_docs({ query: "manual installation" })
 ```
 
 The docs include a comprehensive manual installation guide for troubleshooting.
@@ -244,13 +244,9 @@ See [Verify Installation](#verify-installation) below.
 
 ## Configure Fonts
 
-The CLI does not configure fonts. Use the `get_theme` MCP tool to get font information:
+The CLI does not configure fonts. Call `list_fonts({ projectId: "PROJECT_ID" })` to get every font in the project — Google fonts (with weights) and custom fonts (with each face's weight, style, format, and public `url`).
 
-```
-get_theme({ projectId: "PROJECT_ID" })
-```
-
-The theme config includes `fontFamily` entries referencing Google Fonts. Add the corresponding `<link>` tags:
+**Google fonts** — only fonts `list_fonts` returns with `kind: "google"` are available by name; add `<link>` tags for those.
 
 **Vite / Astro** — Add to `<head>` in `index.html`:
 
@@ -277,6 +273,25 @@ The theme config includes `fontFamily` entries referencing Google Fonts. Add the
 - Replace spaces with `+` in font names (e.g., `Inter+Tight`)
 - Include weights from the theme in the `wght@` parameter (semicolon-separated)
 - Add one `<link>` per font family, but only one set of preconnect links
+
+**Custom fonts** — add an `@font-face` rule per face to the project's global CSS file, pointing at that face's `url` from `list_fonts`. Map `format`: `woff` → `format("woff")`, `woff2` → `format("woff2")`, `ttf` → `format("truetype")`, `otf` → `format("opentype")`.
+
+```css
+@font-face {
+  font-family: "Font Name";
+  src: url("https://.../font.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+```
+
+A variable face's `weight` is a `{ min, max }` range — use both numbers as the `font-weight` value:
+
+```css
+font-weight: 100 900;
+```
+
+One rule per face you're adding.
 
 ---
 
@@ -315,4 +330,4 @@ Mention next steps:
 
 ## Important Notes
 
-- Use `SearchSubframeDocs` MCP tool for troubleshooting any installation issues.
+- Use `search_subframe_docs` MCP tool for troubleshooting any installation issues.
