@@ -123,11 +123,21 @@ Snippets are small, standalone bits of UI typically embedded inside design docum
 
 A [canvas](/design/canvases) is a collection of related pages (e.g. "Onboarding", "Checkout").
 
-| Tool              | Description                                      |
-| ----------------- | ------------------------------------------------ |
-| `list_canvases`   | List all canvases                                |
-| `get_canvas_info` | Get a canvas and its ordered pages               |
-| `delete_canvas`   | Delete a canvas, optionally with the pages on it |
+| Tool              | Description                                         |
+| ----------------- | --------------------------------------------------- |
+| `list_canvases`   | List all canvases                                   |
+| `get_canvas_info` | Get a canvas and its pages with their grid position |
+| `delete_canvas`   | Delete a canvas, optionally with the pages on it    |
+
+### Organizing
+
+| Tool        | Description                                                                  |
+| ----------- | ---------------------------------------------------------------------------- |
+| `rename`    | Rename a page, component, snippet, or canvas                                 |
+| `move`      | Move pages to another grid cell or canvas; a batch of moves applies together |
+| `duplicate` | Make an exact copy of a page, component, snippet, or canvas                  |
+
+A duplicated canvas includes copies of its pages but not its prototype.
 
 ### Prototypes
 
