@@ -161,11 +161,10 @@ A component can have at most one design document. Snippets can be embedded as li
 
 ### Theme
 
-| Tool           | Description                                                    |
-| -------------- | -------------------------------------------------------------- |
-| `get_theme`    | Get a project's themes, breakpoints, and available fonts       |
-| `edit_theme`   | Edit a theme's colors, fonts, corners, shadows, and typography |
-| `search_icons` | Search the project's icon library                              |
+| Tool         | Description                                                    |
+| ------------ | -------------------------------------------------------------- |
+| `get_theme`  | Get a project's themes, breakpoints, and available fonts       |
+| `edit_theme` | Edit a theme's colors, fonts, corners, shadows, and typography |
 
 A project can hold several themes that share token names but differ in values. Theme edits apply immediately across every page and component.
 
@@ -173,6 +172,22 @@ A project can hold several themes that share token names but differ in values. T
   Deleting a theme token is destructive. Every reference to it in your designs is replaced with the token's value at
   deletion time, and those references stay detached even if you restore the token.
 </Warning>
+
+### Icons and fonts
+
+| Tool                  | Description                                                       |
+| --------------------- | ----------------------------------------------------------------- |
+| `search_icons`        | Search the project's icon library                                 |
+| `list_icons`          | List uploaded icons and the names of built-in icons               |
+| `get_icon_info`       | Get an uploaded icon's markup                                     |
+| `list_fonts`          | List Google and custom fonts, with each custom face's URL         |
+| `create_asset_upload` | Get an upload link for icon SVGs and font files from your machine |
+| `add_icons`           | Add uploaded SVGs to the icon library                             |
+| `add_fonts`           | Add uploaded font files as custom font families                   |
+| `delete_icons`        | Delete uploaded icons                                             |
+| `delete_fonts`        | Delete custom fonts, switching every use to a replacement font    |
+
+The agent uploads files with `curl`, so importing icons and fonts needs an agent that can run commands, like Claude Code, Codex, Cursor, or the Subframe desktop app — the upload link accepts files for 10 minutes, and uploaded files can be added with `add_icons` / `add_fonts` for about a day. A same-name upload replaces the earlier one everywhere it's used; a name that collides with a built-in icon's name or import name (e.g. `FeatherCheck`), or a Google font, is rejected instead.
 
 ### Design references
 

@@ -144,6 +144,10 @@ If a file has `@subframe/sync-disable`, the sync command skips it. To get the la
 1. Use `get_component_info` to fetch the latest code from Subframe
 2. Manually merge the changes with the local modifications
 
+### Icons and fonts
+
+Built-in icons come from `@subframe/core`; uploaded icons sync as component files in an `icons/` folder next to the synced components, and a targeted `sync <Names>` includes the ones those components use. Custom fonts need the `@font-face` setup from `/subframe:install`'s Configure Fonts step — they don't load from a `<link>` tag like Google fonts.
+
 ## Adding Business Logic
 
 Subframe generates presentational code with placeholder data. You add:

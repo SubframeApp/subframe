@@ -35,6 +35,9 @@ The key value: `/subframe:design` and `/subframe:develop` bridge coding and desi
 | Rename a page, component, snippet, or canvas                                      | `rename`                                                                              |
 | Move a page to a different grid cell or canvas                                    | `move`                                                                                |
 | Make an exact copy of a page, component, snippet, or canvas                       | `duplicate`                                                                           |
+| Find an icon to reference in design or edit code                                  | `search_icons`                                                                        |
+| Bring the codebase's icons or custom font files into the project                  | `create_asset_upload`, then `add_icons` / `add_fonts`                                 |
+| See or remove the project's icons and fonts                                       | `list_icons` / `list_fonts` / `get_icon_info`; `delete_icons` / `delete_fonts`        |
 
 ## MCP access
 
@@ -88,7 +91,7 @@ Subframe's agent is far more accurate when the call carries raw code than when i
 
 - `{ kind: "subframe", id }` — an existing Subframe page, component, or snippet (by ID or name; resolved server-side, no need to inline its code)
 - `{ kind: "code", content }` — raw code from the codebase (the surface to recreate, data types, usage patterns)
-- `{ kind: "image", url }` — a Subframe-hosted upload URL (e.g. an image the user pasted from Subframe). Uploads only happen inside the Subframe app — there is no MCP or CLI upload, so skip this kind unless you were given an upload URL. Local files or arbitrary URLs are rejected; up to 5 images are used per call, each applied per its own `usage` note.
+- `{ kind: "image", url }` — a Subframe-hosted upload URL (e.g. an image the user pasted from Subframe). Reference images must already be hosted by Subframe (asset uploads don't produce them), so skip this kind unless you were given such a URL. Local files or arbitrary URLs are rejected; up to 5 images are used per call, each applied per its own `usage` note.
 
 `usage` says how the generator should use THAT reference — e.g. "match this page's layout and header" or "recreate this mockup exactly". Always write it: the generator sees only the description plus the references, not your reasoning. (`edit_page` / `edit_snippet` are node-targeted and take no grounding.)
 
@@ -461,6 +464,8 @@ When the project has codebase context, the description should carry the **actual
 - Token modules (`tokens.ts`, `tokens.json`, `theme.ts`, Style Dictionary exports)
 - Font config (`next/font`, CSS `@font-face`, font import URLs)
 
+A custom font the codebase ships as files must be added with `add_fonts` first (see [Icons and fonts](#icons-and-fonts)); only the Google fonts `list_fonts` lists are available by name.
+
 Paste each file in a fenced block headed by its path (`// tailwind.config.ts`). Don't summarize token values — the agent's accuracy on color, spacing, and typography depends on the exact strings.
 
 **Only let the agent invent tokens when there is genuinely no codebase theme source.** In that case, say so explicitly in the description.
@@ -490,14 +495,30 @@ When the user wants to consolidate tokens (e.g., `brand-50` through `brand-900` 
 
 - **Styling individual pages or snippets** — edit those resources directly; theme token changes apply project-wide.
 
+## Icons and fonts
+
+Before writing an icon name into `design_page` / `edit_page` / `design_component` / `edit_component` / `design_snippet` / `edit_snippet` code, call `search_icons` and use an exact returned name — unknown names are cleared, and an unknown bare component tag fails the edit. If the library has no match, draw the icon inline as SVG, or import the codebase's icons (below) if the user wants their own.
+
+When the user asks to bring their own icons or fonts into the project, take them from the codebase:
+
+1. Find the files: icon SVGs (an icons folder or sprite; for icon components, write each one's SVG to a file first) and the font files its `@font-face` or `next/font` setup loads, for any font not already in `list_fonts`. Only Google fonts `list_fonts` lists are available by name in `edit_theme` — any other font, a Google one included, needs its files uploaded with `add_fonts`.
+2. Call `create_asset_upload` once, then POST every file to the returned `url` with the returned form fields. The result includes a ready-to-run `curl` example; the path after `keyPrefix` is the file's `path` in the next step. The upload link accepts files for 10 minutes; once uploaded, add them with `add_icons` / `add_fonts` within about a day. A new `create_asset_upload` call returns a new `uploadId` — files from different uploads need separate `add_*` calls.
+3. Call `add_icons` or `add_fonts` with the `uploadId`. Give each icon a `colorMode` — `monotone` follows the text color, flattening transparency; `duotone` follows the text color but keeps each shape's own opacity; `multicolor` keeps the SVG's own colors. Gradients, masks, filters, patterns, images, text, and shapes reused through `<use>` or `<symbol>` aren't supported: they're dropped on import, and a multicolor gradient fill renders black. `add_icons` turns whatever name you give it into an import name (`my_icon` → `MyIcon`) and returns each added or replaced icon's `id` and import name — use the returned name in code. `get_icon_info` and `delete_icons` take ids from `list_icons` or from `add_icons` results.
+4. Report every failed file and replaced icon to the user instead of retrying silently. A same-name uploaded icon replaces the earlier upload everywhere it's used. An icon name that matches a built-in icon's name or import name (e.g. `FeatherCheck`) fails, and so does an empty name. A font family named like a Google font fails by design.
+
+`list_icons` and `list_fonts` show what the project already has, and `get_icon_info` returns an uploaded icon's markup.
+
 ## Deletion
 
-Four tools, one per resource type. **Always confirm with the user before calling any delete tool** — these are irreversible from MCP (the Subframe editor retains version history for restore, but recovery is manual and may require reverting changes that occurred after).
+One tool per resource type. **Always confirm with the user before calling any delete tool** — these are irreversible from MCP (the Subframe editor retains version history for restore, but recovery is manual and may require reverting changes that occurred after).
 
 - `delete_page({ id|name|url, projectId, force? })` — deletes a page, removing it from its canvas and stripping prototype actions referencing it. Refuses by default if referenced in other pages. Use `force: true` to delete anyway. Page layouts can't be deleted with this tool — use `delete_component` (it cascades to clear `pageOptions.layout` on every page using the layout).
 - `delete_component({ id|name|url, projectId, force? })` — deletes a component or page layout. Detaches instances or clears layouts. Refuses by default if in use. Use `force: true` to delete anyway.
 - `delete_snippet({ id|name|url, projectId })` — deletes a snippet. Any design document embeds are removed automatically.
 - `delete_canvas({ id|name|url, projectId, deleteChildPages? })` — deletes a canvas. Refuses if it has pages on it. Use `deleteChildPages: true` to delete the canvas plus every page on it.
+
+- `delete_icons({ ids, projectId })` — deletes uploaded icons. Designs using one lose the icon, unless the upload had replaced a built-in icon — then the built-in is restored in its place and the result says `restored`. Built-in icons can't be deleted.
+- `delete_fonts({ fonts: [{ id, replacementFontId }], projectId })` — deletes custom fonts; every use (theme tokens, the default font, designs) switches to the replacement, a Google or custom font id from `list_fonts`.
 
 When a delete tool refuses because of references, surface what it would affect to the user before retrying with `force: true` / `deleteChildPages: true`. Don't auto-escalate to force-mode without confirmation.
 
