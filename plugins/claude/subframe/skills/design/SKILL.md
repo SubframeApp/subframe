@@ -35,6 +35,9 @@ The key value: `/subframe:design` and `/subframe:develop` bridge coding and desi
 | Rename a page, component, snippet, or canvas                                      | `rename`                                                                              |
 | Move a page to a different grid cell or canvas                                    | `move`                                                                                |
 | Make an exact copy of a page, component, snippet, or canvas                       | `duplicate`                                                                           |
+| Find an icon to reference in design or edit code                                  | `search_icons`                                                                        |
+| Add icons or custom fonts to the project                                          | `create_asset_upload`, then `add_icons` / `add_fonts`                                 |
+| See or remove the project's icons and fonts                                       | `list_icons` / `list_fonts` / `get_icon_info`; `delete_icons` / `delete_fonts`        |
 
 ## MCP access
 
@@ -88,7 +91,7 @@ Subframe's agent is far more accurate when the call carries raw code than when i
 
 - `{ kind: "subframe", id }` — an existing Subframe page, component, or snippet (by ID or name; resolved server-side, no need to inline its code)
 - `{ kind: "code", content }` — raw code from the codebase (the surface to recreate, data types, usage patterns)
-- `{ kind: "image", url }` — a Subframe-hosted upload URL (e.g. an image the user pasted from Subframe). Uploads only happen inside the Subframe app — there is no MCP or CLI upload, so skip this kind unless you were given an upload URL. Local files or arbitrary URLs are rejected; up to 5 images are used per call, each applied per its own `usage` note.
+- `{ kind: "image", url }` — a Subframe-hosted upload URL (e.g. an image the user pasted from Subframe). Reference images must already be hosted by Subframe (asset uploads don't produce them), so skip this kind unless you were given such a URL. Local files or arbitrary URLs are rejected; up to 5 images are used per call, each applied per its own `usage` note.
 
 `usage` says how the generator should use THAT reference — e.g. "match this page's layout and header" or "recreate this mockup exactly". Always write it: the generator sees only the description plus the references, not your reasoning. (`edit_page` / `edit_snippet` are node-targeted and take no grounding.)
 
@@ -461,6 +464,8 @@ When the project has codebase context, the description should carry the **actual
 - Token modules (`tokens.ts`, `tokens.json`, `theme.ts`, Style Dictionary exports)
 - Font config (`next/font`, CSS `@font-face`, font import URLs)
 
+Any font `list_fonts` lists, Google or custom, is usable by name; add others with `add_fonts` first (see [Icons and fonts](#icons-and-fonts)).
+
 Paste each file in a fenced block headed by its path (`// tailwind.config.ts`). Don't summarize token values — the agent's accuracy on color, spacing, and typography depends on the exact strings.
 
 **Only let the agent invent tokens when there is genuinely no codebase theme source.** In that case, say so explicitly in the description.
@@ -490,14 +495,32 @@ When the user wants to consolidate tokens (e.g., `brand-50` through `brand-900` 
 
 - **Styling individual pages or snippets** — edit those resources directly; theme token changes apply project-wide.
 
+## Icons and fonts
+
+Use what the project has. Icons are referenced by exact name, so only use a name the Subframe project has: one returned by `search_icons` (built-in Lucide icons and uploads), `list_icons` (uploads only), or `add_icons`, or one already in the project's designs. An icon in the user's codebase isn't in the project until it's added. In design code, write an icon as `<SubframeCore.Icon name="FeatherCheck" />` or a component's icon prop (`<Button icon="FeatherCheck" />`); an unknown name is cleared. The component form `get_page_info` may show (`<FeatherCheck />`) also works, but an unknown icon tag fails the whole edit. App code differs; see the develop skill. Any font `list_fonts` lists, Google or custom, is usable by name in `edit_theme`.
+
+Add what the request needs. When the user asks for their icons, logo, or fonts, or for a font the project lacks, add them without asking. For an icon you need while designing, draw a one-off inline SVG instead, unless the user wants it kept.
+
+To add icons or fonts:
+
+1. Get the files: a codebase's icon SVGs (an icons folder or sprite; for icon components, write each one's SVG to a file first) and the font files its `@font-face` or `next/font` setup loads, SVG markup the user pastes, files at URLs they give you, or an SVG you draw. Write any markup to a file first.
+2. Call `create_asset_upload` once, then POST every file to the returned `url` with the returned form fields. The result includes a ready-to-run `curl` example; the path after `keyPrefix` is the file's `path` in the next step. The upload link accepts files for 10 minutes; once uploaded, add them with `add_icons` / `add_fonts` within about a day. A new `create_asset_upload` call returns a new `uploadId`, so files from different uploads need separate `add_*` calls.
+3. Call `add_icons` or `add_fonts` with the `uploadId`. Icons default to `monotone` and follow the text color; pass `colorMode: "multicolor"` only for logos or illustrations whose own colors matter. Decide this yourself rather than asking the user. Gradients, masks, filters, patterns, images, text, and shapes reused through `<use>` or `<symbol>` aren't supported: they're dropped on import, and a multicolor gradient fill renders black. `add_icons` turns whatever name you give it into an import name (`my_icon` → `MyIcon`) and returns each icon's `id` and import name; use the returned name in code. An empty name fails, and a name another icon already uses in code (e.g. the built-in Lucide icon `FeatherCheck`) gets a number suffix. A font family named like a Google font fails by design.
+4. Report every failed file and every replacement to the user instead of retrying silently.
+
+Adding can replace what's there: `add_icons` replaces an uploaded icon with the same name, and `add_fonts` replaces a custom font's face with the same weight and style. Either changes every design already using it. That's how to update an icon's artwork (`get_icon_info` shows its current markup) or a font's files, but confirm with the user first unless they asked for that update. Deleting always needs confirmation (see below); for `delete_fonts`, pick the closest available replacement font.
+
 ## Deletion
 
-Four tools, one per resource type. **Always confirm with the user before calling any delete tool** — these are irreversible from MCP (the Subframe editor retains version history for restore, but recovery is manual and may require reverting changes that occurred after).
+One tool per resource type. **Always confirm with the user before calling any delete tool** — these are irreversible from MCP (the Subframe editor retains version history for restore, but recovery is manual and may require reverting changes that occurred after).
 
 - `delete_page({ id|name|url, projectId, force? })` — deletes a page, removing it from its canvas and stripping prototype actions referencing it. Refuses by default if referenced in other pages. Use `force: true` to delete anyway. Page layouts can't be deleted with this tool — use `delete_component` (it cascades to clear `pageOptions.layout` on every page using the layout).
 - `delete_component({ id|name|url, projectId, force? })` — deletes a component or page layout. Detaches instances or clears layouts. Refuses by default if in use. Use `force: true` to delete anyway.
 - `delete_snippet({ id|name|url, projectId })` — deletes a snippet. Any design document embeds are removed automatically.
 - `delete_canvas({ id|name|url, projectId, deleteChildPages? })` — deletes a canvas. Refuses if it has pages on it. Use `deleteChildPages: true` to delete the canvas plus every page on it.
+
+- `delete_icons({ ids, projectId })` — deletes uploaded icons. Designs using one lose the icon, unless the upload had replaced a built-in Lucide icon — then that icon is restored in its place and the result says `restored`. Built-in Lucide icons can't be deleted.
+- `delete_fonts({ fonts: [{ id, replacementFontId }], projectId })` — deletes custom fonts; every use (theme tokens, the default font, designs) switches to the replacement, a Google or custom font id from `list_fonts`.
 
 When a delete tool refuses because of references, surface what it would affect to the user before retrying with `force: true` / `deleteChildPages: true`. Don't auto-escalate to force-mode without confirmation.
 

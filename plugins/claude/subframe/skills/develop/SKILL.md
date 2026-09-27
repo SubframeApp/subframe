@@ -144,6 +144,20 @@ If a file has `@subframe/sync-disable`, the sync command skips it. To get the la
 1. Use `get_component_info` to fetch the latest code from Subframe
 2. Manually merge the changes with the local modifications
 
+### Icons and fonts
+
+Import icons the way the project's synced code does. By default:
+
+- Built-in Lucide icons (Feather-prefixed, e.g. `FeatherCheck`) are named exports of `@subframe/core`: `import { FeatherCheck } from "@subframe/core"`.
+- Uploaded icons are default exports of files in the synced `icons/` folder (`import ArrowLeft from "@/ui/icons/ArrowLeft"`, with your alias), or of your own package if the project's Import settings point icons there.
+- Icons are passed as elements: `<Button icon={<FeatherCheck />} />`. A name string renders as text.
+
+Legacy projects set to import icons as strings use `<SubframeCore.Icon name="FeatherCheck" />` and `<Button icon="FeatherCheck" />` instead; follow what the synced components' prop types expect.
+
+Syncing components also syncs the uploaded icons they use. Pages aren't synced, so an uploaded icon only a page uses needs `sync --all`, or a file you create in `icons/` from `get_icon_info`'s markup, shaped like the others there.
+
+Custom fonts load through the `@font-face` setup in `/subframe:install`'s Configure Fonts step; Google fonts load from a `<link>` tag.
+
 ## Adding Business Logic
 
 Subframe generates presentational code with placeholder data. You add:
