@@ -1,10 +1,21 @@
 ---
 title: Import existing design system
-description: Import existing React components into Subframe.
+description: Bring your theme, components, and icons from code into Subframe.
 ---
 
-You can import your existing design system into Subframe from code or from Figma.
+## Importing from your codebase
 
-1. [Import your theme](/learn/theme/importing-tokens)
-2. [Import your components](/learn/components/overview#importing-components) one-by-one
-3. Use [AI quick edits](/learn/ask-ai/making-quick-edits) to refine the design, if needed
+In the [desktop app](/desktop-app), Agent chat can read your codebase and add your theme, components, and icons to the project.
+
+1. Open **Theme**, **Components**, or **Icons** in the left sidebar
+2. Click **Import** and select **Import from codebase...**
+3. If your project isn't connected to a codebase yet, click **Open local codebase...** and choose your app's root folder
+4. Review the prefilled prompt in Agent chat and send it
+
+For components, the agent starts with a few core ones, like buttons, inputs, and cards, then lists what else it found so you can pick more.
+
+## Importing from files
+
+To import tokens from a Tailwind config, CSS, or a Figma export, see [Importing tokens](/design/theme/importing-tokens). To add SVG icons, open **Icons**, click **Import**, and select **Upload from file...**.
+
+After importing, use [Agent chat](/design/ask-ai/making-quick-edits) to refine the design if needed.
