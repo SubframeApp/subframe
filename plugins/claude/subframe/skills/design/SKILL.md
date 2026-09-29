@@ -17,6 +17,7 @@ Use this skill when the user wants to:
 - Capture design intent or component usage guidance as a Subframe design document
 - Update the Subframe project's visual theme (colors, fonts, corners, shadows, typography)
 - Remove Subframe pages, components, snippets, or canvases that are no longer needed
+- Act on design feedback your team left as comments on Subframe pages
 
 The key value: `/subframe:design` and `/subframe:develop` bridge coding and design. They work in both directions — create designs while coding and then ensure your code exactly reflects your design.
 
@@ -35,6 +36,7 @@ The key value: `/subframe:design` and `/subframe:develop` bridge coding and desi
 | Rename a page, component, snippet, or canvas                                      | `rename`                                                                              |
 | Move a page to a different grid cell or canvas                                    | `move`                                                                                |
 | Make an exact copy of a page, component, snippet, or canvas                       | `duplicate`                                                                           |
+| Read the design feedback left as comments on pages                                | `list_comments`                                                                       |
 | Find an icon to reference in design or edit code                                  | `search_icons`                                                                        |
 | Add icons or custom fonts to the project                                          | `create_asset_upload`, then `add_icons` / `add_fonts`                                 |
 | See or remove the project's icons and fonts                                       | `list_icons` / `list_fonts` / `get_icon_info`; `delete_icons` / `delete_fonts`        |
@@ -527,6 +529,12 @@ When a delete tool refuses because of references, surface what it would affect t
 ## Renaming, moving, and duplicating
 
 Use `rename` to rename a page, component, snippet, or canvas by id/name/url. Use `move` to move one or more pages to a different grid cell or canvas in a single, all-or-nothing call — pass both pages' target cells to swap them. Use `duplicate` for an exact copy of a page, component, snippet, or canvas (for a copy you then change with AI, use `design_page` with `sourcePageId` instead). Duplicating a canvas copies its pages, not its prototype.
+
+## Comments
+
+Use `list_comments` to read the comments your team left on pages. Pass a page or canvas by id/name/url (a canvas covers the pages placed on it), or nothing for the whole project. It returns open threads unless `includeResolved` is set. Each thread's `nodeId` is the commented element's `data-node-id` from `get_page_info` with `includeNodeIds: true`, so you can change it with `edit_page` or `update_node_styles`; it's null when the element was deleted.
+
+Comments are read-only over MCP — replying and resolving happen in the Subframe editor.
 
 ## Iterating
 
