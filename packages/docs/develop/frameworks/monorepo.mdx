@@ -1,117 +1,65 @@
 ---
 title: Sharing components in a monorepo
 sidebarTitle: Monorepo
-description: Set up Subframe in a monorepo to share components across multiple apps.
+description: Sync one component library and use it across apps in your workspace.
 ---
 
-When building complex apps with multiple frontends, it can be useful to use a monorepo setup so you can import the same components into many different apps.
-
-<Note>
-  For this guide we'll assume that you're using [Turborepo](https://turbo.build/repo/docs) as your monorepo and
-  [Next.js](https://nextjs.org/) for your frontend. Monorepo-specific functionality should work with any package manager
-  or framework that supports [workspaces](https://docs.npmjs.com/cli/v7/using-npm/workspaces?v=true). For more
-  information visit the [manual installation guide](/develop/frameworks/manual) and the framework guide for your
-  frontend of choice.
-</Note>
+This example uses a shared package at `packages/subframe` and a Next.js app at `apps/web`. Set up React and Tailwind in the app first. The same package structure works with other frameworks that can compile shared React source.
 
 ## Creating a shared package
 
-Since we're using Turborepo, we can use the `turbo generate` command to create a package in our monorepo where we'll be importing our Subframe components. We'll call the package `@repo/subframe`.
+Create `packages/subframe` and include it in your package manager's workspaces. Start with this `package.json`:
 
-<Tip>
-  If you're using a different monorepo framework or just plain workspaces, you can just duplicate an existing package
-  directory and change the contents accordingly.
-</Tip>
-
-<CodeGroup>
-
-```bash npm
-npx turbo generate workspace --name @repo/subframe --type package
+```json packages/subframe/package.json
+{
+  "name": "@repo/subframe",
+  "version": "0.0.0",
+  "private": true
+}
 ```
 
-```bash yarn
-yarn turbo generate workspace --name @repo/subframe --type package
-```
-
-```bash pnpm
-pnpm turbo generate workspace --name @repo/subframe --type package
-```
-
-```bash bun
-bunx turbo generate workspace --name @repo/subframe --type package
-```
-
-</CodeGroup>
-
-On the interactive prompt, make sure to select your monorepo's TypeScript and ESLint config packages as `devDependencies` for the next step.
-
-We'll also want to integrate our monorepo's TypeScript and ESLint configuration, so we'll create the following two files:
-
-<CodeGroup>
-
-```javascript packages/subframe/eslint.config.mjs
-import { config } from "@repo/eslint-config/react-internal"
-
-/** @type {import("eslint").Linter.Config} */
-export default config
-```
+Add a TypeScript configuration for React. You can extend your monorepo's existing React configuration or use:
 
 ```json packages/subframe/tsconfig.json
 {
-  "extends": "@repo/typescript-config/react-library.json",
   "compilerOptions": {
-    "outDir": "dist"
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noEmit": true
   },
-  "include": ["ui"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["ui"]
 }
 ```
 
-</CodeGroup>
+Use the same React version as the consuming apps, and make React's type definitions available to this package.
 
 ## Installing Subframe
 
-We now want to install and configure Subframe in our new package. Let's do so by running the `@subframe/cli@latest init` command.
+Run the CLI inside the shared package:
 
-<CodeGroup>
-
-```bash npm
-cd packages/subframe && npx @subframe/cli@latest init --sync --dir ui
+```bash
+cd packages/subframe
+npx @subframe/cli@latest init --sync --dir ui --alias '@repo/subframe/*' --no-tailwind
 ```
 
-```bash yarn
-cd packages/subframe && yarn dlx @subframe/cli@latest init --sync --dir ui
-```
+Select your Subframe project and the Tailwind version used by your apps. Confirm the import alias update when prompted. The CLI syncs into `packages/subframe/ui` and installs `@subframe/core`; the consuming apps load the theme in the steps below.
 
-```bash pnpm
-cd packages/subframe && pnpx @subframe/cli@latest init --sync --dir ui
-```
-
-```bash bun
-cd packages/subframe && bunx --bun @subframe/cli@latest init --sync --dir ui
-```
-
-</CodeGroup>
-
-<Warning>
-  Make sure that you set the import alias to `@repo/subframe/*` during the initialization process. This will make sure that the code imports from Subframe will work within our UI apps later. 
-  If you forgot to set it, simply edit the importAlias key in your `.subframe/sync.json` file and run `@subframe/cli@latest init` again to sync the changed import alias to your Subframe project.
-
-```json packages/subframe/.subframe/sync.json {3}
-{
-  "directory": "ui",
-  "importAlias": "@repo/subframe/*"
-}
-```
-
-</Warning>
+<Note>
+  The import alias also changes code copied from your Subframe project. Use `@repo/subframe/*` in the local CLI
+  settings; the project's code export setting uses `@repo/subframe` without the wildcard.
+</Note>
 
 ## Exporting components from the package
 
-To be able to import our components from this package in other apps in the monorepo, we'll have to make sure they can find the components within our package, as well as Subframe's TailwindCSS config.
-Add these exports to your existing `package.json`, preserving the dependencies installed by the CLI. Include `tailwind-config` for v3 and `theme.css` when that file is generated:
+Add these exports to `package.json`, preserving the dependencies installed by the CLI. Include `tailwind-config` for v3 and `theme.css` when that file is generated:
 
-```json packages/subframe/package.json {5-10}
+```json packages/subframe/package.json
 {
   "name": "@repo/subframe",
   "version": "0.0.0",
@@ -127,109 +75,66 @@ Add these exports to your existing `package.json`, preserving the dependencies i
 }
 ```
 
-<Note>
-  Components and page layouts sync as directories (e.g. `components/Button/`), so each subpath export points at the
-  directory's `index.tsx` wrapper rather than a flat `.tsx` file. Subpath patterns are literal — they don't resolve a
-  directory to its `index`, so the `/index.tsx` must be explicit. See [Component
-  directories](/develop/upgrading/component-directories).
-</Note>
+Components and layouts sync as [directories](/develop/upgrading/component-directories). Their exports point to the `index.tsx` wrapper inside each directory. There is no generated `ui/index.ts` barrel.
 
 ## Linking the package to your app
 
-To install your local package to your app, add the following line to your frontend apps' `dependencies`:
+Add `@repo/subframe` to the consuming app's `dependencies`. Use `"*"` with npm, or `"workspace:*"` with pnpm, Bun, or modern Yarn. Run your package manager's install command from the repository root.
 
-<CodeGroup>
+This package exports TypeScript source. Configure the app's bundler to compile it. For Next.js, merge [transpilePackages](https://nextjs.org/docs/app/api-reference/config/next-config-js/transpilePackages) into your existing configuration:
 
-```text apps/web/package.json (npm and yarn)
-"@repo/subframe": "*"
+```javascript apps/web/next.config.mjs
+export default {
+  transpilePackages: ["@repo/subframe"],
+}
 ```
-
-```text apps/web/package.json (pnpm and bun)
-"@repo/subframe": "workspace:*"
-```
-
-</CodeGroup>
-
-Then run your package manager's `install` command to link your dependencies:
-
-<CodeGroup>
-
-```bash npm
-npm install
-```
-
-```bash yarn
-yarn install
-```
-
-```bash pnpm
-pnpm install
-```
-
-```bash bun
-bun install
-```
-
-</CodeGroup>
 
 ## Loading the theme in your app
 
 <Tabs>
   <Tab title="Tailwind v3">
+    Add the package's preset and component source path to the app's existing Tailwind configuration:
 
-<Note>
-  We assume you've already set up Tailwind CSS for your frontend app. If you haven't done so, follow the [Tailwind
-  CSS](https://v3.tailwindcss.com/docs/installation/using-postcss) guide.
-</Note>
-
-The key change here is that we need to import Subframe's tailwind config `preset` from our local package, as well as include the Subframe component source files in tailwind's `content` array:
-
-```javascript apps/web/tailwind.config.js {8, 14}
+```javascript apps/web/tailwind.config.js
 import subframePreset from "@repo/subframe/tailwind-config"
 
-/** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-    "./app/**/*.{js,ts,jsx,tsx}",
-    "./ui/**/*.{js,ts,jsx,tsx}",
-    "../../packages/subframe/ui/**/*.{js,ts,jsx,tsx}",
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
+  content: ["./{app,pages,components,src}/**/*.{js,ts,jsx,tsx}", "../../packages/subframe/ui/**/*.{js,ts,jsx,tsx}"],
   presets: [subframePreset],
 }
 ```
 
+    If your theme has dark mode, also import `@repo/subframe/theme.css` in the app's global stylesheet, before the Tailwind directives.
+
   </Tab>
   <Tab title="Tailwind v4">
+    Import the theme and register the shared component files for [class detection](https://tailwindcss.com/docs/detecting-classes-in-source-files#explicitly-registering-sources):
 
-<Note>
-  We assume you've already set up Tailwind CSS v4 for your frontend app. If you haven't done so, follow the [Tailwind
-  CSS v4](https://tailwindcss.com/docs/installation) guide.
-</Note>
-
-With Tailwind v4, you need to add two directives to your global CSS file (typically `globals.css`, `index.css`, or `styles.css`):
-
-```css apps/web/globals.css {2,3}
+```css apps/web/app/globals.css
 @import "tailwindcss";
-@import "../../packages/subframe/ui/theme.css";
-@source "../../packages/subframe/**";
+@import "@repo/subframe/theme.css";
+@source "../../../packages/subframe/ui";
 ```
 
-- The `@import` directive extends your styles with the Subframe theme
-- The `@source` directive ensures Tailwind discovers the Subframe component files during class name detection
-
-Make sure to adjust the relative paths based on your monorepo structure.
+    The `@source` path is relative to this stylesheet. Adjust it if your CSS file lives elsewhere.
 
   </Tab>
 </Tabs>
 
-## Using the shared components
+Install any [custom fonts](/design/theme/adding-custom-fonts#installing-fonts-in-your-codebase) in each consuming app.
 
-You can now import Subframe components directly into your app. Since we changed the import alias to the name of your local package, all imports generated by the Subframe app will resolve to the components in your `@repo/subframe` package.
+## Using and updating the shared components
 
-![@repo/subframe import example](/images/frameworks/monorepo/subframe-import-example.webp)
+Import components through the package:
+
+```tsx
+import { Button } from "@repo/subframe/components/Button"
+```
+
+After design changes, run sync from `packages/subframe`:
+
+```bash
+npx @subframe/cli@latest sync --all
+```
+
+Each app uses the updated shared files. Follow the [sync customization rules](/develop/concepts/syncing-components) when adding wrappers or editing generated code.

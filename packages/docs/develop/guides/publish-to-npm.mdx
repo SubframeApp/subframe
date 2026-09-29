@@ -1,13 +1,32 @@
 ---
-title: Publishing to NPM
-description: Distribute components as a package.
+title: Publishing a component package
+sidebarTitle: Publishing to npm
+description: Distribute your generated React components through your team's package registry.
 ---
 
-For teams that want to distribute components as a package, set up a separate repository:
+Use a package when several apps need versioned releases of the same component library. Sync designs into the library repository, then let consuming apps install its releases.
 
-1. Create a new repo for your component library
-2. Follow the [installation instructions](/develop/installation) to initialize the project in that repo
-3. Sync components to this repo
-4. Publish to NPM with your standard workflow
+## Preparing the package
 
-Your apps can then install that package instead of syncing directly. If you need help with this, please join our [Slack community](https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ) for additional support.
+1. Create a package with a `package.json` and a React TypeScript configuration.
+2. [Initialize Subframe](/develop/installation) inside that package. Choose a dedicated sync directory and set the import alias to your package name, such as `@acme/ui/*`.
+3. Sync the components, then configure a library build that emits JavaScript and TypeScript declarations. Preserve `"use client"` directives when supporting React Server Components.
+4. Export the built components and layouts through their wrapper entry points. Include any generated icons, utilities, and theme files those exports need. The [monorepo guide](/develop/frameworks/monorepo#exporting-components-from-the-package) shows the source structure; a published build needs exports pointing to its emitted files.
+5. Declare the runtime dependencies used by your components, including `@subframe/core`. Declare compatible React and React DOM peer dependencies.
+
+Subframe generates source files. Your package's build and release workflow determines the published module formats, exports, and versions.
+
+## Loading styles in consuming apps
+
+Choose how consumers load the library's styles:
+
+- **Consumers use Tailwind:** export the generated theme and tell each app how to load it and scan your package's component files. Tailwind does not scan `node_modules` automatically; v4 needs an explicit `@source`, while v3 needs a matching `content` path.
+- **The package ships compiled CSS:** build the styles as part of your release, export the stylesheet, and tell consumers to import it.
+
+Include instructions for any font files or other assets your library requires.
+
+## Checking a release
+
+Build the package, then use [npm pack](https://docs.npmjs.com/cli/v11/commands/npm-pack/) to create a local tarball. Install that tarball in a consuming app and verify component imports, types, styles, fonts, and interactive behavior before publishing through your normal release workflow.
+
+For later updates, sync design changes into the library repository, rebuild, and publish a new version. Consuming apps receive the changes when they update the package.

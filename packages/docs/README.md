@@ -1,13 +1,31 @@
-# Subframe Docs
+# Subframe docs
 
-### Development
+The [Subframe documentation](https://docs.subframe.com) uses Mintlify. Pages are MDX files, and `docs.json` defines navigation and site settings.
 
-Run the following command at the root of your documentation (where docs.json is)
+## Previewing locally
 
+Install dependencies from the repository root with Node.js 24 and npm 11:
+
+```bash
+npm install
+npm run dev --workspace=@subframe/docs
 ```
-npm run dev
+
+Open the local URL printed by Mintlify. The workspace command runs in `packages/docs`, alongside `docs.json`.
+
+## Checking changes
+
+From the repository root, check internal links:
+
+```bash
+npm run broken-links --workspace=@subframe/docs
 ```
 
-#### Troubleshooting
+Validate the site from the docs directory:
 
-- Page loads as a 404 - Make sure you are running in a folder with `docs.json`
+```bash
+cd packages/docs
+npx mintlify validate
+```
+
+Preview changed pages to check formatting, examples, and navigation. A successful link check does not verify that product instructions or code examples are correct.
