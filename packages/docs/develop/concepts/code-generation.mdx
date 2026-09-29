@@ -3,18 +3,18 @@ title: Code generation
 description: How Subframe generates clean, production-ready React code.
 ---
 
-Subframe generates production-ready React code deterministically—no LLM involved.
+Subframe exports React code deterministically from your designs. The code exporter does not use an LLM; AI agents can use the exported code to implement designs in your app.
 
 ## How it works
 
-When you make edits in Subframe, you're editing the underlying code directly. If it can't be translated to code, you can't do it in Subframe.
+Visual edits update the generated code you see in Subframe. To apply those changes to your codebase, copy the page code, sync components with the CLI, or ask an agent to implement the design. See [Exporting code](/design/code-mode/overview).
 
 Subframe's code output is designed to be:
 
 - **Deterministic** — The same design always produces the same code, without AI hallucinations or unexpected output.
 - **Clean** — You get a minimal set of changes. No extra wrappers, one-off components, or redundant styles.
 - **Instant** — Changes reflect real-time, without waiting for AI calls.
-- **Presentational** — No API calls, state management, or business logic for developers to unwind during handoff.
+- **Presentational** — Components can include built-in interactions such as opening a dropdown. You add application logic such as API calls, routing, and product-specific state in your codebase.
 
 <Frame caption="Increasing the size of text in Subframe reflects instantly in generated code.">
   <video

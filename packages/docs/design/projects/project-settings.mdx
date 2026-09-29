@@ -1,6 +1,6 @@
 ---
 title: Project settings
-description: Configure project settings like code generation and AI preferences.
+description: Configure code export settings and find your project context.
 ---
 
 ## Access project settings
@@ -8,21 +8,23 @@ description: Configure project settings like code generation and AI preferences.
 <Frame>
   <img
     src="/images/projects/project-settings-entrypoint.png"
-    alt="The Design System section in the left sidebar with the Project settings gear icon highlighted"
+    alt="Sidebar with the settings gear icon highlighted"
   />
 </Frame>
 
-{/* TODO: Update image — project settings now opens from the Design System section, not the top-nav project switcher */}
+{/* TODO: Update image to show Configure code export next to Project in the sidebar */}
 
 1. Open your project in the editor
-2. In the left sidebar, find the **Design System** section
-3. Click the **Settings** <Icon icon="settings" size={16} /> icon next to **Design System**
+2. In the left sidebar, find the **Project** section
+3. Click the **Configure code export** <Icon icon="settings" size={16} /> icon next to **Project**
 
-You should see the project settings dialog.
+The **Code export settings** dialog opens.
 
 <Frame>
   <img src="/images/projects/project-settings.png" alt="Project settings showing the project settings dialog" />
 </Frame>
+
+{/* TODO: Update image to show Code export settings without the removed company context fields */}
 
 ## Import alias
 
@@ -40,22 +42,7 @@ Change this to match your project's directory structure and TypeScript path alia
 
 ## Company context
 
-Provide context to help AI generate designs that are more relevant to your product.
-
-#### Company name
-
-Your company or product name. AI uses this to personalize generated content and copy.
-
-#### Description
-
-Describe your company, product, and design preferences. This helps AI understand:
-
-- What your product does
-- Your target audience
-- Tone and style preferences
-- Any specific design guidelines
-
-<Tip>The more context you provide, the better AI can tailor designs to your brand and product.</Tip>
+Add company and product context in **Docs** under **Design System**. Use the document labeled **Always read by the agent** for your product description, audience, tone, and design guidelines. See [Personalizing AI](/design/ask-ai/personalizing-ai).
 
 ## Icon imports
 

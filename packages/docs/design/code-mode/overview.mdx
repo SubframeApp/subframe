@@ -5,7 +5,7 @@ description: View and export code from your designs.
 
 Subframe generates high-quality React code [deterministically](/develop/concepts/code-generation) from your designs.
 
-<Note>For a complete guide to working with Subframe code, see the [developer docs](/develop/overview).</Note>
+<Note>To build and sync a component library managed in Subframe, see [Starting your design system in Subframe](/develop/overview). To work with an existing app, follow the [quickstart](/quickstart).</Note>
 
 <Note>The canvas stays editable in code mode. You can insert elements and adjust the design without leaving code view, and the inspected code updates to match.</Note>
 
@@ -50,12 +50,13 @@ To copy code for part of a page, select the elements first. The **Code** tab sho
 
 1. Click the **Code** tab
 2. Copy the `npx @subframe/cli@latest` command for syncing all components in the page or your selection
+3. Run the command in your project's terminal
 
 To learn more about how syncing works, see [syncing components](/develop/concepts/syncing-components).
 
 ## Implementing a page with Agent chat
 
-Agent chat can implement a page directly in your connected codebase. Give it the page in any of these ways:
+In the desktop app, [connect your codebase](/agent/connecting-your-codebase) to let Agent chat implement a page directly in your local files. Give it the page in any of these ways:
 
 - Open the page or its canvas, then ask the agent to implement what you are viewing
 - Select the page before opening Agent chat

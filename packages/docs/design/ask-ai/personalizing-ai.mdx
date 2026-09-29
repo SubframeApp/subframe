@@ -1,29 +1,24 @@
 ---
 title: Personalizing AI
-description: Train AI with your project context for more relevant design generations.
+description: Give the agent project context and design references for more relevant results.
 ---
 
-Subframe is the only AI design tool that learns from your designs, allowing you to train and personalize the AI for each project.
+Use project Docs to describe your product, audience, and design guidelines. The agent reads this context alongside your design system when working on designs.
 
 ## Project context
 
-Add a system prompt about your project (e.g. company description, tone preferences, design guidelines) to help AI generate designs that are more relevant to your product.
+1. Open **Docs** under **Design System**
+2. Open the document labeled **Always read by the agent**
+3. Describe your product, audience, tone, and design guidelines. Changes save automatically.
 
-<Frame>
-  <img src="/images/ask-ai/personalizing-ai.png" alt="Personalizing AI showing the project settings dialog" />
-</Frame>
+Use **New** to add more documents for specific features or patterns. The agent can read these as needed, and you can reference them explicitly with [@](/design/ask-ai/adding-context).
 
-{/* TODO: Update image — project context is now configured in project settings, not from the agent chat bar */}
-
-1. Open [project settings](/design/projects/project-settings)
-2. Enter your **Company name**
-3. Enter your **project description** — describe your company, product, and design preferences
-4. Click **Save** to apply your settings
+{/* TODO: Add image of project Docs and the document labeled Always read by the agent */}
 
 ## Referencing existing designs
 
-The agent automatically references your existing designs when generating new ones. Three things influence AI in your project:
+Give the agent references to guide its work:
 
-- **Design system**: Your components and theme keep everything on brand
-- **Your pages**: AI learns from pages you design
-- **Snippets**: Pre-built compositions like headers and nav bars that AI references
+- **Design system**: Your components and theme provide reusable building blocks and tokens
+- **Pages**: Reference a page with **@** when you want the agent to follow its layout or style
+- **Snippets**: Reference reusable compositions such as headers and navigation bars
