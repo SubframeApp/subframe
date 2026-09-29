@@ -15,8 +15,6 @@
   </a>
 </p>
 
-[![Subframe’s canvas, browser, and coding agent](.github/assets/subframe.png)](https://subframe.com)
-
 ## Packages
 
 - `@subframe/core`: interactive primitives and utilities used by Subframe components.
