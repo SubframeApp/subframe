@@ -15,7 +15,7 @@
   </a>
 </p>
 
-[![Subframe logo and wordmark on a light background](.github/assets/subframe.png)](https://subframe.com)
+[![Subframe’s canvas, browser, and coding agent](.github/assets/subframe.png)](https://subframe.com)
 
 ## Packages
 
