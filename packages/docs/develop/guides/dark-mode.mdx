@@ -107,13 +107,14 @@ npm install next-themes
 ```
 
 ```tsx app/layout.tsx
+import type { ReactNode } from "react"
 import { ThemeProvider } from "next-themes"
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <ThemeProvider attribute="class" defaultTheme="system">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
         </ThemeProvider>
       </body>
@@ -125,11 +126,13 @@ export default function RootLayout({ children }) {
 ### React with context
 
 ```tsx ThemeProvider.tsx
-import { createContext, useContext, useEffect, useState } from "react"
+"use client"
+
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
 
 const ThemeContext = createContext({ theme: "light", toggleTheme: () => {} })
 
-export function ThemeProvider({ children }) {
+export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState("light")
 
   useEffect(() => {
@@ -146,15 +149,34 @@ export function ThemeProvider({ children }) {
 export const useTheme = () => useContext(ThemeContext)
 ```
 
+With this custom provider, import `useTheme` from `./ThemeProvider` and call its `toggleTheme()` function from your toggle button.
+
 ### Theme toggle button
 
-```tsx
+For the Next.js setup, use `resolvedTheme` to handle system preferences and wait until the client mounts to [avoid hydration mismatches](https://github.com/pacocoursey/next-themes#avoid-hydration-mismatch):
+
+```tsx app/ThemeToggle.tsx
+"use client"
+
+import { useEffect, useState } from "react"
 import { useTheme } from "next-themes"
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  const { resolvedTheme, setTheme } = useTheme()
 
-  return <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>{theme === "dark" ? "☀️" : "🌙"}</button>
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) {
+    return null
+  }
+
+  const isDark = resolvedTheme === "dark"
+  return (
+    <button type="button" onClick={() => setTheme(isDark ? "light" : "dark")}>
+      Use {isDark ? "light" : "dark"} mode
+    </button>
+  )
 }
 ```
 
@@ -173,11 +195,7 @@ Always test your application in both light and dark modes. Check for:
 </Accordion>
 <Accordion title="Respect system preferences">
 
-Use the user's system preference as the default:
-
-```tsx
-<ThemeProvider attribute="class" defaultTheme="system">
-```
+For `next-themes`, set `defaultTheme="system"` on the provider, as shown in the Next.js example above.
 
 </Accordion>
 </AccordionGroup>

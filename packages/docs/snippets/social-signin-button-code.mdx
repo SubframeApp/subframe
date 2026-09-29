@@ -1,8 +1,8 @@
-```tsx SocialSignInButton.tsx expandable
+```tsx components/SocialSignInButton/SocialSignInButton.tsx expandable
 import React from "react"
-import * as SubframeUtils from "../utils"
+import * as SubframeUtils from "../../utils"
 
-interface SocialSignInButtonRootProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface SocialSignInButtonRootProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean
   variant?: "facebook" | "google" | "apple"
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void

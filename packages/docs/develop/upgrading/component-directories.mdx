@@ -52,23 +52,28 @@ It also makes [disabling sync](/develop/concepts/syncing-components#disabling-sy
 
 ## Adding business logic
 
-`index.tsx` is where your code goes. To extend a component, edit its `index.tsx` and add the `@subframe/sync-disable` marker so the CLI won't overwrite it on the next sync:
+`index.tsx` is where your code goes. To extend a component, edit its `index.tsx` and add the `@subframe/sync-disable` marker so the CLI won't overwrite it on the next sync. This wrapper adds a `busy` prop that your app sets while saving:
 
-```tsx index.tsx
+```tsx src/ui/components/Button/index.tsx
+"use client"
 // @subframe/sync-disable
-import { Button as ButtonComponent } from "./Button"
+import { forwardRef } from "react"
+import { Button as ButtonComponent, type ButtonRootProps } from "./Button"
 
-export function Button({ onSubmit, ...props }) {
-  const [loading, setLoading] = useState(false)
-
-  async function handleClick() {
-    setLoading(true)
-    await onSubmit()
-    setLoading(false)
-  }
-
-  return <ButtonComponent {...props} loading={loading} onClick={handleClick} />
+export interface ButtonProps extends ButtonRootProps {
+  busy?: boolean
 }
+
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  { busy = false, disabled, children, ...props },
+  ref,
+) {
+  return (
+    <ButtonComponent {...props} ref={ref} disabled={disabled || busy} aria-busy={busy}>
+      {busy ? "Saving…" : children}
+    </ButtonComponent>
+  )
+})
 ```
 
 `Button.tsx` has no marker, so it keeps syncing — design changes from Subframe still flow in, while your logic in `index.tsx` is preserved. Anything importing `@/ui/components/Button` gets your wrapped version automatically, with no import changes.
@@ -135,24 +140,24 @@ Because nothing breaks, you can migrate **incrementally** — sync a few compone
 
     **Relative imports.** Paths that were correct when the file was flat are now off by one level — siblings, shared root files, and cross-directory references all shift:
 
-    ```tsx
+    ```diff
     // components/Button/Button.tsx
-    import * as SubframeUtils from "../utils";    // ❌ correct when flat
-    import * as SubframeUtils from "../../utils"; // ✅ shared root files
+    - import * as SubframeUtils from "../utils";
+    + import * as SubframeUtils from "../../utils";
 
-    import { Tooltip } from "./Tooltip";  // ❌
-    import { Tooltip } from "../Tooltip"; // ✅ sibling components
+    - import { Tooltip } from "./Tooltip";
+    + import { Tooltip } from "../Tooltip";
 
     // layouts/DialogLayout/DialogLayout.tsx
-    import { Dialog } from "../components/Dialog";    // ❌
-    import { Dialog } from "../../components/Dialog"; // ✅
+    - import { Dialog } from "../components/Dialog";
+    + import { Dialog } from "../../components/Dialog";
     ```
 
     **Exported prop types.** The directory's `index.tsx` re-exports the component (`export const Button = ButtonComponent`), so TypeScript has to be able to name the types in its signature. If a moved file declares its prop interfaces without `export`, you'll get errors like _`Exported variable 'Button' has or is using name 'ButtonRootProps' … but cannot be named`_ (TS4023). Add `export` to those interfaces:
 
-    ```tsx
-    interface ButtonRootProps extends ... {}        // ❌
-    export interface ButtonRootProps extends ... {} // ✅
+    ```diff
+    - interface ButtonRootProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+    + export interface ButtonRootProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
     ```
 
     Files the CLI regenerates already export their prop types, so this only affects files you'd frozen with `@subframe/sync-disable`.

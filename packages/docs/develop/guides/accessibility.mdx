@@ -7,17 +7,31 @@ Subframe components are accessible by default. We use [Radix](https://www.radix-
 
 ## Adding accessibility attributes
 
-All components pass through props to the top-level element. You can add any ARIA attribute directly:
+Components pass through props to their root element. Put form attributes on `TextField.Input` so they reach the input rather than the surrounding label:
 
-```tsx
-<Button aria-label="Close dialog" aria-describedby="dialog-description">
-  <Icon name="FeatherX" />
-</Button>
+```tsx EmailField.tsx
+import { TextField } from "@/ui/components/TextField"
 
-<TextField aria-required="true" aria-invalid={hasError} />
-
-<Card role="article" aria-labelledby="card-title" />
+export function EmailField({ hasError = false }: { hasError?: boolean }) {
+  return (
+    <div>
+      <TextField label="Email">
+        <TextField.Input
+          name="email"
+          type="email"
+          autoComplete="email"
+          required
+          aria-invalid={hasError}
+          aria-describedby={hasError ? "email-error" : undefined}
+        />
+      </TextField>
+      {hasError && <p id="email-error">Enter a valid email address.</p>}
+    </div>
+  )
+}
 ```
+
+Use unique error IDs if you render multiple copies of this field.
 
 Common attributes you might use:
 

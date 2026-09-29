@@ -46,34 +46,25 @@ Under the hood, we use [Radix](https://www.radix-ui.com/) for interactive behavi
 All components pass through props to the top-level element. This means you can add `data-*` attributes, `tabIndex`, `onClick`, or any other standard HTML attribute directly to any component.
 
 ```tsx
-<Button onClick={handleSubmit} tabIndex={0} data-testid="submit-btn">
-  Submit
-</Button>
+import { Button } from "@/ui/components/Button"
+
+export function SaveButton({ onSave }: { onSave: () => void }) {
+  return <Button onClick={onSave}>Save changes</Button>
+}
 ```
 
 ### Using slots to access nested props
 
-It's common for components to contain interactive elements within them—like a card with a button. Slots let you access these nested elements' props:
+Use a slot or subcomponent to reach an element inside a component. In this example, form attributes belong on `TextField.Input`; the surrounding `TextField` supplies the label and layout:
 
 ```tsx
-import { TrackCard } from "@/ui/components/TrackCard"
+import { TextField } from "@/ui/components/TextField"
 
-function MyTrackCard({ onFavorite }) {
+export function EmailField() {
   return (
-    <TrackCard
-      title="Song Title"
-      artist="Artist Name"
-      // Slots let you access nested props, without top-level object props
-      // [!code highlight:8]
-      favoriteButtonSlot={
-        <TrackCard.FavoriteButton
-          icon="FeatherHeart"
-          onClick={() => {
-            // Add any business logic here
-          }}
-        />
-      }
-    />
+    <TextField label="Email">
+      <TextField.Input name="email" type="email" autoComplete="email" required />
+    </TextField>
   )
 }
 ```
@@ -84,23 +75,28 @@ The flexibility of slots lets you pass handlers, custom icons, or even swap in e
 
 For logic not supported by Radix or slots, wrap the Subframe component.
 
-Each component syncs as a directory: `components/Button/Button.tsx` is the source Subframe generates, and `components/Button/index.tsx` is a wrapper that re-exports it. The wrapper is yours to edit — add your logic there and mark it with `@subframe/sync-disable` so the CLI won't overwrite it:
+Each component syncs as a directory: `components/Button/Button.tsx` is the source Subframe generates, and `components/Button/index.tsx` is a wrapper that re-exports it. The wrapper is yours to edit — add your logic there and mark it with `@subframe/sync-disable` so the CLI won't overwrite it. This example adds a `busy` prop that your app sets while saving:
 
-```tsx components/Button/index.tsx
+```tsx src/ui/components/Button/index.tsx
+"use client"
 // @subframe/sync-disable
-import { Button as ButtonComponent } from "./Button"
+import { forwardRef } from "react"
+import { Button as ButtonComponent, type ButtonRootProps } from "./Button"
 
-export function Button({ onSubmit, ...props }) {
-  const [loading, setLoading] = useState(false)
-
-  async function handleClick() {
-    setLoading(true)
-    await onSubmit()
-    setLoading(false)
-  }
-
-  return <ButtonComponent {...props} loading={loading} onClick={handleClick} />
+export interface ButtonProps extends ButtonRootProps {
+  busy?: boolean
 }
+
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  { busy = false, disabled, children, ...props },
+  ref,
+) {
+  return (
+    <ButtonComponent {...props} ref={ref} disabled={disabled || busy} aria-busy={busy}>
+      {busy ? "Saving…" : children}
+    </ButtonComponent>
+  )
+})
 ```
 
 `Button.tsx` keeps syncing, so Subframe stays the source of truth for the visual layer — while `index.tsx` gives you the flexibility of code to add any business logic. Anything importing `@/ui/components/Button` gets your wrapped version, with no import changes.
