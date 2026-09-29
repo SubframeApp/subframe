@@ -139,6 +139,14 @@ A [canvas](/design/canvases) is a collection of related pages (e.g. "Onboarding"
 
 A duplicated canvas includes copies of its pages but not its prototype.
 
+### Comments
+
+| Tool            | Description                                                        |
+| --------------- | ------------------------------------------------------------------ |
+| `list_comments` | List the comment threads on a page, a canvas, or the whole project |
+
+Open threads are returned by default. Each thread's element id matches `get_page_info`'s node ids, so an agent can act on the feedback with `edit_page` or `update_node_styles`. Replying to and resolving comments happens in the Subframe editor.
+
 ### Prototypes
 
 A prototype is an interactive, AI-built running app — its own React + Vite codebase — created in the Subframe prototyping editor. The read tools below expose a prototype as a standalone, runnable Vite app: internal scaffolding is dropped and the Vite/Tailwind config plus an entrypoint are added, so the file paths and contents you get back are ready to run with `npm install && npm run dev`.
