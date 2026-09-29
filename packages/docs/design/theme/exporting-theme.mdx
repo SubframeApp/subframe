@@ -9,7 +9,7 @@ Your theme generates a Tailwind CSS configuration that your codebase uses for st
 
 ## View Tailwind config
 
-Click **Export** in the sidebar to view the generated Tailwind configuration for your theme. The dialog has two tabs:
+Open **Theme**, click **⋯** at the top, and select **Export theme…** to view its generated Tailwind configuration. The dialog has two tabs:
 
 - **Tailwind CSS v3** — Shows a `tailwind.config.js` file with your tokens as a JavaScript module
 - **Tailwind CSS v4** — Shows a `theme.css` file with your tokens as CSS variables inside a `@theme` block
@@ -36,6 +36,6 @@ Run the CLI to sync your theme and components to your codebase:
 
 <CliSyncAllCommand />
 
-This updates your local Tailwind config with new token values. Components automatically use the updated theme.
+This updates the generated Tailwind config or `theme.css` for the Tailwind version in your local `.subframe/sync.json`. Components use the new values once your app loads that theme.
 
 See [Installation](/develop/installation) for CLI setup instructions.

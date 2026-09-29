@@ -1,16 +1,27 @@
 ---
-title: Testing
-description: Add test attributes to Subframe components.
+title: Testing components
+sidebarTitle: Testing
+description: Target controls and add test attributes to generated components.
 ---
 
-All components pass through props to the top-level element. Add `data-testid` or other test attributes for use with testing tools like Playwright, Cypress, or Selenium:
+Prefer tests that find controls by their role and accessible name. When you need a test ID, add it to the element the test should interact with.
 
-```tsx
-<Button data-testid="submit-btn" onClick={handleSubmit}>
-  Submit
-</Button>
+## Adding test attributes
 
-<TextField data-testid="email-input" data-cy="email-field" />
+Props on a generated component reach its root element. For nested controls, add the attribute to the subcomponent:
+
+```tsx EmailField.tsx
+import { TextField } from "@/ui/components/TextField"
+
+export function EmailField() {
+  return (
+    <TextField label="Email">
+      <TextField.Input name="email" type="email" data-testid="email-input" />
+    </TextField>
+  )
+}
 ```
 
-For reusable test IDs, add them in the component's [wrapper `index.tsx`](/develop/concepts/syncing-components#wrapping-components) so they're included by default.
+Putting `data-testid` on `TextField` would identify the wrapper; putting it on `TextField.Input` identifies the input you can fill.
+
+Keep reusable test attributes in a [sync-protected wrapper](/develop/concepts/syncing-components#wrapping-components) when they should survive future syncs.

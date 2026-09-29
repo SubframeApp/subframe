@@ -7,7 +7,10 @@ Subframe generates high-quality React code [deterministically](/develop/concepts
 
 <Note>For a complete guide to working with Subframe code, see the [developer docs](/develop/overview).</Note>
 
-<Note>The canvas stays editable in code mode. You can insert elements and adjust the design without leaving code view, and the inspected code updates to match.</Note>
+<Note>
+  The canvas stays editable in code mode. You can insert elements and adjust the design without leaving code view, and
+  the inspected code updates to match.
+</Note>
 
 ## Setting up agents and your codebase
 
@@ -25,7 +28,7 @@ Pages are screens built from components. After designing a page in Subframe, you
 2. Click the **Code** tab at the top of the Inspector panel
 3. Copy the React code
 
-To copy code for part of a page, select the elements first. The **Code** tab shows code for your selection.
+To copy code for part of a page, select an element first. The **Code** tab shows that element's code.
 
 <video
   autoPlay
@@ -55,7 +58,7 @@ To learn more about how syncing works, see [syncing components](/develop/concept
 
 ## Implementing a page with Agent chat
 
-Agent chat can implement a page directly in your connected codebase. Give it the page in any of these ways:
+In the [desktop app](/desktop-app), [connect your codebase](/agent/connecting-your-codebase) so Agent chat can implement a page in your local files. Give it the page in any of these ways:
 
 - Open the page or its canvas, then ask the agent to implement what you are viewing
 - Select the page before opening Agent chat
@@ -69,8 +72,6 @@ Agent chat automatically includes the page or canvas you are viewing and the pag
 ## Implementing a page with an external agent
 
 If your team already uses an external agent connected through the [MCP server](/agent/mcp-server), copy the link under **Copy MCP link** in the **Code** tab and paste it into your agent with your implementation request.
-
-<Note>For new workflows, use Agent chat to implement the page.</Note>
 
 ```text
 Implement the design at https://app.subframe.com/PROJECT_ID/design/DESIGN_ID/edit.

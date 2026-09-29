@@ -8,7 +8,7 @@ Every project starts with two breakpoints, and you can add as many as you need:
 - **Desktop** <Icon icon="monitor" size={16} /> — The base layer. Applies at every width and owns everything wider than your largest breakpoint.
 - **Mobile** <Icon icon="smartphone" size={16} /> — Applies at 767px and below.
 
-Each breakpoint other than Desktop is a **max-width** breakpoint: it applies from the next-narrower breakpoint up to its own width. The base **Desktop** layer has no media query, so its styles apply everywhere unless a narrower breakpoint overrides them.
+Each breakpoint other than Desktop is a **max-width** breakpoint: its overrides apply at that width and below. A narrower breakpoint can override those values again. The base **Desktop** layer has no media query, so its styles apply everywhere unless a narrower breakpoint overrides them.
 
 ## Switching breakpoints
 
@@ -73,7 +73,7 @@ Each breakpoint exports as a max-width Tailwind variant named after the breakpoi
 </div>
 ```
 
-The generated Tailwind config registers each breakpoint under `screens` with its max width, so the variants map to standard media queries.
+For Tailwind v3, the generated config registers these breakpoints under `screens`. For Tailwind v4, `theme.css` defines custom variants. Both use max-width media queries.
 
 ## FAQ
 

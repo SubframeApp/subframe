@@ -1,102 +1,54 @@
 ---
-title: Vite
-description: Install Subframe in Vite projects.
+title: Installing in Vite
+sidebarTitle: Vite
+description: Set up Subframe components and import aliases in a React Vite app.
 ---
 
-<Note>
-  This guide assumes that you have already setup React and Tailwind CSS in your Vite app. If you haven't, please follow
-  the [Vite](https://vite.dev/guide/#scaffolding-your-first-vite-project) and [Tailwind
-  CSS](https://v3.tailwindcss.com/docs/installation/using-postcss) installation guides.
-</Note>
+Start with a [React Vite app](https://vite.dev/guide/#scaffolding-your-first-vite-project) and [Tailwind CSS](https://tailwindcss.com/docs/installation/using-vite).
 
-### Install Subframe
+## Installing Subframe
 
-Run the following command in the root of your repository to install Subframe and configure your project:
+Run the CLI from your app's root and follow the prompts:
 
-{/* prettier-ignore */}
-<CodeGroup>
-
-```bash npm
+```bash
 npx @subframe/cli@latest init
 ```
 
-```bash yarn
-yarn dlx @subframe/cli@latest init
-```
+## Configuring import aliases
 
-```bash pnpm
-pnpx @subframe/cli@latest init
-```
+For a sync directory of `src/ui`, add this alias to the TypeScript config used by your app, usually `tsconfig.app.json`. Merge it into the existing `compilerOptions`:
 
-```bash bun
-bunx --bun @subframe/cli@latest init
-```
-
-</CodeGroup>
-
-### Configure Vite to use import aliases
-
-1. Configure the `compilerOptions` in the `tsconfig.app.json` file so Typescript understands your import aliases.
-
-<CodeGroup>
-```json tsconfig.app.json {3-8}
+```json tsconfig.app.json
 {
-    "compilerOptions": {
-        "baseUrl": "./",
-        "paths": {
-            "@/*": [
-                "./src/*"
-            ]
-        },
-        "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-        "target": "ES2020",
-        "useDefineForClassFields": true,
-        "lib": ["ES2020", "DOM", "DOM.Iterable"],
-        "module": "ESNext",
-        "skipLibCheck": true,
-
-        /* Bundler mode */
-        "moduleResolution": "bundler",
-        "allowImportingTsExtensions": true,
-        "isolatedModules": true,
-        "moduleDetection": "force",
-        "noEmit": true,
-        "jsx": "react-jsx",
-
-        /* Linting */
-        "strict": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "noFallthroughCasesInSwitch": true,
-        "noUncheckedSideEffectImports": true
-    },
-    "include": ["src"]
-
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
 }
+```
 
-````
-</CodeGroup>
+Configure the same alias in Vite. Install Node's types if they are not already present:
 
-2. Run `npm install -D @types/node` and then update `vite.config.ts` so Vite can resolve paths without error:
+```bash
+npm install -D @types/node
+```
 
-<CodeGroup>
-```tsx vite.config.ts {7-11}
+Merge `resolve.alias` into your existing Vite config, keeping your current plugins and other options. A React configuration looks like this:
+
+```ts vite.config.ts
+import { fileURLToPath, URL } from "node:url"
 import { defineConfig } from "vite"
 import react from "@vitejs/plugin-react"
-import { resolve } from "node:path"
 
 export default defineConfig({
-    plugins: [react()],
-    resolve: {
-        alias: {
-            "@": resolve(__dirname, "./src"),
-        }
-    }
+  plugins: [react()],
+  resolve: {
+    alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
 })
-````
+```
 
-</CodeGroup>
-
-### Troubleshooting
-
-If you run into any issues with the installation, refer to the [manual installation guide](/develop/frameworks/manual) for all of the steps needed to get Subframe working in your codebase.
+Adjust both paths if you chose a different source directory. For other configuration issues, follow [manual installation](/develop/frameworks/manual).

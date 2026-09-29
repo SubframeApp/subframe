@@ -10,8 +10,8 @@ import McpSkillsInstall from "/snippets/mcp-skills-install.mdx"
 
 Subframe generates React components with Tailwind CSS. Your project needs:
 
-- React 16+
-- Tailwind CSS 3.4+
+- React 16.8 or later, with a compatible React DOM version
+- Tailwind CSS 3.4 or 4
 - TypeScript
 
 ## Install Subframe
@@ -53,7 +53,7 @@ Start from a new project or install in an existing project. Our CLI is [open sou
         </Columns>
       </Accordion>
       <Accordion title="Importing existing components">
-        If you have an existing component library, [import its theme first](/learn/theme/importing-tokens), then use the [Subframe MCP server](/agent/mcp-server) or the `/subframe:design` agent skill to recreate components and snippets one at a time.
+        If you have an existing component library, [import its theme first](/design/theme/importing-tokens), then use the [Subframe MCP server](/agent/mcp-server) or the [Subframe design skill](/agent/mcp-server#using-agent-skills) to recreate components and snippets one at a time.
       </Accordion>
     </AccordionGroup>
 
@@ -62,29 +62,32 @@ Start from a new project or install in an existing project. Our CLI is [open sou
 
 ## Install fonts
 
-Your Subframe theme may use a Google Font or an [uploaded custom font](/learn/theme/adding-custom-fonts). You'll need to add a snippet to your codebase to render the fonts correctly.
+Load the fonts used by your theme in your app. Syncing typography tokens alone does not install fonts.
 
-<Steps>
-  <Step title="Copy the font import snippet">
-    You can get the import code snippet from your [Subframe theme ↗](https://app.subframe.com/library?component=theme&showInstallFontsModal=true)
-  </Step>
-  <Step title="Add the code snippet to your `<head>` tag">
-    ```html
-    <head>
-      <!-- Insert the font import snippet you copied here -->
-      <!-- Example: importing the Inter font... -->
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet"
-      />
-    
-      <!-- Remaining code in your `<head>` tag... -->
-    </head>
-    ```
-  </Step>
-</Steps>
+### Google Fonts
+
+1. Open **Theme → Typography** in Subframe
+2. Click **Installation** and copy the Google Fonts import snippet
+3. Add it to your app's HTML `<head>`, or load the same families and weights with your framework's font loader
+
+### Custom fonts
+
+1. Copy your licensed font files into your app's public assets, such as `public/fonts/`
+2. Add `@font-face` declarations to your global CSS, matching the family names, weights, and styles used in Subframe
+
+For a variable font whose metadata supports weights 100–900:
+
+```css src/styles.css
+@font-face {
+  font-family: "Acme Sans";
+  src: url("/fonts/acme-sans.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+```
+
+Replace the name and path with your font. For static fonts, declare each file's weight and style separately. The CLI does not download uploaded custom font files.
 
 ## Set up Subframe MCP and agent skills
 
@@ -100,7 +103,7 @@ See the [MCP server guide](/agent/mcp-server) for available tools and Agent skil
   <Accordion title="What if I don't use React, TypeScript or Tailwind CSS?">
     You can use our [MCP server](/agent/mcp-server) to access your designs and documentation in your AI coding assistant and convert them to your preferred language and framework.
 
-    While Subframe only generates React + Typescript + Tailwind code for now, we found that in practice, asking AI to convert the code to your preferred framework is far faster than starting from scratch. Our generated frontend code is high-quality and consistent, without the overhead that most LLMs add to AI-generated UI code, so AI's often are able to convert the code to your preferred framework consistently in a single prompt.
+    The generated component code targets React, TypeScript, and Tailwind. An agent can use the design as a reference for another stack, but you need to review and test that implementation separately.
 
   </Accordion>
   <Accordion title="Will my code keep working if I stop using Subframe?">

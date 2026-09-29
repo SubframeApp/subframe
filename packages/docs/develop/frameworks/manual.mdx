@@ -1,153 +1,99 @@
 ---
 sidebarTitle: Other (manual)
-title: Manual installation
-description: Step-by-step guide to manually install Subframe without the CLI.
+title: Installing manually
+description: Configure the CLI, imports, theme, and fonts when automatic setup needs adjustment.
 ---
 
-<Note>
-  We recommend using `@subframe/cli@latest` to initialize your project. If you're troubleshooting issues, you can follow
-  the steps below instead.
-</Note>
+Use `npx @subframe/cli@latest init` for automatic setup. Follow these steps to configure an existing React, TypeScript, and Tailwind app yourself. The examples use `src/ui` as the directory managed by Subframe.
 
-This guide will walk through all of the steps needed to get Subframe working in your codebase.
+## Configuring the CLI
 
-We'll assume you have a project with the following file structure:
-
-```
-my-app/
-|-- src/
-|   |-- main.tsx
-|   `-- styles.css
-|-- index.html
-|-- package.json
-`-- tsconfig.json
-```
-
-<Steps>
-<Step title="Create a .subframe/sync.json file">
+Create `.subframe/sync.json` in your project root:
 
 ```json .subframe/sync.json
 {
   "directory": "./src/ui",
   "importAlias": "@/ui/*",
-  "projectId": "YOUR_PROJECT_ID"
+  "projectId": "YOUR_PROJECT_ID",
+  "cssType": "tailwind-v4"
 }
 ```
 
-The file contains three settings:
+- **`directory`:** where generated UI files are written.
+- **`importAlias`:** the import prefix mapped to that directory.
+- **`projectId`:** your Subframe project ID, shown on the [CLI auth page](https://app.subframe.com/cli/auth).
+- **`cssType`:** `tailwind-v4` for Tailwind v4 or `tailwind` for Tailwind v3.
 
-- `directory`: The directory where your Subframe components will be synced to.
-- `importAlias`: The import alias for your Subframe components.
-- `projectId`: The project ID for your Subframe project.
+The sync directory should contain generated UI files and explicitly [sync-protected files](/develop/concepts/syncing-components#disabling-sync). A full sync removes other unprotected contents.
 
-<Accordion title="Finding your project ID">
-You can find `YOUR_PROJECT_ID` in your URL in the Subframe app: `https://app.subframe.com/<YOUR_PROJECT_ID>/rest/of/url`
+## Installing and syncing components
 
-For example, if the URL you see is `https://app.subframe.com/abcdef123456/library`, your project ID is `abcdef123456`.
+Install the component runtime, then sync:
 
-</Accordion>
-
-</Step>
-
-<Step title="Install dependencies">
-
-Subframe depends on `@subframe/core`. Run the following command to install the dependencies:
-
-<CodeGroup>
-
-```bash npm
+```bash
 npm install @subframe/core@latest
-```
-
-```bash yarn
-yarn add @subframe/core@latest
-```
-
-```bash pnpm
-pnpm add @subframe/core@latest
-```
-
-```bash bun
-bun add @subframe/core@latest
-```
-
-</CodeGroup>
-
-</Step>
-
-<Step title="Sync your Subframe components">
-
-Run the following command to sync your Subframe components and theme to your codebase:
-
-<CodeGroup>
-
-```bash npm
 npx @subframe/cli@latest sync --all
 ```
 
-```bash yarn
-yarn dlx @subframe/cli@latest sync --all
-```
+Follow the authentication prompt, or provide a token as described in [CLI automation](/develop/guides/cli-automation).
 
-```bash pnpm
-pnpx @subframe/cli@latest sync --all
-```
+## Resolving component imports
 
-```bash bun
-bunx --bun @subframe/cli@latest sync --all
-```
+Merge the following alias into your TypeScript configuration:
 
-</CodeGroup>
-
-The Subframe CLI will look for the project settings in your `.subframe` directory. It may ask you for an access token to authenticate with your project.
-
-</Step>
-
-<Step title="Configure Tailwind to use Subframe's theme">
-
-After syncing, Subframe creates theme configuration files. You need to import these into your Tailwind setup.
-
-You can configure which version of Tailwind CSS you're using in your [project settings](/learn/projects/project-settings).
-
-<Tabs>
-<Tab title="Tailwind v3">
-
-Extend your `tailwind.config.js` with your Subframe theme:
-
-```javascript tailwind.config.js {11-13}
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-  // [!code ++]
-  presets: [require("./src/ui/tailwind.config")],
+```json tsconfig.json
+{
+  "compilerOptions": {
+    "paths": {
+      "@/ui/*": ["./src/ui/*"]
+    }
+  }
 }
 ```
 
-Anytime you update your theme in Subframe, you'll need to rerun sync again to update the theme in your codebase. You can view the generated `tailwind.config.js` file in your [Subframe theme](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV3).
+Your framework or bundler must resolve the same alias. Next.js and Astro read TypeScript path aliases; [Vite requires matching configuration](/develop/frameworks/vite#configuring-import-aliases).
 
-</Tab>
+In Subframe's [code export settings](/design/projects/project-settings), set **Import alias** to `@/ui` so copied code uses the same prefix.
 
-<Tab title="Tailwind v4">
+## Loading the theme
 
-Import Subframe's generated `theme.css` in your global CSS file (typically `index.css`, `styles.css`, or `globals.css`):
+<Tabs>
+  <Tab title="Tailwind v3">
+    Add the generated config as a preset and include your UI files in `content`. Merge this with your existing config:
 
-```css src/styles.css
-@import "tailwindcss";
-// [!code ++]
-@import "./ui/theme.css";
+    ```js tailwind.config.js
+    module.exports = {
+      content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
+      presets: [require("./src/ui/tailwind.config")],
+    }
+    ```
 
-/* Remaining code in your global CSS file... */
-```
+    If your theme has dark-mode values, also import the generated `theme.css` in your global CSS:
 
-Anytime you update your theme in Subframe, you'll need to rerun sync again to update the theme in your codebase. You can view the generated `theme.css` file in your [Subframe theme](https://app.subframe.com/library?component=theme&showThemeModalCSSType=tailwindV4).
+    ```css src/styles.css
+    @import "./ui/theme.css";
 
-</Tab>
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;
+    ```
+
+  </Tab>
+  <Tab title="Tailwind v4">
+    Import the generated theme after Tailwind in your global stylesheet:
+
+    ```css src/styles.css
+    @import "tailwindcss";
+    @import "./ui/theme.css";
+    ```
+
+    If your UI directory is outside Tailwind's detected sources, add an [`@source` directive](https://tailwindcss.com/docs/detecting-classes-in-source-files). See the [monorepo guide](/develop/frameworks/monorepo).
+
+  </Tab>
 </Tabs>
 
-</Step>
+Make sure your app loads this global stylesheet. After changing tokens in Subframe, run sync again to update the generated theme.
 
-</Steps>
+## Loading fonts
+
+Load the Google Fonts or custom font files used by your theme. Follow [Installing fonts](/develop/installation#install-fonts); syncing tokens does not install custom font files.

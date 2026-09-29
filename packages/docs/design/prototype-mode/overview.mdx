@@ -1,9 +1,11 @@
 ---
-title: Prototype with AI
+title: Prototyping with AI
 description: Create interactive prototypes with AI-powered code generation.
 ---
 
-Prototypes let you build real web apps from your page designs, synced with your design system. They are created from screens on a [canvas](/design/canvases) by chatting and adding annotations.
+Open your project in the **web app** to follow this guide. The **Prototype** tab appears on [canvases](/design/canvases); the desktop app's mode switcher shows Design and Code.
+
+Generate an interactive demo from the pages on a canvas, then refine it with chat and annotations. The prototype has its own generated code. To implement changes in your existing app, use [Agent chat with your codebase](/agent/making-code-changes).
 
 ## Creating a new prototype
 
@@ -13,7 +15,7 @@ Prototypes let you build real web apps from your page designs, synced with your 
 
 1. Create a new [canvas](/design/canvases)
 2. Design your screens in design mode
-3. Add [annotations](/learn/prototype-mode/annotations) describing functionality
+3. Add [annotations](/design/prototype-mode/annotations) describing functionality
 4. Click the **Prototype** tab at the top of the Inspector panel
 5. Type your first message in chat, then click **Send**
 
@@ -26,7 +28,7 @@ There are two ways to iterate on your prototype:
 - **Chat** — Use prototype chat to add features, fix bugs, or refine interactions
 - **Design updates** — Make changes in design mode, then apply them to your prototype
 
-#### Chat
+### Using chat
 
 <Frame>
   <img src="/images/prototype-mode/chat-bar.png" alt="Chat bar in prototype mode" />
@@ -36,13 +38,13 @@ There are two ways to iterate on your prototype:
 2. Type your prompt in the chat input
 3. Press <kbd>Enter</kbd> to send
 
-#### Making design updates
+### Applying design updates
 
 <Frame>
   <img src="/images/prototype-mode/apply-updates.png" alt="Apply design updates from chat bar" />
 </Frame>
 
-1. Make design changes or update annoations
+1. Make design changes or update annotations
 2. Navigate to prototype mode
 3. Click **Apply** in the chat bar
 
@@ -50,7 +52,7 @@ AI will update the code to match your new design.
 
 <Warning>Design changes don't sync from prototype back to pages.</Warning>
 
-#### Getting unstuck
+### Recovering a prototype
 
 If your prototype isn't working as expected, you have two options:
 
@@ -74,8 +76,10 @@ This will download your prototype code as a Vite app in a zip file.
 ## Sharing prototypes
 
 1. Click the **Share** button at the top of the Inspector panel
-2. Toggle on **Share link to latest prototype**
-3. Copy and paste the generated link
+2. Open **Publish** and click **Publish prototype**
+3. Click **Copy public link**
+
+To revoke public access, open **Can view** and select **Stop sharing**.
 
 ## Best practices for design
 
@@ -88,13 +92,13 @@ This will download your prototype code as a Vite app in a zip file.
 <AccordionGroup>
 <Accordion title="Can I get designs out of my prototype?">
 
-Not yet. To keep your designs in sync with your prototype, we recommend using chat and annotations for updating functionality, and applying changes from design mode for updating designs.
+Prototype edits do not sync back to the original pages. Update the pages in Design mode and apply those updates to the prototype. You can also [capture a running page](/browser/capturing-as-designs) in the desktop browser to create a new editable design.
 
 </Accordion>
 <Accordion title="How do I add a dialog?">
 
 1. Create two screens: one with the button, one with the dialog open
-2. Add an [annotation](/learn/prototype-mode/annotations) on the button to open the dialog on click
+2. Add an [annotation](/design/prototype-mode/annotations) on the button to open the dialog on click
 
 </Accordion>
 </AccordionGroup>

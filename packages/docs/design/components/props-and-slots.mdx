@@ -3,14 +3,15 @@ title: Props & slots
 description: Add data and composition to your components.
 ---
 
-Properties make your components reusable by accepting different data. There are four types:
+Properties let you reuse a component with different content:
 
-- **Text / Number** — Simple text or numeric values
+- **Text** — Text content
+- **Number** — Numeric values
 - **Icon** — Icon selection from available icon libraries
 - **Image** — Image URLs or uploaded files
 - **Slot** — Regions for dynamic content and composition
 
-When using component instances, properties can be configured in the inspector.
+**Boolean** and **Enum** properties define [variants](/design/components/variants) for different visual styles. Configure an instance's properties in the Inspector panel.
 
 <Frame caption="Configuring properties of a Button component instance">
   <img src="/images/components/component-props-example.png" alt="Showing properties of a component instance" />
@@ -24,7 +25,7 @@ Text, icon, and image props are for simple data. Slots are special properties th
 2. On right-hand panel, click **Properties** > <Icon icon="plus" size={16} />
 3. Select the property type to add
 
-You can also create a property when [linking](/learn/components/props-and-slots#linking-element-contents-to-a-property) elements.
+You can also create a property when [linking](/design/components/props-and-slots#linking-element-contents-to-a-property) elements.
 
 ## Removing properties
 
@@ -67,7 +68,7 @@ Slots expose a region of your component as a prop. They're useful for:
 2. In the inspector, click **Slot** > <Icon icon="plus" size={16} />
 3. Name your slot, click **Create**
 
-You can also right-click or press <kbd>/</kbd> to open [quick actions](/learn/design-mode/quick-actions), then select **Add slot**.
+You can also right-click or press <kbd>/</kbd> to open [quick actions](/design/design-mode/quick-actions), then select **Add slot**.
 
 #### Using slots
 

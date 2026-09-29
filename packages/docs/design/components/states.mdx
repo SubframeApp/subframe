@@ -14,7 +14,7 @@ Subframe supports three interaction states:
 
 - **Hover** — Mouse over (`:hover`)
 - **Active** — Mouse press (`:active`)
-- **Focused** — Keyboard focus (`:focus-visible`)
+- **Focus** — The element or one of its descendants has focus (`:focus-within`)
 
 ## Creating a state
 
@@ -32,11 +32,11 @@ Subframe supports three interaction states:
   <img src="/images/design-mode/overrides.png" alt="Inspector showing override with pink dot indicator" />
 </Frame>
 
-To remove a state override, click the pink dot to reset to the default value.
+To remove a state override, click the pink dot and select **Reset override**.
 
 ## Hover states in code
 
-If your element has a hover state, we add `cursor-pointer` in the generated code:
+A component with a hover state on its default variant gets `cursor-pointer` on its root in generated code:
 
 ```tsx
 <div className="cursor-pointer hover:bg-blue-600">Click me</div>

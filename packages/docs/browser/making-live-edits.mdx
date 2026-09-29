@@ -7,13 +7,13 @@ import DownloadDesktopCta from "/snippets/download-desktop-cta.mdx"
 
 <DownloadDesktopCta />
 
-To get started, [preview your app in a browser tab](/browser/previewing-your-local-app).
+[Preview your app in a browser tab](/browser/previewing-your-local-app). Live edits change the browser preview. They reach your source files when you send them to an agent and it implements them.
 
 ## Editing the live page
 
 1. Click **Inspect** in the browser toolbar or press <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd>
 2. Click the element you want to modify
-3. Change its props, styles, classes, or content in the Inspector panel
+3. Change its styles, classes, or content in the Inspector panel. For supported React components in a development build, you can also edit text, number, and boolean props
 4. Review the changes in the toolbar at the bottom, then [send them to your agent](#implementing-your-changes)
 
 {/* TODO: Add video of inspecting an element */}
@@ -29,11 +29,11 @@ Use comments to give your agent implementation notes or visual references.
 
 ## Discarding changes
 
-Click the change count in the toolbar, then click the trash can icon to discard them.
+Click the change count in the toolbar, then click the trash can icon to discard them. Refreshing, navigating to another page, or closing the tab also discards pending browser edits. Send the changes you want to keep before leaving.
 
 ## Implementing your changes
 
-Choose where to send your changes:
+[Connect your codebase](/agent/connecting-your-codebase) to implement changes with Agent chat. Choose where to send them:
 
 - To use [Agent chat](/agent/overview), click **Send** in the toolbar or press <kbd>Cmd</kbd> + <kbd>Enter</kbd>
 - To use an [external agent](/agent/connecting-an-agent#using-an-external-agent), click the change count, click **Copy prompt**, then paste the prompt into the other tool

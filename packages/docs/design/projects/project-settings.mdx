@@ -1,91 +1,46 @@
 ---
-title: Project settings
-description: Configure project settings like code generation and AI preferences.
+title: Configuring code export
+sidebarTitle: Code export settings
+description: Set the import paths and icon format used in generated code.
 ---
 
-## Access project settings
+## Opening code export settings
 
-<Frame>
-  <img
-    src="/images/projects/project-settings-entrypoint.png"
-    alt="The Design System section in the left sidebar with the Project settings gear icon highlighted"
-  />
-</Frame>
+1. Open your project
+2. Find **Project** in the left sidebar
+3. Click the gear icon labeled **Configure code export**
+4. Change the settings below, then click **Save**
 
-{/* TODO: Update image — project settings now opens from the Design System section, not the top-nav project switcher */}
+{/* TODO: Replace the old project-settings screenshots with the Code export settings dialog */}
 
-1. Open your project in the editor
-2. In the left sidebar, find the **Design System** section
-3. Click the **Settings** <Icon icon="settings" size={16} /> icon next to **Design System**
+## Setting the import alias
 
-You should see the project settings dialog.
-
-<Frame>
-  <img src="/images/projects/project-settings.png" alt="Project settings showing the project settings dialog" />
-</Frame>
-
-## Import alias
-
-Set the path prefix used for component imports in generated code.
-
-**Default:** `@/ui/components`
-
-This determines how import statements appear in your exported code:
+The **Import alias** is the path prefix for your generated UI files. The default is `@/ui`, which produces component imports such as:
 
 ```tsx
 import { Button } from "@/ui/components/Button"
 ```
 
-Change this to match your project's directory structure and TypeScript path aliases.
+Subframe adds `/components`, `/layouts`, or `/icons` as needed. Match the prefix to the aliases configured in your codebase. The CLI stores its local alias and sync directory in `.subframe/sync.json`; see [manual installation](/develop/frameworks/manual).
 
-## Company context
+## Choosing icon imports
 
-Provide context to help AI generate designs that are more relevant to your product.
-
-#### Company name
-
-Your company or product name. AI uses this to personalize generated content and copy.
-
-#### Description
-
-Describe your company, product, and design preferences. This helps AI understand:
-
-- What your product does
-- Your target audience
-- Tone and style preferences
-- Any specific design guidelines
-
-<Tip>The more context you provide, the better AI can tailor designs to your brand and product.</Tip>
-
-## Icon imports
-
-Choose how icons are imported in generated code.
-
-#### Import as component
-
-Icons are imported as React components and passed as elements:
+**Import as component** exports icons as React components:
 
 ```tsx
 import { FeatherCheck } from "@subframe/core"
+
+;<FeatherCheck />
 ```
 
-```tsx
-<Button icon={<FeatherCheck />} />
-```
-
-#### Import as string
-
-For legacy projects. Icons are referenced by name as strings:
+**Import as string** uses names with `SubframeCore.Icon` for legacy projects:
 
 ```tsx
 import * as SubframeCore from "@subframe/core"
+
+;<SubframeCore.Icon name="FeatherCheck" />
 ```
 
-```tsx
-<SubframeCore.Icon name="FeatherCheck" />
-```
+Projects with uploaded icons must use **Import as component**.
 
-<Info>
-  If your project has uploaded custom icons, you must use "Import as component". The string option is disabled when
-  custom icons are present.
-</Info>
+To give the agent product context and design guidelines, use [project docs](/design/ask-ai/personalizing-ai).

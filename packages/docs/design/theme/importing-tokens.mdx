@@ -3,7 +3,7 @@ title: Importing tokens
 description: Import design tokens from Tailwind config, CSS, or JSON files to set up your theme.
 ---
 
-Import design tokens from your existing design system into Subframe. The theme importer supports Tailwind CSS (v3 and v4), CSS variables, and JSON files — including Figma design token exports.
+Bring your existing colors, typography, corners, shadows, and supported breakpoints into Subframe. The importer reads Tailwind CSS, CSS variables, and design-token JSON, including Figma exports. Review the detected tokens and warnings before applying them.
 
 <img
   src="/images/theme/theme-import.webp"
@@ -53,7 +53,7 @@ Subframe supports the following theme formats for import:
     }
     ```
 
-    Subframe parses the `theme.extend.colors` object from your config.
+    Subframe reads supported values from `theme` and `theme.extend`: `colors`, `fontSize`, `fontFamily`, `borderRadius`, `boxShadow`, and max-width `screens`. Min-width breakpoints are not imported.
 
   </Tab>
   <Tab title="CSS variables">
@@ -69,7 +69,7 @@ Subframe supports the following theme formats for import:
 
   </Tab>
   <Tab title="Design Tokens (JSON)">
-    Upload a `.json` file containing design tokens, following the W3C Design Tokens Format. This works with Figma's **variables** export.
+    Upload a `.json` file containing design tokens, using the Design Tokens Community Group (DTCG) format. This works with Figma's **variables** export.
 
     Subframe reads color values and token structure from the JSON.
 
@@ -94,13 +94,15 @@ Subframe supports the following theme formats for import:
     - **Updated** — token matches an existing token name and will update its value
     - **Unchanged** — token already exists with the same value
 
-    When your imported tokens reference other variables (e.g. `var(--color-brand-500)`), Subframe automatically maps these as **aliases** — references to other tokens rather than hard-coded values. Aliases can reference other tokens in the same import or existing tokens in your theme. If a referenced variable can't be resolved, it's converted to a direct color value.
+    Color references such as `var(--color-brand-500)` become **aliases** when their targets can be resolved from the import or your existing theme. Include the referenced tokens or a valid fallback value; an unresolved reference may not produce a token.
+
+    Click a changed token and select **Skip import** to leave it out. To rename a token before import, change its name in the source and import again.
 
     If your input includes dark-mode tokens, the preview shows the light and dark palettes side by side so you can review both before importing.
 
   </Step>
   <Step title="Import">
-    Click **Import** to update your theme. New tokens appear immediately in your theme, organized into folders matching the structure of your import. Use **Version History** to revert your import.
+    Click **Import** to update your theme. New tokens appear immediately in your theme, organized into folders matching the structure of your import. Use [theme version history](/design/projects/version-history#theme-version-history) to restore an earlier theme. If you need to restore design references detached by deleted tokens, use project version history.
   </Step>
 </Steps>
 
@@ -117,7 +119,7 @@ You can upload multiple JSON files from different collections at once.
 
 ### Limitations:
 
-- Subframe currently supports a single mode. Import one mode (e.g. light OR dark), not both.
+- For Figma JSON, import one mode at a time. Uploading separate light and dark JSON files does not pair them as mode values. To import paired values, use CSS with a `.dark` block.
 - Figma does not export text styles as variables. Use a Figma plugin to export text tokens separately, or add text styles manually in your theme.
 
 ## Troubleshooting
@@ -128,19 +130,19 @@ You can upload multiple JSON files from different collections at once.
 Verify your file format:
 
 - CSS files should contain `--` prefixed custom properties with valid color values — hex, rgb, hsl, or modern syntax like `oklch()` and `color()`
-- Tailwind configs should export a `theme.extend.colors` object
+- Tailwind configs should contain supported token values under `theme` or `theme.extend`
 - JSON files should contain color values in a supported design token format
 - Remove preprocessor-specific syntax (Sass variables, Less mixins) before importing
 
 </Accordion>
 <Accordion title="Tokens showing as 'Updated' unexpectedly">
 
-Tokens with the same name as existing tokens in your theme are marked as updates. Rename the token in the preview step if you want to add it as a new token instead.
+Tokens with the same name as existing tokens in your theme are marked as updates. Rename the token in your source file and import it again if you want a separate token.
 
 </Accordion>
 <Accordion title="Aliases not resolving">
 
-Alias references (e.g. `var(--color-brand-500)`) only resolve against other imported tokens or existing tokens in your theme. If the target token doesn't exist in either, the alias is converted to a direct color value.
+Alias references (e.g. `var(--color-brand-500)`) only resolve against other imported tokens or existing tokens in your theme. Include the missing target or provide a valid fallback, such as `var(--color-brand-500, #3b82f6)`, then review the import again.
 
 </Accordion>
 </AccordionGroup>

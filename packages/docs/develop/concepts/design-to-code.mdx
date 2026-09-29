@@ -7,18 +7,16 @@ import SignInPageCode from "/snippets/signin-page-code.mdx"
 import SignInPageWithLogic from "/snippets/signin-page-with-logic.mdx"
 import CliSyncAllCommand from "/snippets/cli-sync-all-command.mdx"
 
-Subframe is designed for building interfaces—the visual layer that designers own. Code generation in Subframe is **deterministic** and **purely presentational** (no API calls, state management, etc). Developers can later add application logic themselves using IDEs like Cursor or VS Code after export.
+This workflow applies when you manage your component library in Subframe. Sync the reusable components, then implement pages and application logic in your codebase. For an existing app with its own component library, use the [desktop workflow](/quickstart).
 
-This guide explains Subframe's design-to-code workflow in detail.
-
-#### Components vs pages
+## Separating components and pages
 
 As a developer, you should treat **components** and **pages** differently:
 
-- **Components** are your design system (e.g. buttons, inputs, cards). They are [synced via CLI](/develop/concepts/syncing-components) to a folder in your codebase (default: `./ui/components`). Each component syncs as a directory — a source file that Subframe generates and you don't modify, plus a wrapper `index.tsx` that you can extend (see [Component directories](/develop/upgrading/component-directories)).
+- **Components** are your design system (e.g. buttons, inputs, cards). They are [synced via CLI](/develop/concepts/syncing-components) to a folder in your codebase inside the directory chosen during setup. Each component syncs as a directory — a source file that Subframe generates and you don't modify, plus a wrapper `index.tsx` that you can extend (see [Component directories](/develop/upgrading/component-directories)).
 - **Pages** are screens built from components. They are [exported](/design/code-mode/overview#inspecting-page-code) as copyable React code or using the MCP server and are meant to be modified after export.
 
-In a nutshell, **components are synced, pages are exported**. This is because pages are typically modified with business logic like API calls after export. If your component needs logic after syncing, see our guide on best practices for [exporting components](/develop/concepts/syncing-components).
+Keep page logic in your app and reusable component logic in [sync-protected wrappers](/develop/concepts/syncing-components#wrapping-components).
 
 ## Design handoff
 
@@ -28,7 +26,7 @@ Suppose your designer creates a sign in page in Subframe:
   <img src="/images/developers/signin-page-example.png" alt="Sign in page designed in Subframe" />
 </Frame>
 
-When designers use Subframe, they are modifying the underlying code, which uses components that eventually live in your codebase. In this sign in page, the designer used the `Button` and `SocialSignInButton` components:
+The page uses `Button` and `SocialSignInButton` components. Its generated code imports those components from your UI library:
 
 <Frame>
   <img src="/images/developers/signin-page-example-annotated.png" alt="Sign in page with components highlighted" />
@@ -62,9 +60,9 @@ You can also sync all design system components at once:
 
 <CliSyncAllCommand />
 
-The CLI sync command pulls `Button`, `SocialSignInButton`, and any other components into a specific folder in your codebase. By default this folder is located in the `./src/ui/components` folder but can be configured in the [project settings](/learn/projects/project-settings).
+The CLI writes components under the `directory` recorded in your local `.subframe/sync.json`. For a sync directory of `./src/ui`, these files are created:
 
-```
+```text
 src/ui/
 └─ components/
 // [!code ++:6]
@@ -102,12 +100,13 @@ Subframe generates page code with stubs for business logic that need to be fille
 
 <SignInPageCode />
 
-The page code can be exported in two ways:
+Choose how to implement the page:
 
-- **MCP server** - connect an external AI tool to Subframe and ask it to integrate the page code using the [page link](/agent/mcp-server#using-the-mcp-server).
-- **Copy/paste** - Open the **Code** tab in Subframe and copy the React code.
+- **Agent chat:** [connect your codebase](/agent/connecting-your-codebase) in the desktop app, reference the page, and ask the agent to implement it.
+- **External agent:** connect through the [MCP server](/agent/mcp-server#using-the-mcp-server) and send the page link.
+- **Copy code:** open the **Code** tab and copy the React code into your app.
 
-We recommend using the MCP server because you can also ask AI to add business logic or update the page code based on code changes. Once exported, refactor the code or add any business logic as needed.
+Add the routing and authentication behavior your app needs. The following example assumes React Router and app-specific `signInWithGoogle` and `signInWithApple` helpers; replace those with your own auth integration.
 
 <SignInPageWithLogic />
 
@@ -117,7 +116,7 @@ After the initial export, both designs and code will evolve. Here's how to handl
 
 ### Designer makes changes
 
-Subframe lets designers own the visual layer. When a change is made in Subframe, you can re-export the diff into your codebase.
+Subframe lets designers own the visual layer. After a design changes, sync its components or ask your agent to update the implemented page.
 
 **Component updates**
 
@@ -138,7 +137,7 @@ https://app.subframe.com/<YOUR_PROJECT_ID>/design/<DESIGN_ID>/edit.
 Preserve all existing functionality unless the new design requires a change.
 ```
 
-AI will fetch the latest design and merge it with your existing code, preserving your business logic.
+The agent can read the latest design and update the implementation. Review its diff and test existing behavior before accepting the change.
 
 ### Developer makes changes
 
@@ -146,9 +145,7 @@ Often times, you will need to add or modify the component behavior after handoff
 
 The best practice is to add your logic to the component's [wrapper `index.tsx`](/develop/concepts/syncing-components#wrapping-components). You probably don't need to sync code back to Subframe, since the source file that Subframe generates stays untouched and keeps receiving design updates. As a last resort, you can [disable sync](/develop/concepts/syncing-components#disabling-sync) for the source file itself.
 
-In the near future, we will add CLI commands to sync component code back to Subframe. If you are interested in this feature, please let us know by [joining our Slack community](https://join.slack.com/t/subframecommunity/shared_invite/zt-380uma6dv-_lr7_bDLU5DJcoygfUYkeQ).
-
-To import an existing page code back to Subframe, you can take a screenshot of the page and ask Subframe AI to recreate the design in Subframe.
+To bring the current app back into your design workflow, [capture its rendered page](/browser/capturing-as-designs) or ask the agent to [recreate a component from your codebase](/design/components/importing). These create editable design data; they do not preserve arbitrary application logic.
 
 ## Beyond handoff
 

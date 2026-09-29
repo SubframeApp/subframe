@@ -1,29 +1,24 @@
 ---
 title: Personalizing AI
-description: Train AI with your project context for more relevant design generations.
+description: Give the agent your product context, design rules, and examples.
 ---
 
-Subframe is the only AI design tool that learns from your designs, allowing you to train and personalize the AI for each project.
+Keep reusable guidance in your project's **Docs**, and reference specific designs in your prompts.
 
-## Project context
+## Adding project guidance
 
-Add a system prompt about your project (e.g. company description, tone preferences, design guidelines) to help AI generate designs that are more relevant to your product.
+1. Open **Docs** in the left sidebar
+2. Click **New doc**
+3. Give the document a title and write your guidance. Changes save automatically
 
-<Frame>
-  <img src="/images/ask-ai/personalizing-ai.png" alt="Personalizing AI showing the project settings dialog" />
-</Frame>
+Describe your product, audience, terminology, and design rules. Use concrete examples: “Use sentence case for buttons” or “Use a destructive button only for actions that delete data.”
 
-{/* TODO: Update image — project context is now configured in project settings, not from the agent chat bar */}
+The agent can read project docs as context. Type <kbd>@</kbd> in a prompt to reference a document when its guidance matters to a particular task.
 
-1. Open [project settings](/learn/projects/project-settings)
-2. Enter your **Company name**
-3. Enter your **project description** — describe your company, product, and design preferences
-4. Click **Save** to apply your settings
+{/* TODO: Add a screenshot of project Docs; the previous company-settings fields have been removed */}
 
 ## Referencing existing designs
 
-The agent automatically references your existing designs when generating new ones. Three things influence AI in your project:
+Your components and theme give the agent reusable building blocks. Add [references with @](/design/ask-ai/adding-context) to show which pages, components, or snippets it should follow.
 
-- **Design system**: Your components and theme keep everything on brand
-- **Your pages**: AI learns from pages you design
-- **Snippets**: Pre-built compositions like headers and nav bars that AI references
+For example: “Create a billing page using @Settings page for the layout and @Plan card for the pricing options.” Explain which parts of each reference to preserve and what should change.

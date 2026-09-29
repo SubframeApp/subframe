@@ -3,13 +3,13 @@ title: Customizing theme
 description: Define design tokens for colors, typography, borders, corners, and shadows.
 ---
 
-Your theme defines design tokens for your project. Design tokens are reusable values for colors, typography, borders, corners, and shadows. Each project contains its own theme used to generate a custom Tailwind CSS configuration.
+Design tokens keep values consistent across your designs. Editing a token updates the elements that use it in Subframe. [Sync the theme](/design/theme/exporting-theme) to apply the changes in your codebase.
 
 ## Navigating the theme page
 
-Open **Theme** under **Design System** in the left sidebar, or press <kbd>Cmd</kbd> + <kbd>K</kbd> and search "Theme". Expand the **Theme** tab to jump to any section (Colors, Typography, Borders, Corners, Shadows).
+Open **Theme** in the left sidebar, or press <kbd>Cmd</kbd> + <kbd>K</kbd> and search "Theme". Expand the **Theme** tab to jump to any section (Colors, Typography, Borders, Corners, Shadows).
 
-A toolbar at the top of the theme page holds the main actions, **Import** and **Export**, plus a **⋯** menu with **Version history**, **Reset theme**, and **Add dark mode** / **Add light mode**. When dark mode is enabled, the menu shows **Remove dark mode** / **Remove light mode** instead. See [Dark mode](/develop/guides/dark-mode) for details.
+Use **Import** at the top of the theme page to bring in tokens. The **⋯** menu contains **Export theme…**, **Version history**, **Reset theme**, and **Add dark mode** / **Add light mode**. When dark mode is enabled, the menu shows **Remove dark mode** / **Remove light mode** instead. See [Dark mode](/develop/guides/dark-mode) for details.
 
 All changes save automatically and apply immediately across your project.
 
@@ -36,9 +36,12 @@ Use [agent chat](/design/ask-ai/prompt-to-design) to update your theme from a pr
 2. Describe your changes: "warmer tones, rounder corners", "make it brutalist", or "retro theme with muted colors and bold typography"
 3. Send the prompt. The agent updates colors, typography, corners, and shadows
 
-The agent can also rename or delete tokens when the changes call for it. All component references update automatically.
+The agent can also rename or delete tokens. Renaming preserves references. Deleting detaches references to the token, so check its usage before removing it.
 
-<Note>Theme changes affect your entire project. To undo them, restore an earlier theme from [version history](#version-history).</Note>
+<Note>
+  Theme changes affect your entire project. To undo them, restore an earlier theme from [version
+  history](#version-history).
+</Note>
 
 ## Colors
 
@@ -207,9 +210,9 @@ Add multiple layers for complex shadow effects.
 Apply a theme preset to start fresh:
 
 1. Click **⋯** in the toolbar and select **Reset theme**
-2. Browse 10 preset styles
+2. Choose a preset style
 3. Customize brand colors, fonts, and corner radius
-4. Toggle between Light and Dark mode
+4. Review the Light and Dark previews, then apply the theme
 
 Each preset configures color palettes (brand, neutral, error, success, warning), typography, and corner radius. Customize further after applying.
 

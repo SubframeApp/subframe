@@ -1,32 +1,41 @@
 ---
-title: Accessibility
-description: Build accessible interfaces with Subframe components.
+title: Building accessible interfaces
+sidebarTitle: Accessibility
+description: Put labels and accessibility attributes on the elements that need them.
 ---
 
-Subframe components are accessible by default. We use [Radix](https://www.radix-ui.com/) under the hood, which provides built-in keyboard navigation, focus management, and ARIA attributes.
+Interactive primitives provide behavior such as keyboard navigation and focus management. Your interface still needs meaningful labels, appropriate semantics, visible focus states, and sufficient contrast.
 
-## Adding accessibility attributes
+## Labeling controls
 
-All components pass through props to the top-level element. You can add any ARIA attribute directly:
+Generated components pass extra props to their root element. For a compound component, put input attributes on the input subcomponent. `TextField` supplies the label and layout; `TextField.Input` is the form control:
 
-```tsx
-<Button aria-label="Close dialog" aria-describedby="dialog-description">
-  <Icon name="FeatherX" />
-</Button>
+```tsx EmailField.tsx
+import { TextField } from "@/ui/components/TextField"
 
-<TextField aria-required="true" aria-invalid={hasError} />
-
-<Card role="article" aria-labelledby="card-title" />
+export function EmailField({ hasError = false }: { hasError?: boolean }) {
+  return (
+    <div>
+      <TextField label="Email">
+        <TextField.Input
+          name="email"
+          type="email"
+          autoComplete="email"
+          required
+          aria-invalid={hasError}
+          aria-describedby={hasError ? "email-error" : undefined}
+        />
+      </TextField>
+      {hasError && <p id="email-error">Enter a valid email address.</p>}
+    </div>
+  )
+}
 ```
 
-Common attributes you might use:
+Use unique IDs if you render more than one copy of this field. Give icon-only buttons an accessible name with `aria-label`. Prefer native semantics, such as a button for an action, before adding a `role` attribute.
 
-- `aria-label` — Describes the element for screen readers
-- `aria-describedby` — References an element that describes this one
-- `aria-required` — Indicates a required form field
-- `aria-invalid` — Indicates validation errors
-- `aria-expanded` — Indicates expandable content state
-- `aria-hidden` — Hides decorative elements from screen readers
-- `role` — Overrides the semantic role of an element
+## Checking the finished interface
 
-For more complex accessibility needs, you can also add logic in the component's [wrapper `index.tsx`](/develop/concepts/syncing-components#wrapping-components) for code reuse.
+Test keyboard navigation, focus order, control labels, and error messages in the running app. Check contrast and both light and dark modes. Accessible primitives alone do not make the full page accessible.
+
+For reusable behavior, extend the component's [wrapper](/develop/concepts/syncing-components#wrapping-components).

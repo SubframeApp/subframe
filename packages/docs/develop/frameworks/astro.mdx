@@ -1,81 +1,60 @@
 ---
-title: Astro
-description: Install Subframe in Astro projects.
+title: Installing in Astro
+sidebarTitle: Astro
+description: Configure React, import aliases, and hydration for Subframe components.
 ---
 
-<Note>
-  This guide assumes that you have already setup React and Tailwind CSS in your Astro app. If you haven't, please follow
-  the [Astro](https://docs.astro.build/en/install-and-setup/#install-from-the-cli-wizard), [Astro
-  React](https://docs.astro.build/en/guides/integrations-guide/react/), and [Tailwind
-  CSS](https://v3.tailwindcss.com/docs/installation/using-postcss) guides.
-</Note>
+Start with an Astro app configured for [React](https://docs.astro.build/en/guides/integrations-guide/react/) and [Tailwind CSS](https://docs.astro.build/en/guides/styling/#tailwind). Subframe's generated components use React.
 
-### Install Subframe
+## Installing Subframe
 
-Run the following command in the root of your repository to install Subframe and configure your project:
+Run the CLI from your app's root and follow the prompts:
 
-<CodeGroup>
-
-```bash npm
+```bash
 npx @subframe/cli@latest init
 ```
 
-```bash yarn
-yarn dlx @subframe/cli@latest init
-```
+## Configuring import aliases
 
-```bash pnpm
-pnpx @subframe/cli@latest init
-```
+For components under `src/ui`, merge the following settings into your existing `tsconfig.json`. Keep any other aliases and compiler options your project uses:
 
-```bash bun
-bunx --bun @subframe/cli@latest init
-```
-
-</CodeGroup>
-
-### Configure Astro to use import aliases
-
-<CodeGroup>
-  ```json tsconfig.json {3-8}
-  {
-    "compilerOptions": {
-      "baseUrl": "./",
-      "paths": {
-        "@/*": [
-          "./src/*"
-        ]
-      },
-      "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-      "target": "ES2020",
-      "useDefineForClassFields": true,
-      "lib": ["ES2020", "DOM", "DOM.Iterable"],
-      "module": "ESNext",
-      "skipLibCheck": true,
-
-      /* Bundler mode */
-      "moduleResolution": "bundler",
-      "allowImportingTsExtensions": true,
-      "isolatedModules": true,
-      "moduleDetection": "force",
-      "noEmit": true,
-      "jsx": "react-jsx",
-
-      /* Linting */
-      "strict": true,
-      "noUnusedLocals": true,
-      "noUnusedParameters": true,
-      "noFallthroughCasesInSwitch": true,
-      "noUncheckedSideEffectImports": true+
-    },
-    "include": ["src"]
-
+```json tsconfig.json
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"]
 }
-
 ```
-</CodeGroup>
 
-### Troubleshooting
+Astro uses these aliases when resolving imports. Adjust the path if you chose a different sync directory.
 
-If you run into any issues with the installation, refer to the [manual installation guide](/develop/frameworks/manual) for all of the steps needed to get Subframe working in your codebase.
+## Enabling client interactions
+
+Hydrate a React component with an Astro [client directive](https://docs.astro.build/en/reference/directives-reference/#client-directives) when it needs event handlers or interactive primitives. Put the interactive UI in a React component, then render that component from your Astro page:
+
+```tsx src/components/Counter.tsx
+import { useState } from "react"
+import { Button } from "@/ui/components/Button"
+
+export function Counter() {
+  const [count, setCount] = useState(0)
+  return <Button onClick={() => setCount(count + 1)}>Count: {count}</Button>
+}
 ```
+
+```astro src/pages/index.astro
+---
+import { Counter } from "../components/Counter"
+---
+
+<Counter client:load />
+```
+
+For configuration issues, follow [manual installation](/develop/frameworks/manual).

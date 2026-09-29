@@ -176,15 +176,7 @@
       },
       {
         "group": "Admin and billing",
-        "pages": [
-          "admin/managing-team",
-          "admin/pricing-and-plans",
-          "admin/auth-tokens",
-          {
-            "group": "Single sign-on (SSO)",
-            "pages": ["admin/sso/okta"]
-          }
-        ]
+        "pages": ["admin/managing-team", "admin/pricing-and-plans", "admin/auth-tokens", "admin/sso/okta"]
       }
     ]
   },
@@ -237,22 +229,6 @@
     {
       "source": "/design/flows",
       "destination": "/design/canvases"
-    },
-    {
-      "source": "/learn/flows/flows",
-      "destination": "/learn/canvases/canvases"
-    },
-    {
-      "source": "/learn/ask-ai/referencing-pages",
-      "destination": "/learn/ask-ai/adding-context"
-    },
-    {
-      "source": "/learn/guides/using-subframe-with-ai-agents",
-      "destination": "/agent/mcp-server"
-    },
-    {
-      "source": "/learn/guides/working-with-ai-agents",
-      "destination": "/agent/mcp-server"
     },
     {
       "source": "/framework-guides/:slug*",

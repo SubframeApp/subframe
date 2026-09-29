@@ -1,5 +1,6 @@
 ---
-title: MCP server
+title: Connecting the MCP server
+sidebarTitle: MCP server
 description: Connect an external AI agent to Subframe and teach it how to design and implement with your project.
 ---
 
@@ -10,7 +11,10 @@ The Subframe MCP server gives AI coding assistants like Claude Code, Cursor, and
 
 A separate Subframe Docs MCP server gives AI access to Subframe documentation (this site).
 
-<Note>Viewers get a read-only MCP server. Read, screenshot, and search tools work, but tools that design or edit require an editor seat.</Note>
+<Note>
+  Viewers get a read-only MCP server. Read, screenshot, and search tools work, but tools that design or edit require an
+  editor seat.
+</Note>
 
 ## Installing the MCP server and Agent skills
 
@@ -20,13 +24,13 @@ A separate Subframe Docs MCP server gives AI access to Subframe documentation (t
 
 Agent skills are guided workflows that teach your AI agent how to use Subframe. The MCP server gives the agent access to Subframe, while the skills teach it what to do with that access.
 
-Subframe provides three skills:
+The Claude Code plugin provides three skills:
 
 - **`/subframe:design`** designs and edits pages, components, snippets, design documents, and themes in Subframe
 - **`/subframe:develop`** implements a Subframe design in your codebase and adds the required application logic
 - **`/subframe:install`** installs Subframe in a codebase and configures its theme, fonts, and components
 
-Agent skills use the [Agent Skills open standard ↗](https://agentskills.io).
+Other clients install the same `design`, `develop`, and `install` skills using the [Agent Skills standard](https://agentskills.io). Invoke them through your client's skill menu or syntax; `/subframe:` is the Claude Code plugin prefix.
 
 ### Keeping Agent skills up to date
 
@@ -108,7 +112,7 @@ The Subframe MCP server exposes tools across several categories. Most read tools
 
 ### Snippets
 
-Snippets are small, standalone bits of UI typically embedded inside design documents as live examples (e.g. a "Button variants" snippet showing every Button state). They live within Subframe and do not sync out.
+[Snippets](/design/snippets) are reusable compositions such as page headers or groups of cards. They can also be embedded as live examples in design documents. Inserting one copies its elements; snippets are not part of the CLI component sync.
 
 | Tool                 | Description                                                               |
 | -------------------- | ------------------------------------------------------------------------- |
@@ -159,7 +163,7 @@ A prototype is an interactive, AI-built running app — its own React + Vite cod
 
 ### Design documents
 
-Design documents are markdown files that convey how to work within your design system — brand voice, design principles, component usage rules ("when to use Toggle vs. Checkbox"), accessibility requirements, do/don't examples. AI automatically reads them when designing or implementing. **Project-scoped** docs (many per project) cover broad guidance; **component-scoped** docs (one per component, attached directly to it) cover specifics for that component.
+Design documents are markdown files that convey how to work within your design system — brand voice, design principles, component usage rules ("when to use Toggle vs. Checkbox"), accessibility requirements, do/don't examples. An agent can read them for design and implementation guidance. Reference the relevant document in your prompt when it is essential to the task. **Project-scoped** docs (many per project) cover broad guidance; **component-scoped** docs (one per component, attached directly to it) cover specifics for that component.
 
 | Tool                    | Description                        |
 | ----------------------- | ---------------------------------- |
@@ -174,11 +178,12 @@ A component can have at most one design document. Snippets can be embedded as li
 | `get_theme`  | Get a project's themes, breakpoints, and available fonts       |
 | `edit_theme` | Edit a theme's colors, fonts, corners, shadows, and typography |
 
-A project can hold several themes that share token names but differ in values. Theme edits apply immediately across every page and component.
+Theme edits apply immediately to designs using the affected tokens. Run the CLI to bring those changes into a codebase that uses synced components.
 
 <Warning>
   Deleting a theme token is destructive. Every reference to it in your designs is replaced with the token's value at
-  deletion time, and those references stay detached even if you restore the token.
+  deletion time, and those references stay detached if you only restore the theme. Restore project version history to
+  recover the earlier design references.
 </Warning>
 
 ### Icons and fonts
@@ -195,7 +200,7 @@ A project can hold several themes that share token names but differ in values. T
 | `delete_icons`        | Delete uploaded icons                                             |
 | `delete_fonts`        | Delete custom fonts, switching every use to a replacement font    |
 
-The agent uploads files with `curl`, so importing icons and fonts needs an agent that can run commands, like Claude Code, Codex, Cursor, or Subframe's Ask AI — the upload link accepts files for 10 minutes, and uploaded files can be added with `add_icons` / `add_fonts` for about a day. A same-name icon upload replaces the earlier one everywhere it's used; a font family named like a Google font is rejected.
+Importing local icons and fonts requires an agent that can upload files, such as Claude Code, Codex, Cursor, or Subframe Agent chat. Use the upload link from `create_asset_upload`, then pass the result to `add_icons` or `add_fonts` before it expires. A same-name icon upload replaces the earlier one everywhere it's used; a font family named like a Google font is rejected.
 
 ### Design references
 
@@ -216,7 +221,7 @@ Invalid references are dropped with a warning in the tool result rather than fai
 To reference a page in an external agent, copy its MCP link from the Code panel.
 
 ```text
-Implement the design at https://app.subframe.com/design/...
+Implement the design at https://app.subframe.com/PROJECT_ID/design/DESIGN_ID/edit.
 ```
 
 <Note>
@@ -372,7 +377,7 @@ Verify:
 
 `design_page`, `design_component`, and `edit_component` run as background jobs. Check `wait_for_jobs` with the `jobId` returned by the design tool — it reports `running`, `done`, `error`, or `not_found`. The URL is live throughout, so opening it in the editor shows real-time progress.
 
-If a job stops reporting progress for ~10 minutes, the server treats it as stalled (worker died, request timed out) and reports it as `error` so polling never hangs — its summary explains that the result could not be verified. Open the URL to see whether anything was actually generated; the chat panel surfaces any errors from the AI agent.
+If a job reports an error or cannot verify its result, open the design URL and inspect what was created before retrying. A failed or interrupted request may still have changed the design.
 
 </Accordion>
 

@@ -1,9 +1,9 @@
-```tsx Button.tsx expandable
+```tsx components/Button/Button.tsx expandable
 import React from "react"
 import * as SubframeCore from "@subframe/core"
-import * as SubframeUtils from "../utils"
+import * as SubframeUtils from "../../utils"
 
-interface ButtonRootProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonRootProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean
   variant?: "brand-primary" | "brand-secondary" | "destructive-primary"
   size?: "large" | "medium" | "small"

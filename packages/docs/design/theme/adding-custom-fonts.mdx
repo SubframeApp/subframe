@@ -32,16 +32,15 @@ Upload custom font files to use proprietary or licensed fonts in your project.
 
 Subframe groups uploaded files by font family. Follow these rules when uploading:
 
-- **Same file format** — All files in a family must use the same format (don't mix WOFF and TTF)
-- **Same font type** — Static and variable fonts cannot be mixed in one family
-- **Unique weights** — Each weight must be unique within the family
+- **Unique weight and style** — Avoid duplicate faces for the same weight and style. Normal and italic faces may share a weight
+- **Mixed files are supported** — A family can combine file formats and static or variable fonts
 - **No Google Font conflicts** — Custom font names cannot match existing Google Font names
 
 If validation fails, edit the font family name or remove conflicting files.
 
 ## Installing fonts in your codebase
 
-Custom fonts require additional setup in your project to load correctly. See [Loading fonts](/develop/installation#install-fonts) for instructions.
+The CLI syncs font names and typography tokens, but does not download your custom font files. Put the files in your app's public assets and add matching `@font-face` declarations. See [Installing fonts](/develop/installation#install-fonts).
 
 ## Editing fonts
 
@@ -56,7 +55,7 @@ To change a custom font after adding it:
 
 1. Navigate to **Theme \> Typography** and click **Custom fonts**
 2. Click the delete icon on the font you want to remove
-3. If the font is used anywhere in your theme, pick a replacement before deleting so those styles switch to it
+3. If the font is used by your theme or designs, pick a replacement before deleting so those styles switch to it
 
 ## Troubleshooting
 
@@ -72,7 +71,7 @@ To change a custom font after adding it:
   <Accordion title="Font not loading in codebase">
     Verify:
 
-    - Font files synced via `npx @subframe/cli@latest sync --all`
+    - Font files are present in your app's public assets
     - `@font-face` declarations are in your CSS
     - File paths match actual font file locations
     - No CORS errors in browser console
@@ -84,7 +83,7 @@ To change a custom font after adding it:
     For variable fonts, the range comes from the font file metadata.
 
   </Accordion>
-  <Accordion title="Can't mix fonts in same family">
-    Remove existing font files or use a different family name. Subframe requires consistent format and type (static vs variable) within each font family.
+  <Accordion title="Duplicate font face">
+    Check the family name, weight, and style. Remove the duplicate file or correct its metadata before adding the family.
   </Accordion>
 </AccordionGroup>
