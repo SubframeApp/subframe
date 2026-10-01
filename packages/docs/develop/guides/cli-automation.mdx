@@ -70,7 +70,7 @@ SUBFRAME_AUTH_TOKEN="<your-token>" npx @subframe/cli@latest init \
   --yes \
   --projectId <projectId> \
   --css-type tailwind-v4 \
-  --dir ./src \
+  --dir ./src/ui \
   --css-path ./src/app/globals.css \
   --no-install
 ```
@@ -79,7 +79,7 @@ SUBFRAME_AUTH_TOKEN="<your-token>" npx @subframe/cli@latest init \
 
 - `--projectId <id>` — required when your account has more than one project (otherwise the CLI can't choose for you and will list the available ids).
 - `--css-type <tailwind|tailwind-v4>` — required if the CLI can't detect your Tailwind version.
-- `--dir <path>` — where components sync to.
+- `--dir <path>` — the folder the CLI manages, used exactly as given. Unlike the interactive prompt, it doesn't add `/ui`. Use a folder that holds only Subframe code, because a full sync removes other unprotected files in it.
 - `--alias <alias>` — the import alias to use. Must end with `/*` (e.g. `@/ui/*`) so it matches every file in the directory; the CLI rejects an alias without it.
 - `--no-install`, `--no-sync`, `--no-tailwind` — skip a step that would otherwise prompt. The matching `--install` / `--sync` / `--tailwind` force it on.
 - `--no-update-import-alias` — don't change the import alias stored in your Subframe project.
