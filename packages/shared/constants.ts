@@ -13,8 +13,9 @@ export const TAILWIND_CSS_EXPORT_FILENAME = "theme.css"
 export const COMPONENT_WRAPPER_FILENAME = "index.tsx"
 
 // Docs URLs
-export const DOCS_COMPONENT_DIRECTORIES_URL = "https://docs.subframe.com/upgrading/component-directories"
-export const DOCS_WRAPPER_COMPONENTS_URL = "https://docs.subframe.com/concepts/syncing-components#wrapping-components"
+export const DOCS_COMPONENT_DIRECTORIES_URL = "https://docs.subframe.com/develop/upgrading/component-directories"
+export const DOCS_WRAPPER_COMPONENTS_URL =
+  "https://docs.subframe.com/develop/concepts/syncing-components#wrapping-components"
 
 /**
  * CLI-specific constants

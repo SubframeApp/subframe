@@ -118,7 +118,7 @@ The description renders at the top of the page, so it counts as page copy. Never
 
 **Icons in text:**
 ```markdown
-✓ Open the [quick insert](/learn/design-mode/adding-elements) <Icon icon="plus" size={16} /> menu
+✓ Open the [quick insert](/design/design-mode/adding-elements) <Icon icon="plus" size={16} /> menu
 ```
 
 **Code blocks—always include:**
@@ -204,8 +204,8 @@ yarn dlx @subframe/cli@latest sync
 
 **Internal links—relative paths:**
 ```markdown
-✓ For more on slots, see [Props and Slots](/components/props-and-slots)
-✓ Components sync one-way (see [Syncing Components](/concepts/syncing-components))
+✓ For more on slots, see [Props and Slots](/design/components/props-and-slots)
+✓ Components sync one-way (see [Syncing Components](/develop/concepts/syncing-components))
 ```
 
 **External links—add ↗ when helpful:**
@@ -213,6 +213,12 @@ yarn dlx @subframe/cli@latest sync
 ✓ [Radix ↗](https://www.radix-ui.com/)
 ✓ [open source ↗](https://github.com/SubframeApp/subframe)
 ```
+
+## Moving or removing pages
+
+- When you move, rename, or delete a page, add a redirect from its old path to the `redirects` array in docs.json. Old URLs stay in search results, CLI messages, and generated code long after the page moves.
+- Point the redirect at the page that now answers what the old page answered. Read the old page in git history and compare it to the current docs. Add a `#section` to the destination when the content moved into part of a page.
+- List each old path. Don't use wildcard sources like `/guides/:slug*`. They also redirect slugs that have no page at the destination.
 
 ## Terminology
 
@@ -239,11 +245,11 @@ yarn dlx @subframe/cli@latest sync
 
 **Quick insert menu:**
 ```markdown
-Open the [quick insert](/learn/design-mode/adding-elements) <Icon icon="plus" size={16} /> menu
+Open the [quick insert](/design/design-mode/adding-elements) <Icon icon="plus" size={16} /> menu
 ```
 
 **Right-click actions (two steps):**
-1. "Right-click or press <kbd>/</kbd> to open [quick actions](/learn/design-mode/quick-actions)"
+1. "Right-click or press <kbd>/</kbd> to open [quick actions](/design/design-mode/quick-actions)"
 2. "Select **Action**"
 
 ## Updating from product/code changes
