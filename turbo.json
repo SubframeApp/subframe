@@ -3,7 +3,7 @@
   "globalEnv": ["SUBFRAME_BASE_URL", "SUBFRAME_AUTH_TOKEN"],
   "tasks": {
     "build": {
-      "env": ["NODE_ENV", "SEGMENT_WRITE_KEY"],
+      "env": ["NODE_ENV", "SEGMENT_WRITE_KEY", "SENTRY_DSN", "SENTRY_AUTH_TOKEN", "DO_NOT_TRACK"],
       "dependsOn": ["^build"]
     },
     "format": {},

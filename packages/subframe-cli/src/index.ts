@@ -1,12 +1,15 @@
 import { program } from "@commander-js/extra-typings"
 import packageJson from "../package.json"
-import { isBeta, isDev } from "./common"
+import { isDev } from "./common"
 import { COMMAND_JSON_KEY, COMMAND_NON_INTERACTIVE_KEY, COMMAND_YES_KEY, COMMAND_YES_KEY_SHORT } from "./constants"
 import { importCommand } from "./import"
 import { initCommand } from "./init"
+import { flushLog, initLog, reportError } from "./log"
 import { configureOutput } from "./output/output"
 import { pushComponentCommand } from "./push-component"
 import { syncCommand } from "./sync"
+
+initLog()
 
 program.version(packageJson.version).description("Subframe CLI")
 
@@ -43,7 +46,13 @@ program.addCommand(syncCommand)
 program.addCommand(pushComponentCommand)
 program.addCommand(importCommand)
 
-// Treat beta like dev for telemetry: NODE_ENV gates the Segment logger, so
-// only production runs against app.subframe.com report analytics.
-process.env.NODE_ENV = isDev || isBeta ? "development" : "production"
-program.parseAsync(process.argv)
+program.parseAsync(process.argv).catch(async (err) => {
+  console.error(err?.message ?? String(err))
+  try {
+    reportError(err)
+    await flushLog()
+  } catch {
+    // Never let a telemetry failure mask the real error.
+  }
+  process.exit(1)
+})

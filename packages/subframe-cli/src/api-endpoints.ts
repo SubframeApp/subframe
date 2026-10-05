@@ -20,6 +20,8 @@ import type {
 } from "./api-types"
 import { BASE_URL } from "./common"
 import { CLI_UPGRADE_STATUS_CODE, CLI_VERSION_HEADER } from "./constants"
+import { HttpResponseError } from "./errors"
+import { flushLog, log } from "./log"
 import { error } from "./output/format"
 
 function prepareHttpBody<TBody, TBodyInit = BodyInit>(body: TBody, headers?: Record<string, string>) {
@@ -79,10 +81,12 @@ const http = async <TBody, TResponse>(
   if (response.status === CLI_UPGRADE_STATUS_CODE) {
     console.log()
     console.error(error(message))
+    log.warn("CLI version rejected as outdated")
+    await flushLog()
     process.exit(1)
   }
 
-  throw new Error(message)
+  throw new HttpResponseError(message, response.status)
 }
 
 export async function apiVerifyToken(token: string): Promise<VerifyTokenResponse> {

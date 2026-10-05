@@ -4,7 +4,7 @@ import { oraPromise } from "ora"
 import { apiSyncProject } from "./api-endpoints"
 import { CodeGenFile, CodeGenFileValid, SyncProjectResponse, TruncatedProjectId } from "./api-types"
 import { COMPONENT_WRAPPER_FILENAME, DOCS_COMPONENT_DIRECTORIES_URL, IGNORE_UPDATE_KEYWORD } from "./constants"
-import { CLILogger } from "./logger/logger-cli"
+import { log } from "./log"
 import { highlight, warning } from "./output/format"
 import { getAllAbsFilePaths, isFileContentsWriteable } from "./utils/files"
 
@@ -20,7 +20,6 @@ function ensureIsValidCodeGenFile(file: CodeGenFile): CodeGenFileValid {
 }
 
 export async function syncComponents({
-  cliLogger,
   // Note: An empty array means sync all components
   components,
   projectId,
@@ -29,7 +28,6 @@ export async function syncComponents({
   syncDirectory,
   cssType,
 }: {
-  cliLogger: CLILogger
   components: string[]
   projectId: TruncatedProjectId | undefined
   accessToken: string
@@ -52,8 +50,8 @@ export async function syncComponents({
   )
 
   if (missingComponents.length) {
-    await cliLogger.trackWarningAndFlush("[CLI]: sync components not found", {
-      components: missingComponents.join(", "),
+    log.warn("Requested components not found in project", {
+      count: missingComponents.length,
       truncatedProjectId: projectInfo.truncatedProjectId,
     })
     console.log(
@@ -68,8 +66,8 @@ export async function syncComponents({
 
   if (errorDefinitionFiles.length) {
     const errorFileNames = errorDefinitionFiles.map(({ file }) => file.fileName)
-    await cliLogger.trackWarningAndFlush("[CLI]: code gen errors", {
-      files: errorFileNames.join(", "),
+    log.error(new Error("Synced files failed code generation"), {
+      count: errorFileNames.length,
       truncatedProjectId: projectInfo.truncatedProjectId,
     })
     console.log(warning(`The following components had code generation errors: ${errorFileNames.join(", ")}\n`))
@@ -168,8 +166,8 @@ export async function syncComponents({
   )
 
   if (migratedSyncDisabledFiles.length) {
-    await cliLogger.trackWarningAndFlush("[CLI]: migrated sync-disabled files to component directories", {
-      files: migratedSyncDisabledFiles.join(", "),
+    log.warn("Migrated sync-disabled files to component directories", {
+      count: migratedSyncDisabledFiles.length,
       truncatedProjectId: projectInfo.truncatedProjectId,
     })
     console.log(

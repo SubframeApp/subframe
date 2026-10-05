@@ -6,6 +6,7 @@ import { apiCreateImportSession, apiStartImport, uploadToPresignedUrl } from "./
 import { TruncatedProjectId } from "./api-types"
 import { localSyncSettings } from "./common"
 import { COMMAND_AUTH_TOKEN_KEY, COMMAND_AUTH_TOKEN_KEY_SHORT } from "./constants"
+import { UserError } from "./errors"
 import { resolveManifest } from "./import-manifest"
 import { success } from "./output/format"
 import { runCommand } from "./run-command"
@@ -19,8 +20,8 @@ export const importCommand = new Command()
   .requiredOption("-m, --manifest <path>", "path to import manifest JSON")
   .option(`${COMMAND_AUTH_TOKEN_KEY_SHORT}, ${COMMAND_AUTH_TOKEN_KEY} <auth-token>`, "auth token to use")
   .action(async (opts) =>
-    runCommand("import", async (cliLogger) => {
-      const { token: accessToken } = await resolveAccessToken(cliLogger, {
+    runCommand("import", async () => {
+      const { token: accessToken } = await resolveAccessToken({
         authTokenFlag: opts.authToken,
         teamId: localSyncSettings?.teamId,
       })
@@ -30,7 +31,7 @@ export const importCommand = new Command()
       try {
         manifestParsed = JSON.parse(manifestRaw)
       } catch {
-        throw new Error(`Failed to parse manifest JSON at ${opts.manifest}`)
+        throw new UserError(`Failed to parse manifest JSON at ${opts.manifest}`)
       }
 
       const payload = await oraPromise(resolveManifest(manifestParsed), {
@@ -41,7 +42,7 @@ export const importCommand = new Command()
 
       const payloadJson = JSON.stringify(payload)
       if (payloadJson.length > PAYLOAD_SIZE_LIMIT) {
-        throw new Error(`Import payload exceeds 50MB limit`)
+        throw new UserError(`Import payload exceeds 50MB limit`)
       }
 
       const { sessionId, presignedUrl } = await oraPromise(

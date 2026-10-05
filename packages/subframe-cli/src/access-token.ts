@@ -1,11 +1,13 @@
 import { oraPromise } from "ora"
 import prompt from "prompts"
+import { analytics } from "./analytics"
 import { apiVerifyToken } from "./api-endpoints"
 import { BASE_URL } from "./common"
 import { getTeamIdForToken, getToken, storeToken } from "./config"
 import { CLI_AUTH_ROUTE, SUBFRAME_AUTH_TOKEN_ENV } from "./constants"
+import { UserError } from "./errors"
 import { isNonInteractive, NonInteractiveError } from "./interactive"
-import { CLILogger } from "./logger/logger-cli"
+import { reportError } from "./log"
 import { link } from "./output/format"
 import { abortOnState } from "./prompt-helpers"
 
@@ -14,7 +16,7 @@ interface TokenWithTeam {
   teamId: number
 }
 
-export async function verifyTokenWithOra(cliLogger: CLILogger, token: string): Promise<TokenWithTeam | null> {
+export async function verifyTokenWithOra(token: string): Promise<TokenWithTeam | null> {
   try {
     const { userId, teamId } = await oraPromise(apiVerifyToken(token), {
       prefixText: "",
@@ -22,22 +24,15 @@ export async function verifyTokenWithOra(cliLogger: CLILogger, token: string): P
       successText: "Authenticated",
       failText: "Failed to authenticate",
     })
-    cliLogger.identify({
-      user: {
-        userId,
-      },
-      group: {
-        groupId: String(teamId),
-      },
-    })
+    analytics.identify({ userId, teamId })
     return { token, teamId }
   } catch (error) {
-    await cliLogger.trackWarningAndFlush("[CLI]: verifyToken failed", { error: error.toString() })
+    reportError(error)
     return null
   }
 }
 
-export async function promptForNewAccessToken(cliLogger: CLILogger): Promise<TokenWithTeam> {
+export async function promptForNewAccessToken(): Promise<TokenWithTeam> {
   // Without a TTY there is nobody to paste a token, so fail with guidance rather
   // than hang on a prompt that can never be answered.
   if (isNonInteractive()) {
@@ -59,7 +54,7 @@ export async function promptForNewAccessToken(cliLogger: CLILogger): Promise<Tok
     name: "token",
     message: "Access token",
     validate: async (token: string) => {
-      tokenWithTeam = await verifyTokenWithOra(cliLogger, token)
+      tokenWithTeam = await verifyTokenWithOra(token)
       return tokenWithTeam ? true : `Invalid token`
     },
     onState: abortOnState,
@@ -69,18 +64,18 @@ export async function promptForNewAccessToken(cliLogger: CLILogger): Promise<Tok
     throw new Error("Unexpected error: failed to verify token")
   }
 
-  await storeToken(cliLogger, tokenWithTeam)
+  await storeToken(tokenWithTeam)
 
   return tokenWithTeam
 }
 
-export async function getAccessToken(cliLogger: CLILogger, { teamId }: { teamId?: number }): Promise<TokenWithTeam> {
+export async function getAccessToken({ teamId }: { teamId?: number }): Promise<TokenWithTeam> {
   if (!teamId) {
-    return promptForNewAccessToken(cliLogger)
+    return promptForNewAccessToken()
   }
 
-  const token = await getToken(cliLogger, { teamId })
-  if (token && (await verifyTokenWithOra(cliLogger, token))) {
+  const token = await getToken({ teamId })
+  if (token && (await verifyTokenWithOra(token))) {
     return { token, teamId }
   }
 
@@ -90,7 +85,7 @@ export async function getAccessToken(cliLogger: CLILogger, { teamId }: { teamId?
     console.log("> Credentials are no longer valid.")
   }
 
-  return promptForNewAccessToken(cliLogger)
+  return promptForNewAccessToken()
 }
 
 /**
@@ -98,17 +93,17 @@ export async function getAccessToken(cliLogger: CLILogger, { teamId }: { teamId?
  * from a previous run, reuse it without another verify round-trip; otherwise
  * verify it once and cache it. `source` names where it came from for errors.
  */
-async function resolveSuppliedToken(cliLogger: CLILogger, token: string, source: string): Promise<TokenWithTeam> {
-  const cachedTeamId = await getTeamIdForToken(cliLogger, token)
+async function resolveSuppliedToken(token: string, source: string): Promise<TokenWithTeam> {
+  const cachedTeamId = await getTeamIdForToken(token)
   if (cachedTeamId !== null) {
     return { token, teamId: cachedTeamId }
   }
 
-  const verified = await verifyTokenWithOra(cliLogger, token)
+  const verified = await verifyTokenWithOra(token)
   if (!verified) {
-    throw new Error(`Failed to authenticate with ${source}`)
+    throw new UserError(`Failed to authenticate with ${source}`)
   }
-  await storeToken(cliLogger, verified)
+  await storeToken(verified)
   return verified
 }
 
@@ -123,18 +118,21 @@ async function resolveSuppliedToken(cliLogger: CLILogger, token: string, source:
  * A token from (1) or (2) is verified and cached on first use so subsequent
  * commands work without re-supplying it (and without re-verifying it).
  */
-export async function resolveAccessToken(
-  cliLogger: CLILogger,
-  { authTokenFlag, teamId }: { authTokenFlag?: string; teamId?: number },
-): Promise<TokenWithTeam> {
+export async function resolveAccessToken({
+  authTokenFlag,
+  teamId,
+}: {
+  authTokenFlag?: string
+  teamId?: number
+}): Promise<TokenWithTeam> {
   if (authTokenFlag) {
-    return resolveSuppliedToken(cliLogger, authTokenFlag, "the provided --auth-token")
+    return resolveSuppliedToken(authTokenFlag, "the provided --auth-token")
   }
 
   const envToken = process.env[SUBFRAME_AUTH_TOKEN_ENV]
   if (envToken) {
-    return resolveSuppliedToken(cliLogger, envToken, `the token in ${SUBFRAME_AUTH_TOKEN_ENV}`)
+    return resolveSuppliedToken(envToken, `the token in ${SUBFRAME_AUTH_TOKEN_ENV}`)
   }
 
-  return getAccessToken(cliLogger, { teamId })
+  return getAccessToken({ teamId })
 }

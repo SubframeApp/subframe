@@ -18,7 +18,9 @@ import {
   SUBFRAME_SYNC_MESSAGE,
   WRONG_PROJECT_MESSAGE,
 } from "./constants"
+import { UserError } from "./errors"
 import { installDependencies } from "./install-dependencies"
+import { log } from "./log"
 import { runCommand } from "./run-command"
 import { syncComponents } from "./sync-components"
 import { TS_ALIAS_SUFFIX, updateSyncSettings } from "./sync-settings"
@@ -33,18 +35,18 @@ export const syncCommand = new Command()
   .option(`${COMMAND_INSTALL_KEY_SHORT}, ${COMMAND_INSTALL_KEY}`, "install dependencies after syncing")
   .option(COMMAND_NO_INSTALL_KEY, "skip installing dependencies after syncing")
   .action(async (components, opts) =>
-    runCommand("sync", async (cliLogger) => {
+    runCommand("sync", async () => {
       if (localSyncSettings?.projectId && opts.projectId && localSyncSettings.projectId !== opts.projectId) {
-        await cliLogger.trackWarningAndFlush("[CLI]: sync project id mismatch")
-        throw new Error(WRONG_PROJECT_MESSAGE)
+        log.warn("Project id does not match local sync settings")
+        throw new UserError(WRONG_PROJECT_MESSAGE)
       }
 
       if (!localSyncSettings) {
-        await cliLogger.trackWarningAndFlush("[CLI]: sync could not find local sync settings")
-        throw new Error(MALFORMED_INIT_MESSAGE)
+        log.warn("No local sync settings found")
+        throw new UserError(MALFORMED_INIT_MESSAGE)
       }
 
-      const tokenWithTeam = await resolveAccessToken(cliLogger, {
+      const tokenWithTeam = await resolveAccessToken({
         authTokenFlag: opts.authToken,
         teamId: localSyncSettings?.teamId,
       })
@@ -67,7 +69,6 @@ export const syncCommand = new Command()
 
       const syncDirectory = join(cwd, localSyncSettings.directory)
       await syncComponents({
-        cliLogger,
         components,
         projectId,
         accessToken,

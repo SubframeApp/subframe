@@ -4,17 +4,16 @@ import { promptForNewAccessToken } from "./access-token"
 import { apiInitProject, apiListProjects } from "./api-endpoints"
 import { InitProjectResponse, TruncatedProjectId } from "./api-types"
 import { COMMAND_PROJECT_ID_KEY, FAILED_TO_FETCH_PROJECT_ERROR } from "./constants"
+import { UserError } from "./errors"
 import { isNonInteractive, NonInteractiveError } from "./interactive"
-import { CLILogger } from "./logger/logger-cli"
+import { log } from "./log"
 import { highlight } from "./output/format"
 import { abortOnState } from "./prompt-helpers"
 
 export async function selectProject({
-  cliLogger,
   accessToken,
   projectIdOverride,
 }: {
-  cliLogger: CLILogger
   accessToken: string
   projectIdOverride?: TruncatedProjectId
 }): Promise<TruncatedProjectId> {
@@ -31,8 +30,8 @@ export async function selectProject({
 
   if (projects.length === 0) {
     // We never expect to hit this.
-    await cliLogger.trackWarningAndFlush("[CLI]: no projects found")
-    throw new Error("No projects found. Please create a project at https://app.subframe.com first.")
+    log.warn("No projects found")
+    throw new UserError("No projects found. Please create a project at https://app.subframe.com first.")
   }
 
   if (projects.length === 1) {
@@ -69,12 +68,10 @@ export async function selectProject({
 }
 
 export async function initProject({
-  cliLogger,
   accessToken,
   truncatedProjectId,
   cssType,
 }: {
-  cliLogger: CLILogger
   accessToken: string
   truncatedProjectId: TruncatedProjectId | undefined
   cssType: "tailwind" | "tailwind-v4"
@@ -95,11 +92,10 @@ export async function initProject({
   } catch (error) {
     if (error.message === FAILED_TO_FETCH_PROJECT_ERROR) {
       console.log("> Unable to fetch project. Try authenticating again.")
-      const { token: newAccessToken } = await promptForNewAccessToken(cliLogger)
-      return initProject({ cliLogger, accessToken: newAccessToken, truncatedProjectId, cssType })
+      const { token: newAccessToken } = await promptForNewAccessToken()
+      return initProject({ accessToken: newAccessToken, truncatedProjectId, cssType })
     }
 
-    await cliLogger.trackWarningAndFlush("[CLI]: initProject failed", { error: error.toString() })
     throw error
   }
 }

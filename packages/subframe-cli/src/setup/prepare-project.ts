@@ -3,10 +3,11 @@ import { readFile, writeFile } from "node:fs/promises"
 import { join, resolve } from "node:path"
 import ora from "ora"
 import { coerce, gte } from "semver"
+import { analytics } from "../analytics"
 import { cwd } from "../common"
 import { COMMAND_CSS_TYPE_KEY, COMMAND_NAME_KEY, COMMAND_TEMPLATE_KEY } from "../constants"
+import { UserError } from "../errors"
 import { ask } from "../interactive"
-import { CLILogger } from "../logger/logger-cli"
 import { highlight } from "../output/format"
 import { exists } from "../utils/fs"
 import { tryGitInit } from "../utils/git"
@@ -22,7 +23,7 @@ function getGlobalCssPath(type: "astro" | "vite" | "nextjs"): string {
     case "astro":
       return "src/styles/global.css"
     default:
-      throw new Error(`Invalid template type: ${type}`)
+      throw new UserError(`Invalid template type: ${type}`)
   }
 }
 
@@ -58,7 +59,7 @@ async function cloneStarterKit({
   const projectPath = join(cwd, name)
 
   if (await exists(projectPath)) {
-    throw new Error(
+    throw new UserError(
       `Target directory ${name} already exists. Please choose a different name or remove the existing directory.`,
     )
   }
@@ -72,7 +73,7 @@ async function cloneStarterKit({
       case "tailwind-v4":
         return `${type}-${cssType}`
       default:
-        throw new Error(`Invalid CSS type: ${cssType}`)
+        throw new UserError(`Invalid CSS type: ${cssType}`)
     }
   }
 
@@ -114,10 +115,11 @@ async function validateName(value: string): Promise<string | boolean> {
   return true
 }
 
-export async function prepareProject(
-  cliLogger: CLILogger,
-  options: { template?: "vite" | "nextjs" | "astro"; name?: string; cssType?: "tailwind" | "tailwind-v4" },
-): Promise<{ projectPath: string; didCreateNewProject: boolean; styleInfo: StyleInfo }> {
+export async function prepareProject(options: {
+  template?: "vite" | "nextjs" | "astro"
+  name?: string
+  cssType?: "tailwind" | "tailwind-v4"
+}): Promise<{ projectPath: string; didCreateNewProject: boolean; styleInfo: StyleInfo }> {
   // No package.json in current directory - assume they need to set up a new project.
   if (options.template !== undefined || !(await exists(resolve(cwd, "package.json")))) {
     const type = await ask<"nextjs" | "vite" | "astro">(
@@ -172,7 +174,8 @@ export async function prepareProject(
     )
 
     const projectPath = await cloneStarterKit({ name, type, cssType })
-    await cliLogger.trackEventAndFlush({ type: "cli:starter-kit_cloned", framework: type, cssType })
+    analytics.trackEvent({ type: "cli:starter-kit_cloned", framework: type, cssType })
+    await analytics.flush()
 
     const styleInfo: StyleInfo = { cssType, globalCssPath: getGlobalCssPath(type) }
 

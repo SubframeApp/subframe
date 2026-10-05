@@ -31,6 +31,8 @@ jobs:
         run: npm run build-for-publish --workspace=@subframe/cli
         env:
           SEGMENT_WRITE_KEY: ${{ secrets.SEGMENT_WRITE_KEY }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: Publish CLI

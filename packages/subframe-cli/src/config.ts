@@ -2,7 +2,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises"
 import { join } from "node:path"
 import XDGAppPaths from "xdg-app-paths"
 import { isBeta, isDev } from "./common"
-import { CLILogger } from "./logger/logger-cli"
+import { reportError } from "./log"
 import { exists } from "./utils/fs"
 
 const SUBFRAME_DIRECTORY = XDGAppPaths("com.subframe.cli").dataDirs()[0]
@@ -21,7 +21,7 @@ function isAuthConfig(config: any): config is AuthConfig {
   return typeof config === "object" && config !== null && typeof config.tokens === "object"
 }
 
-async function readAuthConfig(cliLogger: CLILogger): Promise<AuthConfig | null> {
+async function readAuthConfig(): Promise<AuthConfig | null> {
   try {
     if (!(await exists(SUBFRAME_AUTH_CONFIG_PATH))) {
       return null
@@ -34,7 +34,7 @@ async function readAuthConfig(cliLogger: CLILogger): Promise<AuthConfig | null> 
 
     return config
   } catch (err) {
-    await cliLogger.trackWarningAndFlush("[CLI]: readAuthConfig failed", { error: err.toString() })
+    reportError(err)
     return null
   }
 }
@@ -44,8 +44,8 @@ async function writeAuthConfig(authConfig: AuthConfig): Promise<void> {
   await writeFile(SUBFRAME_AUTH_CONFIG_PATH, JSON.stringify(authConfig, null, 2))
 }
 
-export async function getToken(cliLogger: CLILogger, { teamId }: { teamId: number }): Promise<string | null> {
-  const config = await readAuthConfig(cliLogger)
+export async function getToken({ teamId }: { teamId: number }): Promise<string | null> {
+  const config = await readAuthConfig()
   return config?.tokens[teamId] ?? null
 }
 
@@ -53,8 +53,8 @@ export async function getToken(cliLogger: CLILogger, { teamId }: { teamId: numbe
  * Look up the team a token is already cached under, if any. Lets callers reuse a
  * previously-verified token without another round-trip to the verify endpoint.
  */
-export async function getTeamIdForToken(cliLogger: CLILogger, token: string): Promise<number | null> {
-  const config = await readAuthConfig(cliLogger)
+export async function getTeamIdForToken(token: string): Promise<number | null> {
+  const config = await readAuthConfig()
   if (!config) {
     return null
   }
@@ -66,11 +66,8 @@ export async function getTeamIdForToken(cliLogger: CLILogger, token: string): Pr
   return null
 }
 
-export async function storeToken(
-  cliLogger: CLILogger,
-  { teamId, token }: { teamId: number; token: string },
-): Promise<void> {
-  const config = await readAuthConfig(cliLogger)
+export async function storeToken({ teamId, token }: { teamId: number; token: string }): Promise<void> {
+  const config = await readAuthConfig()
   const tokens = config?.tokens ?? {}
   // Avoid a redundant read-modify-write (and the file race under concurrent jobs)
   // when the cached token is already identical.
