@@ -2,6 +2,10 @@ import { Command, Option } from "@commander-js/extra-typings"
 import { writeFile } from "node:fs/promises"
 import path, { join } from "node:path"
 import { oraPromise } from "ora"
+import { resolveAccessToken } from "./access-token"
+import { apiUpdateImportAlias } from "./api-endpoints"
+import { TruncatedProjectId } from "./api-types"
+import { localSyncSettings } from "./common"
 import {
   COMMAND_ALIAS_KEY,
   COMMAND_ALIAS_KEY_SHORT,
@@ -30,16 +34,14 @@ import {
   COMMAND_TEMPLATE_KEY,
   COMMAND_UPDATE_IMPORT_ALIAS_KEY,
   DEFAULT_SUBFRAME_TS_ALIAS,
-} from "shared/constants"
-import { TruncatedProjectId } from "shared/types"
-import { resolveAccessToken } from "./access-token"
-import { apiUpdateImportAlias } from "./api-endpoints"
-import { localSyncSettings } from "./common"
-import { SUBFRAME_INIT_MESSAGE } from "./constants"
+  SUBFRAME_INIT_MESSAGE,
+} from "./constants"
+import { UserError } from "./errors"
 import { initProject, selectProject } from "./init-project"
 import { initSync } from "./init-sync"
 import { installDependencies } from "./install-dependencies"
 import { ask } from "./interactive"
+import { log } from "./log"
 import { runCommand } from "./run-command"
 import { prepareProject } from "./setup/prepare-project"
 import { setupTailwindV3 } from "./setup-tailwind-v3"
@@ -86,18 +88,18 @@ export const initCommand = new Command()
   )
 
 initCommand.action(async (opts) =>
-  runCommand("init", async (cliLogger) => {
+  runCommand("init", async () => {
     // A flag-provided alias bypasses the interactive prompt (and its validation)
     // because init pre-fills it into the sync settings, so validate it up front.
     if (opts.alias && !opts.alias.endsWith(TS_ALIAS_SUFFIX)) {
-      throw new Error(
+      throw new UserError(
         `--alias must end with '${TS_ALIAS_SUFFIX}' so that it matches all files in the directory (e.g. ${opts.alias}${TS_ALIAS_SUFFIX})`,
       )
     }
 
-    const { projectPath, didCreateNewProject, styleInfo } = await prepareProject(cliLogger, opts)
+    const { projectPath, didCreateNewProject, styleInfo } = await prepareProject(opts)
 
-    const { token: accessToken } = await resolveAccessToken(cliLogger, {
+    const { token: accessToken } = await resolveAccessToken({
       authTokenFlag: opts.authToken,
       teamId: localSyncSettings?.teamId,
     })
@@ -107,13 +109,11 @@ initCommand.action(async (opts) =>
     const projectIdFromOpts = (opts.projectId as TruncatedProjectId | undefined) ?? localSyncSettings?.projectId
 
     const truncatedProjectIdToUse = await selectProject({
-      cliLogger,
       accessToken,
       projectIdOverride: projectIdFromOpts,
     })
 
     const { styleFile, themeCssFile, oldImportAlias, projectInfo } = await initProject({
-      cliLogger,
       accessToken,
       truncatedProjectId: truncatedProjectIdToUse,
       cssType: styleInfo.cssType,
@@ -183,7 +183,9 @@ initCommand.action(async (opts) =>
         } catch (error) {
           // Note: don't block init if this fails
           console.error(error)
-          await cliLogger.trackWarningAndFlush("[CLI]: updateImportAlias failed", { error: error.toString() })
+          if (!(error instanceof UserError)) {
+            log.error(error as Error)
+          }
         }
       } else {
         console.log("Import alias update skipped.")
@@ -204,7 +206,7 @@ initCommand.action(async (opts) =>
     }
 
     const syncDirectory = join(projectPath, directory)
-    await initSync(cliLogger, syncDirectory, truncatedProjectId, accessToken, importAlias, styleInfo.cssType, opts)
+    await initSync(syncDirectory, truncatedProjectId, accessToken, importAlias, styleInfo.cssType, opts)
     const { didInstall } = await installDependencies({ cwd: projectPath, didCreateNewProject }, opts)
 
     console.timeEnd(SUBFRAME_INIT_MESSAGE)

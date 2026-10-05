@@ -1,5 +1,6 @@
 import { readFile, stat } from "node:fs/promises"
-import type { DesignSystemImportPayload, DesignSystemImportPayloadSource } from "shared/types"
+import type { DesignSystemImportPayload, DesignSystemImportPayloadSource } from "./api-types"
+import { UserError } from "./errors"
 
 const FILE_SIZE_LIMIT = 512 * 1024 // 512KB
 
@@ -10,39 +11,39 @@ function isStringArray(value: unknown): value is string[] {
 // TODO: this is a hack, we should probably use zod to validate the manifest
 function parseManifest(raw: unknown) {
   if (typeof raw !== "object" || raw === null) {
-    throw new Error("Manifest must be a JSON object")
+    throw new UserError("Manifest must be a JSON object")
   }
 
   const m = raw as Record<string, unknown>
 
   if (!isStringArray(m.theme)) {
-    throw new Error("Manifest 'theme' must be an array of file paths")
+    throw new UserError("Manifest 'theme' must be an array of file paths")
   }
 
   if (!Array.isArray(m.components)) {
-    throw new Error("Manifest 'components' must be an array")
+    throw new UserError("Manifest 'components' must be an array")
   }
 
   const components: Array<{ name: string; entrypoint: string; sourceFiles: string[]; supportingFiles: string[] }> = []
   for (const c of m.components) {
     if (typeof c !== "object" || c === null) {
-      throw new Error("Each component must be an object")
+      throw new UserError("Each component must be an object")
     }
     const comp = c as Record<string, unknown>
     if (typeof comp.name !== "string" || !comp.name) {
-      throw new Error("Each component must have a non-empty 'name'")
+      throw new UserError("Each component must have a non-empty 'name'")
     }
     if (typeof comp.entrypoint !== "string" || !comp.entrypoint) {
-      throw new Error(`Component '${comp.name}' must have a non-empty 'entrypoint'`)
+      throw new UserError(`Component '${comp.name}' must have a non-empty 'entrypoint'`)
     }
     if (!isStringArray(comp.sourceFiles)) {
-      throw new Error(`Component '${comp.name}' must have a 'sourceFiles' array of file paths`)
+      throw new UserError(`Component '${comp.name}' must have a 'sourceFiles' array of file paths`)
     }
     if (!comp.sourceFiles.includes(comp.entrypoint)) {
-      throw new Error(`Component '${comp.name}' entrypoint '${comp.entrypoint}' must be listed in 'sourceFiles'`)
+      throw new UserError(`Component '${comp.name}' entrypoint '${comp.entrypoint}' must be listed in 'sourceFiles'`)
     }
     if (!isStringArray(comp.supportingFiles)) {
-      throw new Error(`Component '${comp.name}' must have a 'supportingFiles' array of file paths`)
+      throw new UserError(`Component '${comp.name}' must have a 'supportingFiles' array of file paths`)
     }
     components.push({
       name: comp.name,
@@ -59,7 +60,7 @@ async function resolveSource(filePath: string): Promise<DesignSystemImportPayloa
   const fileStat = await stat(filePath)
 
   if (fileStat.size > FILE_SIZE_LIMIT) {
-    throw new Error(`File '${filePath}' exceeds size limit of 512KB (${fileStat.size} bytes)`)
+    throw new UserError(`File '${filePath}' exceeds size limit of 512KB (${fileStat.size} bytes)`)
   }
 
   const content = await readFile(filePath, "utf8")

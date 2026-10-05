@@ -1,5 +1,4 @@
 {
-  "extends": "tsconfig/base.json",
   "compilerOptions": {
     "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -18,7 +17,9 @@
     "declaration": false,
     "declarationMap": false,
     "jsx": "react",
-    "typeRoots": ["../../node_modules/@types"]
+    "typeRoots": ["../../node_modules/@types"],
+    "preserveWatchOutput": true,
+    "useUnknownInCatchVariables": false
   },
   "include": ["src"]
 }

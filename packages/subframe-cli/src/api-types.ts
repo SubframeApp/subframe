@@ -1,16 +1,17 @@
-import { Distinct } from "shared/ts-type-helpers"
+// Taken from https://stackoverflow.com/questions/56737033/how-to-define-an-opaque-type-in-typescript
+type Distinct<T, DistinctName> = T & { readonly __TYPE__: DistinctName }
 
 interface CodeGenFileRootAssetMetadata {
   type: "root-asset"
 }
 
-export interface CodeGenFileDefinitionMetadata {
+interface CodeGenFileDefinitionMetadata {
   type: "definition"
   id: string
   isPageComponent: boolean
 }
 
-export interface CodeGenFileDefinitionWrapperMetadata {
+interface CodeGenFileDefinitionWrapperMetadata {
   type: "definition-wrapper"
   parentComponentId: string
 }
@@ -20,22 +21,22 @@ interface CodeGenFileIconMetadata {
   id: string
 }
 
-export interface CodeGenFileDocumentMetadata {
+interface CodeGenFileDocumentMetadata {
   type: "document"
   id: string
   parentComponentId: string
 }
 
-export type CodeGenFileMetadata =
+type CodeGenFileMetadata =
   | CodeGenFileRootAssetMetadata
   | CodeGenFileDefinitionMetadata
   | CodeGenFileDefinitionWrapperMetadata
   | CodeGenFileIconMetadata
   | CodeGenFileDocumentMetadata
 
-export type CodeGenErrorType = "format"
+type CodeGenErrorType = "format"
 
-export interface CodeGenError {
+interface CodeGenError {
   type: CodeGenErrorType
   message: string
 }
@@ -49,7 +50,7 @@ interface CodeGenFileBase {
   metadata: CodeGenFileMetadata
 }
 
-export interface CodeGenFileError extends CodeGenFileBase {
+interface CodeGenFileError extends CodeGenFileBase {
   contents: null
   rawContents: string
   error: CodeGenError
@@ -61,11 +62,7 @@ export interface CodeGenFileValid extends CodeGenFileBase {
 
 export type CodeGenFile = CodeGenFileError | CodeGenFileValid
 
-export const CODE_GEN_CSS_TYPE_OPTIONS = ["tailwind", "tailwind-v4", "scss-with-modules"] as const
-export type CodeGenCSSType = (typeof CODE_GEN_CSS_TYPE_OPTIONS)[number]
-
-export const CODE_GEN_ICON_BEHAVIOR_OPTIONS = ["name", "component"] as const
-export type CodeGenIconBehavior = (typeof CODE_GEN_ICON_BEHAVIOR_OPTIONS)[number]
+type CodeGenCSSType = "tailwind" | "tailwind-v4" | "scss-with-modules"
 
 // API
 export interface VerifyTokenResponse {
@@ -146,16 +143,6 @@ export interface SyncProjectResponse {
   }
 }
 
-export interface DesignSystemImportManifest {
-  theme: string[]
-  components: Array<{
-    name: string
-    entrypoint: string
-    sourceFiles: string[]
-    supportingFiles: string[]
-  }>
-}
-
 export interface DesignSystemImportPayloadSource {
   path: string
   content: string
@@ -188,14 +175,4 @@ export interface StartImportRequest {
 export interface StartImportResponse {
   success: true
   importId: string
-}
-
-export interface ComponentFilesUploadRequest {
-  id: string
-  truncatedProjectId?: TruncatedProjectId
-  files: Array<{
-    contentType: "text/css" | "text/javascript"
-    base64EncodedData: string
-    name: string
-  }>
 }

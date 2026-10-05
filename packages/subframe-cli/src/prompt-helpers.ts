@@ -6,6 +6,8 @@ interface PromptState {
 export function abortOnState(state: PromptState) {
   if (state.aborted) {
     process.nextTick(() => {
+      // A cancelled prompt may drop a pending warning.
+      // eslint-disable-next-line no-restricted-properties
       process.exit(0)
     })
   }

@@ -1,11 +1,9 @@
-import { COMMAND_NO_SYNC_KEY, COMMAND_SYNC_KEY } from "shared/constants"
-import { TruncatedProjectId } from "shared/types"
+import { TruncatedProjectId } from "./api-types"
+import { COMMAND_NO_SYNC_KEY, COMMAND_SYNC_KEY } from "./constants"
 import { ask } from "./interactive"
-import { CLILogger } from "./logger/logger-cli"
 import { syncComponents } from "./sync-components"
 
 export async function initSync(
-  cliLogger: CLILogger,
   syncDirectory: string,
   projectId: TruncatedProjectId | undefined,
   accessToken: string,
@@ -27,5 +25,5 @@ export async function initSync(
     return
   }
 
-  await syncComponents({ cliLogger, components: [], projectId, accessToken, importAlias, syncDirectory, cssType })
+  await syncComponents({ components: [], projectId, accessToken, importAlias, syncDirectory, cssType })
 }

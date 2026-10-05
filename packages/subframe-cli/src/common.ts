@@ -21,3 +21,6 @@ export const BASE_URL =
 export const cwd = process.cwd()
 
 export const localSyncSettings = getLocalSyncSettings(cwd)
+
+// https://consoledonottrack.com: any value other than "" or "0" opts out of all telemetry.
+export const isTelemetryAllowed = !process.env.DO_NOT_TRACK || process.env.DO_NOT_TRACK === "0"

@@ -1,7 +1,7 @@
-import nodeFetch, { BodyInit } from "node-fetch"
+import retry, { FetchLibrary } from "fetch-retry"
+import nodeFetch, { BodyInit, FetchError, Response } from "node-fetch"
 import { ProxyAgent } from "proxy-agent"
-import { CLI_UPGRADE_STATUS_CODE, CLI_VERSION_HEADER } from "shared/constants"
-import { makeFetchWithRetries, prepareHttpBody } from "shared/http"
+import packageJson from "../package.json"
 import type {
   CreateImportSessionRequest,
   CreateImportSessionResponse,
@@ -17,14 +17,59 @@ import type {
   UpdateImportAliasRequest,
   UpdateImportAliasResponse,
   VerifyTokenResponse,
-} from "shared/types"
-import packageJson from "../package.json"
+} from "./api-types"
 import { BASE_URL } from "./common"
-import { error } from "./output/format"
+import { CLI_UPGRADE_STATUS_CODE, CLI_VERSION_HEADER } from "./constants"
+import { HttpResponseError, UserError } from "./errors"
+import { log } from "./log"
+
+function prepareHttpBody<TBody, TBodyInit = BodyInit>(body: TBody, headers?: Record<string, string>) {
+  if (headers?.["Content-Type"] === "application/json") {
+    return JSON.stringify(body)
+  }
+
+  return body as unknown as TBodyInit
+}
+
+const MAX_RETRIES = 1
+const STATUS_CODES_TO_NOT_RETRY = [501]
+function makeFetchWithRetries<T extends FetchLibrary>(fetch: T) {
+  return retry(fetch, {
+    retries: MAX_RETRIES,
+    retryDelay: (attempt) => Math.pow(2, attempt) * 1000,
+    retryOn: (attempt, error, response) =>
+      attempt < MAX_RETRIES &&
+      Boolean(
+        error !== null || (response && response.status >= 400 && !STATUS_CODES_TO_NOT_RETRY.includes(response.status)),
+      ),
+  })
+}
 
 // NOTE: ProxyAgent handles making HTTP requests through a corporate proxy
 const agent = new ProxyAgent({ keepAlive: true })
 const fetchWithRetries = makeFetchWithRetries<typeof nodeFetch>(nodeFetch)
+
+// A request that never got a response (offline, DNS, proxy, timeout) is the user's environment, not a CLI bug.
+function toUserErrorIfNoResponse(err: unknown): unknown {
+  if (!(err instanceof FetchError) || (err.type !== "system" && err.type !== "request-timeout")) {
+    return err
+  }
+  log.warn("Request failed without a response", { code: err.code ?? err.type })
+  return new UserError(err.message)
+}
+
+async function readErrorMessage(response: Response): Promise<string> {
+  const fallback = `Request failed with status ${response.status}`
+  try {
+    const body = await response.json()
+    if (typeof body?.message === "string" && body.message.length > 0) {
+      return body.message
+    }
+  } catch {
+    // Not JSON (e.g. a proxy or gateway error page).
+  }
+  return fallback
+}
 
 /**
  * Sends an HTTP request with proxy support.
@@ -41,26 +86,30 @@ const http = async <TBody, TResponse>(
   }: { method: "GET" | "POST"; body?: TBody; headers?: Record<string, string> },
 ): Promise<TResponse> => {
   const requestHeaders = { ...headers, [CLI_VERSION_HEADER]: packageJson.version }
-  const response = await fetchWithRetries(url, {
-    method,
-    headers: requestHeaders,
-    body: body ? prepareHttpBody<TBody, BodyInit>(body, requestHeaders) : undefined,
-    agent,
-  })
+  let response: Response
+  try {
+    response = await fetchWithRetries(url, {
+      method,
+      headers: requestHeaders,
+      body: body ? prepareHttpBody<TBody, BodyInit>(body, requestHeaders) : undefined,
+      agent,
+    })
+  } catch (err) {
+    throw toUserErrorIfNoResponse(err)
+  }
 
   if (response.ok) {
     return response.json()
   }
 
-  const { message } = await response.json()
+  const message = await readErrorMessage(response)
 
   if (response.status === CLI_UPGRADE_STATUS_CODE) {
-    console.log()
-    console.error(error(message))
-    process.exit(1)
+    log.warn("CLI version rejected as outdated")
+    throw new UserError(message)
   }
 
-  throw new Error(message)
+  throw new HttpResponseError(message, response.status)
 }
 
 export async function apiVerifyToken(token: string): Promise<VerifyTokenResponse> {
@@ -138,12 +187,17 @@ export async function apiStartImport(token: string, { truncatedProjectId, sessio
 }
 
 export async function uploadToPresignedUrl(presignedUrl: string, payload: string): Promise<void> {
-  const response = await nodeFetch(presignedUrl, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: payload,
-    agent,
-  })
+  let response: Response
+  try {
+    response = await nodeFetch(presignedUrl, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: payload,
+      agent,
+    })
+  } catch (err) {
+    throw toUserErrorIfNoResponse(err)
+  }
 
   if (!response.ok) {
     throw new Error(`Failed to upload to S3: ${response.status} ${response.statusText}`)

@@ -2,11 +2,12 @@ import { Command } from "@commander-js/extra-typings"
 import { readFile } from "node:fs/promises"
 import { isAbsolute, join } from "node:path"
 import { oraPromise } from "ora"
-import { COMMAND_AUTH_TOKEN_KEY, COMMAND_AUTH_TOKEN_KEY_SHORT } from "shared/constants"
-import { TruncatedProjectId } from "shared/types"
 import { resolveAccessToken } from "./access-token"
 import { apiPushComponent } from "./api-endpoints"
+import { TruncatedProjectId } from "./api-types"
 import { cwd, localSyncSettings } from "./common"
+import { COMMAND_AUTH_TOKEN_KEY, COMMAND_AUTH_TOKEN_KEY_SHORT } from "./constants"
+import { UserError } from "./errors"
 import { highlight } from "./output/format"
 import { runCommand } from "./run-command"
 
@@ -18,8 +19,8 @@ export const pushComponentCommand = new Command()
   .option(`${COMMAND_AUTH_TOKEN_KEY_SHORT}, ${COMMAND_AUTH_TOKEN_KEY} <auth-token>`, "auth token to use")
   .option("-s, --skip-normalize", "skip normalizing the component file")
   .action(async (componentFilePath, opts) =>
-    runCommand("push-component", async (cliLogger) => {
-      const { token: accessToken } = await resolveAccessToken(cliLogger, {
+    runCommand("push-component", async () => {
+      const { token: accessToken } = await resolveAccessToken({
         authTokenFlag: opts.authToken,
         teamId: localSyncSettings?.teamId,
       })
@@ -31,7 +32,7 @@ export const pushComponentCommand = new Command()
       // look for export statement for component name, e.g. "export const Button = ..."
       const componentName = componentFile.match(/export const (\w+) = /)?.[1]
       if (!componentName) {
-        throw new Error("Failed to find component name in component file")
+        throw new UserError("Failed to find component name in component file")
       }
 
       await oraPromise(
