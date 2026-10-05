@@ -5,7 +5,7 @@ import {
   COMMAND_NO_TAILWIND_KEY,
   COMMAND_TAILWIND_KEY,
   TAILWIND_CSS_EXPORT_FILENAME,
-} from "shared/constants"
+} from "../constants"
 import { ask } from "../interactive"
 import { exists, posixJoin } from "../utils/fs"
 

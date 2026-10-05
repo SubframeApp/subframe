@@ -3,6 +3,7 @@ import json from "@rollup/plugin-json"
 import resolve from "@rollup/plugin-node-resolve"
 import replace from "@rollup/plugin-replace"
 import terser from "@rollup/plugin-terser"
+import { sentryRollupPlugin } from "@sentry/rollup-plugin"
 import typescript from "rollup-plugin-typescript2"
 
 const packageJson = require("./package.json")
@@ -16,11 +17,13 @@ const rollupOptions = [
         file: packageJson.main,
         inlineDynamicImports: true,
         format: "cjs",
+        sourcemap: true,
       },
       {
         file: packageJson.module,
         inlineDynamicImports: true,
         format: "esm",
+        sourcemap: true,
       },
     ],
     plugins: [
@@ -38,7 +41,17 @@ const rollupOptions = [
       terser(),
       replace({
         "process.env.SEGMENT_WRITE_KEY": JSON.stringify(process.env.SEGMENT_WRITE_KEY),
+        "process.env.SENTRY_DSN": JSON.stringify(process.env.SENTRY_DSN),
         preventAssignment: true,
+      }),
+      sentryRollupPlugin({
+        org: "subframe",
+        project: "cli",
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+        release: { name: `@subframe/cli@${packageJson.version}` },
+        telemetry: false,
+        disable: !process.env.SENTRY_AUTH_TOKEN,
+        sourcemaps: { filesToDeleteAfterUpload: ["dist/*.map"] },
       }),
     ],
   },

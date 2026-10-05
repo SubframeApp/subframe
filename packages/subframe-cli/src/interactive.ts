@@ -1,4 +1,5 @@
 import prompts from "prompts"
+import { UserError } from "./errors"
 import { flagJson, flagNonInteractive, flagYes } from "./flags"
 import { abortOnState } from "./prompt-helpers"
 
@@ -33,7 +34,7 @@ export function isStrict(): boolean {
  * The message is written for a human or agent reading CLI output, so it should
  * name the flag (or env var) that would unblock the command.
  */
-export class NonInteractiveError extends Error {
+export class NonInteractiveError extends UserError {
   constructor(message: string) {
     super(message)
     this.name = "NonInteractiveError"

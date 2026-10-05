@@ -1,10 +1,17 @@
 import { existsSync, readFileSync } from "node:fs"
 import { mkdir, rm, writeFile } from "node:fs/promises"
 import { join } from "node:path"
-import { COMMAND_ALIAS_KEY, COMMAND_DIR_KEY, DEFAULT_SUBFRAME_TS_ALIAS, ROOT_FOLDER_NAME } from "shared/constants"
-import { TruncatedProjectId } from "shared/types"
 import { addAliasesToTSConfig, hasAliasSetup } from "./add-tsconfig-alias"
-import { ACCESS_TOKEN_FILENAME, SUBFRAME_DIR, SYNC_SETTINGS_FILENAME } from "./constants"
+import { TruncatedProjectId } from "./api-types"
+import {
+  ACCESS_TOKEN_FILENAME,
+  COMMAND_ALIAS_KEY,
+  COMMAND_DIR_KEY,
+  DEFAULT_SUBFRAME_TS_ALIAS,
+  ROOT_FOLDER_NAME,
+  SUBFRAME_DIR,
+  SYNC_SETTINGS_FILENAME,
+} from "./constants"
 import { ask } from "./interactive"
 import { exists, isDirectory, posixJoin } from "./utils/fs"
 

@@ -1,8 +1,7 @@
 import { execa } from "execa"
 import { oraPromise } from "ora"
 import { coerce, lt } from "semver"
-import { COMMAND_INSTALL_KEY, COMMAND_NO_INSTALL_KEY } from "shared/constants"
-import { AUTOINSTALLED_DEPENDENCIES } from "./constants"
+import { AUTOINSTALLED_DEPENDENCIES, COMMAND_INSTALL_KEY, COMMAND_NO_INSTALL_KEY } from "./constants"
 import { ask } from "./interactive"
 import {
   getInstallCommand,
