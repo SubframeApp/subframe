@@ -8,6 +8,8 @@ import typescript from "rollup-plugin-typescript2"
 
 const packageJson = require("./package.json")
 
+const sentryRelease = `subframe-cli@${packageJson.version}`
+
 /**@type {import("rollup").RollupOptions[]} */
 const rollupOptions = [
   {
@@ -42,13 +44,18 @@ const rollupOptions = [
       replace({
         "process.env.SEGMENT_WRITE_KEY": JSON.stringify(process.env.SEGMENT_WRITE_KEY),
         "process.env.SENTRY_DSN": JSON.stringify(process.env.SENTRY_DSN),
+        "process.env.SENTRY_RELEASE": JSON.stringify(sentryRelease),
         preventAssignment: true,
       }),
       sentryRollupPlugin({
         org: "subframe",
         project: "cli",
         authToken: process.env.SENTRY_AUTH_TOKEN,
-        release: { name: `@subframe/cli@${packageJson.version}` },
+        release: { name: sentryRelease },
+        // The plugin only logs release and upload failures by default; throw so the build (and publish) stops.
+        errorHandler: (err) => {
+          throw err
+        },
         telemetry: false,
         disable: !process.env.SENTRY_AUTH_TOKEN,
         sourcemaps: { filesToDeleteAfterUpload: ["dist/*.map"] },

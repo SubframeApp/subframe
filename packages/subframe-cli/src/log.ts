@@ -1,5 +1,4 @@
 import * as Sentry from "@sentry/node-core"
-import packageJson from "../package.json"
 import { isBeta, isDev, isTelemetryAllowed } from "./common"
 
 type LogAttributes = Record<string, string | number | boolean | null>
@@ -25,7 +24,7 @@ export function initLog() {
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
     enabled: !!process.env.SENTRY_DSN && isTelemetryAllowed,
-    release: `@subframe/cli@${packageJson.version}`,
+    release: process.env.SENTRY_RELEASE,
     environment: getEnvironment(),
     enableLogs: true,
     sendDefaultPii: false,
