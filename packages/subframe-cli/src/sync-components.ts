@@ -1,13 +1,23 @@
 import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises"
 import { dirname, join } from "node:path"
 import { oraPromise } from "ora"
-import { ensureIsValidCodeGenFile, isCodeGenFileValid } from "shared/code-gen-type-helpers"
-import { COMPONENT_WRAPPER_FILENAME, DOCS_COMPONENT_DIRECTORIES_URL, IGNORE_UPDATE_KEYWORD } from "shared/constants"
-import { SyncProjectResponse, TruncatedProjectId } from "shared/types"
 import { apiSyncProject } from "./api-endpoints"
+import { CodeGenFile, CodeGenFileValid, SyncProjectResponse, TruncatedProjectId } from "./api-types"
+import { COMPONENT_WRAPPER_FILENAME, DOCS_COMPONENT_DIRECTORIES_URL, IGNORE_UPDATE_KEYWORD } from "./constants"
 import { CLILogger } from "./logger/logger-cli"
 import { highlight, warning } from "./output/format"
 import { getAllAbsFilePaths, isFileContentsWriteable } from "./utils/files"
+
+function isCodeGenFileValid(file: CodeGenFile): file is CodeGenFileValid {
+  return file.contents !== null
+}
+
+function ensureIsValidCodeGenFile(file: CodeGenFile): CodeGenFileValid {
+  if (!isCodeGenFileValid(file)) {
+    throw new Error(`Code generation failed for ${file.fileName}: ${file.error.message}`)
+  }
+  return file
+}
 
 export async function syncComponents({
   cliLogger,

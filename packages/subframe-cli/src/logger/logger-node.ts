@@ -1,8 +1,49 @@
 import { Analytics } from "@segment/analytics-node"
-import { WithRequired } from "../type-helpers"
-import { SEGMENT_GROUP_KEY } from "./constants"
-import { isSharedAnonymousUserId } from "./helpers"
-import { BaseEvent, EXCEPTION_EVENT_NAME, IdentifyArgs, TypedLogger } from "./types"
+
+// hardcoded by Posthog: https://posthog.com/docs/libraries/segment#using-group-analytics
+const SEGMENT_GROUP_KEY = "segment_group"
+
+// Note: These are not secrets and fine being hardcoded in the source code.
+const ANONYMOUS_SERVER_USER_ID = "ANONYMOUS_SERVER_USER-06576d5d-29ba-406c-8453-1aefa8d4d6b7" as const
+export const ANONYMOUS_CLI_USER_ID = "ANONYMOUS_CLI_USER-db6a3ec1-756a-4931-acdd-ec29f531603c" as const
+const ANONYMOUS_DESKTOP_USER_ID = "ANONYMOUS_DESKTOP_USER-3f8c2b1a-9d47-4e6f-bb05-2c1e7a8f4d9b" as const
+
+interface BaseEvent {
+  type: string
+}
+
+interface IdentifyArgs {
+  user: {
+    userId: string
+    email?: string
+    additionalData?: object
+  }
+  group: {
+    groupId: string
+    additionalData?: object
+  } | null
+}
+
+interface Logger {
+  identify: ({ user, group }: IdentifyArgs) => void
+  trackEvent(event: BaseEvent): void
+  trackWarning: (event: string, additionalData?: { [key: string]: string | number | boolean }) => void
+  trackPageView: () => void
+  logException: (error: Error, additionalData?: { [key: string]: string | number | boolean }) => void
+  flush?: () => Promise<void>
+}
+
+type TypedLogger<T extends BaseEvent> = Omit<Logger, "trackEvent"> & {
+  trackEvent: (event: T) => void
+}
+
+const EXCEPTION_EVENT_NAME = "EXCEPTION_LOGGING"
+
+type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }
+
+function isSharedAnonymousUserId(userId: string) {
+  return userId === ANONYMOUS_SERVER_USER_ID || userId === ANONYMOUS_CLI_USER_ID || userId === ANONYMOUS_DESKTOP_USER_ID
+}
 
 function shouldEnableLogger() {
   return !!process.env.SEGMENT_WRITE_KEY

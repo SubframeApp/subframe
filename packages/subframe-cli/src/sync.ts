@@ -1,5 +1,9 @@
 import { Command } from "@commander-js/extra-typings"
 import { join } from "node:path"
+import { resolveAccessToken } from "./access-token"
+import { TruncatedProjectId } from "./api-types"
+import { cwd } from "./common"
+import { localSyncSettings } from "./common"
 import {
   COMMAND_ALL_KEY,
   COMMAND_ALL_KEY_SHORT,
@@ -10,12 +14,10 @@ import {
   COMMAND_NO_INSTALL_KEY,
   COMMAND_PROJECT_ID_KEY,
   COMMAND_PROJECT_ID_KEY_SHORT,
-} from "shared/constants"
-import { TruncatedProjectId } from "shared/types"
-import { resolveAccessToken } from "./access-token"
-import { cwd } from "./common"
-import { localSyncSettings } from "./common"
-import { MALFORMED_INIT_MESSAGE, SUBFRAME_SYNC_MESSAGE, WRONG_PROJECT_MESSAGE } from "./constants"
+  MALFORMED_INIT_MESSAGE,
+  SUBFRAME_SYNC_MESSAGE,
+  WRONG_PROJECT_MESSAGE,
+} from "./constants"
 import { installDependencies } from "./install-dependencies"
 import { runCommand } from "./run-command"
 import { syncComponents } from "./sync-components"

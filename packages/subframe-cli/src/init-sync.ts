@@ -1,5 +1,5 @@
-import { COMMAND_NO_SYNC_KEY, COMMAND_SYNC_KEY } from "shared/constants"
-import { TruncatedProjectId } from "shared/types"
+import { TruncatedProjectId } from "./api-types"
+import { COMMAND_NO_SYNC_KEY, COMMAND_SYNC_KEY } from "./constants"
 import { ask } from "./interactive"
 import { CLILogger } from "./logger/logger-cli"
 import { syncComponents } from "./sync-components"

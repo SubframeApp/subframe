@@ -1,7 +1,7 @@
+import retry, { FetchLibrary } from "fetch-retry"
 import nodeFetch, { BodyInit } from "node-fetch"
 import { ProxyAgent } from "proxy-agent"
-import { CLI_UPGRADE_STATUS_CODE, CLI_VERSION_HEADER } from "shared/constants"
-import { makeFetchWithRetries, prepareHttpBody } from "shared/http"
+import packageJson from "../package.json"
 import type {
   CreateImportSessionRequest,
   CreateImportSessionResponse,
@@ -17,10 +17,32 @@ import type {
   UpdateImportAliasRequest,
   UpdateImportAliasResponse,
   VerifyTokenResponse,
-} from "shared/types"
-import packageJson from "../package.json"
+} from "./api-types"
 import { BASE_URL } from "./common"
+import { CLI_UPGRADE_STATUS_CODE, CLI_VERSION_HEADER } from "./constants"
 import { error } from "./output/format"
+
+function prepareHttpBody<TBody, TBodyInit = BodyInit>(body: TBody, headers?: Record<string, string>) {
+  if (headers?.["Content-Type"] === "application/json") {
+    return JSON.stringify(body)
+  }
+
+  return body as unknown as TBodyInit
+}
+
+const MAX_RETRIES = 1
+const STATUS_CODES_TO_NOT_RETRY = [501]
+function makeFetchWithRetries<T extends FetchLibrary>(fetch: T) {
+  return retry(fetch, {
+    retries: MAX_RETRIES,
+    retryDelay: (attempt) => Math.pow(2, attempt) * 1000,
+    retryOn: (attempt, error, response) =>
+      attempt < MAX_RETRIES &&
+      Boolean(
+        error !== null || (response && response.status >= 400 && !STATUS_CODES_TO_NOT_RETRY.includes(response.status)),
+      ),
+  })
+}
 
 // NOTE: ProxyAgent handles making HTTP requests through a corporate proxy
 const agent = new ProxyAgent({ keepAlive: true })

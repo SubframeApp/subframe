@@ -1,5 +1,4 @@
-import { ANONYMOUS_CLI_USER_ID } from "shared/logger/constants"
-import { makeNodeLogger, NodeLogger } from "shared/logger/logger-node"
+import { ANONYMOUS_CLI_USER_ID, makeNodeLogger, NodeLogger } from "./logger-node"
 
 type CLITrackEventType = {
   type: "cli:starter-kit_cloned"

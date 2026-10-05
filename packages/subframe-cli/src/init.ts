@@ -2,6 +2,10 @@ import { Command, Option } from "@commander-js/extra-typings"
 import { writeFile } from "node:fs/promises"
 import path, { join } from "node:path"
 import { oraPromise } from "ora"
+import { resolveAccessToken } from "./access-token"
+import { apiUpdateImportAlias } from "./api-endpoints"
+import { TruncatedProjectId } from "./api-types"
+import { localSyncSettings } from "./common"
 import {
   COMMAND_ALIAS_KEY,
   COMMAND_ALIAS_KEY_SHORT,
@@ -30,12 +34,8 @@ import {
   COMMAND_TEMPLATE_KEY,
   COMMAND_UPDATE_IMPORT_ALIAS_KEY,
   DEFAULT_SUBFRAME_TS_ALIAS,
-} from "shared/constants"
-import { TruncatedProjectId } from "shared/types"
-import { resolveAccessToken } from "./access-token"
-import { apiUpdateImportAlias } from "./api-endpoints"
-import { localSyncSettings } from "./common"
-import { SUBFRAME_INIT_MESSAGE } from "./constants"
+  SUBFRAME_INIT_MESSAGE,
+} from "./constants"
 import { initProject, selectProject } from "./init-project"
 import { initSync } from "./init-sync"
 import { installDependencies } from "./install-dependencies"

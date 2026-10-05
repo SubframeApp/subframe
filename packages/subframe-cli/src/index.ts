@@ -1,7 +1,7 @@
 import { program } from "@commander-js/extra-typings"
-import { COMMAND_JSON_KEY, COMMAND_NON_INTERACTIVE_KEY, COMMAND_YES_KEY, COMMAND_YES_KEY_SHORT } from "shared/constants"
 import packageJson from "../package.json"
 import { isBeta, isDev } from "./common"
+import { COMMAND_JSON_KEY, COMMAND_NON_INTERACTIVE_KEY, COMMAND_YES_KEY, COMMAND_YES_KEY_SHORT } from "./constants"
 import { importCommand } from "./import"
 import { initCommand } from "./init"
 import { configureOutput } from "./output/output"

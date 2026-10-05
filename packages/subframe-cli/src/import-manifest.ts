@@ -1,5 +1,5 @@
 import { readFile, stat } from "node:fs/promises"
-import type { DesignSystemImportPayload, DesignSystemImportPayloadSource } from "shared/types"
+import type { DesignSystemImportPayload, DesignSystemImportPayloadSource } from "./api-types"
 
 const FILE_SIZE_LIMIT = 512 * 1024 // 512KB
 
