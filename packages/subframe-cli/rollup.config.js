@@ -31,6 +31,7 @@ const rollupOptions = [
     plugins: [
       typescript({
         tsconfig: "./tsconfig.json",
+        tsconfigOverride: { compilerOptions: { sourceMap: true } },
         // rpt2's default include glob breaks with picomatch >= 2.3.2
         include: ["*.ts", "**/*.ts", "*.tsx", "**/*.tsx"],
       }),
