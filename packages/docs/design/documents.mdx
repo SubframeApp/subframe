@@ -1,0 +1,56 @@
+---
+title: Writing design docs
+description: Use design documents to share product context, brand voice, and component guidelines with your team and AI agents.
+---
+
+Find your project docs in **Docs** under **Design System**.
+
+You need an [Admin or Editor role](/admin/managing-team#choosing-a-role) to create or edit design docs.
+
+## Adding project context {#project-context}
+
+1. Open **Docs** under **Design System** in the left sidebar
+2. Open **Design Guidelines**, or click **Create from scratch…** if you see the empty state
+3. Describe your product, audience, and design guidelines in the document
+
+Changes save automatically. The default **Design Guidelines** doc is marked **Always read by the agent**. Use it for guidance that applies throughout your project.
+
+Include specific instructions, such as:
+
+- **Product context**: A scheduling app for clinic staff who need to scan appointments quickly
+- **Writing style**: Use short, direct labels such as “Book appointment” and avoid playful language in error messages
+- **Design principles**: Keep the next available appointment visible and use compact tables for daily schedules
+- **Component usage**: Use dialogs for short confirmations and full pages for longer workflows
+
+{/* TODO: Add a screenshot of the Docs page and the Design Guidelines document. */}
+
+## Creating additional docs
+
+1. Open **Docs** and click **New**
+2. Enter a descriptive title, such as “Appointment scheduling patterns”
+3. Write the guidance, using headings to separate topics
+
+The agent uses doc titles to find and read relevant guidance as needed for your task. Keep general rules in **Design Guidelines** and use additional docs for specific features or workflows.
+
+You can also ask the agent to create or update a design doc.
+
+## Adding examples
+
+Type <kbd>/</kbd> in a doc to insert headings, lists, or a [snippet](/design/snippets) as a live example. Add text explaining when to use the example and which details matter.
+
+## Writing component guidelines
+
+Use a component doc for rules that apply to one component, such as when to use a Toggle instead of a Checkbox.
+
+1. Open **Components** under **Design System**
+2. Select the component and open **Documentation**
+3. Click **Add doc**, or edit the existing document
+4. Add usage rules and examples
+
+Each component can have at most one design doc. Changes save automatically.
+
+## Referencing existing designs
+
+Docs explain your intent. You can also [reference pages, components, and snippets with @](/design/ask-ai/adding-context) to give the agent examples of the result you want.
+
+For external coding agents, the [Subframe MCP server](/agent/mcp-server#design-documents) provides tools to access and write design documents.

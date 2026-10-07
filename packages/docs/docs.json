@@ -67,6 +67,7 @@
               },
               "design/canvases",
               "design/snippets",
+              "design/documents",
               {
                 "group": "Projects",
                 "pages": [
@@ -100,8 +101,7 @@
               "design/ask-ai/prompt-to-design",
               "design/ask-ai/making-quick-edits",
               "design/ask-ai/image-to-design",
-              "design/ask-ai/adding-context",
-              "design/ask-ai/personalizing-ai"
+              "design/ask-ai/adding-context"
             ]
           },
           "design/code-mode/overview",
@@ -234,6 +234,7 @@
     }
   },
   "redirects": [
+    { "source": "/design/ask-ai/personalizing-ai", "destination": "/design/documents" },
     { "source": "/adding-business-logic", "destination": "/develop/concepts/syncing-components#adding-business-logic" },
     { "source": "/admin/managing-projects", "destination": "/design/projects/overview" },
     { "source": "/admin/version-history", "destination": "/design/projects/version-history" },
@@ -249,7 +250,7 @@
     { "source": "/articles/building-ai/export-to-replit", "destination": "/design/code-mode/overview#implementing-a-page-with-an-external-agent" },
     { "source": "/articles/building-ai/mcp-server", "destination": "/agent/mcp-server" },
     { "source": "/articles/designing/adding-elements", "destination": "/design/design-mode/adding-elements" },
-    { "source": "/articles/designing/personalizing-ai", "destination": "/design/ask-ai/personalizing-ai" },
+    { "source": "/articles/designing/personalizing-ai", "destination": "/design/documents" },
     { "source": "/articles/designing/using-ai-to-design", "destination": "/design/ask-ai/prompt-to-design" },
     { "source": "/articles/developing/adding-business-logic", "destination": "/develop/concepts/syncing-components#adding-business-logic" },
     { "source": "/articles/developing/copy-paste-pages", "destination": "/design/code-mode/overview#inspecting-page-code" },
@@ -277,7 +278,7 @@
     { "source": "/copy-paste-pages", "destination": "/design/code-mode/overview#inspecting-page-code" },
     { "source": "/design/flows", "destination": "/design/canvases" },
     { "source": "/designing/adding-elements", "destination": "/design/design-mode/adding-elements" },
-    { "source": "/designing/personalizing-ai", "destination": "/design/ask-ai/personalizing-ai" },
+    { "source": "/designing/personalizing-ai", "destination": "/design/documents" },
     { "source": "/designing/using-ai-to-design", "destination": "/design/ask-ai/prompt-to-design" },
     { "source": "/designing/version-history", "destination": "/design/projects/version-history" },
     { "source": "/developing/adding-business-logic", "destination": "/develop/concepts/syncing-components#adding-business-logic" },
@@ -336,7 +337,7 @@
     { "source": "/learn/ask-ai/adding-context", "destination": "/design/ask-ai/adding-context" },
     { "source": "/learn/ask-ai/image-to-design", "destination": "/design/ask-ai/image-to-design" },
     { "source": "/learn/ask-ai/making-quick-edits", "destination": "/design/ask-ai/making-quick-edits" },
-    { "source": "/learn/ask-ai/personalizing-ai", "destination": "/design/ask-ai/personalizing-ai" },
+    { "source": "/learn/ask-ai/personalizing-ai", "destination": "/design/documents" },
     { "source": "/learn/ask-ai/prompt-to-design", "destination": "/design/ask-ai/prompt-to-design" },
     { "source": "/learn/ask-ai/referencing-pages", "destination": "/design/ask-ai/adding-context" },
     { "source": "/learn/canvases/canvases", "destination": "/design/canvases" },
@@ -364,7 +365,7 @@
     { "source": "/learn/design-mode/share-designs", "destination": "/design/design-mode/share-designs" },
     { "source": "/learn/design-mode/working-with-stacks", "destination": "/design/design-mode/working-with-stacks" },
     { "source": "/learn/designing/adding-elements", "destination": "/design/design-mode/adding-elements" },
-    { "source": "/learn/designing/personalizing-ai", "destination": "/design/ask-ai/personalizing-ai" },
+    { "source": "/learn/designing/personalizing-ai", "destination": "/design/documents" },
     { "source": "/learn/designing/using-ai-to-design", "destination": "/design/ask-ai/prompt-to-design" },
     { "source": "/learn/designing/version-history", "destination": "/design/projects/version-history" },
     { "source": "/learn/editor", "destination": "/design/overview" },
