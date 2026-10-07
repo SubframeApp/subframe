@@ -33,10 +33,10 @@ Subframe's exported code is designed to work well with AI coding tools like Clau
 
 ### Tailwind CSS
 
-Tailwind CSS is a popular, robust CSS framework that, in our testing, is very AI-friendly:
+Tailwind CSS gives coding agents a consistent styling system to work with:
 
-- Tailwind's utility classes make it easy to copy, paste, and refactor code after AI edits.
-- A well-architected Tailwind theme gives AI tools guardrails, reducing invented colors or spacing. Subframe generates a robust Tailwind theme for you automatically.
+- Tailwind’s utility classes let the agent edit styles directly in component markup.
+- Subframe’s generated Tailwind theme gives the agent named colors, spacing, and other design tokens to reuse.
 
 See the [Tailwind v3 documentation](https://v3.tailwindcss.com/docs) or [Tailwind v4 documentation](https://tailwindcss.com/docs) for available utilities and configuration options.
 
@@ -50,7 +50,7 @@ Subframe uses headless components for interactivity because we believe [they are
 
 Subframe publishes an open-source package called [`@subframe/core` ↗](https://github.com/SubframeApp/subframe/tree/main/packages/subframe-core) that's a thin wrapper around Radix. See the [Radix documentation](https://www.radix-ui.com/primitives/docs/overview/introduction) for primitive APIs and examples. We use `@subframe/core` instead of Radix directly to support other headless libraries like [Base UI](https://base-ui.com/) and [React Aria](https://react-aria.adobe.com/) in the future.
 
-We also found headless components to be AI-friendly. Relying on an open-source, battle-tested library for component logic—rather than asking AI to build dropdowns, modals, and accordions from scratch—produces higher quality, more consistent code that is easier to modify with AI.
+Coding agents can reuse the interaction logic in these headless components when adding dropdowns, modals, and accordions to your app.
 
 ## Future support
 

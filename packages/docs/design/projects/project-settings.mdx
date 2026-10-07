@@ -1,7 +1,11 @@
 ---
 title: Project settings
-description: Configure project settings like code generation and AI preferences.
+description: Configure the import alias and icon imports for exported code.
 ---
+
+<a id="company-context" />
+
+For company context, brand voice, and design guidelines, use [design docs](/design/documents#project-context).
 
 ## Access project settings
 
@@ -20,9 +24,7 @@ description: Configure project settings like code generation and AI preferences.
 
 You should see the project settings dialog.
 
-<Frame>
-  <img src="/images/projects/project-settings.png" alt="Project settings showing the project settings dialog" />
-</Frame>
+{/* TODO: Add a current screenshot of code export settings without the retired company-context fields. */}
 
 ## Import alias
 
@@ -37,25 +39,6 @@ import { Button } from "@/ui/components/Button"
 ```
 
 Change this to match your project's directory structure and TypeScript path aliases.
-
-## Company context
-
-Provide context to help AI generate designs that are more relevant to your product.
-
-#### Company name
-
-Your company or product name. AI uses this to personalize generated content and copy.
-
-#### Description
-
-Describe your company, product, and design preferences. This helps AI understand:
-
-- What your product does
-- Your target audience
-- Tone and style preferences
-- Any specific design guidelines
-
-<Tip>The more context you provide, the better AI can tailor designs to your brand and product.</Tip>
 
 ## Icon imports
 
