@@ -224,7 +224,7 @@ yarn dlx @subframe/cli@latest sync
 
 **Consistent terms:**
 - Agent chat (replaces "Ask AI"—never use the old name)
-- Design mode, Prototype mode, Code mode
+- Design mode, Prototype mode, Export mode
 - Inspector panel, Layers panel
 - Component library
 - Theme
