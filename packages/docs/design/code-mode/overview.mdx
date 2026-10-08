@@ -1,17 +1,17 @@
 ---
-title: Exporting code
-description: View and export code from your designs.
+title: Exporting code and images
+description: View and export code, or export your designs as images.
 ---
 
 Subframe generates high-quality React code [deterministically](/develop/concepts/code-generation) from your designs.
 
 <Note>For a complete guide to working with Subframe code, see the [developer docs](/develop/overview).</Note>
 
-<Note>The canvas stays editable in code mode. You can insert elements and adjust the design without leaving code view, and the inspected code updates to match.</Note>
+<Note>The canvas stays editable in Export mode. You can insert elements and adjust the design without leaving the **Export** tab, and the inspected code updates to match.</Note>
 
 ## Setting up agents and your codebase
 
-Click **Connect MCP** in the **Code** tab to open **Agents** settings. You can also open it from your account menu. Use it to:
+Click **Connect MCP** in the **Export** tab to open **Agents** settings. You can also open it from your account menu. Use it to:
 
 - Connect Claude Code, Codex, Cursor, or Replit through the [MCP server](/agent/mcp-server)
 - Set up Subframe in your codebase with the [CLI](/develop/installation)
@@ -22,10 +22,10 @@ Click **Connect MCP** in the **Code** tab to open **Agents** settings. You can a
 Pages are screens built from components. After designing a page in Subframe, you can copy its React code and add application logic such as API calls, state, and routing in your codebase.
 
 1. Open the page in Subframe
-2. Click the **Code** tab at the top of the Inspector panel
+2. Click the **Export** tab at the top of the Inspector panel
 3. Copy the React code
 
-To copy code for part of a page, select the elements first. The **Code** tab shows code for your selection.
+To copy code for part of a page, select the elements first. The **Export** tab shows code for your selection.
 
 <video
   autoPlay
@@ -39,7 +39,7 @@ To copy code for part of a page, select the elements first. The **Code** tab sho
 
 ## Inspecting elements
 
-1. Click the **Code** tab
+1. Click the **Export** tab
 2. Click on element you want to inspect
 3. Use dropdown to select what code format you want:
    - React + Tailwind code
@@ -48,10 +48,29 @@ To copy code for part of a page, select the elements first. The **Code** tab sho
 
 ## Syncing components
 
-1. Click the **Code** tab
+1. Click the **Export** tab
 2. Copy the `npx @subframe/cli@latest` command for syncing all components in the page or your selection
 
 To learn more about how syncing works, see [syncing components](/develop/concepts/syncing-components).
+
+## Exporting images
+
+Export a page, component, snippet, or a single element on a page as an image to share outside Subframe.
+
+1. Open the design, or select an element on a page
+2. Click the **Export** tab at the top of the Inspector panel
+3. Under **Export image**, choose a scale from 0.5x to 4x and a format: PNG, JPG, WebP, or PDF
+4. Click the **Export** button to download the file
+
+PNG and WebP keep transparent backgrounds. PDF exports the whole page, component, or snippet, so it isn't offered for a single element.
+
+To copy a PNG to your clipboard instead:
+
+- Click <Icon icon="copy" size={16} /> next to **Export image**
+- Right-click a page or component, or click <Icon icon="ellipsis" size={16} />, and select **Copy as PNG**
+- For an element on a page, right-click or press <kbd>/</kbd> to open [quick actions](/design/design-mode/quick-actions) and select **Copy as PNG**
+
+External agents can export images too, with the [MCP server](/agent/mcp-server#pages)'s `export_image` tool.
 
 ## Implementing a page with Agent chat
 
@@ -68,7 +87,7 @@ Agent chat automatically includes the page or canvas you are viewing and the pag
 
 ## Implementing a page with an external agent
 
-If your team already uses an external agent connected through the [MCP server](/agent/mcp-server), copy the link under **Copy MCP link** in the **Code** tab and paste it into your agent with your implementation request.
+If your team already uses an external agent connected through the [MCP server](/agent/mcp-server), copy the link under **Copy MCP link** in the **Export** tab and paste it into your agent with your implementation request.
 
 <Note>For new workflows, use Agent chat to implement the page.</Note>
 
