@@ -7,9 +7,9 @@ Your theme defines design tokens for your project. Design tokens are reusable va
 
 ## Navigating the theme page
 
-Open **Theme** under **Design System** in the left sidebar, or press <kbd>Cmd</kbd> + <kbd>K</kbd> and search "Theme". Expand the **Theme** tab to jump to any section (Colors, Typography, Borders, Corners, Shadows).
+Open **Theme** under **Project** in the left sidebar, or press <kbd>Cmd</kbd> + <kbd>K</kbd> and search "Theme". Expand the **Theme** tab to jump to any section (Colors, Typography, Corners, Shadows, Borders).
 
-A toolbar at the top of the theme page holds the main actions, **Import** and **Export**, plus a **⋯** menu with **Version history**, **Reset theme**, and **Add dark mode** / **Add light mode**. When dark mode is enabled, the menu shows **Remove dark mode** / **Remove light mode** instead. See [Dark mode](/develop/guides/dark-mode) for details.
+A toolbar at the top of the theme page holds **Import** and a **⋯** menu with **New theme**, **Rename theme**, **Version history**, **Export theme**, **Reset theme**, and **Add dark mode** / **Add light mode**. When dark mode is enabled, the menu shows **Remove dark mode** / **Remove light mode** instead. See [Dark mode](/develop/guides/dark-mode) for details.
 
 All changes save automatically and apply immediately across your project.
 
@@ -17,18 +17,18 @@ See also: [Importing tokens](/design/theme/importing-tokens), [Exporting theme](
 
 ## Finding token usage
 
-Right-click any color, typography, border, corner, or shadow token and select **Find usage...** to see every design that references it. Search the list, click a design to preview it, then click **Go to component** to jump into the editor.
+Right-click any color, typography, border, corner, or shadow token and select **Show token usage** to see every design that references it. Search the list, click a design to preview it, then click **Go to component** to jump into the editor.
 
 Check usage before renaming or deleting a token so you know what your changes will affect.
 
 ## Edit theme with the agent
 
-{/* TODO: Update image — theme edits now happen in the docked agent chat */}
-
-<img
-  src="/images/theme/theme-ask-ai.webp"
-  alt="The theme page with an agent prompt open, showing 'update the theme to be brutalist with bold blue accents' with the theme sidebar and color tokens visible"
-/>
+<Frame>
+  <img
+    src="/images/theme/theme-ask-ai.png"
+    alt="The theme page's Colors section with agent chat docked on the right, its composer showing the Theme context chip"
+  />
+</Frame>
 
 Use [agent chat](/design/ask-ai/prompt-to-design) to update your theme from a prompt:
 
@@ -44,10 +44,12 @@ The agent can also rename or delete tokens when the changes call for it. All com
 
 Subframe organizes colors into **color tokens** grouped by **folders**.
 
-<img
-  src="/images/theme/theme-folders.webp"
-  alt="Colors section showing color tokens organized into folders like Text, Background, and Border, with a context menu for moving tokens between folders"
-/>
+<Frame>
+  <img
+    src="/images/theme/theme-folders.png" className="w-[430px]"
+    alt="Colors section with a color token's context menu open on Move to folder, listing folders such as Secondary, Primary, and Text"
+  />
+</Frame>
 
 ```tsx
 <div className="bg-neutral-100 text-default-font">Neutral background with default text color</div>
@@ -85,9 +87,9 @@ Click any token to open color picker. Set a direct color value or reference anot
 
 Text tokens define typography styles with font family, size, weight, line height, and letter spacing.
 
-{/* TODO: Update image — font size and line height are now sliders, not numeric inputs */}
-
-<img src="/images/theme/theme-typography.png" alt="Typography section of the theme page showing editing a text token" />
+<Frame>
+  <img src="/images/theme/theme-typography.png" alt="Typography section of the theme page with a text token's popover open, showing its font, size, line height, weight, and letter spacing" />
+</Frame>
 
 ```tsx
 <span className="text-heading-1 font-heading-1">Heading 1</span>
@@ -95,7 +97,7 @@ Text tokens define typography styles with font family, size, weight, line height
 
 ### Creating text tokens
 
-1. Click **+** in Typography section
+1. Click **New text style** in the Typography section
 2. Rename and adjust properties
 
 New tokens duplicate the properties from the first token. Typography tokens auto-sort based on font size on the theme page.
@@ -125,7 +127,9 @@ For detailed upload steps and codebase installation, see [Adding custom fonts](/
 
 Border tokens define composite border styles consisting of color, width, and style.
 
-<img src="/images/theme/theme-border.png" alt="Borders section of the theme page showing editing a border token" />
+<Frame>
+  <img src="/images/theme/theme-border.png" alt="Borders section of the theme page showing editing a border token" />
+</Frame>
 
 When generating code, border styles turn into explicit values for the border:
 
@@ -137,7 +141,7 @@ When generating code, border styles turn into explicit values for the border:
 
 ### Creating border tokens
 
-1. Click **+** in Borders section
+1. Click **New border** in the Borders section
 2. Rename and adjust style, size, color
 
 ### Editing border tokens
@@ -152,7 +156,9 @@ Click any border token to edit:
 
 Corner tokens define border radius values for consistent rounded corners.
 
-<img src="/images/theme/theme-corner.png" alt="Corners section of the theme page showing editing a corner token" />
+<Frame>
+  <img src="/images/theme/theme-corner.png" alt="Corners section of the theme page with the Lg corner token's popover open, showing its radius" />
+</Frame>
 
 ```tsx
 <div className="rounded-medium">Element with medium corner radius</div>
@@ -160,7 +166,7 @@ Corner tokens define border radius values for consistent rounded corners.
 
 ### Creating corner tokens
 
-1. Click **+** in Corners section
+1. Click **New corner** in the Corners section
 2. Set radius value
 
 Corner tokens auto-sort based on value.
@@ -173,7 +179,9 @@ Click any corner token to edit radius value in pixels.
 
 Shadow tokens define box shadows with multiple layers for depth and elevation.
 
-<img src="/images/theme/theme-shadow.png" alt="Shadows section of the theme page showing editing a shadow token" />
+<Frame>
+  <img src="/images/theme/theme-shadow.png" alt="Shadows section of the theme page with the Lg shadow token's popover open, showing a drop shadow layer's offset, blur, spread, and color" />
+</Frame>
 
 ```tsx
 <div className="shadow-sm">Element with small shadow</div>
@@ -181,7 +189,7 @@ Shadow tokens define box shadows with multiple layers for depth and elevation.
 
 ### Creating shadow tokens
 
-1. Click **+** in Shadows section
+1. Click **New shadow** in the Shadows section
 2. Add, remove, or edit shadow layers
 
 Shadow tokens auto-sort based on perceived shadow effect.
@@ -197,23 +205,6 @@ Click any shadow token to edit individual shadow layers. Each layer has:
 - **Color** — Shadow color with opacity
 
 Add multiple layers for complex shadow effects.
-
-## Theme presets
-
-<img src="/images/theme/theme-presets.png" alt="Edit theme dialog with theme preset controls and a preview" />
-
-{/* TODO: Update image */}
-
-Apply a theme preset to start fresh:
-
-1. Click **⋯** in the toolbar and select **Reset theme**
-2. Browse 10 preset styles
-3. Customize brand colors, fonts, and corner radius
-4. Toggle between Light and Dark mode
-
-Each preset configures color palettes (brand, neutral, error, success, warning), typography, and corner radius. Customize further after applying.
-
-<Note>Applying a theme preset replaces values in your current theme.</Note>
 
 ## Version history
 

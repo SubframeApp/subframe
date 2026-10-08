@@ -14,12 +14,10 @@ Each breakpoint other than Desktop is a **max-width** breakpoint: it applies fro
 
 <Frame>
   <img
-    src="/images/editor/editor-breakpoints.png"
+    src="/images/editor/editor-breakpoints.png" className="w-[323px]"
     alt="Breakpoint selector in the Inspector panel listing Desktop and Mobile with their width ranges"
   />
 </Frame>
-
-{/* TODO: Update image to show the breakpoint Select and management popover */}
 
 Use the **Breakpoint** selector at the top of the Inspector to switch the breakpoint you're viewing and editing. Each option shows the breakpoint's device icon, name, and the width range it covers.
 
@@ -28,6 +26,10 @@ You can also drag the handles on either edge of the page stage to resize it. The
 ## Managing breakpoints
 
 Click the <Icon icon="ellipsis" size={16} /> button next to the **Breakpoint** selector to open the **Edit breakpoints** popover.
+
+<Frame>
+  <img src="/images/editor/editor-breakpoints-edit.png" className="w-[306px]" alt="The Edit breakpoints popover listing Desktop at 768px and up and Mobile at 767px and below, with a + button to add a breakpoint" />
+</Frame>
 
 - **Add** — Click <Icon icon="plus" size={16} /> to add a breakpoint, then set its name and max width.
 - **Rename** — Edit the name field. The name becomes the prefix in your exported code, so keep it short (for example, `Tablet` exports as `tablet:`).
