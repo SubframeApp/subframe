@@ -200,6 +200,23 @@ yarn dlx @subframe/cli@latest sync
 </Frame>
 ```
 
+**Screenshots:**
+
+Pick the framing from what the text explains:
+
+- **Whole window** when the text is about where things are in the app. Capture a 1280x960 window at 1.35x (1728x1296 pixels) and center it on a 1920x1440 `#f5f5f5` canvas, 96px from the sides and 72px from the top and bottom, with 14px corners and a 1px `#e9e9e9` outline. The canvas matches the `.frame` background in `style.css`, so the image blends into its `<Frame>`.
+- **Tight crop** when the text is about one panel, menu, control, or dialog.
+
+Crop rules:
+
+- Crop to the smallest whole container (Inspector card, panel, menu, popover, or dialog) that holds everything the text mentions. Don't cut through a container, except at the bottom of a long panel like Layers.
+- Keep 8px of the surrounding surface so the container's corners and edge show. For dialogs, keep 32px of the backdrop.
+- For an open menu, popover, or tooltip, crop the trigger and the overlay together.
+- Show the default state with no cursor. Show hover or focus only when the text is about it.
+- Capture at 2x and add no frame, shadow, or border.
+
+Use PNG, light mode, and the scrambled-app demo project so every screenshot shows the same content. Save to `images/<topic>/<name>.png` with kebab-case names, and wrap every image in `<Frame>`.
+
 ## Linking
 
 **Internal links—relative paths:**
