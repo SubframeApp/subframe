@@ -6,11 +6,11 @@ description: Connect AI coding agents in Claude Code, Cursor, and Codex to Subfr
 import McpSkillsInstall from "/snippets/mcp-skills-install.mdx"
 import CopyMcpLink from "/snippets/copy-mcp-link.mdx"
 
-The Subframe MCP server gives external coding agents direct access to your Subframe projects. The agent can read, design, and delete pages, components, and snippets, screenshot pages and components, read prototypes, write design documents, edit the theme, and search the Subframe docs.
+The Subframe MCP server gives external coding agents direct access to your Subframe projects. The agent can read, design, and delete pages, components, and snippets, screenshot pages and components, export them as images, read prototypes, write design documents, edit the theme, and search the Subframe docs.
 
 A separate Subframe Docs MCP server gives agents access to Subframe documentation (this site).
 
-<Note>Viewers get a read-only MCP server. Read, screenshot, and search tools work, but tools that design or edit require an editor seat.</Note>
+<Note>Viewers get a read-only MCP server. Read, screenshot, export, and search tools work, but tools that design or edit require an editor seat.</Note>
 
 ## Installing the MCP server and Agent skills
 
@@ -66,7 +66,7 @@ Commit this file to your repository.
 
 ## Using the MCP server
 
-Once configured, your coding agent can access Subframe automatically when you prompt or paste an MCP link to a page from the Code panel.
+Once configured, your coding agent can access Subframe automatically when you prompt or paste an MCP link to a page from the **Export** tab.
 
 <CopyMcpLink />
 
@@ -147,6 +147,14 @@ A duplicated canvas includes copies of its pages but not its prototype.
 
 Open threads are returned by default. Each thread's element id matches `get_page_info`'s node ids, so an agent can act on the feedback with `edit_page` or `update_node_styles`. Replying to and resolving comments happens in the Subframe editor.
 
+### Exporting images
+
+| Tool           | Description                                                                      |
+| -------------- | -------------------------------------------------------------------------------- |
+| `export_image` | Export a page, an element, a component, or a snippet as a PNG, JPG, WebP, or PDF |
+
+The tool returns a download URL. A component exports its default variant. Agents check their own work with `screenshot_page` and `screenshot_component` instead.
+
 ### Prototypes
 
 A prototype is an interactive, AI-generated running app — its own React + Vite codebase — created in the Subframe prototyping editor. The read tools below expose a prototype as a standalone, runnable Vite app: internal scaffolding is dropped and the Vite/Tailwind config plus an entrypoint are added, so the file paths and contents you get back are ready to run with `npm install && npm run dev`.
@@ -213,7 +221,7 @@ Invalid references are dropped with a warning in the tool result rather than fai
 
 ## Prompting with an MCP link
 
-To reference a page in an external agent, copy its MCP link from the Code panel.
+To reference a page in an external agent, copy its MCP link from the **Export** tab.
 
 ```text
 Implement the design at https://app.subframe.com/design/...
