@@ -1,19 +1,19 @@
 ---
-title: Exporting code
-description: View and export code from your designs.
+title: Exporting code and images
+description: View and export code and images from your designs.
 ---
 
 Subframe generates high-quality React code [deterministically](/develop/concepts/code-generation) from your designs.
 
 <Note>For a complete guide to working with Subframe code, see the [developer docs](/develop/overview).</Note>
 
-<Note>The canvas stays editable in code mode. You can insert elements and adjust the design without leaving code view, and the inspected code updates to match.</Note>
+<Note>The canvas stays editable in export mode. You can insert elements and adjust the design without leaving the **Export** tab, and the inspected code updates to match.</Note>
 
 ## Setting up agents and your codebase
 
-Click **Connect MCP** in the **Code** tab to open **Agents** settings. You can also open it from your account menu. Use it to:
+Click **Connect MCP** in the **Export** tab to open **Agents** settings. You can also open it from your account menu. Use it to:
 
-- Connect Claude Code, Codex, Cursor, or Replit through the [MCP server](/agent/mcp-server)
+- Connect Claude Code, Codex, or Cursor through the [MCP server](/agent/mcp-server)
 - Set up Subframe in your codebase with the [CLI](/develop/installation)
 - Sync components into your codebase
 
@@ -22,10 +22,10 @@ Click **Connect MCP** in the **Code** tab to open **Agents** settings. You can a
 Pages are screens built from components. After designing a page in Subframe, you can copy its React code and add application logic such as API calls, state, and routing in your codebase.
 
 1. Open the page in Subframe
-2. Click the **Code** tab at the top of the Inspector panel
+2. Click the **Export** tab at the top of the Inspector panel
 3. Copy the React code
 
-To copy code for part of a page, select the elements first. The **Code** tab shows code for your selection.
+To copy code for part of a page, select the elements first. The **Export** tab shows code for your selection.
 
 <video
   autoPlay
@@ -34,12 +34,12 @@ To copy code for part of a page, select the elements first. The **Code** tab sho
   playsInline
   controls
   className="w-full"
-  src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/copy-and-paste-JNO1IbVafiW2vHKt9OuGXgteMyHkTR.webm"
+  src="/videos/code-mode/copy-code.mp4"
 />
 
 ## Inspecting elements
 
-1. Click the **Code** tab
+1. Click the **Export** tab
 2. Click on element you want to inspect
 3. Use dropdown to select what code format you want:
    - React + Tailwind code
@@ -48,10 +48,29 @@ To copy code for part of a page, select the elements first. The **Code** tab sho
 
 ## Syncing components
 
-1. Click the **Code** tab
+1. Click the **Export** tab
 2. Copy the `npx @subframe/cli@latest` command for syncing all components in the page or your selection
 
 To learn more about how syncing works, see [syncing components](/develop/concepts/syncing-components).
+
+## Exporting images
+
+Export a page, a selected element, a component, or a snippet as an image or PDF.
+
+<Frame>
+  <img src="/images/code-mode/export-image.png" className="w-[304px]" alt="The Export image card in the Export tab with 2x scale, PNG format, and an Export Home button" />
+</Frame>
+
+1. Open the page, component, or snippet. To export part of a page, select the element.
+2. Click the **Export** tab
+3. Under **Export image**, choose a scale from 0.5x to 4x and a format: PNG, JPG, WebP, or PDF
+4. Click the **Export** button, which shows the name of what you're exporting
+
+The image uses the breakpoint and dark mode setting you're previewing. A component exports the variant and state selected in the component editor. PNG and WebP keep transparent backgrounds, and JPG uses a white background. PDF exports a whole page, component, or snippet, so it isn't offered when an element is selected.
+
+To copy a PNG instead, click the copy icon <Icon icon="copy" size={16} /> next to **Export image**, or right-click an element and select **Copy as PNG**. **Copy as PNG** is also in <kbd>Cmd</kbd> + <kbd>K</kbd> and the page and component menus.
+
+External agents can export images with the MCP server's [`export_image`](/agent/mcp-server#exporting-images) tool.
 
 ## Implementing a page with Agent chat
 
@@ -68,7 +87,7 @@ Agent chat automatically includes the page or canvas you are viewing and the pag
 
 ## Implementing a page with an external agent
 
-If your team already uses an external agent connected through the [MCP server](/agent/mcp-server), copy the link under **Copy MCP link** in the **Code** tab and paste it into your agent with your implementation request.
+If your team already uses an external agent connected through the [MCP server](/agent/mcp-server), copy the link under **Copy MCP link** in the **Export** tab and paste it into your agent with your implementation request.
 
 <Note>For new workflows, use Agent chat to implement the page.</Note>
 

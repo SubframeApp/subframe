@@ -10,7 +10,7 @@ Components let you reuse UI across your designs.
 - **Interactive when needed** — Some components like checkboxes and accordions have built-in interaction logic using `@subframe/core`, our Radix-based headless component library. Learn more about [headless components](/develop/concepts/code-generation#headless-components).
 
 <Frame>
-  <img src="/images/components/create-component-dialog.png" alt="Create a new component dialog" />
+  <img src="/images/components/create-component-dialog.png" className="w-[804px]" alt="The Create a new component dialog with a prompt box above the Start from a template gallery" />
 </Frame>
 
 ## Importing components
@@ -19,9 +19,9 @@ We recommend [importing your theme](/design/theme/importing-tokens) first so tha
 
 <Tabs>
   <Tab title="From code">
-    1. Open **Components** under **Design System** in the left sidebar
+    1. Open **Components** under **Project** in the left sidebar
 
-    2. Click **New component**
+    2. Click **New**
 
     3. Paste the source code of an existing component from your codebase into the prompt
 
@@ -98,9 +98,9 @@ export { Button, buttonVariants }
 
   </Tab>
   <Tab title="From Figma">
-    1. Open **Components** under **Design System** in the left sidebar
+    1. Open **Components** under **Project** in the left sidebar
     
-    2. Click **New component**
+    2. Click **New**
     
     3. Take a screenshot of the component and its states from Figma and paste it into the prompt
 
@@ -111,15 +111,15 @@ export { Button, buttonVariants }
 
 ## Creating components using AI
 
-1. Open **Components** under **Design System** in the left sidebar
-2. Click **New component**
+1. Open **Components** under **Project** in the left sidebar
+2. Click **New**
 3. Describe the component you want in the prompt
 4. Press <kbd>Enter</kbd> or click the send button — the agent will take a few minutes to create your component
 
 ## Creating components from scratch
 
-1. Open **Components** under **Design System** in the left sidebar
-2. Click **New component**
+1. Open **Components** under **Project** in the left sidebar
+2. Click **New**
 3. Choose one of:
    - Remix an existing prebuilt component
    - Create from scratch
@@ -149,7 +149,7 @@ Subframe suggests component properties based on the elements you selected.
 
 To edit a component:
 
-1. Open **Components** under **Design System** in the left sidebar
+1. Open **Components** under **Project** in the left sidebar
 2. Click on the component
 3. Click **Edit component**
 
@@ -214,7 +214,7 @@ The **Components** page lists every component in your project along with when ea
 
 Each component has reference information for its React props, source code, and interactive examples. You can also [write a design doc](/design/documents#writing-component-guidelines) with usage rules and examples for your team and the agent.
 
-1. Open **Components** under **Design System** in the left sidebar
+1. Open **Components** under **Project** in the left sidebar
 2. Click on a component
 
 <video
@@ -224,16 +224,16 @@ Each component has reference information for its React props, source code, and i
   playsInline
   controls
   className="w-full"
-  src="https://hevpkratkeuc60w7.public.blob.vercel-storage.com/view-component-documentation-ygcEi4y47JotWdboZUunSHbkxdpYrh.webm"
+  src="/videos/components/view-component-documentation.mp4"
 />
 
 ## Exporting components to code
 
 <Frame>
-  <img src="/images/components/sync-component-command.png" alt="Sync component CLI command" />
+  <img src="/images/components/sync-component-command.png" className="w-[304px]" alt="The Sync component card in the Export tab with the npx @subframe/cli@latest sync command and a copy button" />
 </Frame>
 
-1. Click the **Code** tab at the top of the Inspector panel
+1. Click the **Export** tab at the top of the Inspector panel
 2. Copy and paste the `npx @subframe/cli@latest` command
 
 For more information, see [syncing components](/develop/concepts/syncing-components).
@@ -242,7 +242,7 @@ For more information, see [syncing components](/develop/concepts/syncing-compone
 
 Copy components and pages from one of your other Subframe projects into the current one. Each selection brings along the dependencies it needs to render — nested components, theme tokens, fonts, custom icons, and image assets.
 
-1. Open **Components** under **Design System** in the left sidebar
+1. Open **Components** under **Project** in the left sidebar
 2. Click **Import** (top right) and select **Copy from existing project...**
 3. Pick the source project from the dropdown
 4. Browse or search the source project's components and pages — click any item to preview it on the right

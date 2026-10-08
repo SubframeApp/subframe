@@ -18,6 +18,7 @@ Use this skill when the user wants to:
 - Update the Subframe project's visual theme (colors, fonts, corners, shadows, typography)
 - Remove Subframe pages, components, snippets, or canvases that are no longer needed
 - Act on design feedback your team left as comments on Subframe pages
+- Export a page, component, or snippet as an image or PDF for the user
 
 The key value: `/subframe:design` and `/subframe:develop` bridge coding and design. They work in both directions — create designs while coding and then ensure your code exactly reflects your design.
 
@@ -37,6 +38,7 @@ The key value: `/subframe:design` and `/subframe:develop` bridge coding and desi
 | Move a page to a different grid cell or canvas                                    | `move`                                                                                |
 | Make an exact copy of a page, component, snippet, or canvas                       | `duplicate`                                                                           |
 | Read the design feedback left as comments on pages                                | `list_comments`                                                                       |
+| Give the user an image or PDF of a page, element, component, or snippet           | `export_image`                                                                        |
 | Find an icon to reference in design or edit code                                  | `search_icons`                                                                        |
 | Add icons or custom fonts to the project                                          | `create_asset_upload`, then `add_icons` / `add_fonts`                                 |
 | See or remove the project's icons and fonts                                       | `list_icons` / `list_fonts` / `get_icon_info`; `delete_icons` / `delete_fonts`        |
@@ -535,6 +537,12 @@ Use `rename` to rename a page, component, snippet, or canvas by id/name/url. Use
 Use `list_comments` to read the comments your team left on pages. Pass a page or canvas by id/name/url (a canvas covers the pages placed on it), or nothing for the whole project. It returns open threads unless `includeResolved` is set. Each thread's `nodeId` is the commented element's `data-node-id` from `get_page_info` with `includeNodeIds: true`, so you can change it with `edit_page` or `update_node_styles`; it's null when the element was deleted.
 
 Comments are read-only over MCP — replying and resolving happen in the Subframe editor.
+
+## Exporting images
+
+Use `export_image` when the user wants an image of their design, not to check your own work — use `screenshot_page` or `screenshot_component` for that. Pass a page, component, or snippet by id/name/url. To export one element of a page, pass its `nodeId` from `get_page_info` with `includeNodeIds: true`; for a breakpoint other than the default desktop one, pass a `breakpointId` from `get_theme`. A component exports its default variant only. Set `darkMode: true` for the dark theme.
+
+`scale` defaults to 2 and is lowered for very large captures; the result reports the scale actually used. `format` is `png` (default) or `webp`, which keep transparency, `jpeg` on a white background, or `pdf`, a single vector page of a whole page, component, or snippet (no `nodeId`; `scale` is ignored). The tool returns a download URL rather than an inline image — share that URL with the user.
 
 ## Iterating
 

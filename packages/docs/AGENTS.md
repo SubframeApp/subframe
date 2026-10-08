@@ -200,6 +200,27 @@ yarn dlx @subframe/cli@latest sync
 </Frame>
 ```
 
+**Screenshots:**
+
+Pick the framing from what the text explains:
+
+- **Whole window** when the text is about where things are in the app. Capture a 1280x960 window at 1.35x (1728x1296 pixels) and center it on a 1920x1440 `#f5f5f5` canvas, 96px from the sides and 72px from the top and bottom, with 14px corners and a 1px `#e9e9e9` outline. The canvas matches the `.frame` background in `style.css`, so the image blends into its `<Frame>`.
+- **Tight crop** when the text is about one panel, menu, control, or dialog.
+
+Crop rules:
+
+- Crop to the smallest whole container (Inspector card, panel, menu, popover, or dialog) that holds everything the text mentions. Don't cut through a container, except at the bottom of a long panel like Layers.
+- Keep 8px of the surrounding surface so the container's corners and edge show. For dialogs, keep 32px of the backdrop.
+- For an open menu, popover, or tooltip, crop the trigger and the overlay together.
+- Show the default state. When a step clicks or selects something, show it hovered, with its tooltip and the pointer on it. A menu item the step selects is highlighted. Otherwise show no pointer.
+- Capture at 2x and add no frame, shadow, or border. Size the `<img>` with a Tailwind width class at half the file's pixel width, e.g. `className="w-[304px]"` for a 608px-wide file, so the crop displays at the UI's actual size. Mintlify recommends classes over the `style` prop, which causes layout shift. The local dev server doesn't generate these classes; check sizes on the preview deployment.
+
+Use PNG, light mode, and the scrambled-app demo project so every screenshot shows the same content. Save to `images/<topic>/<name>.png` with kebab-case names, and wrap every image in `<Frame>`.
+
+When you retake a screenshot, keep what the old one showed: the same state, open menu or popover, typed content, and highlighted item. Only the product's own changes should differ. Delete images that no page references.
+
+**Videos:** Record the same 1280x960 window at 2x with a visible pointer, crop to where the action happens, and speed through waits like an AI response. Keep clips to about 5–15 seconds and save them as H.264 MP4 to `videos/<topic>/<name>.mp4`.
+
 ## Linking
 
 **Internal links—relative paths:**
@@ -224,7 +245,7 @@ yarn dlx @subframe/cli@latest sync
 
 **Consistent terms:**
 - Agent chat (replaces "Ask AI"—never use the old name)
-- Design mode, Prototype mode, Code mode
+- Design mode, Prototype mode, Export mode
 - Inspector panel, Layers panel
 - Component library
 - Theme

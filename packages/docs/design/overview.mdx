@@ -9,12 +9,10 @@ The Subframe editor is where you design pages, build components, and export prod
 
 <Frame>
   <img
-    src="/images/editor/editor-modes.png"
-    alt="Editor mode selector showing Design, Prototype, and Code mode buttons"
+    src="/images/editor/editor-modes.png" className="w-[304px]"
+    alt="The top of the Inspector panel with a collaborator avatar, the Share button, and the Design, Prototype, and Export tabs"
   />
 </Frame>
-
-{/* TODO: Update image — the Design, Prototype, and Code tabs now sit at the top of the Inspector panel */}
 
 Use the mode tabs at the top of the Inspector panel to switch between the following modes:
 
@@ -25,8 +23,8 @@ Use the mode tabs at the top of the Inspector panel to switch between the follow
   <Card title="Prototype Mode" icon="mouse-pointer-click">
     Build AI-generated prototypes from your designs using annotations and prototype chat.
   </Card>
-  <Card title="Code Mode" icon="code">
-    View code, set up MCP server, and export to AI coding tools like Claude Code, Cursor, and Codex.
+  <Card title="Export Mode" icon="download">
+    View code, set up the MCP server, export images, and send designs to coding agents like Claude Code, Cursor, and Codex.
   </Card>
 </CardGroup>
 
@@ -60,7 +58,7 @@ A toolbar at the bottom of the canvas gives you quick access to actions: the **S
 
 This is the context-aware properties panel that changes based on editor mode and selected element. The top of the Inspector holds the **Share** button, collaborator avatars, and the mode tabs.
 
-For example, in design mode, you'll see layout, sizing, colors, backgrounds, borders, shadows, padding, overflow, and component properties. In code mode, you'll see the code for the selected element.
+For example, in design mode, you'll see layout, sizing, colors, backgrounds, borders, shadows, padding, overflow, and component properties. In export mode, you'll see the code for the selected element and options to export it as an image.
 
 ### Show and hide panels
 
@@ -72,7 +70,7 @@ Switch between breakpoints using the **Breakpoint** selector in the Inspector pa
 
 <Frame>
   <img
-    src="/images/editor/editor-breakpoints.png"
+    src="/images/editor/editor-breakpoints.png" className="w-[323px]"
     alt="Breakpoint selector in the Inspector panel listing Desktop and Mobile with their width ranges"
   />
 </Frame>
@@ -88,9 +86,7 @@ We recommend you design for desktop first, then add overrides only where needed.
 Multiple team members can edit simultaneously. See who's viewing or editing with avatars at the top of the Inspector panel.
 
 <Frame>
-  <img src="/images/editor/editor-collaborators.png" alt="Editor collaboration showing the team members and avatars" />
+  <img src="/images/editor/editor-modes.png" className="w-[304px]" alt="The top of the Inspector panel with a collaborator avatar and the Share button" />
 </Frame>
 
 Click the **Share** button at the top of the Inspector panel to invite team members or create view-only links. Set roles (viewer/editor) and toggle public preview access.
-
-{/* TODO: Update screenshot — the **Share** button and avatars now sit at the top of the Inspector panel */}
