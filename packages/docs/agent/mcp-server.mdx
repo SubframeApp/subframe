@@ -99,14 +99,16 @@ The Subframe MCP server exposes tools across several categories. Most read tools
 
 ### Components
 
-| Tool                   | Description                                          |
-| ---------------------- | ---------------------------------------------------- |
-| `list_components`      | List all components                                  |
-| `get_component_info`   | Get a component's generated code and design document |
-| `screenshot_component` | Screenshot a component's variants and states         |
-| `design_component`     | Design a new component from a description            |
-| `edit_component`       | Edit a component, updating every page that uses it   |
-| `delete_component`     | Delete a component or custom page layout             |
+| Tool                   | Description                                               |
+| ---------------------- | --------------------------------------------------------- |
+| `list_components`      | List all components and the folder each one is in         |
+| `get_component_info`   | Get a component's generated code and design document      |
+| `screenshot_component` | Screenshot a component's variants and states              |
+| `design_component`     | Design a new component from a description                 |
+| `edit_component`       | Edit a component, updating every page that uses it        |
+| `delete_component`     | Delete a component or custom page layout                  |
+| `list_folders`         | List component folders and what each contains             |
+| `delete_folder`        | Delete a component folder, optionally with its components |
 
 ### Snippets
 
@@ -133,13 +135,13 @@ A [canvas](/design/canvases) is a collection of related pages (e.g. "Onboarding"
 
 ### Organizing
 
-| Tool        | Description                                                                  |
-| ----------- | ---------------------------------------------------------------------------- |
-| `rename`    | Rename a page, component, snippet, or canvas                                 |
-| `move`      | Move pages to another grid cell or canvas; a batch of moves applies together |
-| `duplicate` | Make an exact copy of a page, component, snippet, or canvas                  |
+| Tool        | Description                                                                                     |
+| ----------- | ----------------------------------------------------------------------------------------------- |
+| `rename`    | Rename a page, component, snippet, canvas, or component folder                                  |
+| `move`      | Move pages to another grid cell or canvas, or components into folders; a batch applies together |
+| `duplicate` | Make an exact copy of a page, component, snippet, or canvas                                     |
 
-A duplicated canvas includes copies of its pages but not its prototype.
+A duplicated canvas includes copies of its pages but not its prototype. A duplicated component stays in the same folder as the original.
 
 ### Comments
 
