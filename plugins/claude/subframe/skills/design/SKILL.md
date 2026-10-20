@@ -42,6 +42,7 @@ The key value: `/subframe:design` and `/subframe:develop` bridge coding and desi
 | Find an icon to reference in design or edit code                                  | `search_icons`                                                                        |
 | Add icons or custom fonts to the project                                          | `create_asset_upload`, then `add_icons` / `add_fonts`                                 |
 | See or remove the project's icons and fonts                                       | `list_icons` / `list_fonts` / `get_icon_info`; `delete_icons` / `delete_fonts`        |
+| Add, see or remove the project's images                                           | `create_asset_upload`, then `add_images`; `list_images`; `delete_images`              |
 
 ## MCP access
 
@@ -468,7 +469,7 @@ When the project has codebase context, the description should carry the **actual
 - Token modules (`tokens.ts`, `tokens.json`, `theme.ts`, Style Dictionary exports)
 - Font config (`next/font`, CSS `@font-face`, font import URLs)
 
-Any font `list_fonts` lists, Google or custom, is usable by name; add others with `add_fonts` first (see [Icons and fonts](#icons-and-fonts)).
+Any font `list_fonts` lists, Google or custom, is usable by name; add others with `add_fonts` first (see [Icons, fonts and images](#icons-fonts-and-images)).
 
 Paste each file in a fenced block headed by its path (`// tailwind.config.ts`). Don't summarize token values — the agent's accuracy on color, spacing, and typography depends on the exact strings.
 
@@ -499,20 +500,20 @@ When the user wants to consolidate tokens (e.g., `brand-50` through `brand-900` 
 
 - **Styling individual pages or snippets** — edit those resources directly; theme token changes apply project-wide.
 
-## Icons and fonts
+## Icons, fonts and images
 
-Use what the project has. Icons are referenced by exact name, so only use a name the Subframe project has: one returned by `search_icons` (built-in Lucide icons and uploads), `list_icons` (uploads only), or `add_icons`, or one already in the project's designs. An icon in the user's codebase isn't in the project until it's added. In design code, write an icon as `<SubframeCore.Icon name="FeatherCheck" />` or a component's icon prop (`<Button icon="FeatherCheck" />`); an unknown name is cleared. The component form `get_page_info` may show (`<FeatherCheck />`) also works, but an unknown icon tag fails the whole edit. App code differs; see the develop skill. Any font `list_fonts` lists, Google or custom, is usable by name in `edit_theme`.
+Use what the project has. Icons are referenced by exact name, so only use a name the Subframe project has: one returned by `search_icons` (built-in Lucide icons and uploads), `list_icons` (uploads only), or `add_icons`, or one already in the project's designs. An icon in the user's codebase isn't in the project until it's added. In design code, write an icon as `<SubframeCore.Icon name="FeatherCheck" />` or a component's icon prop (`<Button icon="FeatherCheck" />`); an unknown name is cleared. The component form `get_page_info` may show (`<FeatherCheck />`) also works, but an unknown icon tag fails the whole edit. App code differs; see the develop skill. Any font `list_fonts` lists, Google or custom, is usable by name in `edit_theme`. Images are referenced by URL: `list_images` returns each project image's `url`; put it exactly as `<img src="{url}">` in design code or `edit_page`, and the design references the project image itself. Any other `src` stays an external link.
 
-Add what the request needs. When the user asks for their icons, logo, or fonts, or for a font the project lacks, add them without asking. For an icon you need while designing, draw a one-off inline SVG instead, unless the user wants it kept.
+Add what the request needs. When the user asks for their icons, logo, fonts, or images, or for a font the project lacks, add them without asking. For an icon you need while designing, draw a one-off inline SVG instead, unless the user wants it kept.
 
-To add icons or fonts:
+To add icons, fonts or images:
 
 1. Get the files: a codebase's icon SVGs (an icons folder or sprite; for icon components, write each one's SVG to a file first) and the font files its `@font-face` or `next/font` setup loads, SVG markup the user pastes, files at URLs they give you, or an SVG you draw. Write any markup to a file first.
-2. Call `create_asset_upload` once, then POST every file to the returned `url` with the returned form fields. The result includes a ready-to-run `curl` example; the path after `keyPrefix` is the file's `path` in the next step. The upload link accepts files for 10 minutes; once uploaded, add them with `add_icons` / `add_fonts` within about a day. A new `create_asset_upload` call returns a new `uploadId`, so files from different uploads need separate `add_*` calls.
-3. Call `add_icons` or `add_fonts` with the `uploadId`. Icons default to `monotone` and follow the text color; pass `colorMode: "multicolor"` only for logos or illustrations whose own colors matter. Decide this yourself rather than asking the user. Gradients, masks, filters, patterns, images, text, and shapes reused through `<use>` or `<symbol>` aren't supported: they're dropped on import, and a multicolor gradient fill renders black. `add_icons` turns whatever name you give it into an import name (`my_icon` → `MyIcon`) and returns each icon's `id` and import name; use the returned name in code. An empty name fails, and a name another icon already uses in code (e.g. the built-in Lucide icon `FeatherCheck`) gets a number suffix. A font family named like a Google font fails by design.
+2. Call `create_asset_upload` once, then POST every file to the returned `url` with the returned form fields. The result includes a ready-to-run `curl` example; the path after `keyPrefix` is the file's `path` in the next step. The upload link accepts files for 10 minutes; once uploaded, add them with `add_icons` / `add_fonts` / `add_images` within about a day. A new `create_asset_upload` call returns a new `uploadId`, so files from different uploads need separate `add_*` calls.
+3. Call `add_icons`, `add_fonts` or `add_images` with the `uploadId`. Icons default to `monotone` and follow the text color; pass `colorMode: "multicolor"` only for logos or illustrations whose own colors matter. Decide this yourself rather than asking the user. Gradients, masks, filters, patterns, images, text, and shapes reused through `<use>` or `<symbol>` aren't supported: they're dropped on import, and a multicolor gradient fill renders black. `add_icons` turns whatever name you give it into an import name (`my_icon` → `MyIcon`) and returns each icon's `id` and import name; use the returned name in code. An empty name fails, and a name another icon already uses in code (e.g. the built-in Lucide icon `FeatherCheck`) gets a number suffix. A font family named like a Google font fails by design. `add_images` accepts PNG, JPEG, GIF, WebP, AVIF and SVG up to 10 MB, names each image after its file unless you pass `name`, and returns its `id` and `url`; it only ever adds a new image. `design_page` sees images by name and url, so name the image and its url in the description.
 4. Report every failed file and every replacement to the user instead of retrying silently.
 
-Adding can replace what's there: `add_icons` replaces an uploaded icon with the same name, and `add_fonts` replaces a custom font's face with the same weight and style. Either changes every design already using it. That's how to update an icon's artwork (`get_icon_info` shows its current markup) or a font's files, but confirm with the user first unless they asked for that update. Deleting always needs confirmation (see below); for `delete_fonts`, pick the closest available replacement font.
+Adding can replace what's there: `add_icons` replaces an uploaded icon with the same name, and `add_fonts` replaces a custom font's face with the same weight and style. Either changes every design already using it. That's how to update an icon's artwork (`get_icon_info` shows its current markup) or a font's files, but confirm with the user first unless they asked for that update. To refresh an image, add the new file, point each `<img src>` at its new url with `edit_page`, then optionally delete the old image. Deleting always needs confirmation (see below); for `delete_fonts`, pick the closest available replacement font.
 
 ## Deletion
 
@@ -525,6 +526,7 @@ One tool per resource type. **Always confirm with the user before calling any de
 
 - `delete_icons({ ids, projectId })` — deletes uploaded icons. Designs using one lose the icon, unless the upload had replaced a built-in Lucide icon — then that icon is restored in its place and the result says `restored`. Built-in Lucide icons can't be deleted.
 - `delete_fonts({ fonts: [{ id, replacementFontId }], projectId })` — deletes custom fonts; every use (theme tokens, the default font, designs) switches to the replacement, a Google or custom font id from `list_fonts`.
+- `delete_images({ ids, projectId })` — deletes images (ids from `list_images` or `add_images`). Designs using one keep showing it: each reference becomes a plain URL to the same file.
 
 When a delete tool refuses because of references, surface what it would affect to the user before retrying with `force: true` / `deleteChildPages: true`. Don't auto-escalate to force-mode without confirmation.
 

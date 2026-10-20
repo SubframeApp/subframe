@@ -194,21 +194,24 @@ A project can hold several themes that share token names but differ in values. T
   deletion time, and those references stay detached even if you restore the token.
 </Warning>
 
-### Icons and fonts
+### Icons, fonts and images
 
-| Tool                  | Description                                                       |
-| --------------------- | ----------------------------------------------------------------- |
-| `search_icons`        | Search the project's icon library                                 |
-| `list_icons`          | List uploaded icons                                               |
-| `get_icon_info`       | Get an uploaded icon's markup                                     |
-| `list_fonts`          | List Google and custom fonts, with each custom face's URL         |
-| `create_asset_upload` | Get an upload link for icon SVGs and font files from your machine |
-| `add_icons`           | Add uploaded SVGs to the icon library                             |
-| `add_fonts`           | Add uploaded font files as custom font families                   |
-| `delete_icons`        | Delete uploaded icons                                             |
-| `delete_fonts`        | Delete custom fonts, switching every use to a replacement font    |
+| Tool                  | Description                                                              |
+| --------------------- | ------------------------------------------------------------------------ |
+| `search_icons`        | Search the project's icon library                                        |
+| `list_icons`          | List uploaded icons                                                      |
+| `get_icon_info`       | Get an uploaded icon's markup                                            |
+| `list_fonts`          | List Google and custom fonts, with each custom face's URL                |
+| `list_images`         | List uploaded images, with each image's URL                              |
+| `create_asset_upload` | Get an upload link for icon SVGs, font and image files from your machine |
+| `add_icons`           | Add uploaded SVGs to the icon library                                    |
+| `add_fonts`           | Add uploaded font files as custom font families                          |
+| `add_images`          | Add uploaded images (PNG, JPEG, GIF, WebP, AVIF, SVG; up to 10 MB)       |
+| `delete_icons`        | Delete uploaded icons                                                    |
+| `delete_fonts`        | Delete custom fonts, switching every use to a replacement font           |
+| `delete_images`       | Delete images, turning each reference into a plain image URL             |
 
-The agent uploads files with `curl`, so importing icons and fonts needs an agent that can run commands, like Claude Code, Codex, Cursor, or an agent in Subframe’s Agent chat — the upload link accepts files for 10 minutes, and uploaded files can be added with `add_icons` / `add_fonts` for about a day. A same-name icon upload replaces the earlier one everywhere it's used; a font family named like a Google font is rejected.
+The agent uploads files with `curl`, so importing icons, fonts and images needs an agent that can run commands, like Claude Code, Codex, Cursor, or an agent in Subframe’s Agent chat — the upload link accepts files for 10 minutes, and uploaded files can be added with `add_icons` / `add_fonts` / `add_images` for about a day. A same-name icon upload replaces the earlier one everywhere it's used; a font family named like a Google font is rejected. `add_images` always adds a new image and never replaces one. Reference an image with `<img src="{url}">` in design code or `edit_page`, using the URL from `add_images` or `list_images`.
 
 ### Design references
 
