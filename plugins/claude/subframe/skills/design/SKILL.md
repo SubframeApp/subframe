@@ -16,7 +16,7 @@ Use this skill when the user wants to:
 - Add or edit a reusable Subframe component or snippet
 - Capture design intent or component usage guidance as a Subframe design document
 - Update the Subframe project's visual theme (colors, fonts, corners, shadows, typography)
-- Remove Subframe pages, components, snippets, or canvases that are no longer needed
+- Remove Subframe pages, components, snippets, canvases, or themes that are no longer needed
 - Act on design feedback your team left as comments on Subframe pages
 - Export a page, component, or snippet as an image or PDF for the user
 
@@ -24,25 +24,25 @@ The key value: `/subframe:design` and `/subframe:develop` bridge coding and desi
 
 ## Picking the right tool
 
-| Intent                                                                            | Tool                                                                                  |
-| --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| Find out what already exists in the project                                       | `list_components`, `list_pages`, `list_snippets`, `list_canvases`, `get_project_info` |
-| Build a screen the user navigates to                                              | `design_page` (new) / `edit_page` (targeted change)                                   |
-| Change only the styles of existing page or snippet elements                       | `update_node_styles`                                                                  |
-| Build a reusable building block (Button, Card, ListItem) used inside pages        | `design_component` (new) / `edit_component` (targeted change)                         |
-| Build a small example used inside a design document (e.g. a Button-variants demo) | `design_snippet` (new) / `edit_snippet` (targeted change)                             |
-| Write or update written design / usage documentation                              | `write_design_document`                                                               |
-| Change project-wide colors, fonts, corners, shadows, typography                   | `edit_theme`                                                                          |
-| Remove a page, canvas, component, or snippet                                      | `delete_page` / `delete_canvas` / `delete_component` / `delete_snippet`               |
-| Rename a page, component, snippet, or canvas                                      | `rename`                                                                              |
-| Move a page to a different grid cell or canvas                                    | `move`                                                                                |
-| Make an exact copy of a page, component, snippet, or canvas                       | `duplicate`                                                                           |
-| Read the design feedback left as comments on pages                                | `list_comments`                                                                       |
-| Give the user an image or PDF of a page, element, component, or snippet           | `export_image`                                                                        |
-| Find an icon to reference in design or edit code                                  | `search_icons`                                                                        |
-| Add icons or custom fonts to the project                                          | `create_asset_upload`, then `add_icons` / `add_fonts`                                 |
-| See or remove the project's icons and fonts                                       | `list_icons` / `list_fonts` / `get_icon_info`; `delete_icons` / `delete_fonts`        |
-| Add, see or remove the project's images                                           | `create_asset_upload`, then `add_images`; `list_images`; `delete_images`              |
+| Intent                                                                            | Tool                                                                                     |
+| --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Find out what already exists in the project                                       | `list_components`, `list_pages`, `list_snippets`, `list_canvases`, `get_project_info`    |
+| Build a screen the user navigates to                                              | `design_page` (new) / `edit_page` (targeted change)                                      |
+| Change only the styles of existing page or snippet elements                       | `update_node_styles`                                                                     |
+| Build a reusable building block (Button, Card, ListItem) used inside pages        | `design_component` (new) / `edit_component` (targeted change)                            |
+| Build a small example used inside a design document (e.g. a Button-variants demo) | `design_snippet` (new) / `edit_snippet` (targeted change)                                |
+| Write or update written design / usage documentation                              | `write_design_document`                                                                  |
+| Change project-wide colors, fonts, corners, shadows, typography                   | `edit_theme` (typed operations), or `import_theme` for pasted Tailwind CSS / a config    |
+| Remove a page, canvas, component, snippet, or theme                               | `delete_page` / `delete_canvas` / `delete_component` / `delete_snippet` / `delete_theme` |
+| Rename a page, component, snippet, canvas, or theme                               | `rename`                                                                                 |
+| Move a page to a different grid cell or canvas                                    | `move`                                                                                   |
+| Make an exact copy of a page, component, snippet, canvas, or theme                | `duplicate`                                                                              |
+| Read the design feedback left as comments on pages                                | `list_comments`                                                                          |
+| Give the user an image or PDF of a page, element, component, or snippet           | `export_image`                                                                           |
+| Find an icon to reference in design or edit code                                  | `search_icons`                                                                           |
+| Add icons or custom fonts to the project                                          | `create_asset_upload`, then `add_icons` / `add_fonts`                                    |
+| See or remove the project's icons and fonts                                       | `list_icons` / `list_fonts` / `get_icon_info`; `delete_icons` / `delete_fonts`           |
+| Add, see or remove the project's images                                           | `create_asset_upload`, then `add_images`; `list_images`; `delete_images`                 |
 
 ## MCP access
 
@@ -80,13 +80,13 @@ The first time you're about to call `design_page` / `design_component` / `edit_p
    - **Role divergence** — e.g., the codebase's `brand` token paints focus rings only while a separate `primary` token paints filled-button backgrounds; the Subframe project's convention may have `brand-primary` painting the filled-button background instead. If you need to verify Subframe-side roles, call `get_component_info` on the relevant component to see which tokens it actually references.
    - **Dual-token systems** — shadcn-style `primary` / `primary-foreground`, `destructive` / `destructive-foreground`, etc., where each role pairs a surface token with a content token. The Subframe theme may not have direct equivalents.
 
-3. **If anything mismatches, or `get_theme` is empty**, stop and ask the user if they would like to set up the theme via `edit_theme` first since any design call is at risk of using hardcoded values and breaking the design system source-of-truth promise. Treat this like destructive-deletion confirmation: required even under autonomy / no-clarifying-questions directives.
+3. **If anything mismatches, or `get_theme` is empty**, stop and ask the user if they would like to set up the theme via `import_theme` / `edit_theme` first since any design call is at risk of using hardcoded values and breaking the design system source-of-truth promise. Treat this like destructive-deletion confirmation: required even under autonomy / no-clarifying-questions directives.
 
 4. **If the codebase uses hardcoded values instead of token**, the user may be hoping to start using tokens with Subframe. Ask the user if they want to create a theme in Subframe from their hardcoded values or if they would prefer to stick with hardcoded values.
 
 If the project has no codebase context, only the empty-theme check applies — skip the comparison.
 
-**When roles diverge**, ask the user how they would like to proceed as far as keeping the Subframe roles versus matching their codebase ones. Based on their answer, follow the process outlined in [Risk-classify before calling](#risk-classify-before-calling) and, if necessary, [safe consolidation via alias bridging](#safe-consolidation-via-alias-bridging).
+**When roles diverge**, ask the user how they would like to proceed as far as keeping the Subframe roles versus matching their codebase ones. Based on their answer, follow the process outlined in [Risk-classify before calling](#risk-classify-before-calling) and, if necessary, [consolidating tokens with `replaceWith`](#consolidating-tokens-with-replacewith).
 
 ## Grounding design calls in real code
 
@@ -144,9 +144,9 @@ Include in the description:
 
 See [Preparing references](#preparing-references) below for the page-specific rule about leaving Subframe component references as-is and inlining everything else. The general grounding rules above (default to full files, paste styles verbatim, soft cap with trimming) layer on top. (`edit_page` is a node-targeted edit, not a reference-grounded design call — see its section below.)
 
-### For theme edits (`edit_theme`)
+### For theme edits (`import_theme`, `edit_theme`)
 
-See [Preparing the edit_theme description](#preparing-the-edit_theme-description) under the Theme section. The codebase theme source files belong in the description verbatim — don't paraphrase token values.
+See [Importing theme source](#importing-theme-source) under the Theme section. The codebase theme source files go to `import_theme` verbatim — don't paraphrase token values.
 
 ## Background jobs and `wait_for_jobs`
 
@@ -225,12 +225,12 @@ Always pass a `canvasName` (required); variations land as pages on that canvas. 
 
 How much context to gather and how many variations to generate depends on the task:
 
-| Task                                | Context                                                                                                                             | Variations                              |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------- |
-| **New page (open-ended)**           | Data types (`code` reference)                                                                                                       | 4 — explore the design space            |
-| **New page (with reference pages)** | Reference pages (`subframe` reference if in Subframe, `code` if not), data types (`code`)                                           | 1-2 — stay close to the reference pages |
-| **Redesigning existing UI**         | The current page (`subframe` reference if in Subframe, `code` if not; the usage note says what to keep vs change)                    | 2-4 — depending on how open-ended       |
-| **Recreating an existing UI**       | The current page's exact markup and styles (`code` reference, usage "recreate this exactly")                                        | 1 — recreate the UI from code exactly   |
+| Task                                | Context                                                                                                           | Variations                              |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| **New page (open-ended)**           | Data types (`code` reference)                                                                                     | 4 — explore the design space            |
+| **New page (with reference pages)** | Reference pages (`subframe` reference if in Subframe, `code` if not), data types (`code`)                         | 1-2 — stay close to the reference pages |
+| **Redesigning existing UI**         | The current page (`subframe` reference if in Subframe, `code` if not; the usage note says what to keep vs change) | 2-4 — depending on how open-ended       |
+| **Recreating an existing UI**       | The current page's exact markup and styles (`code` reference, usage "recreate this exactly")                      | 1 — recreate the UI from code exactly   |
 
 **Always include when available:**
 
@@ -451,50 +451,87 @@ Preserve these tags verbatim when round-tripping through `mode: replace` — los
 
 ## Theme
 
-Use `edit_theme` to update the project's visual theme — colors, fonts, corners, shadows, typography tokens. **Applies immediately to the whole project; there's no preview step.** Always use `get_theme` first to see the current state before formulating changes.
+A theme is a set of named tokens: colors (optionally grouped in folders), typography, corners, shadows and borders, plus the theme's defaults (font family and text color) and an optional dark mode. Project-wide breakpoints are edited the same way. **Edits apply immediately to the whole project; there's no preview step** (use `dryRun: true` to validate a batch without saving it). Always call `get_theme` first.
 
-### What `edit_theme` can do
+### Reading the theme
 
-- **Add** new tokens
-- **Tweak values** on existing tokens ("make the primary darker," "increase border radius")
-- **Rename** tokens — safe. Components and pages reference tokens by id, so the alias survives the rename.
-- **Delete** tokens — **destructive**. Every page/component that referenced the deleted token gets its alias replaced with the token's concrete value at deletion time. Those usages are now detached (hardcoded), not tracking any token. Theme version history restores the token, but the detached references stay detached — full recovery requires project version history.
+`get_theme` returns one theme as typed JSON (the default theme, or the one named by `themeId`): every token with its `id`, `name`, `slug` (e.g. `brand-600`, which utilities use as `bg-brand-600`), `folder`, `value` and `valueDark` (`null` means dark inherits the base value), and the theme's `defaults`. Values use the shapes `edit_theme` accepts, so a value you read can be written back unchanged. Pass `cssType` only when you need the Tailwind export for implementing designs.
 
-### Preparing the `edit_theme` description
+### Editing with `edit_theme`
 
-When the project has codebase context, the description should carry the **actual theme source files verbatim**, not paraphrased token values. Include every token — do not drop tokens that seem unrelated to the immediate task. The theme is project-wide; what you are about to design isn't the only consumer. Look for:
+`edit_theme` takes `operations`, a batch applied in order:
+
+| Operation       | Does                                                                                                     |
+| --------------- | -------------------------------------------------------------------------------------------------------- |
+| `create`        | Adds a token (`type`, `name`, `value`, optional `valueDark`, and for colors an optional `folder`)        |
+| `update`        | Changes `value`, `valueDark` (`null` clears the override) or a color's `folder`; omitted fields are kept |
+| `rename`        | Renames a token or a folder (`type: "folder"`)                                                           |
+| `delete`        | Deletes a token, or a folder with every color in it; see [Deleting](#deleting-tokens)                    |
+| `set_defaults`  | Sets the theme's default `fontFamily` and `textColor`                                                    |
+| `set_dark_mode` | Turns dark mode on or off for the theme; turning it off drops every dark override                        |
+
+Token types are `color`, `typography`, `corner`, `shadow`, `border` and `breakpoint` (breakpoints other than the default can be created, updated and renamed; none can be deleted). Value shapes: a color is a CSS color string; typography is `{ fontFamily, fontSize, lineHeight, fontWeight, letterSpacing }` (px, px, 1-1000, em); a corner is `{ radius }`; a shadow is an array of `{ x, y, blur, spread, color, inset }` layers (`[]` is no shadow); a border is `{ width, style, color }`; a breakpoint is `{ width }`. Any value except a breakpoint can instead be `{ alias: "Token Name" }`, which points at a token of the same type and is set per theme and per mode like any value. A dark value equal to the base value is stored as no override, so dark then follows later base changes.
+
+How a batch behaves:
+
+- **Atomic.** If any operation fails, nothing is applied. The result lists every operation as `applied`, `unchanged` (already in the requested state), `failed` (with a reason that says how to fix it) or `skipped` (not applied because another operation failed). Fix the failed operation and send the batch again; creates, updates, defaults and dark-mode changes already in effect report `unchanged`, while a rename or delete of something already gone fails, so drop it.
+- **Nothing silent.** An unknown font, an unparseable value, a name that is taken or doesn't exist, an alias cycle, and a dark value on a theme without dark mode all fail instead of being adjusted. Names match ignoring case and spaces versus dashes (`Brand 600` is `brand-600`).
+- **Structure is shared, values are per theme.** `create`, `rename`, `delete`, folder changes and breakpoints apply to every theme; value changes (`update` of `value` or `valueDark`, a `create`'s `valueDark`, `set_defaults` and `set_dark_mode`) change only the theme named by `themeId`. Once a project has more than one theme, `themeId` is required for those; `list_themes` returns the ids. Changing the default theme's `fontFamily` with `set_defaults` also moves text hardcoded to the old family to the new one; on another theme only that theme's default changes. Each applied result says its scope. Tell the user when a request targets a non-default theme.
+- **Fonts.** Use an exact name from `get_theme`'s `availableFonts`. To use another font, upload it with `create_asset_upload` and `add_fonts` first (see [Icons and fonts](#icons-and-fonts)).
+
+### Managing themes
+
+`list_themes` returns the project's themes (`id`, `name`, `isDefault`). `duplicate` adds a theme: it is the only way to create one, it copies every value, and it needs the Pro plan. On a team without Pro it fails and says so; existing themes stay readable and editable. Tell the user, since a team admin has to upgrade. Edit the copy with `edit_theme` and its id as `themeId`. `rename` renames a theme; a name another theme already uses gets a number appended and the final name is returned. `delete_theme` deletes a theme by its id as `themeId`; it refuses the default theme (`isDefault`), which every project keeps. Confirm with the user before deleting. Pages and components belong to no theme, so deleting one changes no design.
+
+### Importing theme source
+
+When the user, or the codebase, provides theme source — Tailwind v4 CSS (`@theme` blocks, `:root` variables) or a v3 `tailwind.config.*` — call `import_theme` with the file contents verbatim as `source` and `format` set to `tailwind-v4-css` or `tailwind-v3-config`. Don't paraphrase token values and don't retype the source into operations. The import only adds and updates; it never deletes, and it needs `themeId` once the project has more than one theme. The result returns the `operations` it compiled and a `skipped` list of declarations it could not import, each with a reason (for example an unsupported namespace like `--spacing-*`, or a font that isn't in the project). Report skipped declarations to the user. To review the compiled operations before anything is saved, pass `dryRun: true`; to change some, amend them and send them through `edit_theme` instead of rerunning the import.
+
+When the project has codebase context, include **every** token in the theme source, not just the ones relevant to the task: the theme is project-wide. Look for:
 
 - `tailwind.config.*` (often `tailwind.config.ts` or `.js`)
 - Global CSS files with `@theme` blocks (Tailwind v4) or `:root { --color-... }` declarations — `globals.css`, `app.css`, `index.css`
-- Token modules (`tokens.ts`, `tokens.json`, `theme.ts`, Style Dictionary exports)
-- Font config (`next/font`, CSS `@font-face`, font import URLs)
+- Token modules (`tokens.ts`, `tokens.json`, `theme.ts`, Style Dictionary exports) — translate these to Tailwind v4 CSS variables before importing, or express them as `edit_theme` operations
+- Font config (`next/font`, CSS `@font-face`, font import URLs); add the font files first
 
 Any font `list_fonts` lists, Google or custom, is usable by name; add others with `add_fonts` first (see [Icons, fonts and images](#icons-fonts-and-images)).
 
-Paste each file in a fenced block headed by its path (`// tailwind.config.ts`). Don't summarize token values — the agent's accuracy on color, spacing, and typography depends on the exact strings.
+**Only invent tokens when there is genuinely no codebase theme source**, and say so.
 
-**Only let the agent invent tokens when there is genuinely no codebase theme source.** In that case, say so explicitly in the description.
+### Designing a theme or a restyle
+
+A request like "warmer", "like Stripe" or "a brand-new theme" is a design decision that is yours to make; express it as operations. Update existing tokens in place rather than creating look-alikes, so the pages and components that use them follow the change.
+
+- **Color ramps.** Build each hue as a ramp of steps 50-900 (50 lightest, 900 darkest, 500-600 the brand mid-tone). Keep the steps evenly spaced in lightness, and check text/background pairs for contrast (4.5:1 for body text).
+- **Semantic colors.** Keep the existing semantic tokens (primary, text, border, error and so on) and point them at the right step with `{ alias }`, so changing a hue means updating a ramp, not every role.
+- **Type scale.** Use a consistent scale (for example 12, 14, 16, 20, 24, 32, 48 px) with line height about 1.4-1.6 × the font size for body text and 1.1-1.3 × for headings (in px, e.g. `fontSize: 16, lineHeight: 24`), tighter letter spacing on large headings, and no more than two font families.
+- **Fonts.** Pair a distinctive heading face with a neutral body face; prefer fonts that `list_fonts` already lists.
+- **Dark mode.** Turn it on with `set_dark_mode`, then set `valueDark` only where the dark value differs from the base value.
 
 ### Risk-classify before calling
 
 Read the user's prompt and classify before invoking:
 
-| Risk   | Operations                                                                                                     | Action                                                                                                                                                                                                                    |
-| ------ | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Low    | Adding tokens, tweaking values                                                                                 | Call directly; mention what changed after                                                                                                                                                                                 |
-| Medium | Renaming tokens, broad multi-token tweaks                                                                      | Briefly note the scope (whole project) and call                                                                                                                                                                           |
-| High   | Anything that deletes tokens, replaces the palette wholesale, or implies "remove / strip / replace existing X" | **Confirm with the user before calling.** Spell out what will be deleted and that pages/components using those tokens will be updated to use hardcoded values (which would then require project version history to undo). |
+| Risk   | Operations                                                                                                          | Action                                                                                                                                                                                    |
+| ------ | ------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Low    | Adding tokens, tweaking values                                                                                      | Call directly; mention what changed after                                                                                                                                                 |
+| Medium | Renaming tokens (the utility class names change), broad multi-token tweaks                                          | Briefly note the scope (whole project) and call                                                                                                                                           |
+| High   | Anything that deletes tokens, replaces the color scheme wholesale, or implies "remove / strip / replace existing X" | **Confirm with the user before calling.** Spell out what will be deleted and what happens to the pages and components using it (re-pointed to a replacement, or hardcoded if you detach). |
 
-When in doubt about the risk of a prompt, assume High risk and confirm.
+Turning dark mode off is High risk too: it drops every dark override. When in doubt about the risk of a prompt, assume High risk and confirm. Confirming is required even under autonomy / no-clarifying-questions directives.
 
-### Safe consolidation via alias bridging
+### Deleting tokens
 
-When the user wants to consolidate tokens (e.g., `brand-50` through `brand-900` → `brand-primary` / `brand-secondary` / `brand-tertiary`), use alias bridging to avoid the destructive-delete cascade for tokens that map cleanly to the new structure. The process takes **two sequential `edit_theme` calls** (can't be combined into one):
+A `delete` is refused while the token is used by nodes, by another token's alias, by a border color or by the default text color; the failure says how many. Pass one of:
 
-1. **First call** — create the new tokens AND re-point each mappable old token as an alias of its matching new token. Example: create `brand-primary` with the desired color, and update `brand-200` to alias `brand-primary` in the same call.
-2. **Second call** — delete the old tokens. Because references in pages/components resolve through the alias to the new tokens, they stay attached — no hardcoded fallback.
+- `replaceWith: "Other Token"` — another token of the same type takes over every use, then the token is deleted. References stay attached to a token.
+- `detach: true` — pages and components that use it are hardcoded to the default theme's base value, losing per-theme and dark variation, and stay detached even if the token is restored (project version history restores the references together with the token). Tokens and default text colors that use it take its value in each theme.
 
-**When alias bridging doesn't apply**: some old tokens won't map cleanly to any new one (e.g., `brand-50` is too pale to belong to any of primary/secondary/tertiary). For those, the standard destructive-delete cascade applies — references become hardcoded values. Make a per-token call: bridge what you can, accept detachment (and confirm with the user) for what you can't.
+Deleting a folder deletes every color in it under the same rule, and deleting a folder's last color removes the folder. To ungroup colors without deleting them, `update` each with `folder: null`.
+
+### Consolidating tokens with `replaceWith`
+
+To consolidate tokens (for example `brand-50` through `brand-900` into `brand-primary` / `brand-secondary` / `brand-tertiary`), create the new tokens and delete each old one with `replaceWith` set to its replacement, in one `edit_theme` batch. Pages and components move to the new tokens without being hardcoded. A token still in use that maps to no new one has to be deleted with `detach: true` (confirm with the user) or kept.
 
 ### When NOT to use `edit_theme`
 
@@ -522,6 +559,7 @@ One tool per resource type. **Always confirm with the user before calling any de
 - `delete_page({ id|name|url, projectId, force? })` — deletes a page, removing it from its canvas and stripping prototype actions referencing it. Refuses by default if referenced in other pages. Use `force: true` to delete anyway. Page layouts can't be deleted with this tool — use `delete_component` (it cascades to clear `pageOptions.layout` on every page using the layout).
 - `delete_component({ id|name|url, projectId, force? })` — deletes a component or page layout. Detaches instances or clears layouts. Refuses by default if in use. Use `force: true` to delete anyway.
 - `delete_snippet({ id|name|url, projectId })` — deletes a snippet. Any design document embeds are removed automatically.
+- `delete_theme({ themeId|name, projectId })` — deletes a theme other than the default one (see [Managing themes](#managing-themes)). Designs are unaffected.
 - `delete_canvas({ id|name|url, projectId, deleteChildPages? })` — deletes a canvas. Refuses if it has pages on it. Use `deleteChildPages: true` to delete the canvas plus every page on it.
 
 - `delete_icons({ ids, projectId })` — deletes uploaded icons. Designs using one lose the icon, unless the upload had replaced a built-in Lucide icon — then that icon is restored in its place and the result says `restored`. Built-in Lucide icons can't be deleted.
@@ -532,7 +570,7 @@ When a delete tool refuses because of references, surface what it would affect t
 
 ## Renaming, moving, and duplicating
 
-Use `rename` to rename a page, component, snippet, or canvas by id/name/url. Use `move` to move one or more pages to a different grid cell or canvas in a single, all-or-nothing call — pass both pages' target cells to swap them. Use `duplicate` for an exact copy of a page, component, snippet, or canvas (for a copy you then change with AI, use `design_page` with `sourcePageId` instead). Duplicating a canvas copies its pages, not its prototype.
+Use `rename` to rename a page, component, snippet, or canvas by id/name/url, or a theme by its id or name from `list_themes`. Use `move` to move one or more pages to a different grid cell or canvas in a single, all-or-nothing call — pass both pages' target cells to swap them. Use `duplicate` for an exact copy of a page, component, snippet, canvas, or theme (for a copy you then change with AI, use `design_page` with `sourcePageId` instead). Duplicating a canvas copies its pages, not its prototype.
 
 ## Comments
 

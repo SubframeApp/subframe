@@ -70,7 +70,7 @@ Once configured, your coding agent can access Subframe automatically when you pr
 
 <CopyMcpLink />
 
-`design_page`, `design_component`, `edit_component`, `design_snippet`, and `edit_theme` generate with Subframe's AI and use your [Subframe AI credits](/admin/pricing-and-plans#subframe-ai-credits), even if your coding agent runs on its own subscription. They don't use credits when you run them from Agent chat with a [connected Claude Code or Codex subscription](/agent/connecting-an-agent).
+`design_page`, `design_component`, `edit_component`, and `design_snippet` generate with Subframe's AI and use your [Subframe AI credits](/admin/pricing-and-plans#subframe-ai-credits), even if your coding agent runs on its own subscription. They don't use credits when you run them from Agent chat with a [connected Claude Code or Codex subscription](/agent/connecting-an-agent).
 
 ## Available tools
 
@@ -138,9 +138,9 @@ A [canvas](/design/canvases) is a collection of related pages (e.g. "Onboarding"
 
 | Tool        | Description                                                                                     |
 | ----------- | ----------------------------------------------------------------------------------------------- |
-| `rename`    | Rename a page, component, snippet, canvas, or component folder                                  |
+| `rename`    | Rename a page, component, snippet, canvas, component folder, or theme                           |
 | `move`      | Move pages to another grid cell or canvas, or components into folders; a batch applies together |
-| `duplicate` | Make an exact copy of a page, component, snippet, or canvas                                     |
+| `duplicate` | Make an exact copy of a page, component, snippet, canvas, or theme                              |
 
 A duplicated canvas includes copies of its pages but not its prototype. A duplicated component stays in the same folder as the original.
 
@@ -182,16 +182,20 @@ A component can have at most one design document. Snippets can be embedded as li
 
 ### Theme
 
-| Tool         | Description                                                    |
-| ------------ | -------------------------------------------------------------- |
-| `get_theme`  | Get a project's themes, breakpoints, and available fonts       |
-| `edit_theme` | Edit a theme's colors, fonts, corners, shadows, and typography |
+| Tool           | Description                                                                                                 |
+| -------------- | ----------------------------------------------------------------------------------------------------------- |
+| `list_themes`  | List the project's themes with their ids and which one is the default                                       |
+| `get_theme`    | Get a theme as typed JSON, plus breakpoints and available fonts                                             |
+| `edit_theme`   | Edit a theme's colors, typography, corners, shadows, borders, and defaults with a batch of typed operations |
+| `import_theme` | Import pasted Tailwind v4 CSS or a Tailwind v3 config into a theme                                          |
+| `delete_theme` | Delete a theme other than the default                                                                       |
 
-A project can hold several themes that share token names but differ in values. Theme edits apply immediately across every page and component.
+A project can hold several themes that share token names but differ in values. Add a theme with `duplicate` (this needs the Pro plan; existing themes stay editable on any plan) and rename it with `rename`. The default theme cannot be deleted. Theme edits apply immediately across every page and component, and a batch of operations is applied all at once or not at all.
 
 <Warning>
-  Deleting a theme token is destructive. Every reference to it in your designs is replaced with the token's value at
-  deletion time, and those references stay detached even if you restore the token.
+  Deleting a theme token that is in use is refused unless the request names a replacement token or detaches it. A
+  replacement keeps every reference attached. Detaching replaces each reference in your designs with the token's value
+  in the default theme, and those references stay detached even if you restore the token.
 </Warning>
 
 ### Icons, fonts and images
