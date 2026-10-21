@@ -19,9 +19,15 @@ You can make targeted edits to specific elements using [quick actions](/design/d
 3. Select **Ask agent to edit...**
 4. Type what you want to change and press <kbd>Enter</kbd>
 
-You can also make a quick edit from the floating toolbar. Select an element, type your change into the **Quick edit** input, and press <kbd>Enter</kbd>.
+In the page and component editors, you can also make a quick edit from the floating toolbar. Select an element, type your change into the **Quick edit** input, and press <kbd>Enter</kbd>.
 
-{/* TODO: Update image — add a screenshot of the quick edit input in the floating toolbar */}
+<Frame>
+  <img
+    src="/images/ask-ai/quick-edit-toolbar.png"
+    className="w-[465px]"
+    alt="The floating toolbar at the bottom of the editor with the Quick edit input beside it, ready for a prompt about the selected Text element"
+  />
+</Frame>
 
 The agent replaces or modifies the selected element based on your prompt.
 
@@ -53,7 +59,13 @@ For open-ended prompts, the agent generates up to three distinct variations so y
 
 A review tray appears with a labeled thumbnail for each variation:
 
-{/* TODO: Add screenshot of the variation review tray */}
+<Frame>
+  <img
+    src="/images/ask-ai/variation-review-tray.png"
+    className="w-[652px]"
+    alt="The variation review tray above the floating toolbar, showing the prompt with Discard and Keep, three labeled variations of a Guests label, and the Original card, with the Refine input below"
+  />
+</Frame>
 
 1. Click a variation to preview it live on the canvas
 2. Type in the shared input to **Refine...** and regenerate the set (optional)

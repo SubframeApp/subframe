@@ -4,7 +4,7 @@ description: Generate AI designs in Agent chat, edit pages and components, and u
 ---
 
 <Frame>
-  <img src="/images/ask-ai/ask-ai-mode.png" alt="The editor with agent chat docked on the right, showing its empty state and the message composer" />
+  <img src="/images/ask-ai/ask-ai-mode.png" alt="The editor with agent chat docked on the right, showing its empty state, a Continue conversation from another agent suggestion, and the message composer with the model picker" />
 </Frame>
 
 You can prompt the agent to generate page designs, edit your existing designs, or update your theme.
@@ -25,7 +25,7 @@ Agent chat is for creating and updating designs. For adding interactivity and st
 
 Agent chat docks to the right side of the editor and follows you across your project — it's available on all project level pages.
 
-{/* TODO: Add video of prompting in the docked agent chat */}
+<video autoPlay muted loop playsInline controls className="w-full" src="/videos/ask-ai/prompt-in-agent-chat.mp4" />
 
 The agent chooses how to respond based on your prompt:
 
@@ -41,7 +41,12 @@ The agent chooses how to respond based on your prompt:
 
 Variations land as real pages on a [canvas](/design/canvases) as each one finishes generating. The chat shows a live tile for each variation — click a tile to jump to that page on the canvas.
 
-{/* TODO: Add screenshot of variation tiles in the chat and applied pages on the canvas */}
+<Frame>
+  <img
+    src="/images/ask-ai/variation-tiles.png"
+    alt="Agent chat showing a tile for each of two Reservations variations, with both pages placed on the canvas below the Home page"
+  />
+</Frame>
 
 From there you can:
 
@@ -57,7 +62,13 @@ Click the history button at the top of agent chat to see every chat in the proje
 
 Each chat is labeled with the page, component, or canvas it last worked on. Click the label in the chat header to jump to that resource.
 
-{/* TODO: Add screenshot of the chat history menu in agent chat */}
+<Frame>
+  <img
+    src="/images/ask-ai/chat-history-menu.png"
+    className="w-[446px]"
+    alt="The chat history menu open from the agent chat header, with New chat at the top and chats grouped under Today and Yesterday, each labeled with its page and when it last ran"
+  />
+</Frame>
 
 ## Adding context {#agent-chat-toolbar}
 
