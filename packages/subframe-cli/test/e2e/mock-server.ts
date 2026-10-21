@@ -39,9 +39,7 @@ function codeFile(fileName: string, contents: string) {
 const PROJECT_INFO = { teamId: 1, truncatedProjectId: "proj_1", name: "Test Project" }
 
 // Sensible defaults that let a normal init/sync flow succeed.
-// Built once the server's actual (ephemeral) port is known, so the import flow's
-// presigned upload URL points back at this same server (mock S3).
-function makeDefaultRoutes(baseUrl: string): Record<string, RouteHandler> {
+function makeDefaultRoutes(): Record<string, RouteHandler> {
   return {
     "GET /api/cli/verify": () => ({ json: { success: true, userId: "user_1", teamId: 1 } }),
     "GET /api/cli/list-projects": () => ({
@@ -67,11 +65,6 @@ function makeDefaultRoutes(baseUrl: string): Record<string, RouteHandler> {
     "POST /api/cli/push-component": (body) => ({
       json: { success: true, componentName: (body as { componentName?: string })?.componentName ?? "Component" },
     }),
-    "POST /api/cli/import/create-session": () => ({
-      json: { sessionId: "session_1", presignedUrl: `${baseUrl}/mock-s3-upload` },
-    }),
-    "PUT /mock-s3-upload": () => ({ json: {} }),
-    "POST /api/cli/import/start": () => ({ json: { success: true } }),
   }
 }
 
@@ -119,7 +112,7 @@ export async function startMockServer(port = 0): Promise<MockServer> {
 
   const address = server.address()
   const actualPort = typeof address === "object" && address ? address.port : port
-  defaults = makeDefaultRoutes(`http://127.0.0.1:${actualPort}`)
+  defaults = makeDefaultRoutes()
 
   return {
     server,

@@ -4,7 +4,6 @@ import { analytics } from "./analytics"
 import { isDev } from "./common"
 import { COMMAND_JSON_KEY, COMMAND_NON_INTERACTIVE_KEY, COMMAND_YES_KEY, COMMAND_YES_KEY_SHORT } from "./constants"
 import { UserError } from "./errors"
-import { importCommand } from "./import"
 import { initCommand } from "./init"
 import { flushLog, initLog, log } from "./log"
 import { configureOutput } from "./output/output"
@@ -44,7 +43,6 @@ if (process.argv.includes("--beta")) {
 program.addCommand(initCommand)
 program.addCommand(syncCommand)
 program.addCommand(pushComponentCommand)
-program.addCommand(importCommand)
 
 async function main() {
   initLog()
