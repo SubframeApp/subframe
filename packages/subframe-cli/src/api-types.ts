@@ -142,37 +142,3 @@ export interface SyncProjectResponse {
     name: string
   }
 }
-
-export interface DesignSystemImportPayloadSource {
-  path: string
-  content: string
-}
-
-export interface DesignSystemImportPayload {
-  theme: DesignSystemImportPayloadSource[]
-  components: Array<{
-    name: string
-    entrypoint: string
-    sourceFiles: DesignSystemImportPayloadSource[]
-    supportingFiles: DesignSystemImportPayloadSource[]
-  }>
-}
-
-export interface CreateImportSessionRequest {
-  truncatedProjectId: TruncatedProjectId
-}
-
-export interface CreateImportSessionResponse {
-  sessionId: string
-  presignedUrl: string
-}
-
-export interface StartImportRequest {
-  truncatedProjectId: TruncatedProjectId
-  sessionId: string
-}
-
-export interface StartImportResponse {
-  success: true
-  importId: string
-}

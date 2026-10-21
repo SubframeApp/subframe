@@ -18,7 +18,6 @@ describe("global behavior", () => {
     expect(result.stdout).toMatch(/init/)
     expect(result.stdout).toMatch(/sync/)
     expect(result.stdout).toMatch(/push-component/)
-    expect(result.stdout).toMatch(/import/)
   })
 
   it("surfaces the non-interactive flags in help", async () => {
