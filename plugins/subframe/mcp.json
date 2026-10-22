@@ -4,10 +4,6 @@
     "subframe": {
       "type": "streamable-http",
       "url": "https://mcp.subframe.com/mcp"
-    },
-    "subframe-docs": {
-      "type": "streamable-http",
-      "url": "https://docs.subframe.com/mcp"
     }
   }
 }
