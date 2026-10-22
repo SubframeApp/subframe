@@ -1,219 +1,59 @@
 ---
 name: develop
-description: Implement Subframe designs with business logic. Use after designing with /subframe:design or when given a Subframe URL/page ID.
-argument-hint: "[page URL, page ID, or 'the design I just made']"
+description: Implement or update Subframe designs using synced components or an app's own design system, set up Subframe components, or explain canvas and code sync.
+argument-hint: "[Subframe design to implement, or local setup task]"
 ---
 
-Implement Subframe designs in the codebase. Fetch the design via MCP, sync components, and add business logic.
+Implement Subframe designs in an application. For sync questions, explain the boundary below without changing files.
 
-## Connect to Subframe MCP before implementing
+## Choose the source of truth
 
-Before installing dependencies, syncing components, or editing code for a linked design, discover the Subframe `get_page_info` tool (use tool search if your client loads MCP tools on demand). The Subframe Docs MCP server only provides documentation; it cannot fetch the user's designs.
+Before writing code, inspect the application package's .subframe/sync.json, synced directory, component imports, theme files, routes, and package.json. State which model the evidence supports:
 
-If `get_page_info` is unavailable, tell the user that you cannot access the linked design yet and help them connect the **Subframe MCP server**:
+- **Subframe owns the theme and components.** A sync configuration and generated components used by the app establish this model. Build pages from those components. Keep visual changes in Subframe and re-sync; keep application behavior in code. If a required component or token is missing from Subframe, use design to add it there, then bring it into code. Do not hand-roll a look-alike or patch generated styles.
+- **The codebase owns the theme and components.** An established library such as MUI, shadcn, or custom components, with no Subframe sync, establishes this model. Treat the Subframe page as a visual reference. Implement with the app's components and tokens; translate styling to their equivalents instead of pasting Tailwind classes that bypass them. Do not initialize or sync Subframe unless the user chooses to adopt it. Use import when asked to bring the code's system into Subframe so future designs use it faithfully.
+- **Mixed or unclear.** Name both models and the evidence for each, including any project mismatch. Follow an established boundary for the target screen. Ask only when the unresolved choice changes which components, theme, or files you will use.
 
-- **Not installed/configured:** Direct them to the [Subframe MCP setup guide](https://docs.subframe.com/agent/mcp-server) for their client. The design server URL is `https://mcp.subframe.com/mcp`.
-- **Already configured:** Ask them to enable/connect the server and complete OAuth authentication in their client's MCP settings.
-- **Status unknown:** Explain that the server may need installation, enabling, or authentication. Provide the setup guide and ask them to check their client's MCP settings.
+Read [setup.md](setup.md) only when the app has no Subframe setup and the user wants Subframe's components, or init/sync fails.
 
-Pause the design-dependent work until the tools are available. Do not silently fall back to opening or scraping the design in a browser, guessing from the prompt, or implementing from existing code alone. This also applies when using the design as inspiration in a non-Subframe project; connecting MCP does not require installing Subframe components into that project.
+## Get code with fewest tokens
 
-After the user reports that setup is complete, discover the tool again and successfully fetch the requested design with `get_page_info` before implementing it.
+Fetch get_page_info once for the page being implemented and inspect screenshot_page. Use files[].fileName and files[].contents as the page source. Keep the clean export defaults; node IDs and editor metadata are unnecessary for implementation. Page imports follow the project's export settings, normally its configured import alias; resolve them against the local setup.
 
-Only switch to a workflow without the linked design if the user explicitly chooses that alternative.
+In the Subframe model, use CLI sync for missing components and init for theme files: they write code directly to disk without passing it through context. Read only the local component APIs needed for implementation. Do not fetch every component with get_component_info to obtain code already available through sync.
 
-## Detect Project State
+Sync missing components by name, for example `npx @subframe/cli@latest sync Button Alert`. Never automatically re-sync components already present; refresh them only for a requested design update. Avoid routine sync --all or a bare sync, which also syncs everything. Named sync includes dependencies; inspect those changes too.
 
-Before starting, check for `package.json` and `.subframe/` folder in the current directory:
+## Turn page code into app code
 
-| Condition                                      | Action                                                                    |
-| ---------------------------------------------- | ------------------------------------------------------------------------- |
-| No `package.json`                              | Run `/subframe:install` first — there's no project to implement into yet. |
-| Has `package.json` AND has `.subframe/` folder | Proceed with the workflow below.                                          |
-| Has `package.json` but NO `.subframe/` folder  | Ask the user (see below).                                                 |
+Place the implementation in the app's route and layout structure. Reuse its shell, routing, and server/client conventions.
 
-### Existing non-Subframe project
+- Match component variants and prop types to the intended states. Inspect local types and existing usages; map to equivalent APIs in the codebase model.
+- Fill slots through their declared props or children, preserving compound component structure. Put page composition around components; do not edit generated internals to insert content.
+- Follow local icon imports and prop types. In the Subframe model, create a missing page-only uploaded icon module from get_icon_info; do not sync the whole library for it. In the codebase model, use the app's icon library and asset conventions.
+- Resolve image URLs and assets through the app's asset pipeline. Preserve crop, aspect ratio, and meaningful alt text; verify assets load.
+- Replace placeholder copy and repeated JSX with real data and mapped items with stable keys. Use existing data fetching and formatting conventions; identify unavailable data instead of inventing a backend.
 
-If the current directory has a `package.json` but no `.subframe/` folder, ask the user which approach they prefer:
+In the Subframe model, leave generated component files untouched. Put custom component logic in index.tsx and mark that wrapper with `// @subframe/sync-disable`. Keep the generated component available for visual updates. Merge changes manually into already disabled files.
 
-- **Use the design as inspiration** — Fetch the design via MCP for reference, but implement the page using the existing styles, components, and patterns already in the repo. Translate the Subframe design's layout and structure into whatever UI framework the project already uses (e.g., existing component library, CSS modules, styled-components). Do NOT install Subframe or sync components. Skip to [Inspiration Workflow](#inspiration-workflow).
-- **Use Subframe styles and components** — Install Subframe into the project so the design renders pixel-perfect with Subframe's generated code. Run `/subframe:install` first, then continue with the [Workflow](#workflow) below.
+## Implement behavior
 
-## Workflow
+Wire navigation, forms, validation, selection, dialogs, and loading, empty, and error states through the app's existing patterns. A static page export does not establish runtime behavior.
 
-1. **Wait for any in-flight design jobs** — see [Awaiting In-Flight Designs](#awaiting-in-flight-designs)
-2. **Fetch the design** — `get_page_info` with the URL, ID, or name
-3. **Read design documentation** — `get_project_info` and `get_component_info` return any attached design docs; check them for usage guidance, accessibility notes, or constraints before implementing
-4. **Sync any missing components** — Only if components don't exist locally. `npx @subframe/cli sync` for the specific components used in the page
-5. **Create the page** — put it in the right place per codebase patterns
-6. **Add business logic** — data fetching, forms, events, loading/error states
+If the user points to a Subframe prototype for the intended behavior, read only its relevant files with read_prototype_file and translate that behavior; the prototype is a separate scaffold with mock data, not necessarily code to adopt.
 
-## Awaiting In-Flight Designs
+## Verify in the app
 
-If a design was just kicked off in the same conversation (via `/subframe:design`), the underlying AI job is likely still running. Reading the result via `get_*_info` too early returns empty or stale code.
+Run the app with the host's shell and browser tools. Compare against screenshot_page at the same viewport, theme, content, and state. Check lower sections, responsive layouts, and interactions as well as the initial screen. Fix discrepancies, then run the relevant build or checks. Report what ran and any visual or behavioral verification you could not complete.
 
-`design_page`, `design_component`, and `edit_component` return a `jobId`. Before the first read, call:
+## Apply a later design change
 
-```
-wait_for_jobs({ jobIds: [jobId1, jobId2, ...] })
-```
+For a requested update in the Subframe model, re-sync affected components by name. Refresh changed theme files through init with the existing configuration and component syncing disabled; sync alone does not refresh tokens. Re-fetch the page once after design changes finish. In the codebase model, translate the visual delta into the app's components and tokens.
 
-Each result is `running`, `done` (with a summary — for `design_page` it reports how many requested pages were actually applied), `error` (the job failed or stopped reporting; don't assume the design exists — check the summary), or `not_found`. Call in a loop until every job is `done` or `error`. Surface progress to the user — "Designs are still generating in Subframe…" then "✓ Designs ready, fetching the code now." — so they understand the wait.
+Compare the refreshed export with a previous export when available, otherwise with the implemented JSX and screenshot. Check imports, variants, slots, layout classes, assets, and copy; inspect local component diffs.
 
-You don't need `wait_for_jobs` when:
+Merge the changed regions into the existing implementation, preserving hooks, handlers, state, data bindings, and wrapper customizations. Do not replace the route with a fresh export. Repeat visual and behavioral verification.
 
-- The user came in with an existing Subframe URL (no in-flight job)
-- You're only working from `id` or `name` and don't need the generated code.
+## Explain canvas and code sync
 
-If the user asks to implement immediately after kicking off a design, batch all relevant `jobIds` into a single `wait_for_jobs` call (it accepts up to 10).
-
-## Inspiration Workflow
-
-Use this workflow when the user chose to use the design as inspiration in an existing non-Subframe project.
-
-1. **Wait for any in-flight design jobs** — see [Awaiting In-Flight Designs](#awaiting-in-flight-designs).
-2. **Fetch the design** — Use `get_page_info` with the URL, ID, or name to get the page's layout and structure. If you encounter Subframe components or tokens you're unfamiliar with, use `get_component_info` to understand a component's props and behavior, or `get_theme` to see the Subframe project's design tokens (colors, fonts, spacing, shadows).
-3. **Study existing patterns** — Look at the codebase's existing components, styles, and conventions. Identify local equivalents for Subframe components used in the design.
-4. **Create the page** — Implement the design using the codebase's existing UI framework, translating the Subframe layout and component structure into local components and styling.
-5. **Add business logic** — Data fetching, forms, events, loading/error states.
-
-## Fetching Designs
-
-Pages are the only resource you fetch into the codebase. Use `get_page_info` with a URL, ID, or name:
-
-```
-get_page_info({ url: "https://app.subframe.com/PROJECT_ID/design/PAGE_ID/edit" })
-get_page_info({ id: "PAGE_ID", projectId: "PROJECT_ID" })
-get_page_info({ name: "Settings Page", projectId: "PROJECT_ID" })
-```
-
-To discover what exists in the project, use `list_pages`, `list_components`, or `list_canvases`. Snippets aren't synced to code — they live in Subframe as design system references.
-
-Read design documentation alongside the design: `get_project_info` returns project-level `docs` (broad principles), and `get_component_info` returns each component's `designDocuments` (component-specific usage guidance). Pick these up before implementing so you respect documented constraints.
-
-Get the `projectId` from `.subframe/sync.json`. If `.subframe/sync.json` doesn't exist or doesn't contain a `projectId`, call `list_projects` to get the available projects. Each project includes a `projectId`, `name`, `teamId`, and `teamName`.
-
-- **One project**: Use it automatically.
-- **Multiple projects**: Always ask the user which project to use. Present each project with its `teamName` to disambiguate. If the user already mentioned a specific team or project name, match it against the `teamName` and `name` fields — but still confirm before proceeding. Never silently pick a project when multiple exist.
-
-## Syncing Components
-
-Sync components when they don't exist locally. You can sync specific components by name:
-
-```bash
-npx @subframe/cli@latest sync Button Alert TextField
-```
-
-Or sync all components:
-
-```bash
-npx @subframe/cli@latest sync --all
-```
-
-**When to sync:**
-
-- **Components don't exist locally** → Sync those specific components before implementing
-- **Components already exist** → Don't sync automatically. If the user wants the latest versions, they'll ask.
-
-**Don't modify `Button.tsx`** — Subframe generates and overwrites it on every sync. Each component syncs as a directory:
-
-```
-components/Button/
-├─ Button.tsx   // generated by Subframe — overwritten on every sync
-└─ index.tsx    // wrapper — re-exports Button.tsx; your code goes here
-```
-
-`index.tsx` is the import entrypoint (`@/ui/components/Button` resolves to it). Add wrapping logic there.
-
-### Sync Disable
-
-To keep your changes to a file, add `// @subframe/sync-disable` to the top of it — the CLI skips any file containing this comment:
-
-```tsx
-// @subframe/sync-disable
-import { Button as ButtonComponent } from "./Button"
-// ... your wrapper
-```
-
-Add it to the wrapper `index.tsx` once you've customized it. `Button.tsx` has no marker, so it still receives Subframe's updates. As a last resort you can sync-disable `Button.tsx` itself, but that freezes the component entirely.
-
-**Updating a sync-disabled file:**
-
-If a file has `@subframe/sync-disable`, the sync command skips it. To get the latest version of that file:
-
-1. Use `get_component_info` to fetch the latest code from Subframe
-2. Manually merge the changes with the local modifications
-
-### Icons and fonts
-
-Import icons the way the project's synced code does. By default:
-
-- Built-in Lucide icons (Feather-prefixed, e.g. `FeatherCheck`) are named exports of `@subframe/core`: `import { FeatherCheck } from "@subframe/core"`.
-- Uploaded icons are default exports of files in the synced `icons/` folder (`import ArrowLeft from "@/ui/icons/ArrowLeft"`, with your alias), or of your own package if the project's Import settings point icons there.
-- Icons are passed as elements: `<Button icon={<FeatherCheck />} />`. A name string renders as text.
-
-Legacy projects set to import icons as strings use `<SubframeCore.Icon name="FeatherCheck" />` and `<Button icon="FeatherCheck" />` instead; follow what the synced components' prop types expect.
-
-Syncing components also syncs the uploaded icons they use. Pages aren't synced, so an uploaded icon only a page uses needs `sync --all`, or a file you create in `icons/` from `get_icon_info`'s markup, shaped like the others there.
-
-Custom fonts load through the `@font-face` setup in `/subframe:install`'s Configure Fonts step; Google fonts load from a `<link>` tag.
-
-## Adding Business Logic
-
-Subframe generates presentational code with placeholder data. You add:
-
-**Data fetching:**
-
-```tsx
-const { data, isLoading, error } = useQuery(...)
-
-if (isLoading) return <Skeleton />
-if (error) return <Alert variant="error">{error.message}</Alert>
-
-return <PageComponent {...data} />
-```
-
-**Form handling:**
-
-```tsx
-const handleSubmit = async (e: FormEvent) => {
-  e.preventDefault()
-  await submitForm(formData)
-}
-```
-
-**Event handlers:**
-
-```tsx
-<Button onClick={handleClick}>Submit</Button>
-<Card actionSlot={<IconButton onClick={handleDelete} />} />
-```
-
-## Dark Mode
-
-If the Subframe project has dark mode enabled, the synced theme uses CSS variables with `.dark` class overrides. To activate dark mode in the app, set the `dark` class on the `<html>` element — using `next-themes`, a React theme provider context, or any other method.
-
-## Updating Existing Pages
-
-When a design changes:
-
-1. Fetch the updated design
-2. Update layout/structure from new design
-3. Preserve existing hooks, handlers, and state management
-4. Sync any new components
-
-When diffing the updated design against the existing code, if there are design changes beyond what the user asked you to design (e.g., layout tweaks, new elements, removed sections), call those out and ask whether to include them.
-
-## MCP Tools Reference
-
-| Tool                 | Purpose                                                 | Key Parameters                      |
-| -------------------- | ------------------------------------------------------- | ----------------------------------- |
-| `get_page_info`      | Fetch page code                                         | `url`, `id`, or `name`; `projectId` |
-| `get_component_info` | Fetch component code + attached design doc              | `url`, `id`, or `name`; `projectId` |
-| `get_project_info`   | Fetch project metadata + project-level design docs      | `projectId`                         |
-| `get_canvas_info`    | Enumerate pages on a canvas                             | `id`, `name`, or `url`; `projectId` |
-| `list_pages`         | List all pages                                          | `projectId`                         |
-| `list_components`    | List all components                                     | `projectId`                         |
-| `list_canvases`      | List all canvases                                       | `projectId`                         |
-| `get_theme`          | Get Tailwind config                                     | `projectId`, `cssType`              |
-| `wait_for_jobs`      | Wait for in-flight design jobs to finish before reading | `jobIds` (1-10)                     |
+The CLI brings Subframe components into code through sync and theme files through init. Pages are implemented or copied separately; CLI sync does not update them. Local edits do not automatically appear on the canvas, and canvas edits do not automatically update an implemented page. Re-fetch and merge a changed page when requested. Bringing code back into Subframe is an explicit design or import task, not continuous two-way sync.
