@@ -1,0 +1,12 @@
+{
+  "name": "subframe",
+  "owner": {
+    "name": "Subframe"
+  },
+  "plugins": [
+    {
+      "name": "subframe",
+      "source": "./plugins/subframe"
+    }
+  ]
+}

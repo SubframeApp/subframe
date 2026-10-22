@@ -7,17 +7,35 @@
         ```
 
         The Subframe plugin for Claude Code sets up the MCP server and agent skills in one install.
-      </Step>
-      <Step title="Enable auto-update (recommended)">
-        Keep the Subframe plugin up to date automatically:
 
-        1. Run `/plugin` to open the plugin manager
-        2. Select the **Marketplaces** tab
-        3. Choose the **subframe** marketplace
-        4. Select **Enable auto-update**
+        In the Claude desktop app's **Code** tab, click **+** → **Add plugins** to install from marketplaces you've added. The terminal and desktop app share settings, so an install in one appears in the other.
+      </Step>
+      <Step title="Keep the plugin up to date">
+        Claude Code turns auto-update off by default for third-party marketplaces, including Subframe. Run `claude plugin update subframe@subframe` to update manually, or run `/plugin` and select **Marketplaces** → **subframe** → **Enable auto-update**.
       </Step>
       <Step title="Verify installation">
         Run `/mcp` to check that the Subframe MCP server is connected, then try asking Claude Code to use Subframe.
+
+        If you've also connected Subframe as a connector on claude.ai, Claude Code uses that connection and the plugin doesn't add a second Subframe server.
+      </Step>
+      <Step title="Share with your team (optional)">
+        Add the following to `.claude/settings.json` and commit it, so team members are prompted to install the Subframe plugin:
+
+        ```json .claude/settings.json
+        {
+          "enabledPlugins": {
+            "subframe@subframe": true
+          },
+          "extraKnownMarketplaces": {
+            "subframe": {
+              "source": {
+                "source": "github",
+                "repo": "SubframeApp/subframe"
+              }
+            }
+          }
+        }
+        ```
       </Step>
     </Steps>
 
@@ -40,6 +58,10 @@
     </Steps>
   </Tab>
   <Tab title="Cursor" icon="/images/logos/cursor.webp">
+    To install the plugin with both MCP servers and skills, import `https://github.com/SubframeApp/subframe` into a [Cursor team marketplace ↗](https://cursor.com/docs/plugins#add-a-team-marketplace), then open **Customize**, find **Subframe**, and click **Install**. Repository imports require an eligible Teams or Enterprise marketplace. The plugin will also be available in the Cursor Marketplace once listed. If you already use the Subframe plugin in Claude Code, Cursor can load it too when **Include third-party Plugins, Skills, and other configs** is on in Cursor Settings → Rules, Skills, Subagents.
+
+    To install the MCP servers and skills separately, follow these steps:
+
     <Steps>
       <Step title="Install MCP servers">
         Add the Subframe MCP servers to Cursor. You'll be prompted to authenticate via OAuth.
@@ -80,6 +102,23 @@
 
   </Tab>
   <Tab title="Codex" icon="/images/logos/openai.png">
+    Install the Subframe plugin to add both MCP servers and agent skills:
+
+    ```bash
+    codex plugin marketplace add SubframeApp/subframe
+    codex plugin add subframe@subframe
+    ```
+
+    Then start a new Codex session and run `/mcp login subframe` to sign in to Subframe.
+
+    After adding the marketplace with the CLI, restart the ChatGPT desktop app, open **Plugins**, and install **Subframe** from the **subframe** marketplace.
+
+    Codex refreshes git marketplaces on startup, so plugin updates arrive automatically. To update immediately, run `codex plugin marketplace upgrade subframe` and start a new session.
+
+    Codex picks skills automatically, or you can invoke one explicitly with `$subframe:design`, `$subframe:develop`, or `$subframe:import`.
+
+    The Codex IDE extension doesn't support plugins. If you use the IDE extension, install the MCP servers and skills separately with these steps:
+
     <Steps>
       <Step title="Install MCP servers">
         Run the following commands to add the Subframe MCP servers and authenticate:

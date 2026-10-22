@@ -1,7 +1,7 @@
 {
   "name": "subframe",
-  "description": "Design and build UIs with Subframe. Create pixel-perfect React + Tailwind pages using your design system, explore design variations, and implement with business logic.",
-  "version": "1.1.0",
+  "description": "Design UI for your codebase. Developers and designers can import design systems into Subframe, explore and edit pages and components, and implement designs in your app.",
+  "version": "1.2.0",
   "author": {
     "name": "Subframe"
   },
@@ -10,11 +10,13 @@
   "license": "MIT",
   "keywords": [
     "design",
+    "design-system",
     "ui",
+    "mockups",
+    "components",
+    "prototyping",
     "react",
     "tailwind",
-    "components",
-    "design-system",
     "frontend"
   ],
   "skills": "./skills/",
