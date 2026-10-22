@@ -98,6 +98,11 @@ Subframe supports the following theme formats for import:
 
     If your input includes dark-mode tokens, the preview shows the light and dark palettes side by side so you can review both before importing.
 
+    To leave a new or updated token out, click it and select **Skip import**. Select **Add to import** to bring it back.
+
+    Above the tokens, the preview notes the default font the import sets and any font it couldn't find. Declarations Subframe can't import are listed under the tokens as **Not imported**, with the reason.
+
+
   </Step>
   <Step title="Import">
     Click **Import** to update your theme. New tokens appear immediately in your theme, organized into folders matching the structure of your import. Use **Version History** to revert your import.
@@ -135,7 +140,12 @@ Verify your file format:
 </Accordion>
 <Accordion title="Tokens showing as 'Updated' unexpectedly">
 
-Tokens with the same name as existing tokens in your theme are marked as updates. Rename the token in the preview step if you want to add it as a new token instead.
+Tokens with the same name as existing tokens in your theme are marked as updates. To keep the existing value, click the token and select **Skip import**. To add it as a new token instead, rename it in your source and import again.
+
+</Accordion>
+<Accordion title="Import is blocked">
+
+If a token can't be applied, the preview says which one and why, and **Import** stays disabled. Nothing is imported until you fix the source or skip that token. If skipping tokens caused the problem, click **Restore skipped**.
 
 </Accordion>
 <Accordion title="Aliases not resolving">
