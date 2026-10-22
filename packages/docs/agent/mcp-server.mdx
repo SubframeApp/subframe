@@ -52,17 +52,21 @@ Once configured, your coding agent can access Subframe automatically when you pr
 
 ## Available tools
 
-The Subframe MCP server exposes tools across several categories. Most read tools take a `projectId`. If omitted, the sole accessible project is used; if several are available, the server asks you to choose.
+The Subframe MCP server exposes tools across several categories. Most tools take a `projectId`. If omitted, the sole accessible project is used; if you can access several, the tool asks for a `projectId` instead.
 
 ### Discovery
 
 | Tool                  | Description                                                         |
 | --------------------- | ------------------------------------------------------------------- |
 | `list_projects`       | List the projects you have access to                                |
+| `create_project`      | Create an empty project or one from the starter template            |
+| `delete_project`      | Delete a project for the whole team                                 |
 | `generate_auth_token` | Generate a CLI auth token for a team                                |
 | `get_project_info`    | Get project metadata and its design documents                       |
 | `search_docs`         | Search the Subframe documentation                                   |
 | `search_inspiration`  | Search a curated library of real landing pages for visual direction |
+
+An empty project has no theme or components, which suits importing designs. The starter template comes with a theme and components to build on. Free plans allow 1 project. A deleted project can't be restored.
 
 ### Pages
 
@@ -118,7 +122,7 @@ A [canvas](/design/canvases) is a collection of related pages (e.g. "Onboarding"
 | ----------- | ----------------------------------------------------------------------------------------------- |
 | `rename`    | Rename a page, component, snippet, canvas, component folder, or theme                           |
 | `move`      | Move pages to another grid cell or canvas, or components into folders; a batch applies together |
-| `duplicate` | Make an exact copy of a page, component, snippet, canvas, or theme                              |
+| `duplicate` | Make an exact copy of a page, component, snippet, canvas, theme, or whole project               |
 
 A duplicated canvas includes copies of its pages but not its prototype. A duplicated component stays in the same folder as the original.
 
