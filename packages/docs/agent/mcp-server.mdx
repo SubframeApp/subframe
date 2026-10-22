@@ -23,8 +23,8 @@ Agent skills are guided workflows that teach your agent how to use Subframe. The
 Subframe provides three skills:
 
 - **`/subframe:design`** designs and edits pages, components, snippets, design documents, and themes in Subframe
-- **`/subframe:develop`** implements a Subframe design in your codebase and adds the required application logic
-- **`/subframe:install`** installs Subframe in a codebase and configures its theme, fonts, and components
+- **`/subframe:develop`** sets up Subframe in your codebase, implements designs, and adds the required application logic
+- **`/subframe:import`** brings an existing codebase's or website's design system into Subframe, including tokens, fonts, icons, and components
 
 Agent skills use the [Agent Skills open standard ↗](https://agentskills.io).
 
@@ -74,7 +74,7 @@ Once configured, your coding agent can access Subframe automatically when you pr
 
 ## Available tools
 
-The Subframe MCP server exposes tools across several categories. Most read tools take a `projectId`. If omitted, the first project the user has access to is used.
+The Subframe MCP server exposes tools across several categories. Most read tools take a `projectId`. If omitted, the sole accessible project is used; if several are available, the server asks you to choose.
 
 ### Discovery
 
