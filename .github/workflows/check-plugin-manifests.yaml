@@ -1,0 +1,27 @@
+name: Check plugin manifests
+
+on:
+  pull_request:
+    paths:
+      - "plugins/**"
+      - ".claude-plugin/**"
+      - ".agents/plugins/**"
+      - ".cursor-plugin/**"
+      - "scripts/check-plugin-manifests.mjs"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24.16.0"
+          package-manager-cache: false
+      - name: Check that every host's manifest agrees
+        run: node scripts/check-plugin-manifests.mjs
+        env:
+          BASE_REF: ${{ github.base_ref }}

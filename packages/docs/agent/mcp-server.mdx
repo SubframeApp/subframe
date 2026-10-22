@@ -30,7 +30,7 @@ Agent skills use the [Agent Skills open standard ↗](https://agentskills.io).
 
 ### Keeping Agent skills up to date
 
-The Subframe plugin for Claude Code can update itself automatically. For Cursor, Codex, and other clients, check for updates with:
+For plugin updates and auto-update settings, follow the instructions in your client's tab [above](#installing-the-mcp-server-and-agent-skills). If you installed skills separately with `npx skills add`, check for updates with:
 
 ```bash
 npx skills check
@@ -41,28 +41,6 @@ Install available updates with:
 ```bash
 npx skills update
 ```
-
-### Enabling the Claude Code plugin for your team
-
-Add the following to `.claude/settings.json` so team members are prompted to install the Subframe plugin:
-
-```json .claude/settings.json
-{
-  "enabledPlugins": {
-    "subframe@subframe": true
-  },
-  "extraKnownMarketplaces": {
-    "subframe": {
-      "source": {
-        "source": "github",
-        "repo": "SubframeApp/subframe"
-      }
-    }
-  }
-}
-```
-
-Commit this file to your repository.
 
 ## Using the MCP server
 

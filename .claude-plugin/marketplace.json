@@ -5,13 +5,13 @@
     "email": "support@subframe.com"
   },
   "metadata": {
-    "description": "Official Subframe plugin - design UIs visually, get production-ready React code",
+    "description": "Design UI for your codebase. Developers and designers can import design systems into Subframe, explore and edit pages and components, and implement designs in your app.",
     "version": "1.0.0"
   },
   "plugins": [
     {
       "name": "subframe",
-      "source": "./plugins/claude/subframe"
+      "source": "./plugins/subframe"
     }
   ]
 }

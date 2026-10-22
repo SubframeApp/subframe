@@ -1,0 +1,20 @@
+{
+  "name": "subframe",
+  "interface": {
+    "displayName": "Subframe"
+  },
+  "plugins": [
+    {
+      "name": "subframe",
+      "source": {
+        "source": "local",
+        "path": "./plugins/subframe"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Design"
+    }
+  ]
+}
