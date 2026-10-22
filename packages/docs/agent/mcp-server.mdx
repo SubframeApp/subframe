@@ -195,6 +195,16 @@ A project can hold several themes that share token names but differ in values. A
 
 The agent uploads files with `curl`, so importing icons, fonts and images needs an agent that can run commands, like Claude Code, Codex, Cursor, or an agent in Subframe’s Agent chat — the upload link accepts files for 10 minutes, and uploaded files can be added with `add_icons` / `add_fonts` / `add_images` for about a day. A same-name icon upload replaces the earlier one everywhere it's used; a font family named like a Google font is rejected. `add_images` always adds a new image and never replaces one. Reference an image with `<img src="{url}">` in design code or `edit_page`, using the URL from `add_images` or `list_images`.
 
+### Motion library
+
+| Tool                     | Description                                                                 |
+| ------------------------ | --------------------------------------------------------------------------- |
+| `search_motion_examples` | Search the [motion library](https://www.subframe.com/motion) by name, intent, or a description of an effect |
+| `get_motion_example`     | Get an example's code, adapt notes, packages, and preview                   |
+| `get_motion_guidance`    | Get Subframe's motion guidance by topic, like timing or accessibility       |
+
+These tools are also available without a Subframe account at `https://mcp.subframe.com/motion/mcp`.
+
 ### Design references
 
 The design tools can ground a generation in real material — an existing page, component, or snippet in your project, raw code from your codebase, or a mockup uploaded to Subframe. Each reference comes with a note telling the generator how to use it, like "Match this page's layout and header".

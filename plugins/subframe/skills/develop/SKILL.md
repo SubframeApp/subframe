@@ -42,6 +42,8 @@ Wire navigation, forms, validation, selection, dialogs, and loading, empty, and 
 
 If the user points to a Subframe prototype for the intended behavior, read only its relevant files with read_prototype_file and translate that behavior; the prototype is a separate scaffold with mock data, not necessarily code to adopt.
 
+For animation or motion work, start with the motion library's search_motion_examples and get_motion_example tools, and read get_motion_guidance before building motion from scratch.
+
 ## Verify in the app
 
 Run the app with the host's shell and browser tools. Compare against screenshot_page at the same viewport, theme, content, and state. Check lower sections, responsive layouts, and interactions as well as the initial screen. Fix discrepancies, then run the relevant build or checks. Report what ran and any visual or behavioral verification you could not complete.
