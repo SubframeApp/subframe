@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "subframe",
   "description": "Design UI for your codebase. Developers and designers can import design systems into Subframe, explore and edit pages and components, and implement designs in your app.",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": {
     "name": "Subframe"
   },
@@ -28,7 +28,15 @@
         "capabilities": [
           "Read",
           "Write"
-        ]
+        ],
+        "shortDescription": "Design UI for your codebase",
+        "longDescription": "Design UI for your codebase. Developers and designers can import design systems into Subframe, explore and edit pages and components, and implement designs in your app.",
+        "developerName": "Subframe",
+        "websiteURL": "https://www.subframe.com",
+        "privacyPolicyURL": "https://policies.subframe.com/privacy",
+        "termsOfServiceURL": "https://policies.subframe.com/tos",
+        "composerIcon": "./assets/icon.png",
+        "logo": "./assets/icon.png"
       }
     }
   }

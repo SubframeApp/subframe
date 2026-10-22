@@ -39,6 +39,20 @@ for (const field of SHARED_FIELDS) {
   }
 }
 
+// Claude and Codex read listing details under different names; the pairs must agree.
+const openaiInterface = manifests.agentPlugins.extensions?.["com.openai"]?.interface ?? {}
+const listingPairs = [
+  ["privacyPolicyUrl", "privacyPolicyURL"],
+  ["termsOfServiceUrl", "termsOfServiceURL"],
+  ["icon", "logo"],
+  ["icon", "composerIcon"],
+]
+for (const [claudeField, openaiField] of listingPairs) {
+  if (manifests.claude[claudeField] !== openaiInterface[openaiField]) {
+    errors.push(`Claude "${claudeField}" differs from the Codex interface "${openaiField}"`)
+  }
+}
+
 const claudeServers = JSON.stringify(serverUrls(readJson(join(PLUGIN_DIR, ".mcp.json"))))
 const agentServers = JSON.stringify(serverUrls(readJson(join(PLUGIN_DIR, "mcp.json"))))
 if (claudeServers !== agentServers) {
