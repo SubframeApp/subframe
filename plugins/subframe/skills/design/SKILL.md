@@ -47,3 +47,5 @@ Write design documents for decisions a future designer cannot infer from the UI:
 Use screenshot_page for changed pages and screenshot_component for changed components after jobs finish. For a snippet, inspect it in an existing page usage when available; do not create an extra page just for verification. Disclose any missing visual coverage.
 
 Read parser warnings and applied results before treating an edit as successful. If content was dropped or normalized away, express the intended static design more directly. A masked “Something went wrong” error is not evidence that nothing changed: inspect the destination and job state before retrying a creation. Retry only missing work, and report a persistent failure with the affected resource and any returned job ID.
+
+When you start a design job, share its clickable link so the user can watch it generate. Finish your reply with clickable links to every Subframe page or component you created or changed, using URLs from tool results verbatim.
