@@ -58,28 +58,24 @@
     </Steps>
   </Tab>
   <Tab title="Cursor" icon="/images/logos/cursor.webp">
-    To install the plugin with both MCP servers and skills, import `https://github.com/SubframeApp/subframe` into a [Cursor team marketplace ↗](https://cursor.com/docs/plugins#add-a-team-marketplace), then open **Customize**, find **Subframe**, and click **Install**. Repository imports require an eligible Teams or Enterprise marketplace. The plugin will also be available in the Cursor Marketplace once listed. If you already use the Subframe plugin in Claude Code, Cursor can load it too when **Include third-party Plugins, Skills, and other configs** is on in Cursor Settings → Rules, Skills, Subagents.
+    To install the plugin with the MCP server and skills, import `https://github.com/SubframeApp/subframe` into a [Cursor team marketplace ↗](https://cursor.com/docs/plugins#add-a-team-marketplace), then open **Customize**, find **Subframe**, and click **Install**. Repository imports require an eligible Teams or Enterprise marketplace. The plugin will also be available in the Cursor Marketplace once listed. If you already use the Subframe plugin in Claude Code, Cursor can load it too when **Include third-party Plugins, Skills, and other configs** is on in Cursor Settings → Rules, Skills, Subagents.
 
-    To install the MCP servers and skills separately, follow these steps:
+    To install the MCP server and skills separately, follow these steps:
 
     <Steps>
-      <Step title="Install MCP servers">
-        Add the Subframe MCP servers to Cursor. You'll be prompted to authenticate via OAuth.
+      <Step title="Install the MCP server">
+        Add the Subframe MCP server to Cursor. You'll be prompted to authenticate via OAuth.
 
         - [Add Subframe MCP server to Cursor ↗](https://cursor.com/en-US/install-mcp?name=subframe&config=eyJ1cmwiOiJodHRwczovL21jcC5zdWJmcmFtZS5jb20vbWNwIn0%3D)
-        - (Optional) [Add Subframe Docs MCP server to Cursor ↗](https://cursor.com/en-US/install-mcp?name=subframe-docs&config=eyJ1cmwiOiJodHRwczovL2RvY3Muc3ViZnJhbWUuY29tL21jcCJ9)
 
         <Accordion title="Troubleshooting: Manual installation">
-          If the install links don't work, make the following changes to `~/.cursor/mcp.json`.
+          If the install link doesn't work, make the following changes to `~/.cursor/mcp.json`.
 
           ```json ~/.cursor/mcp.json
           {
             "mcpServers": {
               "subframe": {
                 "url": "https://mcp.subframe.com/mcp"
-              },
-              "subframe-docs": {
-                "url": "https://docs.subframe.com/mcp"
               }
             }
           }
@@ -102,7 +98,7 @@
 
   </Tab>
   <Tab title="Codex" icon="/images/logos/openai.png">
-    Install the Subframe plugin to add both MCP servers and agent skills:
+    Install the Subframe plugin to add the MCP server and agent skills:
 
     ```bash
     codex plugin marketplace add SubframeApp/subframe
@@ -117,14 +113,14 @@
 
     Codex picks skills automatically, or you can invoke one explicitly with `$subframe:design`, `$subframe:develop`, or `$subframe:import`.
 
-    The Codex IDE extension doesn't support plugins. If you use the IDE extension, install the MCP servers and skills separately with these steps:
+    The Codex IDE extension doesn't support plugins. If you use the IDE extension, install the MCP server and skills separately with these steps:
 
     <Steps>
-      <Step title="Install MCP servers">
-        Run the following commands to add the Subframe MCP servers and authenticate:
+      <Step title="Install the MCP server">
+        Run the following commands to add the Subframe MCP server and authenticate:
 
         ```bash
-        codex mcp add subframe --url https://mcp.subframe.com/mcp && codex mcp add subframe-docs --url https://docs.subframe.com/mcp && codex mcp login subframe
+        codex mcp add subframe --url https://mcp.subframe.com/mcp && codex mcp login subframe
         ```
 
         <Accordion title="Troubleshooting: Manual installation">
@@ -133,9 +129,6 @@
           ```toml ~/.codex/config.toml
           [mcp_servers.subframe]
           url = "https://mcp.subframe.com/mcp"
-
-          [mcp_servers.subframe-docs]
-          url = "https://docs.subframe.com/mcp"
           ```
 
           Then authenticate:
@@ -167,14 +160,6 @@
         - **Transport:** HTTP
         - **Authentication:** OAuth (your client will handle the authentication flow)
       </Step>
-      <Step title="Configure the Subframe Docs MCP Server (optional)">
-        Optionally add the Subframe Docs MCP server for documentation access:
-
-        - **URL:** `https://docs.subframe.com/mcp`
-        - **Transport:** HTTP
-        - **Authentication:** None required
-      </Step>
-
       <Step title="Install agent skills (optional)">
         If your client supports the [Agent Skills](https://agentskills.io) standard, install the Subframe skills with:
 
