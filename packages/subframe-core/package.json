@@ -48,7 +48,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^9",
-    "eslint-config-custom": "*",
+    "dev-config": "*",
     "postcss": "8.5.26",
     "rollup": "4.62.4",
     "rollup-plugin-peer-deps-external": "^2.2.4",
