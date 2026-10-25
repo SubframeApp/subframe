@@ -5,6 +5,6 @@ export default defineConfig({
     clearMocks: true,
     // The e2e suite has its own config (vitest.e2e.config.ts) and is run via
     // `npm run test:e2e`; keep it out of the fast unit run.
-    exclude: [...configDefaults.exclude, "test/e2e/**"],
+    exclude: [...configDefaults.exclude, "tests/e2e/**"],
   },
 })
