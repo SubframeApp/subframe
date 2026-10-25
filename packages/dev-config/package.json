@@ -1,21 +1,30 @@
 {
-  "name": "eslint-config-custom",
+  "name": "dev-config",
   "version": "0.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "test": "vitest run",
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
-    "lint:fix": "eslint . --fix --report-unused-disable-directives --max-warnings 0"
+    "lint:fix": "eslint . --fix --report-unused-disable-directives --max-warnings 0",
+    "ts": "tsc --noEmit",
+    "format": "prettier --cache --loglevel warn --write .",
+    "format:ci": "prettier --check ."
   },
   "devDependencies": {
-    "eslint": "^9"
+    "@types/node": "24.3.1",
+    "eslint": "^9",
+    "typescript": "5.8.3",
+    "vitest": "^4.1.11"
   },
   "dependencies": {
     "@typescript-eslint/parser": "^8.43.0",
     "eslint-config-prettier": "^9",
+    "eslint-import-resolver-typescript": "^3.10.1",
+    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-react-hooks": "^5",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "eslint-plugin-turbo": "^2.10.9",
+    "eslint-plugin-turbo": "2.5.6",
     "eslint-plugin-unused-imports": "^4.2.0",
     "globals": "^15"
   },
