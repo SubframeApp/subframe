@@ -1,4 +1,4 @@
-const custom = require("eslint-config-custom")
+const custom = require("dev-config")
 
 module.exports = [
   { ignores: ["dist/**", "bin/**"] },
