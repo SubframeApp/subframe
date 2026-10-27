@@ -298,3 +298,4 @@ When updating docs based on product or code changes:
 ## Learnings
 
 - Don't document features behind feature flags until they are widely released
+- Skip self-explanatory UI that guides users in place, like update badges or alerts
