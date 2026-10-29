@@ -6,7 +6,7 @@ description: Connect AI coding agents in Claude Code, Cursor, and Codex to Subfr
 import McpSkillsInstall from "/snippets/mcp-skills-install.mdx"
 import CopyMcpLink from "/snippets/copy-mcp-link.mdx"
 
-The Subframe MCP server gives external coding agents direct access to your Subframe projects. The agent can read, design, and delete pages, components, and snippets, screenshot pages and components, export them as images, read prototypes, write design documents, edit the theme, and search the Subframe docs.
+The Subframe MCP server gives external coding agents direct access to your Subframe projects. The agent can read, design, and delete pages, components, and snippets, screenshot pages and components, export them as images, read prototypes, write and delete design documents, edit the theme, and search the Subframe docs.
 
 <Note>Viewers get a read-only MCP server. Read, screenshot, export, and search tools work, but tools that design or edit require an editor seat.</Note>
 
@@ -154,11 +154,12 @@ A prototype is an interactive, AI-generated running app — its own React + Vite
 
 [Design documents](/design/documents) are Markdown files containing product context, brand voice, design principles, component usage rules, and accessibility requirements. **Project docs** cover guidance shared across the project; **component docs** cover the use of a specific component. Use `get_project_info` to access project docs and `get_component_info` to access a component’s doc.
 
-| Tool                    | Description                        |
-| ----------------------- | ---------------------------------- |
-| `write_design_document` | Create or update a design document |
+| Tool                     | Description                                      |
+| ------------------------ | ------------------------------------------------ |
+| `write_design_document`  | Create or update a design document               |
+| `delete_design_document` | Delete a project doc or a component's design doc |
 
-A component can have at most one design document. Snippets can be embedded as live examples with `<div data-type="component-example" data-component-id="..."></div>`.
+A component can have at most one design document. The **Design Guidelines** doc can't be deleted over MCP. Snippets can be embedded as live examples with `<div data-type="component-example" data-component-id="..."></div>`.
 
 ### Theme
 
