@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "subframe",
   "description": "Design UI for your codebase. Developers and designers can import design systems into Subframe, explore and edit pages and components, and implement designs in your app.",
-  "version": "1.2.3",
+  "version": "1.2.6",
   "author": {
     "name": "Subframe"
   },
@@ -24,19 +24,78 @@
     "com.openai": {
       "interface": {
         "displayName": "Subframe",
-        "category": "Design",
-        "capabilities": [
-          "Read",
-          "Write"
-        ],
+        "category": "Developer Tools",
+        "capabilities": ["Read", "Write"],
         "shortDescription": "Design UI for your codebase",
-        "longDescription": "Developers and designers can import design systems into Subframe, explore and edit pages and components, and implement designs in your app.",
+        "longDescription": "Design pages, components, and snippets in Subframe, a visual design tool built on HTML and CSS. Find inspiration in real landing pages, explore variations of a screen, update your theme, and write design documents. Read designs and their React and Tailwind code for implementation, or export designs as images or PDFs. On hosts that support it, a card in the chat opens the Subframe design canvas fullscreen for visual editing.",
         "developerName": "Subframe",
         "websiteURL": "https://www.subframe.com",
         "privacyPolicyURL": "https://policies.subframe.com/privacy",
         "termsOfServiceURL": "https://policies.subframe.com/tos",
         "composerIcon": "./assets/icon.png",
-        "logo": "./assets/icon.png"
+        "logo": "./assets/icon.png",
+        "supportURL": "https://docs.subframe.com/faq",
+        "defaultPrompt": [
+          "Design a landing page for a neighborhood bakery, using real landing pages for inspiration.",
+          "Create three variations of a personal finance dashboard with distinct layouts.",
+          "Design an event page with a speaker lineup, schedule, and a bold orange theme."
+        ]
+      },
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Use real landing pages as inspiration for a new design.",
+              "prompt": "In Plugin Review, find real landing pages for inspiration and use them to design a new landing page for a neighborhood bakery.",
+              "tools_triggered": "list_projects, search_inspiration, design_page, wait_for_jobs, screenshot_page, open_subframe",
+              "expected_behavior": "Real landing page references inform a new bakery landing page. The design job completes, a screenshot shows the finished page, and a card with an Open button appears."
+            },
+            {
+              "description": "Create several variations of one screen and open them in the design canvas.",
+              "prompt": "In Plugin Review, design a new task management dashboard with three layout variations, then open them in the design canvas.",
+              "tools_triggered": "list_projects, design_page, wait_for_jobs, screenshot_page, open_subframe",
+              "expected_behavior": "Three dashboard variations are created, and screenshots confirm them. Clicking Open on the card shows them in the Subframe design canvas fullscreen in the chat on hosts that support it. Otherwise, the result provides a link to open them in Subframe."
+            },
+            {
+              "description": "Apply a targeted edit to the existing Dashboard page.",
+              "prompt": "In Plugin Review, add a heading reading \"Weekly overview\" to the top of Dashboard. Keep the rest of the page unchanged.",
+              "tools_triggered": "list_projects, get_page_info, edit_page, screenshot_page, open_subframe",
+              "expected_behavior": "The heading appears at the top of Dashboard, with the rest of the page unchanged. The edit applies immediately without a job. A screenshot shows the change, and a card with an Open button appears."
+            },
+            {
+              "description": "Read a component's React and Tailwind code.",
+              "prompt": "In Plugin Review, show the Button component's React and Tailwind code.",
+              "tools_triggered": "list_projects, get_component_info",
+              "expected_behavior": "The response shows the Button component's React code and Tailwind classes."
+            },
+            {
+              "description": "Change the brand color and inspect it on a page.",
+              "prompt": "In Plugin Review, change the brand color to #7C3AED and show Dashboard with the updated theme.",
+              "tools_triggered": "list_projects, get_theme, edit_theme, screenshot_page, open_subframe",
+              "expected_behavior": "The theme's brand color changes to #7C3AED. A screenshot shows Dashboard with a purple button, and a card with an Open button appears."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Production deployment is outside the plugin's scope. The assistant says it cannot deploy here, calls no Subframe tool, and does not claim the site is live.",
+              "prompt": "Deploy my site to production."
+            },
+            {
+              "description": "Live website analytics are outside the plugin's scope. The assistant says it cannot retrieve live visitor counts, calls no Subframe tool, and does not claim to have retrieved a count.",
+              "prompt": "How many visitors are on my website right now?"
+            },
+            {
+              "description": "Sending email is outside the plugin's scope. The assistant says it cannot send the email, calls no Subframe tool, and does not claim it was sent.",
+              "prompt": "Send my team an email saying the design review moved to Friday."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "Payments for Subframe plans happen outside the chat, on Stripe."
+      },
+      "publication": {
+        "release_notes": "Find inspiration in real landing pages, create design variations, and refine pages and themes in Subframe. Read React and Tailwind code or export designs as images or PDFs.",
+        "countries": []
       }
     }
   }
