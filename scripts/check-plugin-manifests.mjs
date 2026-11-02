@@ -11,16 +11,8 @@ function readJson(path) {
   return JSON.parse(readFileSync(path, "utf8"))
 }
 
-// Claude's .mcp.json allows a ${VAR:-default} URL for local development; compare the default.
-function resolvedUrl(url) {
-  const match = /^\$\{[A-Z_]+:-(.+)\}$/.exec(url)
-  return match === null ? url : match[1]
-}
-
 function serverUrls(config) {
-  return Object.fromEntries(
-    Object.entries(config.mcpServers).map(([name, server]) => [name, resolvedUrl(server.url)]),
-  )
+  return Object.fromEntries(Object.entries(config.mcpServers).map(([name, server]) => [name, server.url]))
 }
 
 const errors = []

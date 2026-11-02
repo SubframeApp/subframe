@@ -2,7 +2,7 @@
   "mcpServers": {
     "subframe": {
       "type": "http",
-      "url": "${SUBFRAME_MCP_URL:-https://mcp.subframe.com/mcp}"
+      "url": "https://mcp.subframe.com/mcp"
     }
   }
 }
