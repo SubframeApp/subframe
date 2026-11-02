@@ -48,6 +48,14 @@ Once configured, your coding agent can access Subframe automatically when you pr
 
 `design_page`, `design_component`, `edit_component`, and `design_snippet` generate with Subframe's AI and use your [Subframe AI credits](/admin/pricing-and-plans#subframe-ai-credits), even if your coding agent runs on its own subscription. They don't use credits when you run them from Agent chat with a [connected Claude Code or Codex subscription](/agent/connecting-an-agent).
 
+### Opening designs in chat
+
+When the agent finishes a turn that changed your project, it calls `open_subframe` to show you what changed. In chat apps that support interactive apps, like Claude Desktop, a card lists the changed pages, components, snippets, canvases, design documents, or theme. Click **Open** to edit the design in the Subframe editor right in the chat. On a phone, or in a chat app that can't run the editor, **Open** opens the design in Subframe instead. In terminals and IDEs, like Claude Code or Cursor, the agent replies with a link to each item.
+
+| Tool            | Description                                                 |
+| --------------- | ----------------------------------------------------------- |
+| `open_subframe` | Show changed or requested designs, with a link to each item |
+
 ## Available tools
 
 The Subframe MCP server exposes tools across several categories. Most tools take a `projectId`. If omitted, the sole accessible project is used; if you can access several, the tool asks for a `projectId` instead.
@@ -138,7 +146,7 @@ Open threads are returned by default. Each thread's element id matches `get_page
 | -------------- | -------------------------------------------------------------------------------- |
 | `export_image` | Export a page, an element, a component, or a snippet as a PNG, JPG, WebP, or PDF |
 
-The tool returns a download URL. A component exports its default variant. Agents check their own work with `screenshot_page` and `screenshot_component` instead.
+The tool returns a download URL. In chat apps that show Subframe's card, the image appears with a **Download** button. A component exports its default variant. Agents check their own work with `screenshot_page` and `screenshot_component` instead.
 
 ### Prototypes
 
