@@ -30,7 +30,7 @@ Make one page unless the user asks for alternatives. Keep alternatives to the sa
 
 Build a flow's screens in order, each beside the previous one, reusing shared chrome from the previous page's code. Do not wait for the user's pick between screens.
 
-Use design_page when the user asks for Subframe's AI to generate pages, or when a dialog or drawer layout is genuinely required. Make each variation's brief self-contained, split requested variations across calls on the same canvas if needed, and after wait_for_jobs verify the page exists before building on it.
+Use design_page when the user asks for Subframe's AI to generate pages. Make each variation's brief self-contained, split requested variations across calls on the same canvas if needed, and after wait_for_jobs verify the page exists before building on it.
 
 ## Existing designs
 
