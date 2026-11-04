@@ -46,7 +46,7 @@ Once configured, your coding agent can access Subframe automatically when you pr
 
 <CopyMcpLink />
 
-`design_page`, `design_component`, `edit_component`, and `design_snippet` generate with Subframe's AI and use your [Subframe AI credits](/admin/pricing-and-plans#subframe-ai-credits), even if your coding agent runs on its own subscription. They don't use credits when you run them from Agent chat with a [connected Claude Code or Codex subscription](/agent/connecting-an-agent).
+`design_page`, `design_component`, `edit_component`, and `design_snippet` generate with Subframe's AI and use your [Subframe AI credits](/admin/pricing-and-plans#subframe-ai-credits), even if your coding agent runs on its own subscription. They don't use credits when you run them from Agent chat with a [connected Claude Code or Codex subscription](/agent/connecting-an-agent). To make a page without credits, your agent writes it itself with `create_page` and `edit_page`.
 
 ### Opening designs in chat
 
@@ -76,15 +76,20 @@ An empty project has no theme or components, which suits importing designs. The 
 
 ### Pages
 
-| Tool                 | Description                                                               |
-| -------------------- | ------------------------------------------------------------------------- |
-| `list_pages`         | List all pages and the canvases they belong to                            |
-| `get_page_info`      | Get a page's generated React and Tailwind code                            |
-| `design_page`        | Generate new page designs from a description                              |
-| `edit_page`          | Edit a page element's content, structure, and styles                      |
-| `update_node_styles` | Replace elements' Tailwind classes while preserving content and structure |
-| `screenshot_page`    | Screenshot a page, a single element, or a breakpoint                      |
-| `delete_page`        | Delete a page                                                             |
+| Tool                  | Description                                                                                 |
+| --------------------- | ------------------------------------------------------------------------------------------- |
+| `list_pages`          | List all pages and the canvases they belong to                                              |
+| `get_page_info`       | Get a page's generated React and Tailwind code                                              |
+| `get_design_guidance` | Get Subframe's reference for writing pages: the supported code, structure, and design rules |
+| `create_page`         | Add an empty page to a canvas for the agent to write                                        |
+| `edit_page`           | Edit a page element's content, structure, and styles                                        |
+| `design_page`         | Generate page designs with Subframe's AI, in the background                                 |
+| `update_node_styles`  | Replace elements' Tailwind classes while preserving content and structure                   |
+| `screenshot_page`     | Screenshot a page, a single element, or a breakpoint                                        |
+| `delete_page`         | Delete a page                                                                               |
+| `finish_working`      | Tell collaborators the agent has finished working on the project                            |
+
+A page fills in on the canvas as the agent writes it, and glows for everyone with the project open while an agent works on it. The agent calls `finish_working` when it's done.
 
 ### Components
 
