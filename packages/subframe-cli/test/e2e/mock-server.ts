@@ -62,9 +62,6 @@ function makeDefaultRoutes(): Record<string, RouteHandler> {
       },
     }),
     "POST /api/cli/import-alias": () => ({ json: { success: true } }),
-    "POST /api/cli/push-component": (body) => ({
-      json: { success: true, componentName: (body as { componentName?: string })?.componentName ?? "Component" },
-    }),
   }
 }
 

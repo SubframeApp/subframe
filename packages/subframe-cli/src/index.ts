@@ -7,7 +7,6 @@ import { UserError } from "./errors"
 import { initCommand } from "./init"
 import { flushLog, initLog, log } from "./log"
 import { configureOutput } from "./output/output"
-import { pushComponentCommand } from "./push-component"
 import { syncCommand } from "./sync"
 
 program.version(packageJson.version).description("Subframe CLI")
@@ -42,7 +41,6 @@ if (process.argv.includes("--beta")) {
 
 program.addCommand(initCommand)
 program.addCommand(syncCommand)
-program.addCommand(pushComponentCommand)
 
 async function main() {
   initLog()
