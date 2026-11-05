@@ -109,19 +109,6 @@ export interface UpdateImportAliasResponse {
   success: true
 }
 
-export interface PushComponentRequest {
-  truncatedProjectId: TruncatedProjectId
-  componentFile: string
-  componentName: string
-  skipNormalize?: boolean
-  isNewComponent?: boolean
-}
-
-export interface PushComponentResponse {
-  success: true
-  componentName: string
-}
-
 export interface SyncProjectRequest {
   truncatedProjectId?: TruncatedProjectId
   components: string[]

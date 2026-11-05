@@ -17,7 +17,6 @@ describe("global behavior", () => {
     expect(result.exitCode).toBe(0)
     expect(result.stdout).toMatch(/init/)
     expect(result.stdout).toMatch(/sync/)
-    expect(result.stdout).toMatch(/push-component/)
   })
 
   it("surfaces the non-interactive flags in help", async () => {
