@@ -17,9 +17,9 @@ Use this workflow when the deliverable belongs in Subframe. For implementation, 
 ## Steps
 
 1. Identify what must stay and what should change. For an existing design, read its actual content and inspect its rendered appearance. For a website or codebase reference, use the host's browsing or file tools to collect the relevant source and screenshots. A prose description alone is weak evidence for recreating an existing UI.
-2. Choose the smallest operation that delivers the request. Edit an existing page or snippet in place; duplicate for an exact copy. Write a new page yourself with create_page and edit_page, which is free and shows on the canvas as you go. Use design_page only when the user asks for Subframe's AI to generate pages in the background; it spends AI credits. Decide whether a reusable component, a page composition, a usage example, or written guidance is the intended output.
+2. Choose the smallest operation that delivers the request. Edit an existing page or snippet in place; duplicate for an exact copy. Write a new page yourself with create_page and edit_page, and a new component with create_component and edit_component; both are free and show in Subframe as you go. Use design_page or design_component only when the user asks for Subframe's AI to generate in the background; they spend AI credits. Decide whether a reusable component, a page composition, a usage example, or written guidance is the intended output.
 3. Gather references before writing. Read the actual source, images, or Subframe resources, and work out what to preserve and what to change. When you do use a generation tool, pass those references with a usage note, including child components and styles the source depends on: the generator does not see your conversation or reasoning.
-4. Complete dependencies before their consumers. If a page needs missing reusable primitives, create those with design_component first. Finish independent primitives before components that embed them, then write the page. Keep one-off page compositions inline. Do not turn recreating a page into an unsolicited component-library rebuild.
+4. Complete dependencies before their consumers. If a page needs missing reusable primitives, create those first. Finish independent primitives before components that embed them, then write the page. Keep one-off page compositions inline. Do not turn recreating a page into an unsolicited component-library rebuild.
 5. Complete the requested screens and edits, then review what landed. Compare screenshots with the reference and requested change, including lower sections, affected responsive layouts, and relevant states. Fix missing content, clipping, spacing, and typography discrepancies before reporting.
 
 ## Pages and flows
@@ -31,6 +31,12 @@ Make one page unless the user asks for alternatives. Keep alternatives to the sa
 Build a flow's screens in order, each beside the previous one, reusing shared chrome from the previous page's code. Do not wait for the user's pick between screens.
 
 Use design_page when the user asks for Subframe's AI to generate pages. Make each variation's brief self-contained, split requested variations across calls on the same canvas if needed, and after wait_for_jobs verify the page exists before building on it.
+
+## Components
+
+Read get_design_guidance's components topic once per session. Call create_component, with from set to the matching template when the component is one of the behavioral types the guidance lists, then build it with edit_component, one visual group per call. Edit the code get_component_info returns with includeEditorMetadata: true, or the code the last edit returned. Prefer edits over rewriting the whole file, and keep the prop id comments and data-node-id attributes on everything you keep, since pages using the component keep their values through them. A full-file rewrite needs the baseVersion of the code it started from.
+
+Use design_component when the user asks for Subframe's AI: pass name to design a new component, or component to edit an existing one.
 
 ## Existing designs
 
