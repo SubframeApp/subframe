@@ -50,7 +50,7 @@ Once configured, your coding agent can access Subframe automatically when you pr
 
 ### Opening designs in chat
 
-When the agent finishes a turn that changed your project, it calls `open_subframe` to show you what changed. In chat apps that support interactive apps, like Claude Desktop, a card lists the changed pages, components, snippets, canvases, design documents, or theme, with a preview of each changed page. Click **Open** or a page preview to edit the design in the Subframe editor right in the chat. On a phone, or in a chat app that can't run the editor, **Open** opens the design in Subframe instead. In terminals and IDEs, like Claude Code or Cursor, the agent replies with a link to each item.
+When the agent finishes a turn that changed your project, it calls `open_subframe` to show you what changed. In chat apps that support interactive apps, like Claude Desktop, a card lists the changed pages, components, snippets, canvases, design documents, or theme, with a preview of each changed page. Click the card's open button, like **Open canvas** or **Open component**, or a page preview to edit the design in the Subframe editor right in the chat. A changed page opens on its canvas. On a phone, or in a chat app that can't run the editor, the button shows <Icon icon="arrow-up-right" size={16} /> and opens the design in Subframe instead. In terminals and IDEs, like Claude Code or Cursor, the agent replies with a link to each item.
 
 | Tool            | Description                                                 |
 | --------------- | ----------------------------------------------------------- |
@@ -122,19 +122,19 @@ Snippets are small, standalone bits of UI typically embedded inside design docum
 
 A [canvas](/design/canvases) is a collection of related pages (e.g. "Onboarding", "Checkout").
 
-| Tool              | Description                                         |
-| ----------------- | --------------------------------------------------- |
-| `list_canvases`   | List all canvases                                   |
-| `get_canvas_info` | Get a canvas and its pages with their grid position |
-| `delete_canvas`   | Delete a canvas, optionally with the pages on it    |
+| Tool              | Description                                      |
+| ----------------- | ------------------------------------------------ |
+| `list_canvases`   | List all canvases                                |
+| `get_canvas_info` | Get a canvas and its pages with their positions  |
+| `delete_canvas`   | Delete a canvas, optionally with the pages on it |
 
 ### Organizing
 
-| Tool        | Description                                                                                     |
-| ----------- | ----------------------------------------------------------------------------------------------- |
-| `rename`    | Rename a page, component, snippet, canvas, component folder, or theme                           |
-| `move`      | Move pages to another grid cell or canvas, or components into folders; a batch applies together |
-| `duplicate` | Make an exact copy of a page, component, snippet, canvas, theme, or whole project               |
+| Tool        | Description                                                                                |
+| ----------- | ------------------------------------------------------------------------------------------ |
+| `rename`    | Rename a page, component, snippet, canvas, component folder, or theme                      |
+| `move`      | Move pages to another spot or canvas, or components into folders; a batch applies together |
+| `duplicate` | Make an exact copy of a page, component, snippet, canvas, theme, or whole project          |
 
 A duplicated canvas includes copies of its pages but not its prototype. A duplicated component stays in the same folder as the original.
 
@@ -234,7 +234,7 @@ Invalid references are dropped with a warning in the tool result rather than fai
 | --------------- | ----------------------------------------- |
 | `wait_for_jobs` | Wait for background design jobs to finish |
 
-`design_page`, `design_component`, and `edit_component` run in the background and return a URL you can open right away to watch progress in the editor. Reading a page or component back before its job finishes returns stale content.
+`design_page` and `design_component` run in the background and return a URL you can open right away to watch progress in the editor. Reading a page or component back before its job finishes returns stale content.
 
 ## Prompting with an MCP link
 
@@ -395,7 +395,7 @@ Verify:
 
 <Accordion title="Background job seems stuck">
 
-`design_page`, `design_component`, and `edit_component` run as background jobs. Check `wait_for_jobs` with the `jobId` returned by the design tool — it reports `running`, `done`, `error`, or `not_found`. The URL is live throughout, so opening it in the editor shows real-time progress.
+`design_page` and `design_component` run as background jobs. Check `wait_for_jobs` with the `jobId` returned by the design tool — it reports `running`, `done`, `error`, or `not_found`. The URL is live throughout, so opening it in the editor shows real-time progress.
 
 If a job stops reporting progress for ~10 minutes, the server treats it as stalled (worker died, request timed out) and reports it as `error` so polling never hangs — its summary explains that the result could not be verified. Open the URL to see whether anything was actually generated; the chat panel surfaces any errors from the agent.
 
