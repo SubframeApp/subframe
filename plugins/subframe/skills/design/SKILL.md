@@ -17,20 +17,16 @@ Use this workflow when the deliverable belongs in Subframe. For implementation, 
 ## Steps
 
 1. Identify what must stay and what should change. For an existing design, read its actual content and inspect its rendered appearance. For a website or codebase reference, use the host's browsing or file tools to collect the relevant source and screenshots. A prose description alone is weak evidence for recreating an existing UI.
-2. Choose the smallest operation that delivers the request. Edit an existing page or snippet in place; duplicate for an exact copy. Write a new page yourself with create_page and edit_page, which is free and shows on the canvas as you go. Use design_page only when the user asks for Subframe's AI to generate pages in the background; it spends AI credits. Decide whether a reusable component, a page composition, a usage example, or written guidance is the intended output.
+2. Choose the smallest operation that delivers the request. Edit an existing page or snippet in place; duplicate for an exact copy. Write a new page yourself with create_page and edit_page, and a new component with create_component and edit_component; both are free and show in Subframe as you go. Use design_page or design_component only when the user asks for Subframe's AI to generate in the background; they spend AI credits. Decide whether a reusable component, a page composition, a usage example, or written guidance is the intended output.
 3. Gather references before writing. Read the actual source, images, or Subframe resources, and work out what to preserve and what to change. When you do use a generation tool, pass those references with a usage note, including child components and styles the source depends on: the generator does not see your conversation or reasoning.
-4. Complete dependencies before their consumers. If a page needs missing reusable primitives, create those with design_component first. Finish independent primitives before components that embed them, then write the page. Keep one-off page compositions inline. Do not turn recreating a page into an unsolicited component-library rebuild.
+4. Complete dependencies before their consumers. If a page needs missing reusable primitives, create those first. Finish independent primitives before components that embed them, then write the page. Keep one-off page compositions inline. Do not turn recreating a page into an unsolicited component-library rebuild.
 5. Complete the requested screens and edits, then review what landed. Compare screenshots with the reference and requested change, including lower sections, affected responsive layouts, and relevant states. Fix missing content, clipping, spacing, and typography discrepancies before reporting.
 
-## Pages and flows
-
-Read what you need first, including get_design_guidance once per session. Then call create_page and immediately add content with edit_page, one visual group per call, starting on the rootNodeId it returns. The user watches the canvas in real time, so small writes show progress and large ones look like nothing is happening.
+## Alternatives and flows
 
 Make one page unless the user asks for alternatives. Keep alternatives to the same screen, each beside the first, and make them genuinely different in layout or emphasis.
 
 Build a flow's screens in order, each beside the previous one, reusing shared chrome from the previous page's code. Do not wait for the user's pick between screens.
-
-Use design_page when the user asks for Subframe's AI to generate pages. Make each variation's brief self-contained, split requested variations across calls on the same canvas if needed, and after wait_for_jobs verify the page exists before building on it.
 
 ## Existing designs
 

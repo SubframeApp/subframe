@@ -36,10 +36,10 @@ For multiple source themes, inspect list_themes and map each to an explicit dest
 
 ## Components
 
-Read the implementation, styles, dependencies, and representative usages of each component. Pass source code to design_component as a code reference with instructions to preserve its visual structure, variants, slots, and state styling. Include a rendered reference when available; code with unresolved imports alone is insufficient.
+Read the implementation, styles, dependencies, and representative usages of each component, then port it yourself: create_component, with from set to the matching template for a behavioral type, then edit_component, preserving its visual structure, variants, slots, and state styling. Read get_design_guidance's components topic first for the code Subframe supports. Use design_component only when the user asks for Subframe's AI; then pass the source code as a code reference with a rendered reference when available.
 
-Build primitives before composites. Use newly imported Subframe components in later references and briefs. If a matching destination component already exists, compare it first and use edit_component for an intended update rather than creating another copy.
+Build primitives before composites. Use newly imported Subframe components inside later ones. If a matching destination component already exists, compare it first and use edit_component for an intended update rather than creating another copy.
 
 Recreate the visual contract, not runtime logic: API calls and application state remain in the source app. Express visual states as component variants or examples. Keep missing behavior or unsupported styling visible in the import report instead of claiming a lossless conversion.
 
-After wait_for_jobs completes, read back each component and inspect screenshot_component. Check representative existing page usages with screenshot_page when the import changes shared assets or tokens. Count a component as imported only when it exists; separately identify anything that could not be visually verified. After an ambiguous failure, inspect the destination before retrying to avoid duplicates.
+Read back each component, after wait_for_jobs for a design_component job, and inspect screenshot_component. Check representative existing page usages with screenshot_page when the import changes shared assets or tokens. Count a component as imported only when it exists; separately identify anything that could not be visually verified. After an ambiguous failure, inspect the destination before retrying to avoid duplicates.
