@@ -22,21 +22,11 @@ Use this workflow when the deliverable belongs in Subframe. For implementation, 
 4. Complete dependencies before their consumers. If a page needs missing reusable primitives, create those first. Finish independent primitives before components that embed them, then write the page. Keep one-off page compositions inline. Do not turn recreating a page into an unsolicited component-library rebuild.
 5. Complete the requested screens and edits, then review what landed. Compare screenshots with the reference and requested change, including lower sections, affected responsive layouts, and relevant states. Fix missing content, clipping, spacing, and typography discrepancies before reporting.
 
-## Pages and flows
-
-Read what you need first, including get_design_guidance once per session. Then call create_page and immediately add content with edit_page, one visual group per call, starting on the rootNodeId it returns. The user watches the canvas in real time, so small writes show progress and large ones look like nothing is happening.
+## Alternatives and flows
 
 Make one page unless the user asks for alternatives. Keep alternatives to the same screen, each beside the first, and make them genuinely different in layout or emphasis.
 
 Build a flow's screens in order, each beside the previous one, reusing shared chrome from the previous page's code. Do not wait for the user's pick between screens.
-
-Use design_page when the user asks for Subframe's AI to generate pages. Make each variation's brief self-contained, split requested variations across calls on the same canvas if needed, and after wait_for_jobs verify the page exists before building on it.
-
-## Components
-
-Read get_design_guidance's components topic once per session. Call create_component, with from set to the matching template when the component is one of the behavioral types the guidance lists, then build it with edit_component, one visual group per call. Edit the code get_component_info returns with includeEditorMetadata: true, or the code the last edit returned. Prefer edits over rewriting the whole file, and keep the prop id comments and data-node-id attributes on everything you keep, since pages using the component keep their values through them. A full-file rewrite needs the baseVersion of the code it started from.
-
-Use design_component when the user asks for Subframe's AI: pass name to design a new component, or component to edit an existing one.
 
 ## Existing designs
 
