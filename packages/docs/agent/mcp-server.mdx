@@ -46,7 +46,7 @@ Once configured, your coding agent can access Subframe automatically when you pr
 
 <CopyMcpLink />
 
-`design_page`, `design_component`, and `design_snippet` generate with Subframe's AI and use your [Subframe AI credits](/admin/pricing-and-plans#subframe-ai-credits), even if your coding agent runs on its own subscription. They don't use credits when you run them from Agent chat with a [connected Claude Code or Codex subscription](/agent/connecting-an-agent). To make a page or component without credits, your agent writes it itself with `create_page` and `edit_page`, or `create_component` and `edit_component`.
+`design_page`, `design_component`, and `design_snippet` generate with Subframe's AI and use your [Subframe AI credits](/admin/pricing-and-plans#subframe-ai-credits), even if your coding agent runs on its own subscription. To make a page, component, or snippet without credits, your agent writes it itself with `create_page` and `edit_page`, `create_component` and `edit_component`, or `create_snippet` and `edit_snippet`. [Agent chat](/agent/overview) always works this way.
 
 ### Opening designs in chat
 
@@ -113,7 +113,8 @@ Snippets are small, standalone bits of UI typically embedded inside design docum
 | -------------------- | ------------------------------------------------------------------------- |
 | `list_snippets`      | List all snippets                                                         |
 | `get_snippet_info`   | Get a snippet's generated code                                            |
-| `design_snippet`     | Design a new snippet from a description                                   |
+| `create_snippet`     | Create an empty snippet for the agent to fill with `edit_snippet`         |
+| `design_snippet`     | Design a new snippet with Subframe's AI                                   |
 | `edit_snippet`       | Edit a snippet element's content, structure, and styles                   |
 | `update_node_styles` | Replace elements' Tailwind classes while preserving content and structure |
 | `delete_snippet`     | Delete a snippet and remove it from any design documents                  |
