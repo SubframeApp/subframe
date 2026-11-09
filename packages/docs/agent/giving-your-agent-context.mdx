@@ -1,6 +1,6 @@
 ---
 title: Giving your agent context
-description: Point the agent to the designs, browser pages, project content, and images it needs.
+description: Point the agent to the designs, browser pages, project content, images, and files it needs.
 ---
 
 Good context tells [Agent chat](/agent/overview) what you're referring to and where the result should go.
@@ -43,9 +43,11 @@ In Claude Code or the Codex CLI, run `/export` and choose **Copy to clipboard**.
 
 A paste longer than 20 lines or 1,000 characters is added as an attachment instead of text in the chat box. This applies to any long text you paste, such as logs or specs.
 
-## Adding images
+## Adding images and files
 
-Click **Upload images**, drag images into the chat box, or paste them from your clipboard. Add a message explaining what the agent should use from the images, then send it.
+Click the <Icon icon="paperclip" size={16} /> **Attach images or files** button, drag files into the chat box, or paste them from your clipboard. Add a message explaining what the agent should use from them, then send it.
+
+You can attach any file type, like a spec, a CSV, a PDF, or source code, up to 30 MB each. The agent opens each file with its own tools and tells you if it can't read one.
 
 ## Sending browser edits and comments
 
