@@ -6,7 +6,7 @@
   "plugins": [
     {
       "name": "subframe",
-      "source": "./plugins/subframe"
+      "source": "plugins/subframe"
     }
   ]
 }
