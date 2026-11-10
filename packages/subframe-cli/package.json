@@ -29,7 +29,7 @@
     "main-sync": "./bin/main-sync.js"
   },
   "dependencies": {
-    "@antfu/ni": "0.21.8",
+    "@antfu/ni": "30.6.0",
     "@bluwy/giget-core": "^0.1.6",
     "@commander-js/extra-typings": "^13.1.0",
     "@segment/analytics-node": "2.1.2",
