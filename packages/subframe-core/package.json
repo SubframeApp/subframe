@@ -49,12 +49,12 @@
     "@types/react-dom": "^18",
     "eslint": "^9",
     "eslint-config-custom": "*",
-    "postcss": "8.5.26",
+    "postcss": "8.5.32",
     "rollup": "4.62.4",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "4.0.2",
     "rollup-plugin-preserve-directives": "0.4.0",
-    "rollup-plugin-typescript2": "0.36.0",
+    "rollup-plugin-typescript2": "0.37.0",
     "typescript": "5.8.3",
     "vitest": "^5.1.0"
   },
@@ -65,7 +65,7 @@
     "tailwind-merge": "^2.3.0"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.62.4"
+    "@rollup/rollup-linux-x64-gnu": "4.68.0"
   },
   "peerDependencies": {
     "@radix-ui/react-checkbox": "^1.1.2",

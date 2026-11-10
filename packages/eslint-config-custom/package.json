@@ -11,12 +11,12 @@
     "eslint": "^9"
   },
   "dependencies": {
-    "@typescript-eslint/parser": "^8.43.0",
+    "@typescript-eslint/parser": "^8.72.1",
     "eslint-config-prettier": "^9",
     "eslint-plugin-react-hooks": "^5",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "eslint-plugin-turbo": "^2.10.9",
-    "eslint-plugin-unused-imports": "^4.2.0",
+    "eslint-plugin-turbo": "^2.11.10",
+    "eslint-plugin-unused-imports": "^4.4.1",
     "globals": "^15"
   },
   "publishConfig": {
