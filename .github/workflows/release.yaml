@@ -1,0 +1,40 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest-l
+    permissions:
+      contents: write
+      pull-requests: write
+      # npm trusted publishing (OIDC) and provenance
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24.16.0"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
+      - name: Install dependencies
+        run: npm ci
+      - name: Open the Version packages PR, or publish when it merges
+        uses: changesets/action@v2.1.2
+        with:
+          version-script: npm run version-packages
+          publish-script: npm run release
+          pr-title: Version packages
+          commit-message: Version packages
+        env:
+          NPM_CONFIG_PROVENANCE: "true"
+          SEGMENT_WRITE_KEY: ${{ secrets.SEGMENT_WRITE_KEY }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}

@@ -6,9 +6,12 @@
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "ts": "turbo run ts",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "version-packages": "changeset version && npm install --package-lock-only --ignore-scripts",
+    "release": "npm run build-for-publish --workspace=@subframe/cli && changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "^3.0.3",
     "prettier": "2.8.8",
     "turbo": "2.10.9",
     "typescript": "5.8.3"
