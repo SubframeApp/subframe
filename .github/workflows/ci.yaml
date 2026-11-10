@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24.16.0"
+          package-manager-cache: false
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint, typecheck and test the affected workspaces
+        run: npx turbo run lint ts test --filter="...[origin/${{ github.base_ref }}]"
+      - name: Require a changeset for published packages
+        # The Version packages PR consumes the changesets, so it has none to report.
+        if: ${{ !startsWith(github.head_ref, 'changeset-release/') }}
+        run: npx changeset status --since=origin/${{ github.base_ref }}
