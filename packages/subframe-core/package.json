@@ -41,7 +41,7 @@
     "lint:fix": "eslint --fix src/ --report-unused-disable-directives --max-warnings 0"
   },
   "author": "Irvin Zhan",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-commonjs": "25.0.7",
     "@rollup/plugin-node-resolve": "15.2.3",

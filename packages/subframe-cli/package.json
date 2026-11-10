@@ -27,7 +27,7 @@
     "subframe"
   ],
   "author": "Irvin Zhan",
-  "license": "ISC",
+  "license": "MIT",
   "bin": {
     "main-sync": "./bin/main-sync.js"
   },
@@ -73,6 +73,7 @@
   },
   "files": [
     "dist/",
-    "!dist/*.map"
+    "!dist/*.map",
+    "THIRD_PARTY_NOTICES.md"
   ]
 }

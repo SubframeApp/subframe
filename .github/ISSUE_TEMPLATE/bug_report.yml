@@ -1,0 +1,33 @@
+name: Bug report
+description: Something in the CLI, plugin, skills, starter kits or docs isn't working
+labels: [bug]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - CLI (@subframe/cli)
+        - Core (@subframe/core)
+        - Claude plugin or skills
+        - Starter kit
+        - Docs
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: Include what you expected, the steps to reproduce, and any error output.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: For example the output of `npx @subframe/cli --version`.
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Node version and package manager.
