@@ -14,6 +14,13 @@ describe("toUserErrorIfPermissionDenied", () => {
     )
   })
 
+  it("does not point macOS users at privacy settings for EACCES, an ordinary file permission", () => {
+    const err = toUserErrorIfPermissionDenied(fsError("EACCES", "/Users/a/readonly/package.json"), "darwin")
+    expect((err as Error).message).toBe(
+      "Permission denied (EACCES) for /Users/a/readonly/package.json. Check that you have permission to read and write there, or run the command from a folder you own.",
+    )
+  })
+
   it("does not point Windows users at macOS settings for EACCES", () => {
     const err = toUserErrorIfPermissionDenied(fsError("EACCES", "C:\\app\\.subframe\\sync.json"), "win32")
     expect(err).toBeInstanceOf(UserError)
