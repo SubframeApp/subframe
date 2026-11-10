@@ -13,8 +13,9 @@ export class HttpResponseError extends UserError {
   }
 }
 
-function permissionFixHint(platform: NodeJS.Platform): string {
-  if (platform === "darwin") {
+function permissionFixHint(platform: NodeJS.Platform, code: "EPERM" | "EACCES"): string {
+  // macOS privacy blocks surface as EPERM; EACCES is ordinary file permissions.
+  if (platform === "darwin" && code === "EPERM") {
     return "Give your terminal app access in System Settings > Privacy & Security > Files and Folders (or Full Disk Access), or run the command from a folder you own."
   }
   return "Check that you have permission to read and write there, or run the command from a folder you own."
@@ -30,5 +31,5 @@ export function toUserErrorIfPermissionDenied(err: unknown, platform: NodeJS.Pla
     return err
   }
   const subject = [path, dest].filter((p) => p !== undefined).join(" -> ") || "a file"
-  return new UserError(`Permission denied (${code}) for ${subject}. ${permissionFixHint(platform)}`)
+  return new UserError(`Permission denied (${code}) for ${subject}. ${permissionFixHint(platform, code)}`)
 }
