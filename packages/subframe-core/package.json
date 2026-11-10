@@ -50,7 +50,7 @@
     "eslint": "^9",
     "eslint-config-custom": "*",
     "postcss": "8.5.26",
-    "rollup": "4.62.4",
+    "rollup": "4.68.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "4.0.2",
     "rollup-plugin-preserve-directives": "0.4.0",
