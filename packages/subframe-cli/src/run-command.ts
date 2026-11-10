@@ -1,3 +1,4 @@
+import { toUserErrorIfPermissionDenied } from "./errors"
 import { emitResult } from "./output/output"
 
 /**
@@ -15,7 +16,8 @@ export async function runCommand(command: string, fn: () => Promise<Record<strin
   try {
     const result = await fn()
     emitResult({ ok: true, command, ...(result ?? {}) })
-  } catch (err: any) {
+  } catch (thrown: unknown) {
+    const err = toUserErrorIfPermissionDenied(thrown, process.platform) as any
     emitResult({ ok: false, command, error: err?.message ?? String(err) })
     throw err
   }
