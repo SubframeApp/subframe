@@ -4,7 +4,7 @@ description: "Set up Subframe in your codebase."
 ---
 
 import CLIInitCommand from "/snippets/cli-init-command.mdx"
-import McpSkillsInstall from "/snippets/mcp-skills-install.mdx"
+import McpInstall from "/snippets/mcp-install.mdx"
 
 ## Prerequisites
 
@@ -53,7 +53,7 @@ Start from a new project or install in an existing project. Our CLI is [open sou
         </Columns>
       </Accordion>
       <Accordion title="Importing existing components">
-        If you have an existing component library, use the `/subframe:import` agent skill with the [Subframe MCP server](/agent/mcp-server) to bring its theme, fonts, icons, and components into Subframe.
+        If you have an existing component library, use your agent with the [Subframe MCP server](/agent/mcp-server) to bring its theme, fonts, icons, and components into Subframe.
       </Accordion>
     </AccordionGroup>
 
@@ -86,13 +86,13 @@ Your Subframe theme may use a Google Font or an [uploaded custom font](/design/t
   </Step>
 </Steps>
 
-## Set up Subframe MCP and agent skills
+## Set up the Subframe MCP server
 
-The MCP server lets AI coding agents in tools like Claude Code, Cursor, and Codex fetch and create Subframe designs. Agent skills guide your agent through setting up projects, designing pages, and implementing them with business logic.
+The MCP server lets AI coding agents in tools like Claude Code, Cursor, and Codex fetch and create Subframe designs.
 
-<McpSkillsInstall />
+<McpInstall />
 
-See the [MCP server guide](/agent/mcp-server) for available tools and Agent skills.
+See the [MCP server guide](/agent/mcp-server) for available tools.
 
 ## FAQ
 

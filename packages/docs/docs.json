@@ -320,7 +320,7 @@
     { "source": "/guides/dark-mode", "destination": "/develop/guides/dark-mode" },
     { "source": "/guides/mcp-server", "destination": "/agent/mcp-server" },
     { "source": "/guides/publish-to-npm", "destination": "/develop/guides/publish-to-npm" },
-    { "source": "/guides/skills", "destination": "/agent/mcp-server#using-agent-skills" },
+    { "source": "/guides/skills", "destination": "/agent/mcp-server" },
     { "source": "/guides/testing", "destination": "/develop/guides/testing" },
     { "source": "/installation", "destination": "/develop/installation" },
     { "source": "/introduction", "destination": "/overview" },

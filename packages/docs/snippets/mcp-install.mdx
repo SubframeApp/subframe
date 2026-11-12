@@ -1,0 +1,90 @@
+```
+https://mcp.subframe.com/mcp
+```
+
+When you connect, your client opens a browser window to sign in to Subframe and approve access using OAuth.
+
+<Tabs>
+  <Tab title="Claude" icon="/images/logos/claude.png">
+    Add the [Subframe connector](https://claude.ai/directory/subframe) from the Claude directory.
+
+    Or in Claude Code:
+
+    ```bash
+    claude mcp add --transport http subframe https://mcp.subframe.com/mcp
+    ```
+
+    Then run `/mcp` in Claude Code to sign in.
+
+    <Accordion title="Troubleshooting">
+      Claude Code also loads your claude.ai connectors, so adding Subframe from the Claude directory covers Claude Code too.
+
+      If you can't add Subframe from the directory, add it as a custom connector:
+
+      1. Go to [**Customize > Connectors**](https://claude.ai/customize/connectors)
+      2. Click <Icon icon="plus" size={16} /> and select **Add custom connector**
+      3. Set the name to **Subframe**
+      4. For **Remote MCP Server URL**, paste the following URL:
+         ```
+         https://mcp.subframe.com/mcp
+         ```
+      5. Click **Add**
+      6. Find the Subframe connector in your connectors list and click **Connect**
+    </Accordion>
+  </Tab>
+  <Tab title="ChatGPT" icon="/images/logos/openai.png">
+    Add the [Subframe plugin](https://chatgpt.com/plugins/plugin_asdk_app_6ae8397e42e48191b87c62b97f0c613d) from the ChatGPT directory.
+
+    Or in Codex:
+
+    ```bash
+    codex mcp add subframe --url https://mcp.subframe.com/mcp
+    ```
+
+    <Accordion title="Troubleshooting">
+      If sign-in doesn't open, run `codex mcp login subframe`.
+
+      If the command doesn't work, add the following to `~/.codex/config.toml`:
+
+      ```toml ~/.codex/config.toml
+      [mcp_servers.subframe]
+      url = "https://mcp.subframe.com/mcp"
+      ```
+
+      Then authenticate:
+
+      ```bash
+      codex mcp login subframe
+      ```
+
+      To use the Subframe plugin instead, install it from Codex's plugin browser, or run the following commands, then run `/mcp login subframe` in a new session:
+
+      ```bash
+      codex plugin marketplace add SubframeApp/subframe
+      codex plugin add subframe@subframe
+      ```
+
+      Codex refreshes git marketplaces on startup, so plugin updates arrive automatically. To update immediately, run `codex plugin marketplace upgrade subframe` and start a new session.
+    </Accordion>
+  </Tab>
+  <Tab title="Cursor" icon="/images/logos/cursor.webp">
+    [Add Subframe to Cursor ↗](https://cursor.com/en-US/install-mcp?name=subframe&config=eyJ1cmwiOiJodHRwczovL21jcC5zdWJmcmFtZS5jb20vbWNwIn0%3D) in one click, then check it's connected in **Customize** \> **MCPs**.
+
+    <Accordion title="Troubleshooting">
+      If the install link doesn't work, make the following changes to `~/.cursor/mcp.json`.
+
+      ```json ~/.cursor/mcp.json
+      {
+        "mcpServers": {
+          "subframe": {
+            "url": "https://mcp.subframe.com/mcp"
+          }
+        }
+      }
+      ```
+    </Accordion>
+  </Tab>
+  <Tab title="Manual">
+    Add the URL above to your MCP client over HTTP, then sign in.
+  </Tab>
+</Tabs>
