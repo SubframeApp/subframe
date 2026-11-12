@@ -8,7 +8,10 @@ import CopyMcpLink from "/snippets/copy-mcp-link.mdx"
 
 The Subframe MCP server gives external coding agents direct access to your Subframe projects. The agent can read, design, and delete pages, components, and snippets, screenshot pages and components, export them as images, read prototypes, write and delete design documents, edit the theme, and search the Subframe docs.
 
-<Note>Viewers get a read-only MCP server. Read, screenshot, export, and search tools work, but tools that design or edit require an editor seat.</Note>
+<Note>
+  Viewers get a read-only MCP server. Read, screenshot, export, and search tools work, but tools that design or edit
+  require an editor seat.
+</Note>
 
 ## Installing the MCP server and Agent skills
 
@@ -52,9 +55,11 @@ Once configured, your coding agent can access Subframe automatically when you pr
 
 When the agent finishes a turn that changed your project, it calls `open_subframe` to show you what changed. In chat apps that support interactive apps, like Claude Desktop, a card lists the changed pages, components, snippets, canvases, design documents, or theme, with a preview of each changed page. Click the card's open button, like **Open canvas** or **Open component**, or a page preview to edit the design in the Subframe editor right in the chat. A changed page opens on its canvas. On a phone, or in a chat app that can't run the editor, the button shows <Icon icon="arrow-up-right" size={16} /> and opens the design in Subframe instead. In terminals and IDEs, like Claude Code or Cursor, the agent replies with a link to each item.
 
-| Tool            | Description                                                 |
-| --------------- | ----------------------------------------------------------- |
-| `open_subframe` | Show changed or requested designs, with a link to each item |
+You can also ask the agent to open Subframe or one of your projects. It opens the project on its first canvas, or on its theme if it has no canvases. If you have several projects and don't name one, the card opens your Projects page so you can pick one. In terminals and IDEs, the agent lists your projects, most recently edited first, and asks which one to open.
+
+| Tool            | Description                                                             |
+| --------------- | ----------------------------------------------------------------------- |
+| `open_subframe` | Show changed or requested designs or projects, with a link to each item |
 
 ## Available tools
 
