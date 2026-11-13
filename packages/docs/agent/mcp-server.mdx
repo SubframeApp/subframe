@@ -1,44 +1,18 @@
 ---
 title: MCP server
-description: Connect AI coding agents in Claude Code, Cursor, and Codex to Subframe with the MCP server and agent skills.
+description: Connect AI coding agents in Claude Code, Cursor, and Codex to Subframe with the MCP server.
 ---
 
-import McpSkillsInstall from "/snippets/mcp-skills-install.mdx"
+import McpInstall from "/snippets/mcp-install.mdx"
 import CopyMcpLink from "/snippets/copy-mcp-link.mdx"
 
 The Subframe MCP server gives external coding agents direct access to your Subframe projects. The agent can read, design, and delete pages, components, and snippets, screenshot pages and components, export them as images, read prototypes, write and delete design documents, edit the theme, and search the Subframe docs.
 
 <Note>Viewers get a read-only MCP server. Read, screenshot, export, and search tools work, but tools that design or edit require an editor seat.</Note>
 
-## Installing the MCP server and Agent skills
+## Installing the MCP server
 
-<McpSkillsInstall />
-
-## Using Agent skills
-
-Agent skills are guided workflows that teach your agent how to use Subframe. The MCP server gives the agent access to Subframe, while the skills teach it what to do with that access.
-
-Subframe provides three skills:
-
-- **`/subframe:design`** designs and edits pages, components, snippets, design documents, and themes in Subframe
-- **`/subframe:develop`** sets up Subframe in your codebase, implements designs, and adds the required application logic
-- **`/subframe:import`** brings an existing codebase's or website's design system into Subframe, including tokens, fonts, icons, and components
-
-Agent skills use the [Agent Skills open standard ↗](https://agentskills.io).
-
-### Keeping Agent skills up to date
-
-For plugin updates and auto-update settings, follow the instructions in your client's tab [above](#installing-the-mcp-server-and-agent-skills). If you installed skills separately with `npx skills add`, check for updates with:
-
-```bash
-npx skills check
-```
-
-Install available updates with:
-
-```bash
-npx skills update
-```
+<McpInstall />
 
 ## Using the MCP server
 

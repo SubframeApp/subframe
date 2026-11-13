@@ -1,5 +1,5 @@
 name: Bug report
-description: Something in the CLI, plugin, skills, starter kits or docs isn't working
+description: Something in the CLI, plugin, starter kits or docs isn't working
 labels: [bug]
 body:
   - type: dropdown
@@ -9,7 +9,7 @@ body:
       options:
         - CLI (@subframe/cli)
         - Core (@subframe/core)
-        - Claude plugin or skills
+        - Codex or Cursor plugin
         - Starter kit
         - Docs
     validations:

@@ -4,7 +4,6 @@ on:
   pull_request:
     paths:
       - "plugins/**"
-      - ".claude-plugin/**"
       - ".agents/plugins/**"
       - ".cursor-plugin/**"
       - "scripts/check-plugin-manifests.mjs"
@@ -21,7 +20,7 @@ jobs:
         with:
           node-version: "24.16.0"
           package-manager-cache: false
-      - name: Check that every host's manifest agrees
+      - name: Check the plugin manifest and marketplaces
         run: node scripts/check-plugin-manifests.mjs
         env:
           BASE_REF: ${{ github.base_ref }}
