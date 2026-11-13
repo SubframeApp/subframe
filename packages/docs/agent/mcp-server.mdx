@@ -38,32 +38,33 @@ The Subframe MCP server exposes tools across several categories. Most tools take
 
 ### Discovery
 
-| Tool                  | Description                                                         |
-| --------------------- | ------------------------------------------------------------------- |
-| `list_projects`       | List the projects you have access to                                |
-| `create_project`      | Create an empty project or one from the starter template            |
-| `delete_project`      | Delete a project for the whole team                                 |
-| `generate_auth_token` | Generate a CLI auth token for a team                                |
-| `get_project_info`    | Get project metadata and its design documents                       |
-| `search_docs`         | Search the Subframe documentation                                   |
-| `search_inspiration`  | Search a curated library of real landing pages for visual direction |
+| Tool                          | Description                                                         |
+| ----------------------------- | ------------------------------------------------------------------- |
+| `list_projects`               | List the projects you have access to                                |
+| `create_project`              | Create an empty project or one from the starter template            |
+| `delete_project`              | Delete a project for the whole team                                 |
+| `generate_auth_token`         | Generate a CLI auth token for a team                                |
+| `get_project_info`            | Get project metadata and its design documents                       |
+| `get_implementation_guidance` | Get Subframe's guidance for implementing designs in your codebase   |
+| `search_docs`                 | Search the Subframe documentation                                   |
+| `search_inspiration`          | Search a curated library of real landing pages for visual direction |
 
 An empty project has no theme or components, which suits importing designs. The starter template comes with a theme and components to build on. Free plans allow 1 project. A deleted project can't be restored.
 
 ### Pages
 
-| Tool                  | Description                                                                                    |
-| --------------------- | ---------------------------------------------------------------------------------------------- |
-| `list_pages`          | List all pages and the canvases they belong to                                                 |
-| `get_page_info`       | Get a page's generated React and Tailwind code                                                 |
-| `get_design_guidance` | Get Subframe's reference for writing pages and components: the supported code and design rules |
-| `create_page`         | Add an empty page to a canvas for the agent to write                                           |
-| `edit_page`           | Edit a page element's content, structure, and styles                                           |
-| `design_page`         | Generate page designs with Subframe's AI, in the background                                    |
-| `update_node_styles`  | Replace elements' Tailwind classes while preserving content and structure                      |
-| `screenshot_page`     | Screenshot a page, a single element, or a breakpoint                                           |
-| `delete_page`         | Delete a page                                                                                  |
-| `finish_working`      | Tell collaborators the agent has finished working on the project                               |
+| Tool                  | Description                                                                                        |
+| --------------------- | -------------------------------------------------------------------------------------------------- |
+| `list_pages`          | List all pages and the canvases they belong to                                                     |
+| `get_page_info`       | Get a page's generated React and Tailwind code                                                     |
+| `get_design_guidance` | Get Subframe's reference by topic: writing pages, writing components, or importing a design system |
+| `create_page`         | Add an empty page to a canvas for the agent to write                                               |
+| `edit_page`           | Edit a page element's content, structure, and styles                                               |
+| `design_page`         | Generate page designs with Subframe's AI, in the background                                        |
+| `update_node_styles`  | Replace elements' Tailwind classes while preserving content and structure                          |
+| `screenshot_page`     | Screenshot a page, a single element, or a breakpoint                                               |
+| `delete_page`         | Delete a page                                                                                      |
+| `finish_working`      | Tell collaborators the agent has finished working on the project                                   |
 
 A page fills in on the canvas as the agent writes it, and glows for everyone with the project open while an agent works on it. The agent calls `finish_working` when it's done.
 
