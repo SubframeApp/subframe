@@ -316,7 +316,7 @@
     { "source": "/guides", "destination": "/agent/mcp-server" },
     { "source": "/guides/accessibility", "destination": "/develop/guides/accessibility" },
     { "source": "/guides/cli-automation", "destination": "/develop/guides/cli-automation" },
-    { "source": "/guides/component-docs", "destination": "/design/components/overview#viewing-component-docs" },
+    { "source": "/guides/component-docs", "destination": "/design/components/overview#writing-component-docs" },
     { "source": "/guides/dark-mode", "destination": "/develop/guides/dark-mode" },
     { "source": "/guides/mcp-server", "destination": "/agent/mcp-server" },
     { "source": "/guides/publish-to-npm", "destination": "/develop/guides/publish-to-npm" },
