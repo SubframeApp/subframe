@@ -13,6 +13,25 @@ export class HttpResponseError extends UserError {
   }
 }
 
+export type CaptureFailureReason =
+  | "invalid-url"
+  | "chrome-launch"
+  | "no-display"
+  | "navigation"
+  | "steps"
+  | "capture-script"
+  | "too-large"
+  | "attach"
+  | "invalid-options"
+
+/** A capture that failed for a known reason; the reason is the only part analytics sees. */
+export class CaptureError extends UserError {
+  constructor(message: string, readonly reason: CaptureFailureReason) {
+    super(message)
+    this.name = "CaptureError"
+  }
+}
+
 function permissionFixHint(platform: NodeJS.Platform, code: "EPERM" | "EACCES"): string {
   // macOS privacy blocks surface as EPERM; EACCES is ordinary file permissions.
   if (platform === "darwin" && code === "EPERM") {

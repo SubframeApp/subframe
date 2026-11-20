@@ -1,6 +1,7 @@
 import { program } from "@commander-js/extra-typings"
 import packageJson from "../package.json"
 import { analytics } from "./analytics"
+import { captureCommand } from "./capture"
 import { isDev } from "./common"
 import { COMMAND_JSON_KEY, COMMAND_NON_INTERACTIVE_KEY, COMMAND_YES_KEY, COMMAND_YES_KEY_SHORT } from "./constants"
 import { UserError } from "./errors"
@@ -41,6 +42,7 @@ if (process.argv.includes("--beta")) {
 
 program.addCommand(initCommand)
 program.addCommand(syncCommand)
+program.addCommand(captureCommand)
 
 async function main() {
   initLog()
