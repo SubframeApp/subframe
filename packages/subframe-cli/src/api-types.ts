@@ -129,3 +129,18 @@ export interface SyncProjectResponse {
     name: string
   }
 }
+
+// Capture
+export interface StyleSheetText {
+  href: string
+  text: string
+}
+
+// What window.__subframeCapture.captureDocument resolves to once /capture/capture.js is evaluated in a page.
+export interface CaptureDocumentResult {
+  artifact: unknown
+  jsx: string
+  hasOwnHeight: boolean
+  url: string
+  title: string
+}
