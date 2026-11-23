@@ -1,6 +1,7 @@
 import { Analytics } from "@segment/analytics-node"
 import * as Sentry from "@sentry/node-core"
 import { isTelemetryAllowed } from "./common"
+import type { CaptureFailureReason } from "./errors"
 
 // hardcoded by Posthog: https://posthog.com/docs/libraries/segment#using-group-analytics
 const SEGMENT_GROUP_KEY = "segment_group"
@@ -8,11 +9,14 @@ const SEGMENT_GROUP_KEY = "segment_group"
 // Not a secret; shared by every CLI install until a token is verified.
 const ANONYMOUS_CLI_USER_ID = "ANONYMOUS_CLI_USER-db6a3ec1-756a-4931-acdd-ec29f531603c"
 
-type CLITrackEvent = {
-  type: "cli:starter-kit_cloned"
-  framework: "nextjs" | "vite" | "astro"
-  cssType: "tailwind" | "tailwind-v4"
-}
+type CLITrackEvent =
+  | {
+      type: "cli:starter-kit_cloned"
+      framework: "nextjs" | "vite" | "astro"
+      cssType: "tailwind" | "tailwind-v4"
+    }
+  | { type: "cli:capture-succeeded" }
+  | { type: "cli:capture-failed"; reason: CaptureFailureReason | "other" }
 
 let client: Analytics | null = null
 let currentUserId = ANONYMOUS_CLI_USER_ID

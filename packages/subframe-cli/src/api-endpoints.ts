@@ -25,6 +25,8 @@ function prepareHttpBody<TBody, TBodyInit = BodyInit>(body: TBody, headers?: Rec
   return body as unknown as TBodyInit
 }
 
+const REQUEST_TIMEOUT_MS = 30_000
+
 const MAX_RETRIES = 1
 const STATUS_CODES_TO_NOT_RETRY = [501]
 function makeFetchWithRetries<T extends FetchLibrary>(fetch: T) {
@@ -151,4 +153,26 @@ export async function apiSyncProject(
     body: { truncatedProjectId, components, importAlias, cssType },
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
   })
+}
+
+// The capture script is served by the same deploy as the API, so the CLI never carries a copy that could drift from it.
+export async function apiFetchCaptureScript(): Promise<string> {
+  let response: Response
+  try {
+    response = await fetchWithRetries(`${BASE_URL}/capture/capture.js`, {
+      headers: { [CLI_VERSION_HEADER]: packageJson.version },
+      agent,
+      timeout: REQUEST_TIMEOUT_MS,
+    })
+  } catch (err) {
+    throw toUserErrorIfNoResponse(err)
+  }
+  if (!response.ok) {
+    throw new HttpResponseError(`Could not load the capture script (status ${response.status})`, response.status)
+  }
+  // A deploy without the capture build answers this path with the app's index.html and a 200.
+  if (!(response.headers.get("content-type") ?? "").includes("javascript")) {
+    throw new UserError(`${BASE_URL} does not serve the Subframe capture script yet.`)
+  }
+  return response.text()
 }

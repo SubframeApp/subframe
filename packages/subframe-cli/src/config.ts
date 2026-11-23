@@ -5,7 +5,7 @@ import { isBeta, isDev } from "./common"
 import { log } from "./log"
 import { exists } from "./utils/fs"
 
-const SUBFRAME_DIRECTORY = XDGAppPaths("com.subframe.cli").dataDirs()[0]
+export const SUBFRAME_DIRECTORY = XDGAppPaths("com.subframe.cli").dataDirs()[0]
 // Tokens are scoped per environment since each backend issues its own.
 // Keeping them in separate files prevents beta tokens from clobbering prod tokens.
 const AUTH_CONFIG_FILENAME = isDev ? "auth.dev.json" : isBeta ? "auth.beta.json" : "auth.json"

@@ -14,6 +14,8 @@ const sentryRelease = `subframe-cli@${packageJson.version}`
 const rollupOptions = [
   {
     input: "src/index.ts",
+    // Ships its own driver binaries and loads them by path, so it can't be bundled.
+    external: ["playwright-core"],
     output: [
       {
         file: packageJson.main,
