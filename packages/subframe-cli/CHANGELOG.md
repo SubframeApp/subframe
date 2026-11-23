@@ -1,5 +1,11 @@
 # @subframe/cli
 
+## 1.215.1
+
+### Patch Changes
+
+- ec358e4: `capture` says the page closed, instead of failing with an internal error, when its window or tab is closed before the capture finishes.
+
 ## 1.215.0
 
 ### Minor Changes
