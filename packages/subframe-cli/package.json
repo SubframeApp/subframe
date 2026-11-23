@@ -1,6 +1,6 @@
 {
   "name": "@subframe/cli",
-  "version": "1.214.1",
+  "version": "1.215.0",
   "description": "Subframe's CLI tool for syncing your code with Subframe designs.",
   "repository": {
     "type": "git",
