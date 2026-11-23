@@ -57,6 +57,14 @@ export async function writeCaptureFile(capture: CaptureFile, out: string | undef
   return outPath
 }
 
+// Closing the window or tab mid-capture is the user's doing, so it isn't reported as a CLI bug.
+function pageClosedError(): CaptureError {
+  return new CaptureError(
+    "The page closed before the capture finished. Leave it open until the command prints the capture file's path.",
+    "page-closed",
+  )
+}
+
 function trackFailure(err: unknown) {
   const reason: CaptureFailureReason | "other" = err instanceof CaptureError ? err.reason : "other"
   analytics.trackEvent({ type: "cli:capture-failed", reason })
@@ -122,6 +130,8 @@ async function captureInOwnBrowser(url: URL, opts: CaptureOptions & { login?: bo
     }
     const page = await openPage(context, url)
     return await captureFromPage(page, opts)
+  } catch (err) {
+    throw context.pages().length === 0 ? pageClosedError() : err
   } finally {
     await context.close().catch(() => {})
   }
@@ -132,8 +142,12 @@ async function captureAttachedTab(endpoint: string, url: URL | undefined, opts: 
   try {
     const pages = browser.contexts().flatMap((context) => context.pages())
     const page = findAttachedPage(pages, url)
-    await settle(page)
-    return await captureFromPage(page, opts)
+    try {
+      await settle(page)
+      return await captureFromPage(page, opts)
+    } catch (err) {
+      throw page.isClosed() ? pageClosedError() : err
+    }
   } finally {
     // Only disconnects: the browser and its tabs stay open.
     await browser.close().catch(() => {})

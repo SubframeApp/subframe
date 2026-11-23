@@ -23,6 +23,7 @@ export type CaptureFailureReason =
   | "too-large"
   | "attach"
   | "invalid-options"
+  | "page-closed"
 
 /** A capture that failed for a known reason; the reason is the only part analytics sees. */
 export class CaptureError extends UserError {
