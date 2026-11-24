@@ -30,6 +30,14 @@ for (const [file, sourcePath] of Object.entries(marketplaces)) {
   }
 }
 
+const antigravityPath = join(PLUGIN_DIR, ".antigravity-plugin", "plugin.json")
+const antigravity = readJson(antigravityPath)
+for (const field of ["name", "version"]) {
+  if (antigravity[field] !== manifest[field]) {
+    errors.push(`${antigravityPath} has ${field} ${antigravity[field]}, but plugin.json has ${manifest[field]}`)
+  }
+}
+
 // Installed copies stay on the manifest's version until it changes, so a plugin change without a bump never reaches them.
 const baseRef = process.env.BASE_REF
 if (baseRef !== undefined && baseRef !== "") {

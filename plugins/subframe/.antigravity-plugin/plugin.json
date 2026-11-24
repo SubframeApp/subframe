@@ -1,0 +1,30 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "subframe",
+  "displayName": "Subframe",
+  "description": "Design pages, components, and snippets in Subframe, a visual design tool built on HTML and CSS. Find inspiration in real websites and manage your theme and tokens.",
+  "version": "1.2.12",
+  "logo": "assets/icon.png",
+  "author": {
+    "name": "Subframe"
+  },
+  "homepage": "https://subframe.com",
+  "repository": "https://github.com/SubframeApp/subframe",
+  "license": "MIT",
+  "keywords": [
+    "design",
+    "design-system",
+    "ui",
+    "mockups",
+    "components",
+    "prototyping",
+    "react",
+    "tailwind",
+    "frontend"
+  ],
+  "suggestedPrompts": [
+    "Design a landing page for a neighborhood bakery, using real landing pages for inspiration.",
+    "Create three variations of a personal finance dashboard with distinct layouts.",
+    "Design an event page with a speaker lineup, schedule, and a bold orange theme."
+  ]
+}
