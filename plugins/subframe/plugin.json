@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "subframe",
-  "description": "Design UI for your codebase. Developers and designers can import design systems into Subframe, explore and edit pages and components, and implement designs in your app.",
-  "version": "1.2.11",
+  "description": "Design pages, components, and snippets in Subframe, a visual design tool built on HTML and CSS. Find inspiration in real websites and manage your theme and tokens.",
+  "version": "1.2.12",
   "author": {
     "name": "Subframe"
   },
