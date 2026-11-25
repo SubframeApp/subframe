@@ -5,9 +5,23 @@ description: Configure element properties in the right sidebar.
 
 The Inspector panel shows all editable properties for the selected element. Select any element on the canvas to see its properties in the right sidebar.
 
+{/* TODO: Update image */}
 <Frame>
   <img src="/images/design-mode/inspector.png" className="w-[304px]" alt="The top of the Inspector for a selected stack, with its Theme, Breakpoint, Layout, and Size sections" />
 </Frame>
+
+## Applying tokens
+
+Background, color, text, border, corner, and shadow properties can use a [theme token](/design/theme/customizing-theme) or a custom value.
+
+- Click <Icon icon="plus" size={16} /> to add a custom value.
+- Click the token icon in the section header (**Apply token**, **Apply text style**, or **Apply border style**) and pick a token. On an empty section, hover the row to show it.
+
+To turn an applied token into a custom value, hover the token and click **Detach**.
+
+## Setting sizes
+
+Set **W** and **H** by typing a value, dragging the slider, or opening the value menu, where you can also pick **Hug** or **Fill**. To limit how far an element can shrink or grow, click **...** in the **Size** header and select **Add min width**, **Add max width**, **Add min height**, or **Add max height**. Each limit gets its own row under its axis.
 
 ## Overrides properties
 
@@ -35,6 +49,7 @@ These controls only affect how the instance renders in design mode and preview. 
 
 Most properties in the inspector have a keyboard shortcut. Hover over any edit action to see its shortcut.
 
+{/* TODO: Update image */}
 <Frame>
   <img src="/images/design-mode/inspector-shortcuts.png" className="w-[304px]" alt="The Background section with its Add background tooltip showing the G shortcut" />
 </Frame>
