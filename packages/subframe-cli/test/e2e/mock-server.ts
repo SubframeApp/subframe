@@ -89,7 +89,9 @@ export async function startMockServer(port = 0): Promise<MockServer> {
       const key = `${req.method} ${path}`
       calls.push({ method: req.method ?? "", path, body, auth: req.headers.authorization })
 
-      const handler = routes[key] ?? defaults[key]
+      const isRegistryLookup = req.method === "GET" && path.endsWith("/latest")
+      const handler =
+        routes[key] ?? defaults[key] ?? (isRegistryLookup ? () => ({ json: { version: "1.0.0" } }) : undefined)
       if (!handler) {
         res.writeHead(404, { "Content-Type": "application/json" })
         res.end(JSON.stringify({ message: `No mock route for ${key}` }))
