@@ -1,5 +1,5 @@
 import { execa } from "execa"
-import { mkdtempSync, writeFileSync } from "node:fs"
+import { mkdtempSync } from "node:fs"
 import { mkdir, writeFile } from "node:fs/promises"
 import { tmpdir } from "node:os"
 import { dirname, join, resolve } from "node:path"
@@ -27,21 +27,6 @@ export const PROJECT_SETTINGS = {
 // The real CLI entrypoint (the published bin), so we exercise argv parsing,
 // TTY detection, process.exit codes, and stdout/stderr exactly as a user would.
 const CLI_BIN = resolve(__dirname, "../../bin/main-sync.js")
-
-/**
- * A fake `curl` placed first on PATH so `getLatestPackageVersion` (which shells
- * out to `curl https://registry.npmjs.org/...`) resolves offline and the suite
- * stays hermetic. It always reports version 1.0.0.
- */
-let fakeBinDir: string | undefined
-function fakeCurlDir(): string {
-  if (!fakeBinDir) {
-    fakeBinDir = mkdtempSync(join(tmpdir(), "subframe-cli-bin-"))
-    const curlPath = join(fakeBinDir, "curl")
-    writeFileSync(curlPath, `#!/bin/sh\necho '{"version":"1.0.0"}'\n`, { mode: 0o755 })
-  }
-  return fakeBinDir
-}
 
 export interface CliResult {
   exitCode: number
@@ -102,15 +87,13 @@ export async function runCli(args: string[], options: RunOptions): Promise<CliRe
   const env: Record<string, string> = {
     HOME: home,
     XDG_DATA_HOME: join(home, ".local", "share"),
-    // eslint-disable-next-line turbo/no-undeclared-env-vars -- test helper, not a turbo-cached input
-    PATH: `${fakeCurlDir()}:${process.env.PATH ?? ""}`,
     // Make sure nothing routes our localhost calls through a proxy.
     HTTP_PROXY: "",
     HTTPS_PROXY: "",
     NO_PROXY: "*",
     // Point the CLI at this file's mock server (ephemeral port), overriding --dev's
     // hardcoded localhost:6501 so we never collide with a real dev server.
-    ...(activeBaseUrl ? { SUBFRAME_BASE_URL: activeBaseUrl } : {}),
+    ...(activeBaseUrl ? { SUBFRAME_BASE_URL: activeBaseUrl, SUBFRAME_NPM_REGISTRY_URL: activeBaseUrl } : {}),
     ...(options.token ? { SUBFRAME_AUTH_TOKEN: options.token } : {}),
     ...options.env,
   }
@@ -167,7 +150,7 @@ export interface ScaffoldOptions {
 /** Write a minimal project (package.json + optional .subframe/sync.json) into `dir`. */
 export async function scaffoldProject(dir: string, options: ScaffoldOptions = {}): Promise<void> {
   const coreVersion = options.coreVersion === undefined ? "999.0.0" : options.coreVersion
-  // @subframe/core at a high version + the fake curl reporting 1.0.0 means
+  // @subframe/core at a high version + the mock registry reporting 1.0.0 means
   // installDependencies finds nothing to install and never shells out.
   const dependencies = {
     ...(coreVersion === null ? {} : { "@subframe/core": coreVersion }),

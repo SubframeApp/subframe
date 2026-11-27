@@ -42,7 +42,7 @@ function makeFetchWithRetries<T extends FetchLibrary>(fetch: T) {
 }
 
 // NOTE: ProxyAgent handles making HTTP requests through a corporate proxy
-const agent = new ProxyAgent({ keepAlive: true })
+export const agent = new ProxyAgent({ keepAlive: true })
 const fetchWithRetries = makeFetchWithRetries<typeof nodeFetch>(nodeFetch)
 
 // A request that never got a response (offline, DNS, proxy, timeout) is the user's environment, not a CLI bug.

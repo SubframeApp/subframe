@@ -1,6 +1,9 @@
 import { detect } from "@antfu/ni"
-import { execa } from "execa"
 import { readFile } from "node:fs/promises"
+import nodeFetch from "node-fetch"
+import { agent } from "../api-endpoints"
+import { NPM_REGISTRY_URL } from "../common"
+import { HttpResponseError } from "../errors"
 
 export type PackageManager = "yarn" | "pnpm" | "npm" | "bun"
 
@@ -43,11 +46,14 @@ export async function getPackageManager(cwd: string): Promise<PackageManager> {
   }
 }
 
-export async function getLatestPackageVersion(packageName: string) {
-  return execa("curl", [`https://registry.npmjs.org/${packageName}/latest`])
-    .then((result) => result.stdout)
-    .then((result) => JSON.parse(result))
-    .then((result) => result.version)
+export async function getLatestPackageVersion(packageName: string): Promise<string> {
+  // Not built-in fetch: it ignores HTTP(S)_PROXY, which users behind a proxy rely on.
+  const response = await nodeFetch(`${NPM_REGISTRY_URL}/${packageName}/latest`, { agent })
+  if (!response.ok) {
+    throw new HttpResponseError(`npm registry returned ${response.status} for ${packageName}`, response.status)
+  }
+  const { version } = (await response.json()) as { version: string }
+  return version
 }
 
 export function makePackageSpecifier(packageName: string, packageVersion: string) {

@@ -18,6 +18,9 @@ export const BASE_URL =
   process.env.SUBFRAME_BASE_URL ||
   (isDev ? "http://localhost:6501" : isBeta ? "https://beta.subframe.com" : "https://app.subframe.com")
 
+// The npm registry used for the latest-version lookup. SUBFRAME_NPM_REGISTRY_URL overrides it (used for tests).
+export const NPM_REGISTRY_URL = process.env.SUBFRAME_NPM_REGISTRY_URL || "https://registry.npmjs.org"
+
 export const cwd = process.cwd()
 
 export const localSyncSettings = getLocalSyncSettings(cwd)
